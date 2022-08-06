@@ -12,7 +12,7 @@ project = "Lamin Reports"
 html_title = f"{project}"
 html_context["github_repo"] = "lamin-reports"  # noqa
 # We're actually using this for the link behind the brand of the page!
-html_theme_options["logo"] = {"link": "reports"}  # noqa
+html_theme_options["logo"] = {"link": "../reports"}  # noqa
 
 # Blog
 blog_baseurl = "https://lamin.ai/reports"
