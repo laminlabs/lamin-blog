@@ -1,5 +1,5 @@
 # Changelog
 
 <!-- prettier-ignore -->
-Name | PR | Developer | Date | Version
+Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
