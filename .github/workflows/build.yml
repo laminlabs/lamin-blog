@@ -73,5 +73,7 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
+          cp netlify.toml _build/html
+          cp -r netlify _build/html
           cd _build/html
           netlify deploy --build
