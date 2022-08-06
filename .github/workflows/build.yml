@@ -62,26 +62,14 @@ jobs:
         with:
           file: lamin-project.yaml
           project_slug: project_slug
-      - name: Netlify build the site
-        run: |
-          cd _build/html
-          npx netlify link --id ${{ secrets.NETLIFY_SITE_ID }}
-          npx netlify build
       - name: Change base URL to project-slug
         if: github.event_name == 'push' && matrix.python-version == '3.9'
         run: |
           mv _build/html _build/html_tmp
           mkdir _build/html
           mv _build/html_tmp _build/html/reports
-      - name: Deploy docs
-        if: matrix.python-version == '3.9'
-        id: netlify
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          publish-dir: "_build/html"
-          production-deploy: ${{ github.event_name == 'push' }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          enable-commit-comment: false
+      - name: Deploy site
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --build --dir=_build/html
