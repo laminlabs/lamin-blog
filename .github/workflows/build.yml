@@ -68,7 +68,8 @@ jobs:
           mv _build/html _build/html_tmp
           mkdir _build/html
           mv _build/html_tmp _build/html/reports
-      - name: Deploy site
+      - name: Deploy site dev
+        if: ${{ github.event_name == 'pull_request' }}
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -77,3 +78,13 @@ jobs:
           cp -r netlify _build/html
           cd _build/html
           netlify deploy --build
+      - name: Deploy site prod
+        if: ${{ github.event_name == 'push' }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          cp netlify.toml _build/html
+          cp -r netlify _build/html
+          cd _build/html
+          netlify deploy --build --prod
