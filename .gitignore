@@ -106,3 +106,6 @@ docs/reports.*
 lamin_sphinx
 docs/conf.py
 _docs_tmp*
+
+# Local Netlify folder
+.netlify
