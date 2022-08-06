@@ -50,11 +50,6 @@ jobs:
       - name: Build
         run: |
           nox -s build --python ${{ matrix.python-version }}
-      - name: Codecov
-        if: matrix.python-version == '3.9'
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Read lamin-project.yaml
         if: matrix.python-version == '3.9'
         id: lamin-project
@@ -67,7 +62,7 @@ jobs:
         run: |
           mv _build/html _build/html_tmp
           mkdir _build/html
-          mv _build/html_tmp _build/html/reports
+          mv _build/html_tmp _build/html/${{ steps.lamin-project.outputs.project_slug }}
       - name: Deploy docs
         if: matrix.python-version == '3.9'
         id: netlify
