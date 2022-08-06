@@ -64,8 +64,9 @@ jobs:
           project_slug: project_slug
       - name: Netlify build the site
         run: |
-          npx netlify link  --auth=${{ secrets.NETLIFY_AUTH_TOKEN }} --id ${{ secrets.NETLIFY_SITE_ID }}
-          npx netlify build --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
+          cd _build/html
+          npx netlify link --id ${{ secrets.NETLIFY_SITE_ID }}
+          npx netlify build
       - name: Change base URL to project-slug
         if: github.event_name == 'push' && matrix.python-version == '3.9'
         run: |
