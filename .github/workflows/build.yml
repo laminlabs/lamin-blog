@@ -68,23 +68,15 @@ jobs:
           mv _build/html _build/html_tmp
           mkdir _build/html
           mv _build/html_tmp _build/html/reports
-      - name: Deploy site dev
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Deploy docs
+        if: matrix.python-version == '3.9'
+        id: netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "_build/html"
+          production-deploy: ${{ github.event_name == 'push' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          enable-commit-comment: false
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: |
-          cp netlify.toml _build/html
-          cp -r netlify _build/html
-          cd _build/html
-          netlify deploy --build
-      - name: Deploy site prod
-        if: ${{ github.event_name == 'push' }}
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: |
-          cp netlify.toml _build/html
-          cp -r netlify _build/html
-          cd _build/html
-          netlify deploy --build --prod
