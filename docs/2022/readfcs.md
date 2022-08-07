@@ -23,7 +23,7 @@ readfcs allows to flexibly access data and metadata slots and offers a robust, t
 It builds on FlowIO {ct}`White21` for the FCS reader and the `FCSFile` class of cytopy {ct}`Burton21` for preprocessing of parsed metadata.
 Conversion to AnnData allows convenient access to otherwise unstructured metadata.
 
-readfcs is used by pytometry {ct}`Buettner22`.
+readfcs is used by pytometry {ct}`Buttner22`.
 
 ## Citation
 
@@ -43,6 +43,6 @@ White, S., Quinn, J., Enzor, J., Staats, J., Mosier, S. M., Almarode, J., Denny,
 
 Burton, R. (2021). CytoPy - a cytometry analysis framework for Python. [GitHub](https://github.com/burtonrj/CytoPy).
 
- <div id="Buettner22">
+ <div id="Buttner22">
 
 Büttner, M., Hempel, F., Ryborz, T (2022). Pytometry: Flow & mass cytometry analytics. [GitHub](https://github.com/buettnerlab/pytometry).
