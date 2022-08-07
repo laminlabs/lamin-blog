@@ -28,6 +28,7 @@ readfcs is used by pytometry {cp}`Buettner22`.
 ## Citation
 
 Cite this report as:
+
 ```
 Sun, S., & Wolf, A. (2022). readfcs: Read FCS file. Lamin Reports, 1. https://doi.org/10.56528/rfcs
 ```
