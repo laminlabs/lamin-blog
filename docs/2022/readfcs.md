@@ -20,10 +20,10 @@ linkedin:
 Existing tools, by contrast, provide FCS parsers and data structures for specific downstream applications.
 
 readfcs allows to flexibly access data and metadata slots and offers a robust, tested implementation.
-It builds on FlowIO {cp}`White21` for the FCS reader and the `FCSFile` class of cytopy {cp}`Burton21` for preprocessing of parsed metadata.
+It builds on FlowIO {ct}`White21` for the FCS reader and the `FCSFile` class of cytopy {ct}`Burton21` for preprocessing of parsed metadata.
 Conversion to AnnData allows convenient access to otherwise unstructured metadata.
 
-readfcs is used by pytometry {cp}`Buettner22`.
+readfcs is used by pytometry {ct}`Buettner22`.
 
 ## Citation
 
