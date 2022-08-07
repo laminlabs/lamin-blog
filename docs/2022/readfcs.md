@@ -16,15 +16,14 @@ tweet:
 linkedin:
 ---
 
-[readfcs](https://lamin.ai/docs/readfcs) loads data and metadata from Flow Cytometry Standard (FCS) files efficiently into `DataFrame` and `AnnData` objects.
-This extends existing tools, which offer parsers specific to their own downstream applications without general data structures.
+[readfcs](https://lamin.ai/docs/readfcs) loads data and metadata from Flow Cytometry Standard (FCS) files efficiently into general `DataFrame` and `AnnData` objects.
+Existing tools, by contrast, provide FCS parsers and data structures for specific downstream applications.
 
-Also, readfcs allows to flexibly access slots of data and metadata, and offers a robust implementation tested in continuous integration.
+readfcs allows to flexibly access data and metadata slots and offers a robust, tested implementation.
+It builds on FlowIO {cp}`White21` for the FCS reader and the `FCSFile` class of cytopy {cp}`Burton21` for preprocessing of parsed metadata.
+Conversion to AnnData allows convenient access to otherwise unstructured metadata.
 
-We build on FlowIO {cp}`White21` for the FCS reader and the `FCSFile` class of cytopy {cp}`Burton21` for preprocessing of parsed metadata.
-Conversion to AnnData allows convenient access to otherwise unstructured metadata and structured data.
-
-`readfcs` is used in pytometry {cp}`Buettner22`.
+readfcs is used by pytometry {cp}`Buettner22`.
 
 ## References
 
