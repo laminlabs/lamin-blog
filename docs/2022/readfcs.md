@@ -16,6 +16,11 @@ tweet:
 linkedin:
 ---
 
+```{warning}
+
+Early access! Published version may slightly change.
+```
+
 [readfcs](https://lamin.ai/docs/readfcs) loads data and metadata from Flow Cytometry Standard (FCS) files efficiently into general `DataFrame` and `AnnData` objects.
 Existing tools, by contrast, provide FCS parsers and data structures for specific downstream applications.
 
