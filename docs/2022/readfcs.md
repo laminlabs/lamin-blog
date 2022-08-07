@@ -1,21 +1,53 @@
 ---
 title: "readfcs: Read FCS files"
-date: 2022-08-06
+date: 2022-08-07
 number: 1
 doi: 10.56528/rfcs
 author: sunnyosun, falexwolf
 orcid:
-  sunnyosun: 0000-0002-8937-3457
+  sunnyosun: 0000-0002-2365-0888
   falexwolf: 0000-0002-8760-7838
 affiliation:
   sunnyosun: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 docs: https://lamin.ai/docs/readfcs
 repo: https://github.com/laminlabs/readfcs
-tweet: https://twitter.com/falexwolf/status/1108279975772389376
-linkedin: https://www.linkedin.com/posts/jon-bloom_conversation-activity-6949139752352714752-2anB
+tweet:
+linkedin:
 ---
 
-## Abstract
+```{warning}
 
-...
+Early access! Published version may slightly change.
+```
+
+[readfcs](https://lamin.ai/docs/readfcs) loads data and metadata from Flow Cytometry Standard (FCS) files efficiently into general `DataFrame` and `AnnData` objects.
+Existing tools, by contrast, provide FCS parsers and data structures for specific downstream applications.
+
+readfcs allows to flexibly access data and metadata slots and offers a robust, tested implementation.
+It builds on FlowIO {ct}`White21` for the FCS reader and the `FCSFile` class of cytopy {ct}`Burton21` for preprocessing of parsed metadata.
+Conversion to AnnData allows convenient access to otherwise unstructured metadata.
+
+readfcs is used by pytometry {ct}`Buttner22`.
+
+## Citation
+
+Cite this report as:
+
+```
+Sun, S., & Wolf, A. (2022). readfcs: Read FCS file. Lamin Reports, 1. https://doi.org/10.56528/rfcs
+```
+
+## References
+
+<div id="White21">
+
+White, S., Quinn, J., Enzor, J., Staats, J., Mosier, S. M., Almarode, J., Denny, T. N., Weinhold, K. J., Ferrari, G., & Chan, C. (2021). FlowKit: A Python toolkit for integrated manual and automated cytometry analysis workflows. [Frontiers in Immunology, 12](https://doi.org/10.3389/fimmu.2021.768541). [GitHub](https://github.com/whitews/flowio).
+
+<div id="Burton21">
+
+Burton, R. (2021). CytoPy - a cytometry analysis framework for Python. [GitHub](https://github.com/burtonrj/CytoPy).
+
+ <div id="Buttner22">
+
+Büttner, M., Hempel, F., Ryborz, T (2022). Pytometry: Flow & mass cytometry analytics. [GitHub](https://github.com/buettnerlab/pytometry).
