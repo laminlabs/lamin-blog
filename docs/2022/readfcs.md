@@ -21,11 +21,10 @@ linkedin:
 Early access! Published version may slightly change.
 ```
 
-[readfcs](https://lamin.ai/docs/readfcs) loads data and metadata from Flow Cytometry Standard (FCS) files efficiently into general `DataFrame` and `AnnData` objects.
-Existing readers are often part of comprehensive analytical packages (e.g. FlowIO {ct}`White21`, cytopy {ct}`Burton21`), which provides data structures for specific downstream applications.
+[readfcs](https://lamin.ai/docs/readfcs) loads data and metadata from Flow Cytometry Standard (FCS) files efficiently into generic `DataFrame` and `AnnData` objects, allowing users to flexibly use various downstream analytical tools. In comparison, existing readers are often part of comprehensive analytical packages (e.g. FlowIO {ct}`White21`, cytopy {ct}`Burton21`), which provide data structures developed for specific downstream applications.
 
 readfcs allows to flexibly access data and metadata slots and offers a robust, tested implementation.
-It uses FCSParser {ct}`yurtsev22` to read and parse metadata from fcs files. In addition to FCSParser, it offers compensation, indexing channels by markers, and conversion to AnnData for convenient access to otherwise unstructured metadata.
+It uses `FCSParser` {ct}`Yurtsev22` to read and parse metadata from fcs files. In addition to `FCSParser`, it offers compensation, indexing channels by markers, and conversion to `AnnData` for convenient access to otherwise unstructured metadata.
 
 readfcs is used by pytometry {ct}`Buttner22`.
 
@@ -37,9 +36,13 @@ Cite this report as:
 Sun, S., & Wolf, A. (2022). readfcs: Read FCS files. Lamin Reports, 1. https://doi.org/10.56528/rfcs
 ```
 
+## Acknowledgement
+
+We thank Maren Büttner for conceptual discussion of this project.
+
 ## References
 
-<div id="yurtsev22">
+<div id="Yurtsev22">
 
 Yurtsev, E. (2022). FCSParser - a python package for reading fcs files. [GitHub](https://github.com/eyurtsev/fcsparser).
 
