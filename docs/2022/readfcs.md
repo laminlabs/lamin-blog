@@ -1,6 +1,6 @@
 ---
 title: "readfcs: Read FCS files"
-date: 2022-08-07
+date: 2022-08-27
 number: 1
 doi: 10.56528/rfcs
 author: sunnyosun, falexwolf
@@ -16,29 +16,37 @@ tweet:
 linkedin:
 ---
 
-```{warning}
+[readfcs](https://lamin.ai/docs/readfcs) is a lightweight open-source Python package that loads data and metadata from Flow Cytometry Standard (FCS) files into `DataFrame` and `AnnData` objects, allowing users to flexibly use downstream analytical tools.
 
-Early access! Published version may slightly change.
-```
+With this, it fills a gap among existing FCS readers in the Python ecosystem: These are either part of comprehensive analytical packages (e.g., FlowIO by {ct}`White21`, cytopy by {ct}`Burton21`) that operate on data structures tailored to specific downstream analyses or they do not offer support for `AnnData` objects {cp}`Yurtsev22`.
 
-[readfcs](https://lamin.ai/docs/readfcs) loads data and metadata from Flow Cytometry Standard (FCS) files efficiently into general `DataFrame` and `AnnData` objects.
-Existing tools, by contrast, provide FCS parsers and data structures for specific downstream applications.
+For the main data and metadata functionality, readfcs builds on fcsparser {cp}`Yurtsev22`.
+In addition to `FCSParser`, readfcs offers compensation, indexing channels by markers, and structuring metadata in `AnnData`.
 
-readfcs allows to flexibly access data and metadata slots and offers a robust, tested implementation.
-It builds on FlowIO {ct}`White21` for the FCS reader and the `FCSFile` class of cytopy {ct}`Burton21` for preprocessing of parsed metadata.
-Conversion to AnnData allows convenient access to otherwise unstructured metadata.
+readfcs is used by pytometry {cp}`Buttner22`.
 
-readfcs is used by pytometry {ct}`Buttner22`.
+## Acknowledgments
+
+We are grateful to Maren Büttner for valuable discussions.
+
+## Author contributions
+
+Sunny & Alex conceived the project.
+Sunny developed the software.
 
 ## Citation
 
-Cite this report as:
+Cite the software and this report as:
 
 ```
 Sun, S., & Wolf, A. (2022). readfcs: Read FCS files. Lamin Reports, 1. https://doi.org/10.56528/rfcs
 ```
 
 ## References
+
+<div id="Yurtsev22">
+
+Yurtsev, E. (2022). FCSParser - a python package for reading fcs files. [GitHub](https://github.com/eyurtsev/fcsparser).
 
 <div id="White21">
 
