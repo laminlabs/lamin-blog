@@ -80,7 +80,7 @@ Hence, instead of optimizing a narrow class of computational models, computation
     Notebooks in VS Code should feel natural so that you can seamlessly move between crafting your code files and your notebook modeling the Universe in Python." [Diaz21]
 [^cheptsov]: And for prototyping, even critical assessments of notebooks call them out as the "industry standard": "In fairness to Jupyter notebooks, they have become the standard way of prototyping ML models all over the industry. Because the notebooks are interactive and support visual outputs, there is no better way of exploring data and sharing the results." [Cheptsov22]
 
-Notebooks' “computational narrative” offers a place for this type of work, by offering a "document that allows researchers to supplement their code and data with analysis, hypotheses and conjecture", according to Brian Granger {ct}`Peres18`.
+Notebooks' “computational narrative” offers a format for this type of work: A "document that allows researchers to supplement their code and data with analysis, hypotheses and conjecture", according to Brian Granger {cp}`Peres18`.
 "Notebooks are a form of interactive computing, an environment in which users execute code, see what happens, modify and repeat in a kind of iterative conversation between researcher and data. [...] Notebooks allow more powerful connections between topics, theories, data and results”, according to Lorena Barba {cp}`Peres18`.
 
 ## Existing solutions to problems
@@ -107,7 +107,7 @@ nbproject complements pipeline and compute environment packaging solutions witho
 1. Project is an unstructured collection of notebooks, code, and data files: nbproject allows configuring arbitrary project- and management-related metadata. Its id and version fields allow anchoring notebooks in a graph of R&D operations of an entire team.
 2. Notebook cells aren't consecutively executed: nbproject provides a publishing workflow that checks for consecutiveness & the presence of a title and versions the notebook.
 3. Package dependencies are missing: nbproject offers a visual way to track packages that complements packaging solutions.
-4. Data dependencies are missing: nbproject integrates well with [LaminDB)(https://lamin.ai/docs/db).
+4. Data dependencies are missing: nbproject integrates well with [LaminDB](https://lamin.ai/docs/db).
 5. Pipeline dependencies (previous data transformations) are missing: nbproject allows sketching pipelines manually. When integrated with LaminDB, it provides full provenance automatically.
 6. Notebook has low code quality: The publishing workflow encourages small modular notebooks with most code residing in versioned packages.
 
@@ -120,7 +120,7 @@ nbproject's two most important features are tracking & displaying metadata and o
 The header (**Figure 3**) is inspired by popular notebook tools, like [Notion](https://notion.com), ELNs in biology, and Jupyter notebook platforms.
 Any user opening their own or someone else's notebook is provided with relevant context for interpreting the notebook content:
 a universal ID, a version, time stamps, important dependencies, and arbitrary additional metadata.
-While most notebook platforms also provide IDs and other metadata for notebooks ([Appendic](notebook-metadata)), to our knowledge, only nbproject offers an API to access such metadata.
+While most notebook platforms also provide IDs and other metadata for notebooks ([Appendix](notebook-metadata)), to our knowledge, only nbproject offers an API to access such metadata.
 
 The metadata header display depends on the computing environment in which the notebook is run: If the environment differs from the stored package dependencies, mismatching versions can readily be seen as both stored and live dependencies are displayed.
 This typically occurs when multiple users collaborate on notebooks and the receiver of a notebook tries to re-run the notebook of a sender (**Figure 3**).
