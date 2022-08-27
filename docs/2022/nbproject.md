@@ -33,9 +33,9 @@ nbproject complements - and should be combined with - approaches that are based 
 
 ## Introduction
 
-Over the past 11 years, Jupyter notebooks [{cp}`Pérez07`, {cp}`Kluyver16`] have become data scientists' most popular user interface {ct}`Perkel18`.[^origin]
+Over the past 11 years, Jupyter notebooks [{ct}`Pérez07`, {ct}`Kluyver16`] have become data scientists' most popular user interface {cp}`Perkel18`.[^origin]
 Today, GitHub hosts about 9M publicly accessible notebooks in active repositories at exponential growth (**Figure 1**).
-VS Code made notebooks an integral component of its developer experience {ct}`Dias21` and many cloud services offer a workbench built around Jupyter Lab.
+VS Code made notebooks an integral component of its developer experience {cp}`Dias21` and many cloud services offer a workbench built around Jupyter Lab.
 
 [^origin]: It was 2011 when Granger wrote the code for the IPython Notebook server and user interface [Jupyter18].
 
@@ -43,10 +43,10 @@ VS Code made notebooks an integral component of its developer experience {ct}`Di
 
 <img width="600" alt="nbestimate of GitHub-hosted notebooks" src="https://lamin-site-assets.s3.amazonaws.com/hx9TkXgXGMt5hC02sTetK-1.png">
 
-**Figure 1: Number of public GitHub-hosted Jupyter notebooks.** The graph is from [nbestimate](https://github.com/parente/nbestimate) and was generated in July 2022 {ct}`Parente22` (MIT license). The kink in December 2020 was caused by GitHub changing their query results to exclude repositories without activity for the past year.
+**Figure 1: Number of public GitHub-hosted Jupyter notebooks.** The graph is from [nbestimate](https://github.com/parente/nbestimate) and was generated in July 2022 {cp}`Parente22` (MIT license). The kink in December 2020 was caused by GitHub changing their query results to exclude repositories without activity for the past year.
 ```
 
-Nonetheless, the average notebook-based data science workflow has a severe reproducibility problem [{cp}`Perkel18`, {cp}`Balogh22`].[^famousgrus]
+Nonetheless, the average notebook-based data science workflow has a severe reproducibility problem [{ct}`Perkel18`, {ct}`Balogh22`].[^famousgrus]
 In addition, large notebook-based projects are hard to manage and often develop into an organic collection of notebook files that are hard to navigate.
 The situation seems particularly severe in biology, where even scientific results that are published in high impact journals often come with disorganized, hard-to-reproduce collections of notebooks.
 
@@ -56,10 +56,10 @@ The situation seems particularly severe in biology, where even scientific result
 
 1. The overarching project is an unstructured collection of notebooks, code, and data files.
 2. Notebook cells are non-consecutively executed.[^grusbalogh][^opinionsconsecutivenss]
-3. Package dependencies are missing [{cp}`Balogh21a`, {cp}`Balogh22`].
+3. Package dependencies are missing [{ct}`Balogh21a`, {ct}`Balogh22`].
 4. Data dependencies are missing.
 5. Pipeline dependencies (previous data transformations) are missing.
-6. Notebook has low code quality {ct}`Grotov22`.[^codequality]
+6. Notebook has low code quality {cp}`Grotov22`.[^codequality]
 
 [^grusbalogh]: “I have seen programmers get frustrated when notebooks don’t behave as expected, usually because they inadvertently run code cells out of order." [Grus18], quoted in [Balogh22] & [Perkel18].
 [^opinionsconsecutivenss]: Laura Norén: “Restart and run all or it didn’t happen” [[source](https://twitter.com/digitalFlaneuse/status/996481061092806658)]. Kyle Cranmer: "Idea: A 'clean state' badge at top of notebook that is green if notebook was in restart+rerun all state, and red otherwise" [[source](https://twitter.com/KyleCranmer/status/996488486667587584)]. Andreas Mueller: "The badge would be indeed a nicer way to express 'all cells are numbered consecutively starting at 0'" [[source](https://twitter.com/amuellerml/status/996738771642191872)]. Alex remembers bioRxiv-co-founder Richard Sever & CarbonPlan-founder Jeremy Freeman - then Director of Comp Bio at CZI - express similar opinions at the Human Cell Atlas Comp Tools meeting in Aptos in May 2018.
@@ -80,16 +80,16 @@ Hence, instead of optimizing a narrow class of computational models, computation
     Notebooks in VS Code should feel natural so that you can seamlessly move between crafting your code files and your notebook modeling the Universe in Python." [Diaz21]
 [^cheptsov]: And for prototyping, even critical assessments of notebooks call them out as the "industry standard": "In fairness to Jupyter notebooks, they have become the standard way of prototyping ML models all over the industry. Because the notebooks are interactive and support visual outputs, there is no better way of exploring data and sharing the results." [Cheptsov22]
 
-Notebooks' “computational narrative” offers a place for this type of work, by offering a "document that allows researchers to supplement their code and data with analysis, hypotheses and conjecture", according to Brian Granger {cp}`Peres18`.
-"Notebooks are a form of interactive computing, an environment in which users execute code, see what happens, modify and repeat in a kind of iterative conversation between researcher and data. [...] Notebooks allow more powerful connections between topics, theories, data and results”, according to Lorena Barba {ct}`Peres18`.
+Notebooks' “computational narrative” offers a place for this type of work, by offering a "document that allows researchers to supplement their code and data with analysis, hypotheses and conjecture", according to Brian Granger {ct}`Peres18`.
+"Notebooks are a form of interactive computing, an environment in which users execute code, see what happens, modify and repeat in a kind of iterative conversation between researcher and data. [...] Notebooks allow more powerful connections between topics, theories, data and results”, according to Lorena Barba {cp}`Peres18`.
 
 ## Existing solutions to problems
 
 Today, problems 5 & 6 are addressed to varying degrees by notebook platforms that allow using notebooks in ML pipelines and help with decomposing them into smaller code modules.
-Examples for this are Elyra {ct}`Resende18` (**Figure 2**), Ploomber [{cp}`Blancas20`, {cp}`Blancas21`] and Orchest {ct}`Lamers21`.
+Examples for this are Elyra {cp}`Resende18` (**Figure 2**), Ploomber [{ct}`Blancas20`, {ct}`Blancas21`] and Orchest {cp}`Lamers21`.
 The latter two and most other notebook platforms ([Appendix](notebook-platforms)) also manage (package) computational environments to execute notebooks, and with that, address problem 3.
 
-An interesting alternative approach to making notebooks more reproducible consists in storing the history of users' actions, as offered by Verdant [{cp}`Kery19a`, {cp}`Kery19b`].
+An interesting alternative approach to making notebooks more reproducible consists in storing the history of users' actions, as offered by Verdant [{ct}`Kery19a`, {ct}`Kery19b`].
 
 To the authors' knowledge, all other notebook platforms ([Appendix](notebook-platforms)) do not focus on reproducibility and manageability, but on the allocation of compute & storage resources.
 
@@ -97,7 +97,7 @@ To the authors' knowledge, all other notebook platforms ([Appendix](notebook-pla
 
 <img width="600" alt="Elyra pipeline" src="https://lamin-site-assets.s3.amazonaws.com/e2G7k9EVul4JbfsEYAy5W-1.png">
 
-**Figure 2: Example for an Elyra notebook pipeline.** From the [Elyra examples repository](https://github.com/elyra-ai/examples/tree/main/pipelines/introduction-to-generic-pipelines), MIT licensed {ct}`Resende18`.
+**Figure 2: Example for an Elyra notebook pipeline.** From the [Elyra examples repository](https://github.com/elyra-ai/examples/tree/main/pipelines/introduction-to-generic-pipelines), MIT licensed {cp}`Resende18`.
 ```
 
 ## Solutions chosen by nbproject
@@ -154,9 +154,9 @@ Hence, if a user receives a published notebook, they know that the latest depend
 ### Semantic vs. full dependency tracking
 
 The visual display of mismatching package dependencies between compute environments should be seen in the broader context of reproducibility vs. determinism.
-Reproducibility is “the ability of an independent research team to produce the same results using the same method based on the documentation made by the original team” (adapted from {ct}`Gunderson18`).
+Reproducibility is “the ability of an independent research team to produce the same results using the same method based on the documentation made by the original team” (adapted from {cp}`Gunderson18`).
 Computational determinism, in addition, requires the bit-exact same output for the same input.
-Whereas targeted experimentation or the certification of models for sensitive application areas should run in deterministic environments {ct}`Heumos22`, reproducibility is sufficient for many applications.
+Whereas targeted experimentation or the certification of models for sensitive application areas should run in deterministic environments {cp}`Heumos22`, reproducibility is sufficient for many applications.
 
 Highly deterministic environments can be created with Docker & conda and managed on most data platforms.
 However, they don't ensure scientific correctness of results.
@@ -239,7 +239,7 @@ Solutions offering compute allocation, storage connection, and environment manag
 
 Notebook tracking in data platforms, with provenance features typically through pipelines are provided by leading data platforms: Databricks (MLFlow), Snowflake, Domino Data Labs, Palantir, Cloudera.
 
-Projects related to managing notebooks, some of them mentioned in a popular blog post from Netflix {ct}`Ufford18`:
+Projects related to managing notebooks, some of them mentioned in a popular blog post from Netflix {cp}`Ufford18`:
 
 - [Bookstore](https://github.com/nteract/bookstore): Notebook storage and publishing workflows for the masses. No longer maintained.
 - [Commuter](https://github.com/nteract/commuter): Notebook sharing hub based on an nteract server.
@@ -253,7 +253,7 @@ Projects related to managing notebooks, some of them mentioned in a popular blog
 
 ### Metadata tracking
 
-There are two existing open-source projects concerned with general metadata management for notebooks: nbmetalog {ct}`Moreno21` and [nbmeta](https://nbmeta.readthedocs.io/en/latest/). While the latter seems no longer maintained, the former provides a convenient way to access session & execution metadata about the notebook.
+There are two existing open-source projects concerned with general metadata management for notebooks: nbmetalog {cp}`Moreno21` and [nbmeta](https://nbmeta.readthedocs.io/en/latest/). While the latter seems no longer maintained, the former provides a convenient way to access session & execution metadata about the notebook.
 
 There were suggestions for assigning IDs to notebooks in Project Jupyter itself (see [here](https://github.com/jupyter/nbformat/issues/148)).
 IDs for notebook cells are meanwhile a [standard](https://nbformat.readthedocs.io/en/latest/format_description.html#cell-ids).
@@ -385,7 +385,3 @@ Parente (2022). Estimate of Public Jupyter Notebooks on GitHub. [GitHub](https:/
 <div id="Ufford">
 
 Ufford, Pacer, Seal & Kelley (2018). Beyond Interactive: Notebook Innovation at Netflix. [Netflix Tech Blog](https://netflixtechblog.com/notebook-innovation-591ee3221233).
-
-<div id="Zhang21">
-
-Zhang (2021). Percival. [GitHub](https://github.com/ekzhang/percival).
