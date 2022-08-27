@@ -188,6 +188,14 @@ Alex conceived the project.
 Lukas provided extensive beta testing and his perspective on determinism vs. reproducibility, which he added to this report.
 Alex wrote the report with help from Sergei & Lukas.
 
+## Citation
+
+Cite this report as:
+
+```
+Rybakov, S., Heumos, L., & Wolf, F. A. (2022). nbproject: Manage Jupyter notebooks. Lamin Reports, 2. https://doi.org/10.56528/nbp
+```
+
 ## Appendix
 
 (ml-ops-tools)=
