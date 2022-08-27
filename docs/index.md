@@ -7,5 +7,6 @@
 :maxdepth: 1
 :hidden:
 
+about
 changelog
 ```
