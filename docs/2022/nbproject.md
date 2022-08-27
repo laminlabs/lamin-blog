@@ -122,7 +122,7 @@ Any user opening their own or someone else's notebook is provided with relevant 
 a universal ID, a version, time stamps, important dependencies, and arbitrary additional metadata.
 While most notebook platforms also provide IDs and other metadata for notebooks ([Appendic](notebook-metadata)), to our knowledge, only nbproject offers an API to access such metadata.
 
-The metadata header display depends on the computing environment in which the notebook is run: If the environment differs from the stored package dependencies, it displays mismatching versions.
+The metadata header display depends on the computing environment in which the notebook is run: If the environment differs from the stored package dependencies, mismatching versions can readily be seen as both stored and live dependencies are displayed.
 This typically occurs when multiple users collaborate on notebooks and the receiver of a notebook tries to re-run the notebook of a sender (**Figure 3**).
 
 <style>
