@@ -29,6 +29,11 @@ readfcs is used by pytometry {ct}`Buttner22`.
 
 We are grateful to Maren Büttner for valuable discussions.
 
+## Author contributions
+
+Sunny & Alex conceived the project.
+Sunny developed the software.
+
 ## Citation
 
 Cite the software and this report as:
