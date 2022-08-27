@@ -18,6 +18,11 @@ tweet: https://twitter.com/falexwolf/status/1108279975772389376
 linkedin: https://www.linkedin.com/posts/jon-bloom_conversation-activity-6949139752352714752-2anB
 ---
 
+```{warning}
+
+Early access! Published version may slightly change.
+```
+
 ## Abstract
 
 [nbproject](https://lamin.ai/docs/nbproject) is an open-source Python tool to help manage Jupyter notebooks with metadata, dependency, and integrity tracking.
