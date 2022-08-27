@@ -25,6 +25,10 @@ In addition to `FCSParser`, readfcs offers compensation, indexing channels by ma
 
 readfcs is used by pytometry {ct}`Buttner22`.
 
+## Acknowledgments
+
+We are grateful to Maren Büttner for valuable discussions.
+
 ## Citation
 
 Cite the software and this report as:
@@ -32,10 +36,6 @@ Cite the software and this report as:
 ```
 Sun, S., & Wolf, A. (2022). readfcs: Read FCS files. Lamin Reports, 1. https://doi.org/10.56528/rfcs
 ```
-
-## Acknowledgement
-
-We are grateful to Maren Büttner for valuable discussions.
 
 ## References
 
