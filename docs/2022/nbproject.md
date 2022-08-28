@@ -177,7 +177,7 @@ Instead of relying on the availability of a server in CI environments, `nbprojec
 
 ## Acknowledgements
 
-We are grateful to Sunny Sun & Alex Trapp for providing early feedback and to Sunny for making the GIF of Figure 3.
+We are grateful to Sunny Sun & Alex Trapp for providing early feedback and to Sunny for making the GIF of Figure 4.
 
 We are grateful to the Jupyter project developers, in particular, Jeremy Tuloup for ipylab.
 
