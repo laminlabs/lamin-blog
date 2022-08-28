@@ -39,7 +39,7 @@ Sunny developed the software.
 Cite the software and this report as:
 
 ```
-Sun, S., & Wolf, A. (2022). readfcs: Read FCS files. Lamin Reports, 1. https://doi.org/10.56528/rfcs
+Sun, S., & Wolf, A. (2022). readfcs: Read FCS files. Lamin Reports. https://doi.org/10.56528/rfcs
 ```
 
 ## References

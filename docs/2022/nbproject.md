@@ -183,17 +183,17 @@ We are grateful to the Jupyter project developers, in particular, Jeremy Tuloup 
 
 ## Author contributions
 
-Sergei & Alex wrote the software.
+Sergei & Alex developed the software.
 Alex conceived the project.
 Lukas provided extensive beta testing and his perspective on determinism vs. reproducibility, which he added to this report.
 Alex wrote the report with help from Sergei & Lukas.
 
 ## Citation
 
-Cite this report as:
+Cite the software and this report as:
 
 ```
-Rybakov, S., Heumos, L., & Wolf, F. A. (2022). nbproject: Manage Jupyter notebooks. Lamin Reports, 2. https://doi.org/10.56528/nbp
+Rybakov, S., Heumos, L., & Wolf, F. A. (2022). nbproject: Manage Jupyter notebooks. Lamin Reports. https://doi.org/10.56528/nbp
 ```
 
 ## Appendix
