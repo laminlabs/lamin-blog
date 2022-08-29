@@ -1,6 +1,6 @@
 ---
 title: "nbproject: Manage Jupyter notebooks"
-date: 2022-08-27 09:00
+date: 2022-08-29
 number: 2
 doi: 10.56528/nbp
 author: Koncopd, Zethson, falexwolf
@@ -17,11 +17,6 @@ repo: https://github.com/laminlabs/nbproject
 tweet: https://twitter.com/falexwolf/status/1108279975772389376
 linkedin: https://www.linkedin.com/posts/jon-bloom_conversation-activity-6949139752352714752-2anB
 ---
-
-```{warning}
-
-Early access! Published version may slightly change.
-```
 
 ## Abstract
 
