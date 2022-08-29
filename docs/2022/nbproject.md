@@ -159,7 +159,7 @@ In fact, deterministic environments can lead to results that are _only_ reproduc
 If a team always uses the exact same environments they will never learn that such a result is indeed only bit-wise correct, but not scientifically correct.
 The scientific correctness of a robust statistical result, by contrast, should reproduce in many different compute environments as long as basic conditions are met.[^correctness]
 
-[^correctness]: Related: See [Peter Wang talk about](https://youtu.be/X0-SXS6zdEQ?t=864)) correctness in computing systems.
+[^correctness]: Related: See [Peter Wang talk about](https://youtu.be/X0-SXS6zdEQ?t=864) correctness in computing systems.
 
 Hence, policies in R&D teams may vary from using the same Docker container for all computations to making Docker containers for each analysis to not using Docker at all and running analysis on a variety of environments, cross-checking them among team members for robustness.
 
