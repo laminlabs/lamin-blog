@@ -14,8 +14,8 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 docs: https://lamin.ai/docs/nbproject
 repo: https://github.com/laminlabs/nbproject
-tweet: https://twitter.com/falexwolf/status/1108279975772389376
-linkedin: https://www.linkedin.com/posts/jon-bloom_conversation-activity-6949139752352714752-2anB
+tweet: https://twitter.com/falexwolf/status/1567053722919882752
+linkedin: https://www.linkedin.com/posts/falexwolf_new-tool-nbproject-helps-manage-jupyter-activity-6972823453892542464-Hvxz?utm_source=share&utm_medium=member_desktop
 ---
 
 ## Abstract
