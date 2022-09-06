@@ -97,14 +97,14 @@ To the authors' knowledge, all other notebook platforms ([Appendix](notebook-pla
 
 ## Solutions chosen by nbproject
 
-nbproject complements pipeline and compute environment packaging solutions without requiring an additional centralized platform: nbproject is a lightweight Python package that works without connecting to any centralized platform. It focuses on problems 1 and 2
+nbproject complements pipeline and compute environment packaging solutions without requiring an additional centralized platform: nbproject is a lightweight Python package that works without connecting to any centralized platform. It addresses problems as follows:
 
-1. Project is an unstructured collection of notebooks, code, and data files: nbproject allows configuring arbitrary project- and management-related metadata. Its id and version fields allow anchoring notebooks in a graph of R&D operations of an entire team.
-2. Notebook cells aren't consecutively executed: nbproject provides a publishing workflow that checks for consecutiveness & the presence of a title and versions the notebook.
-3. Package dependencies are missing: nbproject offers a visual way to track packages that complements packaging solutions.
-4. Data dependencies are missing: nbproject integrates well with [LaminDB](https://lamin.ai/docs/db).
-5. Pipeline dependencies (previous data transformations) are missing: nbproject allows sketching pipelines manually. When integrated with LaminDB, it provides full provenance automatically.
-6. Notebook has low code quality: The publishing workflow encourages small modular notebooks with most code residing in versioned packages.
+1. _Project is an unstructured collection of notebooks, code, and data files._ nbproject allows configuring arbitrary project- and management-related metadata. Its id and version fields allow anchoring notebooks in a graph of R&D operations of an entire team.
+2. _Notebook cells aren't consecutively executed._ nbproject provides a publishing workflow that checks for consecutiveness & the presence of a title and versions the notebook.
+3. _Package dependencies are missing._ nbproject offers a visual way to track packages, which complements packaging solutions.
+4. _Data dependencies are missing._ nbproject integrates well with [LaminDB](https://lamin.ai/docs/db).
+5. _Pipeline dependencies are missing._ nbproject allows sketching pipelines manually. When integrated with LaminDB, it provides full provenance automatically.
+6. _Notebook has low code quality._ The publishing workflow encourages small modular notebooks with most code residing in versioned packages.
 
 ## Design choices
 
