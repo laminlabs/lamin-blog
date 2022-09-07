@@ -81,7 +81,7 @@ Notebooks' “computational narrative” offers a format for this type of work: 
 ## Existing solutions to problems
 
 Today, problems 5 & 6 are addressed to varying degrees by notebook platforms that allow using notebooks in ML pipelines and help with decomposing them into smaller code modules.
-Examples for this are Elyra {cp}`Resende18` (**Figure 2**), Ploomber [{ct}`Blancas20`, {ct}`Blancas21`] and Orchest {cp}`Lamers21`.
+Examples for this are Elyra {cp}`Resende18` (**Figure 2**), Ploomber [{ct}`Blancas20`, {ct}`Blancas21a`, {ct}`Blancas21b`] and Orchest {cp}`Lamers21`.
 The latter two and most other notebook platforms ([Appendix](notebook-platforms)) also manage (package) computational environments to execute notebooks, and with that, address problem 3.
 
 An interesting alternative approach to making notebooks more reproducible consists in storing the history of users' actions, as offered by Verdant [{ct}`Kery19a`, {ct}`Kery19b`].
@@ -97,7 +97,7 @@ To the authors' knowledge, all other notebook platforms ([Appendix](notebook-pla
 
 ## Solutions chosen by nbproject
 
-nbproject complements pipeline and compute environment packaging solutions without requiring an additional centralized platform: nbproject is a lightweight Python package that works without connecting to any centralized platform. It addresses problems as follows:
+nbproject complements pipeline and compute environment packaging solutions: nbproject is a lightweight Python package that works without connecting to any centralized platform. It addresses problems as follows:
 
 1. _Project is an unstructured collection of notebooks, code, and data files._ nbproject allows configuring arbitrary project- and management-related metadata. Its id and version fields allow anchoring notebooks in a graph of R&D operations of an entire team.
 2. _Notebook cells aren't consecutively executed._ nbproject provides a publishing workflow that checks for consecutiveness & the presence of a title and versions the notebook.
