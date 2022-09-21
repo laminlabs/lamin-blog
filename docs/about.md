@@ -1,8 +1,8 @@
 # About
 
-Lamin Reports publishes reports on data science & engineering in biology (online only, open access).
+Lamin Reports publishes papers on data science & engineering in biology (online only, open access).
 
-Unlike blog posts, reports require academic attribution of related work and scientific writing.
+Unlike blog posts, reports require academic attribution and scientific writing.
 
 Unlike traditional journal articles (but like preprints), reports do not undergo a formal peer-review process.
 
