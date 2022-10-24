@@ -188,7 +188,7 @@ Alex wrote the report with help from Sergei & Lukas.
 Cite the software and this report as:
 
 ```
-Rybakov, S., Heumos, L., & Wolf, F. A. (2022). nbproject: Manage Jupyter notebooks. Lamin Reports. https://doi.org/10.56528/nbp
+Rybakov, S., Heumos, L., & Wolf, A. (2022). nbproject: Manage Jupyter notebooks. Lamin Reports. https://doi.org/10.56528/nbp
 ```
 
 ## Appendix
@@ -293,90 +293,94 @@ Deepnote provides metadata like this:
 
 ## References
 
-<div id="Balogh22">
+<ol>
+
+<li id="Balogh22">
 
 Balogh (2022). Data Science Notebook Life-Hacks I Learned From Ploomber. [Machine Learning Mastery Blog](https://machinelearningmastery.com/data-science-notebook-life-hacks-i-learned-from-ploomber/).
 
-<div id="Blancas20">
+</li><li id="Blancas20">
 
 Blancas (2020). Introducing Ploomber. [Ploomber Blog](https://ploomber.io/blog/ploomber/).
 
-<div id="Blancas21a">
+</li><li id="Blancas21a">
 
 Blancas (2021a). On writing clean Jupyter notebooks. [Ploomber Blog](https://ploomber.io/blog/clean-nbs/).
 
-<div id="Blancas21b">
+</li><li id="Blancas21b">
 
 Blancas (2021b). We need a Ruby on Rails for Machine Learning. [Ploomber Blog](https://ploomber.io/blog/rails4ml/).
 
-<div id="Cheptsov22">
+</li><li id="Cheptsov22">
 
 Cheptsov (2022). Notebooks and MLOps. Choose one. [MLOps Fluff](https://mlopsfluff.dstack.ai/p/notebooks-and-mlops-choose-one).
 
-<div id="Dias21">
+</li><li id="Dias21">
 
 Dias (2021). The Coming of Age of Notebooks. [VS Code Blog](https://code.visualstudio.com/blogs/2021/08/05/notebooks).
 
-<div id="Gunderson18">
+</li><li id="Gunderson18">
 
 Odd Erik Gundersen and Sigbjørn Kjensmo (2018). State of the Art: Reproducibility in Artificial Intelligence. [Proceedings of the AAAI Conference on Artificial Intelligence, 32(1)](https://doi.org/10.1609/aaai.v32i1.11503).
 
-<div id="Heumos22">
+</li><li id="Heumos22">
 
 Heumos, Ehmele, Kuhn, Menden, Miller, Lemke, Gabernet & Nahnsen: mlf-core: a framework for deterministic machine learning. [arXiv:2104.07651](https://arxiv.org/abs/2104.07651)
 
-<div id="Lamers21">
+</li><li id="Lamers21">
 
 Lamers (2021). Hello, World! [Orchest Blog](https://www.orchest.io/blog/hello-world).
 
-<div id="Resende18">
+</li><li id="Resende18">
 
 Resende, Chin, Titzler & Elyra Development Team (2018). Elyra extends JupyterLab with an AI centric approach. [GitHub](https://github.com/elyra-ai/elyra).
 
-<div id="Grotov22">
+</li><li id="Grotov22">
 
 Grotov, Titov, Sotnikov, Golubev & Bryksin (2022). A Large-Scale Comparison of Python Code in Jupyter Notebooks and Scripts. [arXiv:2203.16718](https://arxiv.org/abs/2203.16718).
 
-<div id="Grus18">
+</li><li id="Grus18">
 
 Grus (2018). I don't like notebooks. [YouTube](https://www.youtube.com/watch?v=7jiPeIFXb6U).
 
-<div id="Jupyter18">
+</li><li id="Jupyter18">
 
 Jupyter (2018). Jupyter receives the ACM Software System Award. [Project Jupyter Blog](https://blog.jupyter.org/jupyter-receives-the-acm-software-system-award-d433b0dfe3a2).
 
-<div id="Kery19a">
+</li><li id="Kery19a">
 
 Kery (2019). Verdant: A version control tool for JupyterLab that automatically records the history of your experimentation while you work. [GitHub](https://github.com/mkery/Verdant).
 
-<div id="Kery19b">
+</li><li id="Kery19b">
 
 Kery, John, O'Flaherty, Horvath & Myers (2019). Towards effective foraging by data scientists to find past analysis choices. [CHI '19 #92](https://doi.org/10.1145/3290605.3300322).
 
-<div id="Kluyver16">
+</li><li id="Kluyver16">
 
 Kluyver, Ragan-Kelley, Pérez, Granger, Bussonnier, Frederic, Kelley, Hamrick, Grout, Corlay, Ivanov, Avila, Abdalla, Willing & Jupyter Development Team (2016). Jupyter Notebooks – a publishing format for reproducible computational workflows. [Positioning and Power in Academic Publishing: Players, Agents and Agendas 87–90](http://doi.org/10.3233/978-1-61499-649-1-87).
 
-<div id="Perkel18">
+</li><li id="Perkel18">
 
 Perkel (2018). Why Jupyter is data scientists’ computational notebook of choice. [Nature 563, 145](https://doi.org/10.1038/d41586-018-07196-1).
 
-<div id="Pérez07">
+</li><li id="Pérez07">
 
 Pérez & Granger (2007). IPython: A system for interactive scientific computing. [Computing in science & engineering 9, 21](https://doi.org/10.1109/MCSE.2007.53).
 
-<div id="Moreno21">
+</li><li id="Moreno21">
 
 Moreno (2021). nbmetalog helps you log Jupyter notebook metadata. [GitHub](https://github.com/mmore500/nbmetalog).
 
-<div id="Ng22">
+</li><li id="Ng22">
 
 Ng & Strickland (2022). Andrew NG: Unbiggen AI. [IEEE Spectrum](https://spectrum.ieee.org/andrew-ng-data-centric-ai).
 
-<div id="Parente22">
+</li><li id="Parente22">
 
 Parente (2022). Estimate of Public Jupyter Notebooks on GitHub. [GitHub](https://github.com/parente/nbestimate).
 
-<div id="Ufford">
+</li><li id="Ufford">
 
 Ufford, Pacer, Seal & Kelley (2018). Beyond Interactive: Notebook Innovation at Netflix. [Netflix Tech Blog](https://netflixtechblog.com/notebook-innovation-591ee3221233).
+
+</ol>
