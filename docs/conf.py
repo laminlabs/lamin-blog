@@ -15,6 +15,12 @@ html_context["github_repo"] = "lamin-blog"  # noqa
 ogp_site_url = "https://lamin.ai/blog"
 ogp_site_name = project
 
+html_theme_options["logo"] = {
+    "link": ogp_site_url,
+    "text": project,
+    "root": "https://lamin.ai",
+}
+
 # Blog
 blog_baseurl = "https://lamin.ai/blog"
 blog_post_pattern = "2022/*"
