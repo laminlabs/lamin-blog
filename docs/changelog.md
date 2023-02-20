@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
-:memo: Finalize integrating Lamin Reports with Lamin Blog | [11](https://github.com/laminlabs/lamin-reports/pull/11) | [falexwolf](https://github.com/falexwolf) | 2023-02-20 |
+🚚 Finalize integrating Lamin Reports with Lamin Blog | [11](https://github.com/laminlabs/lamin-reports/pull/11) | [falexwolf](https://github.com/falexwolf) | 2023-02-20 |
 🔥 Remove about page of Lamin Reports | [10](https://github.com/laminlabs/lamin-reports/pull/10) | [falexwolf](https://github.com/falexwolf) | 2023-02-20 |
 🚚 Move first blog post from legacy lamin-blog repo here | [9](https://github.com/laminlabs/lamin-reports/pull/9) | [falexwolf](https://github.com/falexwolf) | 2023-02-20 |
 🐛 Fix google scholar indexing | [8](https://github.com/laminlabs/lamin-reports/pull/8) | [falexwolf](https://github.com/falexwolf) | 2022-10-24 |
