@@ -8,17 +8,15 @@ sys.path[:0] = [str(HERE), str(HERE.parent)]
 from lamin_sphinx import *  # noqa
 from lamin_sphinx import authors, html_theme_options, html_context  # noqa
 
-project = "Lamin Reports"
+project = "Lamin Blog"
 html_title = f"{project}"
-html_context["github_repo"] = "lamin-reports"  # noqa
-# We're actually using this for the link behind the brand of the page!
-html_theme_options["logo"] = {"link": "../reports"}  # noqa
+html_context["github_repo"] = "lamin-blog"  # noqa
 
-ogp_site_url = "https://lamin.ai/reports"
+ogp_site_url = "https://lamin.ai/blog"
 ogp_site_name = project
 
 # Blog
-blog_baseurl = "https://lamin.ai/reports"
+blog_baseurl = "https://lamin.ai/blog"
 blog_post_pattern = "2022/*"
 blog_authors = authors
 post_date_format = "%Y-%m-%d"
