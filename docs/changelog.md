@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+🚚 Move first blog post from legacy lamin-blog repo here | [9](https://github.com/laminlabs/lamin-reports/pull/9) | [falexwolf](https://github.com/falexwolf) | 2023-02-20 |
 🐛 Fix google scholar indexing | [8](https://github.com/laminlabs/lamin-reports/pull/8) | [falexwolf](https://github.com/falexwolf) | 2022-10-24 |
 📝 Publish `nbproject` report | [7](https://github.com/laminlabs/lamin-reports/pull/7) | [falexwolf](https://github.com/falexwolf) | 2022-08-29 |
 📝 Publish `readfcs` report | [4](https://github.com/laminlabs/lamin-reports/pull/4) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-27 |
