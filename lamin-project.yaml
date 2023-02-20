@@ -1,5 +1,5 @@
 project_name: Lamin Reports
 description: Data science & engineering in biology
-project_slug: reports
-repository_name: lamin-reports
+project_slug: blog
+repository_name: lamin-blog
 package_name: ""
