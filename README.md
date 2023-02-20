@@ -1,5 +1,3 @@
-# Lamin Reports: Data science & engineering in biology
+# Lamin Blog: Data science & engineering in biology
 
-Read the [reports](https://lamin.ai/reports).
-
-Might be integrated with the blog, soon.
+Read the [blog](https://lamin.ai/blog).
