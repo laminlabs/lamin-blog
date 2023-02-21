@@ -188,7 +188,7 @@ Alex wrote the report with help from Sergei & Lukas.
 Cite the software and this report as:
 
 ```
-Rybakov S, Heumos L & Wolf A (2022). nbproject: Manage Jupyter notebooks. Lamin Reports. https://doi.org/10.56528/nbp
+Rybakov S, Heumos L & Wolf A (2022). nbproject: Manage Jupyter notebooks. Lamin Blog. https://doi.org/10.56528/nbp
 ```
 
 ## Appendix
