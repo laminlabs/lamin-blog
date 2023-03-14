@@ -20,6 +20,13 @@ html_theme_options["logo"] = {
     "text": project,
     "root": "https://lamin.ai",
 }
+html_theme_options["icon_links"] = [
+    {
+        "name": "GitHub",
+        "url": "https://github.com/laminlabs/lamin-blog",
+        "icon": "fa-brands fa-github",
+    },
+]
 
 # Blog
 blog_baseurl = "https://lamin.ai/blog"
