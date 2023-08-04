@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+♻️ Refactor docs build | [13](https://github.com/laminlabs/lamin-blog/pull/13) | [falexwolf](https://github.com/falexwolf) | 2023-08-04 |
 🐛 Fix more mentions of report and a link that broke during migration | [12](https://github.com/laminlabs/lamin-blog/pull/12) | [falexwolf](https://github.com/falexwolf) | 2023-02-21 |
 🚚 Finalize integrating Lamin Reports with Lamin Blog | [11](https://github.com/laminlabs/lamin-reports/pull/11) | [falexwolf](https://github.com/falexwolf) | 2023-02-20 |
 🔥 Remove about page of Lamin Reports | [10](https://github.com/laminlabs/lamin-reports/pull/10) | [falexwolf](https://github.com/falexwolf) | 2023-02-20 |
