@@ -8,7 +8,7 @@ orcid:
   falexwolf: 0000-0002-8760-7838
 ---
 
-We think that the complexity of modern R&D data often blocks fully realizing the scientific progress it promised.
+The complexity of modern R&D data often blocks realizing the scientific progress it promises.
 
 Here, we list key problems we see and how we think about solving them.
 
