@@ -12,7 +12,7 @@ The complexity of modern R&D data often blocks realizing the scientific progress
 
 Here, we list key problems we see and how we think about solving them.
 
-## Data cannot be accessed at all
+## Data can't be accessed
 
 <!-- prettier-ignore -->
 Problem | Description | Solution
@@ -20,7 +20,7 @@ Problem | Description | Solution
 _Object storage._ | Data in object storage can't be queried. | Index {term}`observations <observation>` and {term}`variables <variable>` and link them in a query database.
 _Pile of data._ | Data can't be accessed as it's not structured and siloed in fragmented infrastructure. | Structure data both by biological entities and by provenance with one interface across storage and database backends.
 
-## Data cannot be accessed at scale
+## Data can't be accessed at scale
 
 <!-- prettier-ignore -->
 Problem | Description | Solution
@@ -28,14 +28,14 @@ Problem | Description | Solution
 _Anecdotal data._ | Data can't be accessed at scale as no viable programmatic interfaces exist. | API-first platform.
 _Cross-storage integration._ | Molecular (high-dimensional) data can't be efficiently integrated with phenotypic (low-dimensional) data. | Index molecular data with the same biological entities as phenotypic data. Provide connectors for low-dimensional data management systems (ELN & LIMS systems).
 
-## Scientific results are not solid
+## Scientific results aren't solid
 
 <!-- prettier-ignore -->
 Problem | Description | Solution
 --- | --- | ---
 _Stand on solid ground._ | Key analytics results cannot be linked to supporting data as too many processing steps are involved. | Provide full data provenance.
 
-## Collaborative science across organizations is hard
+## Collaboration across organizations is hard
 
 <!-- prettier-ignore -->
 Problem | Description | Solution
@@ -43,7 +43,7 @@ Problem | Description | Solution
 _Siloed infrastructure._ | Data can't be easily shared across organizations. | Federated collaboration hub on distributed infrastructure.
 _Siloed semantics._ | External data can't be mapped on in-house data and vice versa. | Provide curation and ingestion API, operate on open-source data models that can be adopted by any organization.
 
-## R&D misses opportunities for higher effectiveness
+## R&D could be more effective
 
 <!-- prettier-ignore -->
 Problem | Description | Solution
@@ -52,7 +52,7 @@ _Optimal decision making._ | There is no framework for tracking decision making 
 _Dry lab is not integrated._ | Data platforms offer no adequate interface for the drylab. | API-first with data scientist needs in mind.
 _Support learning._ | There is no support for the learning-from-data cycle. | Support data models across the full lab cycle, including measured → relevant → derived features. Manage knowledge through rich semantic models that map high-dimensional data.
 
-## Data platforms lack support for basic R&D operations
+## No support for basic R&D operations
 
 <!-- prettier-ignore -->
 Problem | Description | Solution
