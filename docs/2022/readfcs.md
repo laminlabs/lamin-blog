@@ -1,7 +1,7 @@
 ---
 title: "readfcs: Read FCS files"
 date: 2022-08-27
-number: 2
+number: 3
 doi: 10.56528/rfcs
 author: sunnyosun, falexwolf
 orcid:

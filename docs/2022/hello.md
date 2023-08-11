@@ -1,7 +1,7 @@
 ---
 title: Hello world!
 date: 2022-05-04
-number: 0
+number: 1
 author: sunnyosun, falexwolf
 ---
 

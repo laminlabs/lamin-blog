@@ -52,7 +52,7 @@ _Optimal decision making._ | There is no framework for tracking decision making 
 _Dry lab is not integrated._ | Data platforms offer no adequate interface for the drylab. | API-first with data scientist needs in mind.
 _Support learning._ | There is no support for the learning-from-data cycle. | Support data models across the full lab cycle, including measured → relevant → derived features. Manage knowledge through rich semantic models that map high-dimensional data.
 
-## Standard data platforms lack the support of basic R&D operations
+## Data platforms lack support for basic R&D operations
 
 <!-- prettier-ignore -->
 Problem | Description | Solution

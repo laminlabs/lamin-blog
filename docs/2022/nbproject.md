@@ -1,7 +1,7 @@
 ---
 title: "nbproject: Manage Jupyter notebooks"
 date: 2022-08-29
-number: 3
+number: 4
 doi: 10.56528/nbp
 author: Koncopd, Zethson, falexwolf
 orcid:
