@@ -141,7 +141,7 @@ Hence, if a user receives a published notebook, they know that the latest depend
 
 ```{figure-md}
 
-<img width="600" alt="Publishing workflow." src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/NHq29ckKVrrTYsNdG0KjT-1.gif">
+<img width="600" alt="Publishing workflow." src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/NHq29ckKVrrTYsNdG0KjT.gif">
 
 **Figure 4: Publishing workflow.** Made with Kat by Sunny Sun.
 ```
