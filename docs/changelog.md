@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+🚚 Adjust image links to new prefix | [15](https://github.com/laminlabs/lamin-blog/pull/15) | [falexwolf](https://github.com/falexwolf) | 2023-09-18 |
 🔖 Re-publish problem statement here | [14](https://github.com/laminlabs/lamin-blog/pull/14) | [falexwolf](https://github.com/falexwolf) | 2023-08-11 |
 ♻️ Refactor docs build | [13](https://github.com/laminlabs/lamin-blog/pull/13) | [falexwolf](https://github.com/falexwolf) | 2023-08-04 |
 🐛 Fix more mentions of report and a link that broke during migration | [12](https://github.com/laminlabs/lamin-blog/pull/12) | [falexwolf](https://github.com/falexwolf) | 2023-02-21 |
