@@ -36,7 +36,7 @@ VS Code made notebooks an integral component of its developer experience {cp}`Di
 
 ```{figure-md}
 
-<img width="600" alt="nbestimate of GitHub-hosted notebooks" src="https://lamin-site-assets.s3.amazonaws.com/hx9TkXgXGMt5hC02sTetK-1.png">
+<img width="600" alt="nbestimate of GitHub-hosted notebooks" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/hx9TkXgXGMt5hC02sTetK.png">
 
 **Figure 1: Number of public GitHub-hosted Jupyter notebooks.** The graph is from [nbestimate](https://github.com/parente/nbestimate) and was generated in July 2022 {cp}`Parente22` (MIT license). The kink in December 2020 was caused by GitHub changing their query results to exclude repositories without activity for the past year.
 ```
@@ -90,7 +90,7 @@ To the authors' knowledge, all other notebook platforms ([Appendix](notebook-pla
 
 ```{figure-md}
 
-<img width="600" alt="Elyra pipeline" src="https://lamin-site-assets.s3.amazonaws.com/e2G7k9EVul4JbfsEYAy5W-1.png">
+<img width="600" alt="Elyra pipeline" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/e2G7k9EVul4JbfsEYAy5W.png">
 
 **Figure 2: Example for an Elyra notebook pipeline.** From the [Elyra examples repository](https://github.com/elyra-ai/examples/tree/main/pipelines/introduction-to-generic-pipelines), MIT licensed {cp}`Resende18`.
 ```
@@ -126,9 +126,9 @@ table td, table td * {
 }
 </style>
 
-| Sender                                                                                          | Receiver                                                                                        |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| <img height="200" src="https://lamin-site-assets.s3.amazonaws.com/B6S2Mws8gkpzvSryGzsxk-1.png"> | <img height="220" src="https://lamin-site-assets.s3.amazonaws.com/18gKT0WJbnlnHCwqTnevR-1.png"> |
+| Sender                                                                                                 | Receiver                                                                                               |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| <img height="200" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/B6S2Mws8gkpzvSryGzsxk.png"> | <img height="220" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/18gKT0WJbnlnHCwqTnevR.png"> |
 
 <center><b>Figure 3: Metadata header for sender & receiver, respectively.</b></center><br>
 
@@ -141,7 +141,7 @@ Hence, if a user receives a published notebook, they know that the latest depend
 
 ```{figure-md}
 
-<img width="600" alt="Publishing workflow." src="https://lamin-site-assets.s3.amazonaws.com/NHq29ckKVrrTYsNdG0KjT-1.gif">
+<img width="600" alt="Publishing workflow." src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/NHq29ckKVrrTYsNdG0KjT.gif">
 
 **Figure 4: Publishing workflow.** Made with Kat by Sunny Sun.
 ```
