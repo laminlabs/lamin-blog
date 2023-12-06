@@ -48,7 +48,7 @@ _Siloed semantics._ | External data can't be mapped on in-house data and vice ve
 <!-- prettier-ignore -->
 Problem | Description | Solution
 --- | --- | ---
-_Optimal decision making._ | There is no framework for tracking decision making in complex R&D teams. | Graph of data flow in R&D team, including scientists, computation, decisions, predictions. Unlike workflow frameworks, LaminDB creates an emergent graphs.
+_Optimal decision making._ | There is no framework for tracking decision making in complex R&D teams. | Graph of data flow in R&D team, including scientists, computation, decisions, predictions. Unlike workflow frameworks, LaminDB creates an emergent graph.
 _Dry lab is not integrated._ | Data platforms offer no adequate interface for the drylab. | API-first with data scientist needs in mind.
 _Support learning._ | There is no support for the learning-from-data cycle. | Support data models across the full lab cycle, including measured → relevant → derived features. Manage knowledge through rich semantic models that map high-dimensional data.
 
