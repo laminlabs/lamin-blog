@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+🚚 Move slugs to root level | [16](https://github.com/laminlabs/lamin-blog/pull/16) | [falexwolf](https://github.com/falexwolf) | 2024-03-01 |
 🚚 Adjust image links to new prefix | [15](https://github.com/laminlabs/lamin-blog/pull/15) | [falexwolf](https://github.com/falexwolf) | 2023-09-18 |
 🔖 Re-publish problem statement here | [14](https://github.com/laminlabs/lamin-blog/pull/14) | [falexwolf](https://github.com/falexwolf) | 2023-08-11 |
 ♻️ Refactor docs build | [13](https://github.com/laminlabs/lamin-blog/pull/13) | [falexwolf](https://github.com/falexwolf) | 2023-08-04 |
