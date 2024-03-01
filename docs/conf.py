@@ -30,7 +30,7 @@ html_theme_options["icon_links"] = [
 
 # Blog
 blog_baseurl = "https://lamin.ai/blog"
-blog_post_pattern = "2022/*"
+blog_post_pattern = "*"
 blog_authors = authors
 post_date_format = "%Y-%m-%d"
 blog_path = "index"
