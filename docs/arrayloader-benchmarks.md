@@ -1,25 +1,43 @@
-# Training foundation models on large collections of scRNA-seq data
+---
+title: "Training foundation models on large collections of scRNA-seq data"
+date: 2024-04-01
+number: 5
+author: Koncopd*, felix-fischer*, maciek-wiatrak, ilan-gold, yanay-rosen, sunnyosun, chaichontat, fabian-theis, jkobject, falexwolf
+orcid:
+  Koncopd: 0000-0002-4944-6586
+  falexwolf: 0000-0002-8760-7838
+affiliation:
+  Koncopd*: Lamin Labs, Munich
+  felix-fischer*: Helmholtz Munich
+  maciek-wiatrak: U Cambridge
+  ilan-gold: Helmholtz Munich
+  yanay-rosen: U Stanford
+  sunnyosun: Lamin Labs, Munich
+  chaichontat: John Hopkins U
+  fabian-theis: Helmholtz Munich
+  jkobject: ENS Ulm
+  falexwolf: Lamin Labs, Munich
+docs: https://lamin.ai/laminlabs/arrayloader-benchmarks
+repo: https://github.com/laminlabs/arrayloader-benchmarks
+---
 
-**Authors:** Sergei Rybakov*, Felix Fischer*, Maciek Wiatrak, Ilan Gold, Yanay Rosen, Sunny Sun, Chaichontat Sriworarat, Fabian Theis, Jeremie Kalfon, Alex Wolf
+---
 
-<aside>
-✔️ A few labs and companies now train models on large-scale scRNA-seq count matrices and related data modalities.
-
-But unlike for many other data types, there isn’t yet a playbook for data scales that don’t fit into memory.
+A few labs and companies now train models on large-scale scRNA-seq count matrices and related data modalities. But unlike for many other data types, there isn’t yet a playbook for data scales that don’t fit into memory.
 
 We study different approaches to building data loaders and, through a series of benchmarks, identify three favorable setups:
 
-1. **Easy & flexible:** Use weighted random sampling from a **locally cached** `.h5ad` collection at **~1.5k samples/sec.**
-2. **Fastest:** Use `NVIDIA Merlin` for unweighted chunked random sampling from a **locally cached** `.parquet` collection at **~9k samples/sec**.
-3. **Uncached:** If you run the training in the AWS data center that hosts the data, use `tiledbsoma` for unweighted random sampling at **~1.5k samples/sec** directly from the **cloud**.
+1. **Easy & flexible:** Use weighted random sampling from a locally cached `.h5ad` collection at ~1.5k samples/sec.
+2. **Fastest:** Use `NVIDIA Merlin` for unweighted chunked random sampling from a locally cached `.parquet` collection at ~9k samples/sec.
+3. **Uncached:** If you run the training in the AWS data center that hosts the data, use `tiledbsoma` for unweighted random sampling at ~1.5k samples/sec directly from the cloud.
 
 Hence, you can train compute-limited foundation models based on harmonized data collections in their original format (`.h5ad`). To enable it out-of-the-box, we developed `MappedCollection`, an implementation of a pytorch-compatible map-style dataset.
 
 By contrast, if your model is data-loading-limited because it has fewer parameters, it’s worthwhile to transform a collection of `.h5ad` files into `.parquet`. And if you don’t want to work with a cache and don’t need weighted sampling, you can transform the collection into a monolithic `tiledbsoma` array.
 
-</aside>
+---
 
-# From scVI to Transformers
+## From scVI to Transformers
 
 If your scRNA-seq dataset still fits into memory, you can use `scvi-tools` [data loaders](https://docs.scvi-tools.org/en/stable/api/reference/scvi.dataloaders.AnnDataLoader.html) and stop reading this post. But given large-scale public & private data collection efforts like CELLxGENE [add ref]now enable the training of deep learning models across hundreds of datasets and tens of millions of individual cells, you’re probably tempted to scale beyond data that fits into memory.
 
@@ -44,8 +62,6 @@ We wanted to understand if there are less restrictive and simpler ways of settin
 
 To navigate these decisions, we performed several benchmarks.
 
-# Benchmarks
-
 ## A large-scale benchmark
 
 Consider a 10M x 20k array that stores vectors measuring expression of 20k genes for 10M samples (cells). We store this array as
@@ -60,13 +76,13 @@ Here, `MappedCollection` is a map-style PyTorch data loader resulting in ~1.5k s
 
 **Figure 1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/faAhgiIDemaP4BB5))**:** We compared NVIDIA Merlin based on a local collection of parquet files, `MappedCollection` based on a local collection of h5ad files, and `cellxgene_census` based on a `tiledbsoma` store in the cloud. Shown is the batch loading time (standard boxplot, **left**), the time per epoch (barplot, **center**), and the number of samples loaded per second (barplot, **right**) with statistics gathered across ~50k batch loading operations during 5 epochs for each method. The raw data consists of 138 `.h5ad` files hosted by CZI and was transformed into parquet files [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/GjHlkZOA4wKp5zKv). For `cellxgene_census`, we use the concatenated version `tiledbsoma` store hosted by CZI and access from within the same AWS data center `us-west-2` for maximal streaming speed ([benchmark](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/Md9ea0bLFozt65cN)). Outside of `us-west-2`, the speed is _much_ slower. We ran all benchmarks on AWS SageMaker using a `ml.g4dn.2xlarge` EC2 instance. NVIDIA Merlin runs into memory overflow during the benchmark, and we manually triggered the garbage collector.
 
-## Sampling batches from large array collections: NVIDIA Merlin, MappedCollection, AnnCollection
+### Sampling batches from large array collections: NVIDIA Merlin, MappedCollection, AnnCollection
 
 NVIDIA Merlin’s faster data loading speed is likely not due to the storage format but to sampling row groups (chunks) rather than isolated samples. Weighted sampling of isolated samples, however, is often needed to enrich for rare events like rare cell types, avoid overfitting certain experiments, or build other incentives into cost functions. As this is crucial for many applications, `MappedCollection` chooses single-sample access, accepting the data loading performance penalty (for more details, see Appendix).
 
 There is another data loader for on-disk streaming of a collection of `.h5ad` files: `AnnCollection` from `anndata`. Benchmarking on a single GPU, we find that `AnnCollection` is about a factor 2 slower than `MappedCollection` (**Figure A1**) and less easy to scale to multiple GPUs.
 
-## Sampling directly from the cloud: tiledbsoma, StreamingDataset, MappedCollection, zarr
+### Sampling directly from the cloud: tiledbsoma, StreamingDataset, MappedCollection, zarr
 
 There are situations where it can make sense not to cache data locally while training a machine-learning model. For instance, if local storage space is limited or ad hoc queries are a frequent access pattern that complements training models. Several technologies allow streaming directly from the cloud, e.g., `tiledbsoma`, `StreamingDataset`, `zarr`, and `MappedCollection` from object stores or BigQuery & Snowflake when using integrated data warehouses. Whether live-streaming data from the cloud is a viable route depends primarily on whether you want to train models in the same cloud provider data center that hosts the data.
 
@@ -108,7 +124,7 @@ How do data-loading times with NVIDIA Merlin compare to loading directly from me
 
 **Figure 4** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/DLI9rznI2PcT5zKv)): Data loading performance during model training (with random access) and inference (with sequential loading) of the NVIDIA Merlin data loader versus standard in-memory data loading with a Scipy sparse matrix. Benchmarks were run on AWS SageMaker on an EC2 `g4dn.**2x**large` instance. The dataset consists of 10 million cells. Due to memory limitations for the in-memory data loading, the dataset is subsampled to 1.5 million cells.
 
-# Training models
+## Training models
 
 To put into perspective how data loading speed affects the overall training time for a simple MLP model with 25M parameters vs. a large Transformer model, we used the `MappedCollection` and Merlin data loaders in a full training loop. For small models, data loading speed can make overall training prohibitively slow. In contrast, for large models it’s not a bottleneck and only takes about 6s in a typical batch-wise training iteration of more than one minute (**Figure 5**).
 
@@ -116,7 +132,7 @@ To put into perspective how data loading speed affects the overall training time
 
 **Figure 5**: The figure shows qualitative data gathered by two machine learning engineers in exemplary training setups. Data was aggregated in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/core/transform/u4rLXKheYMMB5zKv). Training a simple MLP model with 25M parameters was performed in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/FIXTC6Mk6x137CpJ). The setup for training a Transformer model was as follows: Profiler graph showing the time taken by the data loading / forward / backward during training of a medium-size LLM for RNAseq (scPrint, unpublished work). Using a DELL7820 tower running Ubuntu 20.04 with an Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz, 16 cores, with a 1TB SSD, 32Gb of RAM, and an NVIDIA RTX A4500, 20G GDDR6 GPU.
 
-# Author contributions
+## Author contributions
 
 `*` These authors contributed equally.
 
@@ -140,7 +156,7 @@ Jeremie contributed to `MappedCollection`, created the `scdataloader` package, a
 
 Alex conceived & supervised the study and wrote the bulk of the post.
 
-# Code & data availability
+## Code & data availability
 
 All code used in this blog post is free & open-source.
 
@@ -152,9 +168,9 @@ All code used in this blog post is free & open-source.
 
 CZI hosts the data on AWS S3 in `us-west-2`.
 
-# Appendix
+## Appendix
 
-## Data access strategies of main data loaders
+### Data access strategies
 
 `MappedCollection` implements a pytorch-compatible map-style dataset, enabling lazy reading from a collection of `.h5ad` files. This implies that during batch preparation, it retrieves individual indices (observations) from a collection of `.h5ad` files and then collates them to form a batch. Although slower compared to the iterable-style approach utilized by `Merlin` and the `cellxgene-census` dataloader, this strategy allows true random sampling and weighted sampling of indices. `MappedCollection` builds a shared index of arrays similar to PyTorch `ConcatDataset`, but specialized for the `AnnData` format.
 
@@ -162,10 +178,10 @@ The `cellxgene-census` loads contiguous chunks of indices beforehand and shuffle
 
 Merlin similarly loads contiguous chunks from `.parquet` files to supply batches.
 
-## AnnCollection vs. MappedCollection
+### AnnCollection vs. MappedCollection
 
 ![anncollection.svg](arrayloader-benchmarks/figure_A1.svg)
 
 **Figure A1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/core/transform/qRFAbaUl5bjk65cN))**:** Samples per second to batch-loading data from a 10M x 60k array stored as 138 `.h5ad` files (batch size is 256). `AnnCollection` is slower than `MappedCollection`. `MappedCollection` coupled with PyTorch `DataLoader` scales better than scaling across multiple GPUs, but comes with more constrained indexing compared to `AnnCollection`: it can only select one index at a time and then collate. `AnnCollection` can provide slices of jointly indexed `AnnData` objects as batches that behave more or less like `AnnData` objects but can't stream directly from a disk other than using the restrictive `AnnData`-backed mode.
 
-# References & footnotes
+## References & footnotes
