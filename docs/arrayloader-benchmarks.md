@@ -134,9 +134,9 @@ To put into perspective how data loading speed affects the overall training time
 
 `*` These authors contributed equally.
 
-Sergei performed most benchmarks, developed `MappedCollection` and `AnnCollection`, and co-wrote the post.
+Sergei\* performed most benchmarks, developed `MappedCollection` and `AnnCollection`, and co-wrote the post.
 
-Felix created the MLP training example and the in-memory comparison, suggested testing NVIDIA Merlin for sharded array loading, and co-wrote the post.
+Felix\* created the MLP training example and the in-memory comparison, suggested testing NVIDIA Merlin for sharded array loading, and co-wrote the post.
 
 Maciek created the Multi-GPU benchmark and commented on the text.
 
@@ -158,11 +158,11 @@ Alex conceived & supervised the study and wrote the bulk of the post.
 
 All code used in this blog post is free & open-source.
 
-- Benchmarking scripts: https://github.com/laminlabs/arrayloader-benchmarks
-- Data collections: [https://lamin.ai/laminlabs/arrayloader-benchmarks/collection](https://lamin.ai/laminlabs/arrayloader-benchmarks/collection)
-- Notebooks & benchmarking runs: [https://lamin.ai/laminlabs/arrayloader-benchmarks/transform](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform)
-- `MappedCollection`: [https://lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection) or [https://github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb)
-- `scdataloader`: [https://github.com/jkobject/scDataLoader](https://github.com/jkobject/scDataLoader)
+- Benchmarking scripts: [github.com/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
+- Data collections: [lamin.ai/laminlabs/arrayloader-benchmarks/collection](https://lamin.ai/laminlabs/arrayloader-benchmarks/collection)
+- Notebooks & benchmarking runs: [lamin.ai/laminlabs/arrayloader-benchmarks/transform](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform)
+- `MappedCollection`: [lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection) or [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb)
+- `scdataloader`: [github.com/jkobject/scDataLoader](https://github.com/jkobject/scDataLoader)
 
 CZI hosts the data on AWS S3 in `us-west-2`.
 
