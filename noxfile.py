@@ -1,6 +1,6 @@
 import nox
 from laminci import move_built_docs_to_slash_project_slug
-from laminci.nox import build_docs, run_pre_commit
+from laminci.nox import run_pre_commit
 
 nox.options.default_venv_backend = "none"
 
@@ -12,5 +12,6 @@ def lint(session: nox.Session) -> None:
 
 @nox.session
 def build(session: nox.Session):
-    build_docs(session, strict=True)
+    session.run(*"pip install ./lndocs".split())
+    session.run(*["lndocs", "--strict"])
     move_built_docs_to_slash_project_slug()
