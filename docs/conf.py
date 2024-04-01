@@ -7,6 +7,7 @@ sys.path[:0] = [str(HERE), str(HERE.parent)]
 
 from lamin_sphinx import *  # noqa
 from lamin_sphinx import html_theme_options, html_context  # noqa
+import lndocs  # noqa
 
 project = "Lamin Blog"
 html_title = f"{project}"
@@ -46,6 +47,7 @@ authors = {
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
 }
+lndocs.authors = authors
 
 blog_baseurl = "https://lamin.ai/blog"
 blog_post_pattern = "*"
