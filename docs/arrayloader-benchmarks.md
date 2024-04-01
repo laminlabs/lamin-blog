@@ -72,7 +72,7 @@ Here, `MappedCollection` is a map-style PyTorch data loader resulting in ~1.5k s
 
 ![](arrayloader-benchmarks/figure_1.svg)
 
-**Figure 1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/faAhgiIDemaP4BB5))**:** We compared NVIDIA Merlin based on a local collection of parquet files, `MappedCollection` based on a local collection of h5ad files, and `cellxgene_census` based on a `tiledbsoma` store in the cloud. Shown is the batch loading time (standard boxplot, **left**), the time per epoch (barplot, **center**), and the number of samples loaded per second (barplot, **right**) with statistics gathered across ~50k batch loading operations during 5 epochs for each method. The raw data consists of 138 `.h5ad` files hosted by CZI and was transformed into parquet files [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/GjHlkZOA4wKp5zKv). For `cellxgene_census`, we use the concatenated version `tiledbsoma` store hosted by CZI and access from within the same AWS data center `us-west-2` for maximal streaming speed ([benchmark](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/Md9ea0bLFozt65cN)). Outside of `us-west-2`, the speed is _much_ slower. We ran all benchmarks on AWS SageMaker using a `ml.g4dn.2xlarge` EC2 instance. NVIDIA Merlin runs into memory overflow during the benchmark, and we manually triggered the garbage collector.
+**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/faAhgiIDemaP4BB5))**: We compared NVIDIA Merlin based on a local collection of parquet files, `MappedCollection` based on a local collection of h5ad files, and `cellxgene_census` based on a `tiledbsoma` store in the cloud. Shown is the batch loading time (standard boxplot, **left**), the time per epoch (barplot, **center**), and the number of samples loaded per second (barplot, **right**) with statistics gathered across ~50k batch loading operations during 5 epochs for each method. The raw data consists of 138 `.h5ad` files hosted by CZI and was transformed into parquet files [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/GjHlkZOA4wKp5zKv). For `cellxgene_census`, we use the concatenated version `tiledbsoma` store hosted by CZI and access from within the same AWS data center `us-west-2` for maximal streaming speed ([benchmark](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/Md9ea0bLFozt65cN)). Outside of `us-west-2`, the speed is _much_ slower. We ran all benchmarks on AWS SageMaker using a `ml.g4dn.2xlarge` EC2 instance. NVIDIA Merlin runs into memory overflow during the benchmark, and we manually triggered the garbage collector.
 
 ### Sampling batches from large array collections
 
@@ -112,7 +112,7 @@ We investigated whether `MappedCollection` would work well for scaling training 
 
 ![](arrayloader-benchmarks/figure_3.svg)
 
-**Figure 3** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/AIJLqKqM0I4p5zKv)): Samples per second loading from 9 `.h5ad` files with 775k samples in a Distributed Data-Parallel setup with 1, 2, and 4 GPUs.
+**Figure 3 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/AIJLqKqM0I4p5zKv))**: Samples per second loading from 9 `.h5ad` files with 775k samples in a Distributed Data-Parallel setup with 1, 2, and 4 GPUs.
 
 ## Batch-loading from disk versus in-memory loading
 
@@ -120,7 +120,7 @@ How do data-loading times with NVIDIA Merlin compare to loading directly from me
 
 ![](arrayloader-benchmarks/figure_4.svg)
 
-**Figure 4** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/DLI9rznI2PcT5zKv)): Data loading performance during model training (with random access) and inference (with sequential loading) of the NVIDIA Merlin data loader versus standard in-memory data loading with a Scipy sparse matrix. Benchmarks were run on AWS SageMaker on an EC2 `g4dn.**2x**large` instance. The dataset consists of 10 million cells. Due to memory limitations for the in-memory data loading, the dataset is subsampled to 1.5 million cells.
+**Figure 4 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/DLI9rznI2PcT5zKv))**: Data loading performance during model training (with random access) and inference (with sequential loading) of the NVIDIA Merlin data loader versus standard in-memory data loading with a Scipy sparse matrix. Benchmarks were run on AWS SageMaker on an EC2 `g4dn.**2x**large` instance. The dataset consists of 10 million cells. Due to memory limitations for the in-memory data loading, the dataset is subsampled to 1.5 million cells.
 
 ## Training models
 
