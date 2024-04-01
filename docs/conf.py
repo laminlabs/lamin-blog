@@ -32,15 +32,17 @@ html_theme_options["icon_links"] = [
 # Blog
 
 authors = {
-    "bpenteado": ("Bernardo Penteado", "https://pbern.com"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "falexwolf": ("Alex Wolf", "https://falexwolf.me"),
-    "felix-fischer*": ("Felix Fischer*", ""),
-    "maciek-wiatrak": ("Maciek Wiatrak", ""),
-    "ilan-gold": ("Ilan Gold", ""),
-    "fabian-theis": ("Fabian Theis", ""),
+    "felix-fischer*": ("Felix Fischer*", "https://github.com/felix0097"),
+    "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
+    "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
+    "fabian-theis": (
+        "Fabian Theis",
+        "https://scholar.google.com/citations?user=sqWpn2AAAAAJ&hl=en",
+    ),
     "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
-    "yanay-rosen": ("Yanay Rosen", ""),
+    "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
     "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
     "Koncopd*": ("Sergei Rybakov*", "https://github.com/Koncopd"),
