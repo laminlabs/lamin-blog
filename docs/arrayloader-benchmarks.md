@@ -28,18 +28,16 @@ A few labs and companies now train models on large-scale scRNA-seq count matrice
 We study different approaches to building data loaders and, through a series of benchmarks, identify three favorable setups:
 
 1. **Easy & flexible:** Use weighted random sampling from a locally cached `.h5ad` collection at ~1.5k samples/sec.
-2. **Fastest:** Use `NVIDIA Merlin` for unweighted chunked random sampling from a locally cached `.parquet` collection at ~9k samples/sec.
+2. **Fastest:** Use NVIDIA Merlin for unweighted chunked random sampling from a locally cached `.parquet` collection at ~9k samples/sec.
 3. **Uncached:** If you run the training in the AWS data center that hosts the data, use `tiledbsoma` for unweighted random sampling at ~1.5k samples/sec directly from the cloud.
 
-Hence, you can train compute-limited foundation models based on harmonized data collections in their original format (`.h5ad`). To enable it out-of-the-box, we developed `MappedCollection`, an implementation of a pytorch-compatible map-style dataset.
-
-By contrast, if your model is data-loading-limited because it has fewer parameters, it’s worthwhile to transform a collection of `.h5ad` files into `.parquet`. And if you don’t want to work with a cache and don’t need weighted sampling, you can transform the collection into a monolithic `tiledbsoma` array.
+Hence, you can train compute-limited foundation models directly on harmonized array collections. To enable this out-of-the-box, we developed `MappedCollection`, a pytorch-compatible map-style dataset that virtually concatenates array shards. If your model is data-loading-limited because it has fewer parameters, it’s worthwhile to transform a collection of `.h5ad` files into `.parquet`. And if you don’t want to work with a cache and don’t need weighted sampling, you can transform the collection into a monolithic `tiledbsoma` array.
 
 ---
 
 ## From scVI to Transformers
 
-If your scRNA-seq dataset still fits into memory, you can use `scvi-tools` [data loaders](https://docs.scvi-tools.org/en/stable/api/reference/scvi.dataloaders.AnnDataLoader.html) and stop reading this post. But given large-scale public & private data collection efforts like CELLxGENE [add ref]now enable the training of deep learning models across hundreds of datasets and tens of millions of individual cells, you’re probably tempted to scale beyond data that fits into memory.
+If your scRNA-seq dataset still fits into memory, you can use `scvi-tools` [data loaders](https://docs.scvi-tools.org/en/stable/api/reference/scvi.dataloaders.AnnDataLoader.html) and stop reading this post. But given large-scale public & private data collection efforts like CELLxGENE now enable the training of deep learning models across hundreds of datasets and tens of millions of individual cells, you’re probably tempted to scale beyond data that fits into memory.
 
 When working with large-scale scRNA-seq, you’ll likely attempt to train one of the following model classes:
 
@@ -183,5 +181,3 @@ Merlin similarly loads contiguous chunks from `.parquet` files to supply batches
 ![anncollection.svg](arrayloader-benchmarks/figure_A1.svg)
 
 **Figure A1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/core/transform/qRFAbaUl5bjk65cN))**:** Samples per second to batch-loading data from a 10M x 60k array stored as 138 `.h5ad` files (batch size is 256). `AnnCollection` is slower than `MappedCollection`. `MappedCollection` coupled with PyTorch `DataLoader` scales better than scaling across multiple GPUs, but comes with more constrained indexing compared to `AnnCollection`: it can only select one index at a time and then collate. `AnnCollection` can provide slices of jointly indexed `AnnData` objects as batches that behave more or less like `AnnData` objects but can't stream directly from a disk other than using the restrictive `AnnData`-backed mode.
-
-## References & footnotes
