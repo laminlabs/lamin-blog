@@ -74,13 +74,13 @@ Here, `MappedCollection` is a map-style PyTorch data loader resulting in ~1.5k s
 
 **Figure 1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/faAhgiIDemaP4BB5))**:** We compared NVIDIA Merlin based on a local collection of parquet files, `MappedCollection` based on a local collection of h5ad files, and `cellxgene_census` based on a `tiledbsoma` store in the cloud. Shown is the batch loading time (standard boxplot, **left**), the time per epoch (barplot, **center**), and the number of samples loaded per second (barplot, **right**) with statistics gathered across ~50k batch loading operations during 5 epochs for each method. The raw data consists of 138 `.h5ad` files hosted by CZI and was transformed into parquet files [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/GjHlkZOA4wKp5zKv). For `cellxgene_census`, we use the concatenated version `tiledbsoma` store hosted by CZI and access from within the same AWS data center `us-west-2` for maximal streaming speed ([benchmark](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/Md9ea0bLFozt65cN)). Outside of `us-west-2`, the speed is _much_ slower. We ran all benchmarks on AWS SageMaker using a `ml.g4dn.2xlarge` EC2 instance. NVIDIA Merlin runs into memory overflow during the benchmark, and we manually triggered the garbage collector.
 
-### Sampling batches from large array collections: NVIDIA Merlin, MappedCollection, AnnCollection
+### Sampling batches from large array collections
 
 NVIDIA Merlin’s faster data loading speed is likely not due to the storage format but to sampling row groups (chunks) rather than isolated samples. Weighted sampling of isolated samples, however, is often needed to enrich for rare events like rare cell types, avoid overfitting certain experiments, or build other incentives into cost functions. As this is crucial for many applications, `MappedCollection` chooses single-sample access, accepting the data loading performance penalty (for more details, see Appendix).
 
 There is another data loader for on-disk streaming of a collection of `.h5ad` files: `AnnCollection` from `anndata`. Benchmarking on a single GPU, we find that `AnnCollection` is about a factor 2 slower than `MappedCollection` (**Figure A1**) and less easy to scale to multiple GPUs.
 
-### Sampling directly from the cloud: tiledbsoma, StreamingDataset, MappedCollection, zarr
+### Sampling directly from the cloud
 
 There are situations where it can make sense not to cache data locally while training a machine-learning model. For instance, if local storage space is limited or ad hoc queries are a frequent access pattern that complements training models. Several technologies allow streaming directly from the cloud, e.g., `tiledbsoma`, `StreamingDataset`, `zarr`, and `MappedCollection` from object stores or BigQuery & Snowflake when using integrated data warehouses. Whether live-streaming data from the cloud is a viable route depends primarily on whether you want to train models in the same cloud provider data center that hosts the data.
 
