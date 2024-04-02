@@ -23,8 +23,7 @@ repo: https://github.com/laminlabs/arrayloader-benchmarks
 
 ---
 
-```{admonition} Summary
-
+```
 A few labs and companies now train models on large-scale scRNA-seq count matrices and related data modalities. But unlike for many other data types, there isn’t yet a playbook for data scales that don’t fit into memory.
 
 We study different approaches to building data loaders and, through a series of benchmarks, identify three favorable setups:
