@@ -111,7 +111,7 @@ We investigated whether `MappedCollection` would work well for scaling training 
 
 ![](arrayloader-benchmarks/figure_3.svg)
 
-**Figure 3 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/AIJLqKqM0I4p5zKv))**: Samples per second loading from 9 `.h5ad` files with 775k samples in a Distributed Data-Parallel setup with 1, 2, and 4 GPUs.
+**Figure 3 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/AIJLqKqM0I4p5zKv))**: Samples per second loading from 9 `.h5ad` files with 775k samples in a Distributed Data-Parallel setup with 1, 2, and 4 NVIDIA A100 GPUs.
 
 ## Batch-loading from disk versus in-memory loading
 
