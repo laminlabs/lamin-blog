@@ -107,7 +107,7 @@ The access pattern for all backends in this benchmark differs from Figure 1. In 
 
 ## Scaling training across multiple GPUs
 
-We investigated whether `MappedCollection` would work well for scaling training across multiple GPUs. It works out of the box, and the speedup scales directly with the number of GPUs (**Figure 3**). Streamable datasets also scale across multiple GPUs, but typically require orchestrating workers.
+We investigated whether `MappedCollection` would work well for scaling training across multiple GPUs. It works out of the box, and the speedup scales directly with the number of GPUs (**Figure 3**). Streamable datasets also scale across multiple GPUs, but typically require orchestrating workers and do not support full shuffling and weighted sampling by default.
 
 ![](arrayloader-benchmarks/figure_3.svg)
 
