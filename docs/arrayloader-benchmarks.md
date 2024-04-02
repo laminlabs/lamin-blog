@@ -1,7 +1,6 @@
 ---
 title: "Training foundation models on large collections of scRNA-seq data"
 date: 2024-04-01
-number: 5
 author: Koncopd*, felix-fischer*, maciek-wiatrak, ilan-gold, yanay-rosen, sunnyosun, chaichontat, fabian-theis, jkobject, falexwolf
 orcid:
   Koncopd: 0000-0002-4944-6586
@@ -17,7 +16,7 @@ affiliation:
   fabian-theis: Helmholtz Munich
   jkobject: ENS Ulm
   falexwolf: Lamin Labs, Munich
-docs: https://lamin.ai/laminlabs/arrayloader-benchmarks
+db: https://lamin.ai/laminlabs/arrayloader-benchmarks
 repo: https://github.com/laminlabs/arrayloader-benchmarks
 ---
 
