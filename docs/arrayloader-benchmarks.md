@@ -68,7 +68,7 @@ Consider a 10M x 20k array that stores vectors measuring expression of 20k genes
 2. a collection of 311 `.parquet` files, streamed from a local cache with NVIDIA Merlin
 3. a single `tiledbsoma` array, streamed from the cloud with `cellxgene_census`
 
-Here, `MappedCollection` is a map-style PyTorch data loader resulting in ~1.5k samples/sec, NVIDIA Merlin samples row-groups resulting in ~9k samples/sec, and `cellxgene_census` offers a high-level PyTorch interface that results in ~1.5k samples/sec (**Figure 1**).
+Here, `MappedCollection` is a [map-style PyTorch data loader](https://lamin.ai/docs/lamindb.core.mappedcollection) resulting in ~1.5k samples/sec, NVIDIA Merlin samples row-groups resulting in ~9k samples/sec, and `cellxgene_census` offers a [high-level PyTorch interface](https://chanzuckerberg.github.io/cellxgene-census/python-api.html) that results in ~1.5k samples/sec (**Figure 1**).
 
 ![](arrayloader-benchmarks/figure_1.svg)
 
