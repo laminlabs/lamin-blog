@@ -47,15 +47,16 @@ The only out-of-the-box data loader that enables to train on out-of-memory-size 
 
 More importantly, it’s not straightforward to train models on a combination of the CELLxGENE data and in-house datasets, typically stored as `.h5ad` files. Concatenating existing `.h5ad` collections into large `tiledbsoma` arrays requires significant data wrangling and compute.
 
-We wanted to understand if there are less restrictive and simpler ways of setting up the model training process and realized we’d have to make 1440 decisions:
+We wanted to understand if there are less restrictive and simpler ways of setting up the model training process and realized we’d have to make 1440 decisions across 6 access layers:
 
-| A   | access (2)          | cloud vs. local (data is on AWS S3/GCP vs. data is on local disk)                            |
-| --- | ------------------- | -------------------------------------------------------------------------------------------- |
-| B   | shuffling (2)       | shuffling as a pre-processing step vs. random sampling from an array backend                 |
-| C   | concatenation (2)   | collection of smaller arrays (”shards”) vs. one large concatenated array                     |
-| D   | row groups (4)      | sampling single rows vs. row groups                                                          |
-| E   | storage backend (9) | HDF5, Zarr, parquet, TileDB, StreamingDataset, BigQuery, Snowflake, Apache Iceberg, RDBMS, … |
-| F   | data accessors (5)  | NVIDIA Merlin, tiledbsoma, MappedCollection, AnnCollection, tensorstore, …                   |
+| layer           | choices                                                                                      | #choices |
+| --------------- | -------------------------------------------------------------------------------------------- | -------- |
+| cache           | direct cloud vs. local cache (data is on AWS S3/GCP vs. data is in local cache)              | 2        |
+| shuffling       | shuffling as a pre-processing step vs. random sampling from an array backend                 | 2        |
+| concatenation   | collection of smaller arrays (”shards”) vs. one large concatenated array                     | 2        |
+| row groups      | sampling single rows vs. row groups                                                          | 4        |
+| storage backend | HDF5, Zarr, parquet, TileDB, StreamingDataset, BigQuery, Snowflake, Apache Iceberg, RDBMS, … | 9        |
+| data loader     | NVIDIA Merlin, tiledbsoma, MappedCollection, AnnCollection, tensorstore, …                   | 5        |
 
 To navigate these decisions, we performed several benchmarks.
 
