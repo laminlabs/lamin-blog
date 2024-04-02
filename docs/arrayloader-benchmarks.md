@@ -102,7 +102,7 @@ Depending on the format, the dataset needs 100MB to 2.5GB of space on disk (**Fi
 
 ![](arrayloader-benchmarks/figure_2b.svg)
 
-**Figure 2b ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/core/transform/1GCKs8zLtkc82llI))**: Storage characteristics for the same dataset and array backends as in Figure 2a.
+**Figure 2b ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/1GCKs8zLtkc82llI))**: Storage characteristics for the same dataset and array backends as in Figure 2a.
 
 The access pattern for all backends in this benchmark differs from Figure 1. In Figure 2a, simple dataloaders pull a single batch of random indices for hdf5, zarr, and tiledbsoma every iteration without collation or pre-loading. This differs from how `Merlin`, `MappedCollection`, and the `cellxgene-census` data loaders access the underlying data to generate batches. `MappedCollection` pulls single indices and collates them into batches and `cellxgene-census` preloads contiguous chunks of indices and then shuffles them to provide batches. `Merlin` also loads contiguous chunks of indices.
 
@@ -128,7 +128,7 @@ To put into perspective how data loading speed affects the overall training time
 
 ![](arrayloader-benchmarks/figure_5.svg)
 
-**Figure 5**: The figure shows qualitative data gathered by two machine learning engineers in exemplary training setups. Data was aggregated in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/core/transform/u4rLXKheYMMB5zKv). Training a simple MLP model with 25M parameters was performed in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/FIXTC6Mk6x137CpJ). The setup for training a Transformer model was as follows: Profiler graph showing the time taken by the data loading / forward / backward during training of a medium-size LLM for RNAseq (scPrint, unpublished work). Using a DELL7820 tower running Ubuntu 20.04 with an Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz, 16 cores, with a 1TB SSD, 32Gb of RAM, and an NVIDIA RTX A4500, 20G GDDR6 GPU.
+**Figure 5**: The figure shows qualitative data gathered by two machine learning engineers in exemplary training setups. Data was aggregated in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/u4rLXKheYMMB5zKv). Training a simple MLP model with 25M parameters was performed in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/FIXTC6Mk6x137CpJ). The setup for training a Transformer model was as follows: Profiler graph showing the time taken by the data loading / forward / backward during training of a medium-size LLM for RNAseq (scPrint, unpublished work). Using a DELL7820 tower running Ubuntu 20.04 with an Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz, 16 cores, with a 1TB SSD, 32Gb of RAM, and an NVIDIA RTX A4500, 20G GDDR6 GPU.
 
 ## Author contributions
 
@@ -159,7 +159,7 @@ Alex conceived & supervised the study and wrote the bulk of the post.
 All code used in this blog post is free & open-source.
 
 - Benchmarking scripts: [github.com/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
-- Data collections: [lamin.ai/laminlabs/arrayloader-benchmarks/collection](https://lamin.ai/laminlabs/arrayloader-benchmarks/collection)
+- Data collections: [lamin.ai/laminlabs/arrayloader-benchmarks/collection](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact)
 - Notebooks & benchmarking runs: [lamin.ai/laminlabs/arrayloader-benchmarks/transform](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform)
 - `MappedCollection`: [lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection) or [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb)
 - `scdataloader`: [github.com/jkobject/scDataLoader](https://github.com/jkobject/scDataLoader)
@@ -180,4 +180,4 @@ Merlin similarly loads contiguous chunks from `.parquet` files to supply batches
 
 ![anncollection.svg](arrayloader-benchmarks/figure_A1.svg)
 
-**Figure A1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/core/transform/qRFAbaUl5bjk65cN))**:** Samples per second to batch-loading data from a 10M x 60k array stored as 138 `.h5ad` files (batch size is 256). `AnnCollection` is slower than `MappedCollection`. `MappedCollection` coupled with PyTorch `DataLoader` scales better than scaling across multiple GPUs, but comes with more constrained indexing compared to `AnnCollection`: it can only select one index at a time and then collate. `AnnCollection` can provide slices of jointly indexed `AnnData` objects as batches that behave more or less like `AnnData` objects but can't stream directly from a disk other than using the restrictive `AnnData`-backed mode.
+**Figure A1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/qRFAbaUl5bjk65cN))**:** Samples per second to batch-loading data from a 10M x 60k array stored as 138 `.h5ad` files (batch size is 256). `AnnCollection` is slower than `MappedCollection`. `MappedCollection` coupled with PyTorch `DataLoader` scales better than scaling across multiple GPUs, but comes with more constrained indexing compared to `AnnCollection`: it can only select one index at a time and then collate. `AnnCollection` can provide slices of jointly indexed `AnnData` objects as batches that behave more or less like `AnnData` objects but can't stream directly from a disk other than using the restrictive `AnnData`-backed mode.
