@@ -30,7 +30,7 @@ We study different approaches to building data loaders and, through a series of 
 2. **Fastest:** Use NVIDIA Merlin for unweighted chunked random sampling from a locally cached `.parquet` collection at ~9k samples/sec.
 3. **Uncached:** If you run the training in the AWS data center that hosts the data, use `tiledbsoma` for unweighted random sampling at ~1.5k samples/sec directly from the cloud.
 
-Hence, you can train compute-limited foundation models directly on harmonized array collections. To enable this out-of-the-box, we developed `MappedCollection`, a pytorch-compatible map-style dataset that virtually concatenates array shards. If your model is data-loading-limited because it has fewer parameters, it’s worthwhile to transform a collection of `.h5ad` files into `.parquet`. And if you don’t want to work with a cache and don’t need weighted sampling, you can transform the collection into a monolithic `tiledbsoma` array.
+In the first setup, you train compute-limited foundation models on harmonized array collections. To enable this out-of-the-box, we developed `MappedCollection`, a pytorch-compatible map-style dataset that virtually concatenates arrays. If your model is data-loading-limited because it has fewer parameters, it’s worthwhile to transform a collection of `.h5ad` files into `.parquet` and leverage the second setup. And if you don’t want to work with a cache and don’t need weighted sampling, you can transform the collection into a large `tiledbsoma` array and leverage setup 3.
 
 ---
 
