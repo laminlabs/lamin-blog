@@ -1,6 +1,6 @@
 ---
 title: "Training foundation models on large collections of scRNA-seq data"
-date: 2024-04-01
+date: 2024-04-03
 author: Koncopd*, felix-fischer*, maciek-wiatrak, ilan-gold, yanay-rosen, sunnyosun, chaichontat, fabian-theis, jkobject, falexwolf
 orcid:
   Koncopd: 0000-0002-4944-6586
