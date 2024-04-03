@@ -70,7 +70,7 @@ Consider a 10M x 20k array that stores vectors measuring expression of 20k genes
 
 Here, `MappedCollection` is a [map-style PyTorch data loader](https://lamin.ai/docs/lamindb.core.mappedcollection) resulting in ~1.5k samples/sec, NVIDIA Merlin samples row-groups resulting in ~9k samples/sec, and `cellxgene_census` offers a [high-level PyTorch interface](https://chanzuckerberg.github.io/cellxgene-census/python-api.html) that results in ~1.5k samples/sec (**Figure 1**).
 
-![](arrayloader-benchmarks/figure_1.svg)
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/n9cf1yZzUpMNiPmZqo3m.svg)
 
 **Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/faAhgiIDemaP4BB5))**: We compared NVIDIA Merlin based on a local collection of parquet files, `MappedCollection` based on a local collection of h5ad files, and `cellxgene_census` based on a `tiledbsoma` store in the cloud. Shown is the batch loading time (standard boxplot, **left**), the time per epoch (barplot, **center**), and the number of samples loaded per second (barplot, **right**) with statistics gathered across ~50k batch loading operations during 5 epochs for each method. The raw data consists of 138 `.h5ad` files hosted by CZI and was transformed into parquet files [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/GjHlkZOA4wKp5zKv). For `cellxgene_census`, we use the concatenated version `tiledbsoma` store hosted by CZI and access from within the same AWS data center `us-west-2` for maximal streaming speed ([benchmark](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/Md9ea0bLFozt65cN)). Outside of `us-west-2`, the speed is _much_ slower. We ran all benchmarks on AWS SageMaker using a `ml.g4dn.2xlarge` EC2 instance. NVIDIA Merlin runs into memory overflow during the benchmark, and we manually triggered the garbage collector.
 
@@ -94,13 +94,13 @@ To understand the performance difference in the large-scale benchmark, we though
 
 Such a single dataset is typically generated in a single wetlab study that performs a small number of experiments. In the benchmark, accessing the array through HDF5 takes the least time, and zarr, tiledbsoma & parquet are at least a factor 10 slower (**Figure 2a**).
 
-![](arrayloader-benchmarks/figure_2a.svg)
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/c7qJKZLlcPa55JiPCbAZ.svg)
 
 **Figure 2a ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/1GCKs8zLtkc82llI))**: Benchmarking the time for loading batches of size 128 from a 142k × 5k array across 4 epochs and a range of array backends and configurations. The benchmark was run on AWS SageMaker on a `ml.g4dn.2xlarge` instance.
 
 Depending on the format, the dataset needs 100MB to 2.5GB of space on disk (**Figure 2b**).
 
-![](arrayloader-benchmarks/figure_2b.svg)
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/sxppQ8tyNIKVxdIbcWyv.svg)
 
 **Figure 2b ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/1GCKs8zLtkc82llI))**: Storage characteristics for the same dataset and array backends as in Figure 2a.
 
@@ -110,7 +110,7 @@ The access pattern for all backends in this benchmark differs from Figure 1. In 
 
 We investigated whether `MappedCollection` would work well for scaling training across multiple GPUs. It works out of the box, and the speedup scales directly with the number of GPUs (**Figure 3**). Streamable datasets also scale across multiple GPUs, but typically require orchestrating workers and do not support full shuffling and weighted sampling by default.
 
-![](arrayloader-benchmarks/figure_3.svg)
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/z8uQf1Jt1GrsjrfadFFU.svg)
 
 **Figure 3 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/AIJLqKqM0I4p5zKv))**: Samples per second loading from 9 `.h5ad` files with 775k samples in a Distributed Data-Parallel setup with 1, 2, and 4 NVIDIA A100 GPUs.
 
@@ -118,7 +118,7 @@ We investigated whether `MappedCollection` would work well for scaling training 
 
 How do data-loading times with NVIDIA Merlin compare to loading directly from memory? We compared `Merlin` to a data-loader that indexes into a sparse Scipy matrix. Similar as for the standard scVI data loader, we index into the sparse matrix in batches as this significantly speeds up access times. As expected, in-memory data loading with Scipy achieves faster loading times, especially for random access (**Figure 4**).
 
-![](arrayloader-benchmarks/figure_4.svg)
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/oO0gImr5kB783JKUhrQZ.svg)
 
 **Figure 4 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/DLI9rznI2PcT5zKv))**: Data loading performance during model training (with random access) and inference (with sequential loading) of the NVIDIA Merlin data loader versus standard in-memory data loading with a Scipy sparse matrix. Benchmarks were run on AWS SageMaker on an EC2 `g4dn.**2x**large` instance. The dataset consists of 10 million cells. Due to memory limitations for the in-memory data loading, the dataset is subsampled to 1.5 million cells.
 
@@ -126,7 +126,7 @@ How do data-loading times with NVIDIA Merlin compare to loading directly from me
 
 To put into perspective how data loading speed affects the overall training time for a simple MLP model with 25M parameters vs. a large Transformer model, we used the `MappedCollection` and Merlin data loaders in a full training loop. For small models, data loading speed can make overall training prohibitively slow. In contrast, for large models it’s not a bottleneck and only takes about 6s in a typical batch-wise training iteration of more than one minute (**Figure 5**).
 
-![](arrayloader-benchmarks/figure_5.svg)
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/RlwaVt7xBFVZqzP3INtk.svg" width="700">
 
 **Figure 5**: The figure shows qualitative data gathered by two machine learning engineers in exemplary training setups. Data was aggregated in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/u4rLXKheYMMB5zKv). Training a simple MLP model with 25M parameters was performed in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/FIXTC6Mk6x137CpJ). The setup for training a Transformer model was as follows: Profiler graph showing the time taken by the data loading / forward / backward during training of a medium-size LLM for RNAseq (scPrint, unpublished work). Using a DELL7820 tower running Ubuntu 20.04 with an Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz, 16 cores, with a 1TB SSD, 32Gb of RAM, and an NVIDIA RTX A4500, 20G GDDR6 GPU.
 
@@ -182,6 +182,6 @@ Merlin similarly loads contiguous chunks from `.parquet` files to supply batches
 
 ### AnnCollection vs. MappedCollection
 
-![anncollection.svg](arrayloader-benchmarks/figure_A1.svg)
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/xpOplPPUAENNQkxfefYb.svg)
 
 **Figure A1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/qRFAbaUl5bjk65cN))**:** Samples per second to batch-loading data from a 10M x 60k array stored as 138 `.h5ad` files (batch size is 256). `AnnCollection` is slower than `MappedCollection`. `MappedCollection` coupled with PyTorch `DataLoader` scales better than scaling across multiple GPUs, but comes with more constrained indexing compared to `AnnCollection`: it can only select one index at a time and then collate. `AnnCollection` can provide slices of jointly indexed `AnnData` objects as batches that behave more or less like `AnnData` objects but can't stream directly from a disk other than using the restrictive `AnnData`-backed mode.
