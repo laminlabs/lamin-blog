@@ -132,7 +132,7 @@ To put into perspective how data loading speed affects the overall training time
 
 ## Outlook
 
-Much is left to investigate, and we plan to study additional setups, additional access patterns (inference & ad hoc queries) and additional data types in future blog posts.
+Much is left to investigate, and we plan to study additional setups, additional access patterns (inference & ad hoc queries) and additional data types in the future.
 
 ## Author contributions
 
