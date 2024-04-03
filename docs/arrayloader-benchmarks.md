@@ -130,6 +130,10 @@ To put into perspective how data loading speed affects the overall training time
 
 **Figure 5**: The figure shows qualitative data gathered by two machine learning engineers in exemplary training setups. Data was aggregated in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/u4rLXKheYMMB5zKv). Training a simple MLP model with 25M parameters was performed in this [notebook](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/FIXTC6Mk6x137CpJ). The setup for training a Transformer model was as follows: Profiler graph showing the time taken by the data loading / forward / backward during training of a medium-size LLM for RNAseq (scPrint, unpublished work). Using a DELL7820 tower running Ubuntu 20.04 with an Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz, 16 cores, with a 1TB SSD, 32Gb of RAM, and an NVIDIA RTX A4500, 20G GDDR6 GPU.
 
+## Outlook
+
+Much is left to investigate, and we plan to study additional setups, additional access patterns (inference & ad hoc queries) and additional data types in future blog posts.
+
 ## Author contributions
 
 `*` These authors contributed equally.
