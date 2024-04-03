@@ -163,12 +163,10 @@ Alex conceived & supervised the study and wrote the bulk of the post.
 All code used in this blog post is free & open-source.
 
 - Benchmarking scripts: [github.com/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
-- Benchmarking data: [lamin.ai/laminlabs/arrayloader-benchmarks/artifacts](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact)
+- Benchmarking data: [lamin.ai/laminlabs/arrayloader-benchmarks/artifact](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact)
 - Notebooks & benchmarking runs: [lamin.ai/laminlabs/arrayloader-benchmarks/transform](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform)
 - `MappedCollection`: [lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection) or [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb)
 - `scdataloader`: [github.com/jkobject/scDataLoader](https://github.com/jkobject/scDataLoader)
-
-CZI hosts the data on AWS S3 in `us-west-2`.
 
 ## Appendix
 
