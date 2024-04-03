@@ -6,7 +6,8 @@ HERE = Path(__file__).parent
 sys.path[:0] = [str(HERE), str(HERE.parent)]
 
 from lamin_sphinx import *  # noqa
-from lamin_sphinx import authors, html_theme_options, html_context  # noqa
+from lamin_sphinx import html_theme_options, html_context  # noqa
+import lndocs  # noqa
 
 project = "Lamin Blog"
 html_title = f"{project}"
@@ -29,6 +30,27 @@ html_theme_options["icon_links"] = [
 ]
 
 # Blog
+
+authors = {
+    "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
+    "falexwolf": ("Alex Wolf", "https://falexwolf.me"),
+    "felix-fischer*": ("Felix Fischer*", "https://github.com/felix0097"),
+    "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
+    "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
+    "fabian-theis": (
+        "Fabian Theis",
+        "https://scholar.google.com/citations?user=sqWpn2AAAAAJ&hl=en",
+    ),
+    "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
+    "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
+    "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
+    "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
+    "Koncopd*": ("Sergei Rybakov*", "https://github.com/Koncopd"),
+    "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
+    "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
+}
+lndocs.authors = authors
+
 blog_baseurl = "https://lamin.ai/blog"
 blog_post_pattern = "*"
 blog_authors = authors
