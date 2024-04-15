@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+🩹 Fix uids | [18](https://github.com/laminlabs/lamin-blog/pull/18) | [falexwolf](https://github.com/falexwolf) | 2024-04-15 |
 🍱 Add arrayloader-benchmark | [17](https://github.com/laminlabs/lamin-blog/pull/17) | [falexwolf](https://github.com/falexwolf) | 2024-04-03 |
 🚚 Move slugs to root level | [16](https://github.com/laminlabs/lamin-blog/pull/16) | [falexwolf](https://github.com/falexwolf) | 2024-03-01 |
 🚚 Adjust image links to new prefix | [15](https://github.com/laminlabs/lamin-blog/pull/15) | [falexwolf](https://github.com/falexwolf) | 2023-09-18 |
