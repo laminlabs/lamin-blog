@@ -12,6 +12,6 @@ def lint(session: nox.Session) -> None:
 
 @nox.session
 def build(session: nox.Session):
-    session.run(*"uv pip install --user -e ./lndocs".split())
+    session.run(*"uv pip install -- --user ./lndocs".split())
     session.run(*["lndocs", "--strict"])
     move_built_docs_to_slash_project_slug()
