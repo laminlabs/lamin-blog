@@ -12,6 +12,11 @@ def lint(session: nox.Session) -> None:
 
 @nox.session
 def build(session: nox.Session):
-    session.run(*"cd ./lndocs && uv pip install --system -e .".split())
+    prefix = "." if Path("./lndocs").exists() else ".."
+    if nox.options.default_venv_backend == "none":
+        session.run(*f"uv pip install --system {prefix}/lndocs".split())
+    else:
+        session.install(f"{prefix}/lndocs")
+
     session.run(*["lndocs", "--strict"])
     move_built_docs_to_slash_project_slug()
