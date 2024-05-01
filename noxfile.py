@@ -1,4 +1,5 @@
 import nox
+from pathlib import Path
 from laminci import move_built_docs_to_slash_project_slug
 from laminci.nox import run_pre_commit
 
