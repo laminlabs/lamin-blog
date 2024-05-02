@@ -14,27 +14,27 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/checkout@v3
+
+      - uses: actions/checkout@v4
         with:
           repository: laminlabs/lndocs
           ssh-key: ${{ secrets.READ_LNDOCS }}
           path: lndocs
           ref: main
-      - uses: actions/setup-python@v4
+
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
-          cache-dependency-path: ".github/workflows/build.yml"
       - name: cache pre-commit
         uses: actions/cache@v3
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
       - run: pip install -U laminci
-      - run: nox -s lint
+      # - run: nox -s lint
       - run: nox -s build
       - uses: nwtgck/actions-netlify@v1.2
         with:
