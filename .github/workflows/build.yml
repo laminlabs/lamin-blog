@@ -22,7 +22,7 @@ jobs:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
       - run: pip install -U laminci
-      - run: uv pip install --system "lndocs[blog]@git+https://x-access-token:${{ secrets.LAMIN_BUILD_DOCS }}@github.com/laminlabs/lndocs"
+      - run: pip install "lndocs[blog]@git+https://x-access-token:${{ secrets.LAMIN_BUILD_DOCS }}@github.com/laminlabs/lndocs"
       # - run: nox -s lint
       - run: nox -s build
       - uses: nwtgck/actions-netlify@v1.2
