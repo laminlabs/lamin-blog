@@ -6,7 +6,7 @@ HERE = Path(__file__).parent
 sys.path[:0] = [str(HERE), str(HERE.parent)]
 
 from lamin_sphinx import *  # noqa
-from lamin_sphinx import html_theme_options, html_context  # noqa
+from lamin_sphinx import html_theme_options, html_context, extensions  # noqa
 import lndocs  # noqa
 
 project = "Lamin Blog"
@@ -31,6 +31,7 @@ html_theme_options["icon_links"] = [
 
 # Blog
 
+extensions.append("ablog")
 authors = {
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "falexwolf": ("Alex Wolf", "https://falexwolf.me"),
