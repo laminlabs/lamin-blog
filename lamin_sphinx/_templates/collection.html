@@ -1,0 +1,18 @@
+{%- extends "page.html" %} {% block body %} {% for post in collection %}
+<hr />
+<ul class="ablog-archive" style="padding-left: 0px; margin-bottom: 0.25rem">
+  <li>{{ post.date.strftime(ablog.post_date_format) }}</li>
+</ul>
+<h1 class="ablog-post-title">
+  <a href="{{ pathto(post.docname) }}{{ anchor(post) }}">{{ post.title }}</a>
+</h1>
+
+<ul class="ablog-archive" style="padding-left: 0px; margin-bottom: 0.5rem">
+  <li id="author">
+    {% for coll in post.author %} {% if coll|length %}
+    <a href="{{ pathto(coll.docname) }}">{{ coll }}</a>{% if loop.index <
+    post.author|length %},{% endif %} {% else %}{{ coll }}{% if loop.index <
+    post.author|length %},{% endif %}{% endif %} {% endfor %}
+  </li>
+</ul>
+{{ post.to_html(collection.docname) }} {% endfor %} {% endblock %}
