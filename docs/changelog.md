@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+👷 Deploy with Cloudflare | [22](https://github.com/laminlabs/lamin-blog/pull/22) | [falexwolf](https://github.com/falexwolf) | 2024-11-23 |
 ♻️ Refactor build | [21](https://github.com/laminlabs/lamin-blog/pull/21) | [falexwolf](https://github.com/falexwolf) | 2024-11-05 |
 💚  Disable linting and upgrade github actions | [19](https://github.com/laminlabs/lamin-blog/pull/19) | [falexwolf](https://github.com/falexwolf) | 2024-05-02 |
 🩹 Fix uids | [18](https://github.com/laminlabs/lamin-blog/pull/18) | [falexwolf](https://github.com/falexwolf) | 2024-04-15 |
