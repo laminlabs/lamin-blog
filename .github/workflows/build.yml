@@ -25,7 +25,7 @@ jobs:
       - run: pip install "lndocs[blog]@git+https://x-access-token:${{ secrets.LAMIN_BUILD_DOCS }}@github.com/laminlabs/lndocs"
       # - run: nox -s lint
       - run: nox -s build
-      - uses: cloudflare/wrangler-action@v4
+      - uses: cloudflare/wrangler-action@v3
         id: cloudflare
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
