@@ -13,7 +13,7 @@ project = "Lamin Blog"
 html_title = f"{project}"
 html_context["github_repo"] = "lamin-blog"  # noqa
 
-ogp_site_url = "https://lamin.ai/blog"
+ogp_site_url = "https://blog.lamin.ai"
 ogp_site_name = project
 
 html_theme_options["logo"] = {
@@ -52,7 +52,7 @@ authors = {
 }
 lndocs.authors = authors
 
-blog_baseurl = "https://lamin.ai/blog"
+blog_baseurl = "https://blog.lamin.ai"
 blog_post_pattern = "*"
 blog_authors = authors
 post_date_format = "%Y-%m-%d"
