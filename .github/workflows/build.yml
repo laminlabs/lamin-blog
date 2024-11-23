@@ -33,10 +33,11 @@ jobs:
           command: pages deploy "_build/html" --project-name=lamin-blog
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - uses: edumserrano/find-create-or-update-comment@v2
+        if: github.event_name == 'pull_request'
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body-includes: "Deployment URL"
           comment-author: "github-actions[bot]"
           body: |
-            Deployment URL: ${{ steps.deploy.outputs.deployment-url }}
+            Deployment URL: ${{ steps.cloudflare.outputs.deployment-url }}
           edit-mode: replace
