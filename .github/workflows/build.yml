@@ -25,12 +25,19 @@ jobs:
       - run: pip install "lndocs[blog]@git+https://x-access-token:${{ secrets.LAMIN_BUILD_DOCS }}@github.com/laminlabs/lndocs"
       # - run: nox -s lint
       - run: nox -s build
-      - uses: nwtgck/actions-netlify@v1.2
+      - uses: cloudflare/wrangler-action@v3
+        id: cloudflare
         with:
-          publish-dir: "_build/html"
-          production-deploy: ${{ github.event_name == 'push' }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          enable-commit-comment: false
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 472bdad691b4483dea759eadb37110bd
+          command: pages deploy "_build/html" --project-name=lamin-blog
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - uses: edumserrano/find-create-or-update-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-includes: "Deployment URL"
+          comment-author: "github-actions[bot]"
+          body: |
+            Deployment URL: ${{ steps.cloudflare.outputs.deployment-url }}
+          edit-mode: replace
