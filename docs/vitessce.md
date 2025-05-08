@@ -70,6 +70,8 @@ While individual elements within a SpatialData object can be stored using multip
 In the aforementioned [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk), we demonstrate visualization of a SpatialData object, followed by visualization of individual Spatial Elements using alternative formats.
 This notebook first shows how to visualize data stored locally using the Vitessce widget, and then saves the data using Lamin Artifacts and explains how to launch the resulting visualizations from Lamin Hub.
 
+<img href="https://github.com/user-attachments/assets/b82cad06-e7ba-497e-bbb1-60994e6a038e" title="SpatialData object" width="500" />
+
 
 ## Customizing a Vitessce visualization
 
