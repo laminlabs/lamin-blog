@@ -44,7 +44,7 @@ This framework has been designed around the following goals:
 
 The Vitessce Python package contains features to view data stored both locally and remotely.
 As Vitessce is a web-based framework, this often entails pointing to data via URL (localhost URLs and absolute URLs to object storage systems, respectively).
-Challenges can arise when using high-performance computing clusters and cloud notebook platforms, necessitating [consideration of where each software process is running with respect to the location of the data](https://python-docs.vitessce.io/data_options.html).
+Challenges can arise when using high-performance computing clusters and cloud notebook platforms, necessitating consideration of where each software process is running with respect to the [location of the data](https://python-docs.vitessce.io/data_options.html).
 For examply, if data is stored in a cluster system, the Python kernel process powering Jupyter might be running on a cluster node, while the Jupyter notebook frontend is running on your laptop web browser.
 When using Lamin, a Python kernel process may be running on your laptop, while the data is stored in a cloud object storage system, and you aim to view a visualization in your laptop web browser.
 Vitessce contains features that enable interactive visualizations to be accessed even in these more challenging scenarios.
@@ -67,7 +67,7 @@ Vitessce supports multiple Scverse data formats, including AnnData, MuData, and 
 SpatialData is the most recent of these formats, and acts as a container object for multiple Spatial Elements: Tables, Points, Shapes, Labels, and Images.
 While individual elements within a SpatialData object can be stored using multiple separate formats (e.g., AnnData for Tables; OME-TIFF for Images), usage of SpatialData enables storing metadata such as coordinate systems and transformations in a single place and facilitates operations such as spatial queries which involve table columns or rapid conversion between vector- and raster-based representations.
 
-In an [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk), we demonstrate visualization of a SpatialData object, followed by visualization of individual Spatial Elements using alternative formats.
+In the aforementioned [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk), we demonstrate visualization of a SpatialData object, followed by visualization of individual Spatial Elements using alternative formats.
 This notebook first shows how to visualize data stored locally using the Vitessce widget, and then saves the data using Lamin Artifacts and explains how to launch the resulting visualizations from Lamin Hub.
 
 
