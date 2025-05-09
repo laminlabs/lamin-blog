@@ -6,8 +6,8 @@ orcid:
   Koncopd: 0000-0002-4944-6586
   falexwolf: 0000-0002-8760-7838
 affiliation:
-  Koncopd*: Lamin Labs, Munich
-  felix-fischer*: Helmholtz Munich
+  Koncopd: Lamin Labs, Munich
+  felix-fischer: Helmholtz Munich
   maciek-wiatrak: U Cambridge
   ilan-gold: Helmholtz Munich
   yanay-rosen: U Stanford

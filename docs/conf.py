@@ -35,7 +35,8 @@ extensions.append("ablog")
 authors = {
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "falexwolf": ("Alex Wolf", "https://falexwolf.me"),
-    "felix-fischer*": ("Felix Fischer*", "https://github.com/felix0097"),
+    "felix-fischer": ("Felix Fischer", "https://github.com/felix0097"),
+    "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
     "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
     "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
     "fabian-theis": (
@@ -46,7 +47,6 @@ authors = {
     "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
     "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
-    "Koncopd*": ("Sergei Rybakov*", "https://github.com/Koncopd"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
 }
