@@ -54,6 +54,7 @@ lndocs.authors = authors
 
 blog_baseurl = "https://blog.lamin.ai"
 blog_post_pattern = "*"
-blog_authors = authors
+blog_authors = authors.copy()
+blog_authors.update({f"{k}*": v for k, v in authors.items()})
 post_date_format = "%Y-%m-%d"
 blog_path = "index"
