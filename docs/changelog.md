@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+📝 Add a how to cite section to `arrayloader-benchmarks` | [29](https://github.com/laminlabs/lamin-blog/pull/29) | [falexwolf](https://github.com/falexwolf) | 2025-08-14 |
 ♻️ Improve author management | [28](https://github.com/laminlabs/lamin-blog/pull/28) | [falexwolf](https://github.com/falexwolf) | 2025-05-09 |
 🚚 Host on `blog.lamin.ai` instead of `lamin.ai/blog` | [25](https://github.com/laminlabs/lamin-blog/pull/25) | [falexwolf](https://github.com/falexwolf) | 2024-11-23 |
 👷 Deploy with Cloudflare | [22](https://github.com/laminlabs/lamin-blog/pull/22) | [falexwolf](https://github.com/falexwolf) | 2024-11-23 |
