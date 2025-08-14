@@ -36,7 +36,7 @@ Sunny developed the software.
 
 ## Citation
 
-Cite the software and this report as:
+If you use the results of this work in an academic context, we'd be happy if you cite `readfcs` and this report as:
 
 ```
 Sun S & Wolf A (2022). readfcs: Read FCS files. Lamin Blog. https://doi.org/10.56528/rfcs
