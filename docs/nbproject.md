@@ -185,7 +185,7 @@ Alex wrote the report with help from Sergei & Lukas.
 
 ## Citation
 
-Cite the software and this report as:
+If you use the results of this work in an academic context, we'd be happy if you cite `nbproject` and this report as:
 
 ```
 Rybakov S, Heumos L & Wolf A (2022). nbproject: Manage Jupyter notebooks. Lamin Blog. https://doi.org/10.56528/nbp

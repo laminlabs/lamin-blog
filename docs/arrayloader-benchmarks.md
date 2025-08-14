@@ -170,6 +170,14 @@ All code used in this blog post is free & open-source.
 - `MappedCollection`: [lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection) or [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb)
 - `scdataloader`: [github.com/jkobject/scDataLoader](https://github.com/jkobject/scDataLoader)
 
+## Citation
+
+If you use the results of this work in an academic context, we'd be happy if you cite `MappedCollection` and this report as:
+
+```
+Rybakov S, Fischer F, Wiatrak M, Gold I, Rosen Y, Sun S, Sriworarat C, Theis F, Kalfon J & Wolf A (2024). Training foundation models on large collections of scRNA-seq data. Lamin Blog. https://blog.lamin.ai/arrayloader-benchmarks
+```
+
 ## Appendix
 
 ### Data access strategies
