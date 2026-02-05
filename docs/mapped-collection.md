@@ -1,5 +1,5 @@
 ---
-title: "Training foundation models on large collections of scRNA-seq data"
+title: "MappedCollection: Weighted random sampling from large collections of scRNA-seq datasets"
 date: 2024-04-03
 author: Koncopd*, felix-fischer*, maciek-wiatrak, ilan-gold, yanay-rosen, sunnyosun, chaichontat, fabian-theis, jkobject, falexwolf
 orcid:
@@ -175,7 +175,7 @@ All code used in this blog post is free & open-source.
 If you use the results of this work in an academic context, we'd be happy if you cite `MappedCollection` and this report as:
 
 ```
-Rybakov S, Fischer F, Wiatrak M, Gold I, Rosen Y, Sun S, Sriworarat C, Theis F, Kalfon J & Wolf A (2024). Training foundation models on large collections of scRNA-seq data. Lamin Blog. https://blog.lamin.ai/arrayloader-benchmarks
+Rybakov S, Fischer F, Wiatrak M, Gold I, Rosen Y, Sun S, Sriworarat C, Theis F, Kalfon J & Wolf A (2024). Training foundation models on large collections of scRNA-seq data. Lamin Blog. https://blog.lamin.ai/mapped-collection
 ```
 
 ## Appendix
