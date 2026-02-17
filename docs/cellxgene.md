@@ -1,7 +1,7 @@
 ---
 title: "A programmatically queryable CELLxGENE LaminDB instance"
 date: 2026-02-21
-author: sunnyosun*, zethson*, falexwolf
+author: sunnyosun*, Zethson*, falexwolf
 orcid:
   Zethson: 0000-0002-8937-3457
   falexwolf: 0000-0002-8760-7838
