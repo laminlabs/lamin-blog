@@ -3,11 +3,11 @@ title: "A programmatically queryable CELLxGENE LaminDB instance"
 date: 2026-02-21
 author: sunnyosun*, zethson*, falexwolf
 orcid:
-  zethson: 0000-0002-8937-3457
+  Zethson: 0000-0002-8937-3457
   falexwolf: 0000-0002-8760-7838
 affiliation:
   sunnyosun: Lamin Labs, Munich
-  zethson: Lamin Labs, Munich
+  Zethson: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/cellxgene
 repo: https://github.com/laminlabs/cellxgene-lamin
@@ -19,7 +19,7 @@ linkedin: TBD
 
 [CZ CELLxGENE](https://cellxgene.cziscience.com/) hosts one of the largest standardized collections of single-cell RNA-seq datasets.
 Its [Census](https://chanzuckerberg.github.io/cellxgene-census/) provides efficient access via TileDB-SOMA, and individual datasets are available as `.h5ad` files on S3.
-However, programmatically querying *across* datasets by arbitrary metadata combinations — cell types, tissues, diseases, assays, collections, donor information — has required writing custom data wrangling code.
+However, programmatically querying _across_ datasets by arbitrary metadata combinations — cell types, tissues, diseases, assays, collections, donor information — has required writing custom data wrangling code.
 
 We maintain [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), a public LaminDB instance that mirrors CELLxGENE data with curated, queryable metadata.
 It enables you to:
