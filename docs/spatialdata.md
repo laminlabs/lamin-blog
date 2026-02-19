@@ -7,7 +7,7 @@ orcid:
   falexwolf: 0000-0002-8760-7838
 affiliation:
   Zethson: Lamin Labs, Munich
-  namsaraeva: Lamin Labs, Munich
+  namsaraeva-altana: Lamin Labs, Munich
   treis-tim: Helmholtz Munich, Munich
   marconato-luca: EMBL Heidelberg, Heidelberg
   zimmermann-lea: Helmholtz Munich, Munich

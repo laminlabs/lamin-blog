@@ -52,6 +52,7 @@ authors = {
     "treis-tim": ("Tim Treis", "https://github.com/timtreis"),
     "marconato-luca": ("Luca Marconato", "https://github.com/LucaMarconato"),
     "zimmermann-lea": ("Lea Zimmermann", "https://github.com/zimea"),
+    "namsaraeva-altana": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
 }
 lndocs.authors = authors
 
