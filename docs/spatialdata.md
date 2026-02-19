@@ -184,6 +184,6 @@ Alex supervised the work.
 ## Citation
 
 ```
-Heumos L, Namsaraeva N, Treis T, Marconato L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
+Heumos L, Namsaraeva A, Treis T, Marconato L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
 https://blog.lamin.ai/spatialdata
 ```
