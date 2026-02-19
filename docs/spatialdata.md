@@ -1,7 +1,7 @@
 ---
 title: "Managing spatial omics data with LaminDB & SpatialData"
 date: 2026-02-21
-author: Zethson, namsaraeva, treis-tim, keller-mark, marconato-luca, zimmermann-lea, falexwolf
+author: Zethson, namsaraeva-altana, treis-tim, keller-mark, marconato-luca, zimmermann-lea, falexwolf
 orcid:
   Zethson: 0000-0002-8937-3457
   falexwolf: 0000-0002-8760-7838
