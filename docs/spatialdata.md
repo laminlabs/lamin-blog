@@ -65,8 +65,16 @@ You can visualize H&E images and segmentation masks with [spatialdata-plot](http
 ```python
 import spatialdata_plot
 
-sdata.pl.render_images("he_image", scale="scale4").pl.show(title="H&E image")
+axes = plt.subplots(1, 2, figsize=(10, 10))[1].flatten()
+sdata.pl.render_images("he_image", scale="scale4").pl.show(
+    ax=axes[0], title="H&E image"
+)
+sdata.pl.render_images("morphology_focus", scale="scale4").pl.show(
+    ax=axes[1], title="Morphology image"
+)
 ```
+
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/PMPKWayCU7fa8o9R0000.svg)
 
 The `AnnData` table embedded in SpatialData stores the expression matrix alongside cell-level annotations:
 
@@ -177,7 +185,7 @@ This instance provides ready-to-query spatial datasets in standardized format â€
 
 Lukas designed the integration, developed the `SpatialDataCurator`, the initial spatial guides, and helped implement scverse/spatialdata-db.
 Altana Namsaraeva improved the spatial guides.
-Tim Treis [implemented the necessary `get_attrs`](https://github.com/scverse/spatialdata/pull/806) helper function to access shared metadata and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
+Tim Treis [implemented the necessary `get_attrs`](https://github.com/scverse/spatialdata/pull/806) helper function to access shared metadata, is the lead author of spatialdata-plot, and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
 Mark Keller develops the Vitessce framework and helped bringing the visualizations to life.
 Wouter-Michiel Vierdag improved cloud support of the SpatialData framework.
 Luca Marconato develops the SpatialData framework and provided implementation guidance.
