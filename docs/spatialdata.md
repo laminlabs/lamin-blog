@@ -9,6 +9,7 @@ affiliation:
   Zethson: Lamin Labs, Munich
   namsaraeva-altana: Lamin Labs, Munich
   treis-tim: Helmholtz Munich, Munich
+  keller-mark: Harvard University, Boston
   marconato-luca: EMBL Heidelberg, Heidelberg
   zimmermann-lea: Helmholtz Munich, Munich
   falexwolf: Lamin Labs, Munich
