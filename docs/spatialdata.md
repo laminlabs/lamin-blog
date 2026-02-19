@@ -59,8 +59,31 @@ Once you've found a dataset, loading it into a `SpatialData` object is one line:
 sdata = xenium_lung[0].load()
 ```
 
+which looks like:
+
+```
+SpatialData object, with associated Zarr store: /home/user/.cache/lamindb/lamindata/xenium/2.0.0/Xenium_V1_humanLung_Cancer_FFPE_outs.sdata.zarr
+├── Images
+│     ├── 'he_image': DataTree[cyx] (3, 45087, 11580), (3, 22543, 5790), (3, 11271, 2895), (3, 5635, 1447), (3, 2817, 723)
+│     └── 'morphology_focus': DataTree[cyx] (5, 17098, 51187), (5, 8549, 25593), (5, 4274, 12796), (5, 2137, 6398), (5, 1068, 3199)
+├── Labels
+│     ├── 'cell_labels': DataTree[yx] (17098, 51187), (8549, 25593), (4274, 12796), (2137, 6398), (1068, 3199)
+│     └── 'nucleus_labels': DataTree[yx] (17098, 51187), (8549, 25593), (4274, 12796), (2137, 6398), (1068, 3199)
+├── Points
+│     └── 'transcripts': DataFrame with shape: (<dask_expr.expr.Scalar: expr=ReadParquetFSSpec(f1038c4).size() // 11, dtype=int64>, 11) (3D points)
+├── Shapes
+│     ├── 'cell_boundaries': GeoDataFrame shape: (162254, 1) (2D shapes)
+│     ├── 'cell_circles': GeoDataFrame shape: (162254, 2) (2D shapes)
+│     └── 'nucleus_boundaries': GeoDataFrame shape: (156628, 1) (2D shapes)
+└── Tables
+      └── 'table': AnnData (154472, 377)
+with coordinate systems:
+    ▸ 'global', with elements:
+        he_image (Images), morphology_focus (Images), cell_labels (Labels), nucleus_labels (Labels), transcripts (Points), cell_boundaries (Shapes), cell_circles (Shapes), nucleus_boundaries (Shapes)
+```
+
 The resulting object integrates seamlessly with the scverse ecosystem.
-You can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot), run spatial analyses with [squidpy](https://github.com/scverse/squidpy), and apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`.
+You can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot), run spatial analyses with [squidpy](https://github.com/scverse/squidpy), apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`, and use any other scverse ecosystem package.
 
 ```python
 import spatialdata_plot
@@ -79,8 +102,21 @@ sdata.pl.render_images("morphology_focus", scale="scale4").pl.show(
 The `AnnData` table embedded in SpatialData stores the expression matrix alongside cell-level annotations:
 
 ```python
-adata = sdata.tables["table"]
-# 154k cells × 377 genes, with Leiden clusters, spatial coordinates, QC metrics
+sdata.tables["table"]
+```
+
+gives us:
+
+```
+AnnData object with n_obs × n_vars = 154472 × 377
+    ...
+    obs: 'cell_id', 'transcript_counts', 'control_probe_counts', 'control_codeword_counts', ...
+    var: 'gene_ids', 'feature_types', 'genome', 'n_cells_by_counts', ...
+    uns: 'umap', 'pca', 'spatialdata_attrs', 'leiden', 'neighbors', 'log1p'
+    obsm: 'X_umap', 'spatial', 'X_pca'
+    varm: 'PCs'
+    layers: 'counts'
+    obsp: 'connectivities', 'distances'
 ```
 
 ## Curating and ingesting spatial data
@@ -127,7 +163,7 @@ Artifact .zarr/SpatialData
 
 ## Interactive visualization with Vitessce
 
-LaminDB integrates with [Vitessce](https://vitessce.io/) for interactive spatial visualization directly on LaminHub.
+LaminDB integrates with [Vitessce](https://vitessce.io/) for interactive spatial visualization directly on LaminHub in your browser.
 After saving a SpatialData artifact, you can configure a Vitessce dashboard and attach it:
 
 ```python
