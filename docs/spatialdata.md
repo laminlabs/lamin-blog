@@ -174,7 +174,7 @@ This instance provides ready-to-query spatial datasets in standardized format â€
 ## Author contributions
 
 Lukas designed the integration, developed the `SpatialDataCurator`, the initial spatial guides, and helped implement scverse/spatialdata-db.
-Namsaraeva improved the spatial guides.
+Altana Namsaraeva improved the spatial guides.
 Tim Treis [implemented the necessary `get_attrs`](https://github.com/scverse/spatialdata/pull/806) helper function to access shared metadata and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
 Mark Keller develops the Vitessce framework and helped bringing the visualizations to life.
 Luca Marconato develops the SpatialData framework and provided implementation guidance.
@@ -184,6 +184,6 @@ Alex supervised the work.
 ## Citation
 
 ```
-Heumos L, Namsaraeva N, Treis T, Marconato L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
+Heumos L, Namsaraeva A, Treis T, Marconato L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
 https://blog.lamin.ai/spatialdata
 ```
