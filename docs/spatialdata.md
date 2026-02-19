@@ -179,6 +179,9 @@ artifact.save_vitessce_config(vc)
 ```
 
 Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the spatial data interactively — no downloads required.
+When viewed, it looks like:
+
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/0AMvLfVX9VXVbhUf0000.png)
 
 For a full walkthrough, see the [Vitessce: SpatialData guide](https://docs.lamin.ai/vitessce2).
 
