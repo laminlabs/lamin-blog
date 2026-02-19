@@ -1,16 +1,16 @@
 ---
 title: "Managing spatial omics data with LaminDB & SpatialData"
 date: 2026-02-21
-author: Zethson, namsaraeva, falexwolf
+author: Zethson, namsaraeva, timtreis, keller-mark, lucamarconato, zimmermann-lea, falexwolf
 orcid:
   Zethson: 0000-0002-8937-3457
   falexwolf: 0000-0002-8760-7838
 affiliation:
   Zethson: Lamin Labs, Munich
   namsaraeva: Lamin Labs, Munich
-  timtreis: Helmholtz Munich, Munich
-  lucaMarconato: EMBL Heidelberg, Heidelberg
-  zimea: Helmholtz Munich, Munich
+  treis-tim: Helmholtz Munich, Munich
+  marconato-luca: EMBL Heidelberg, Heidelberg
+  zimmermann-lea: Helmholtz Munich, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/lamindata
 repo: https://github.com/laminlabs/lamindb

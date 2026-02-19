@@ -6,7 +6,7 @@ HERE = Path(__file__).parent
 sys.path[:0] = [str(HERE), str(HERE.parent)]
 
 from lamin_sphinx import *  # noqa
-from lamin_sphinx import html_theme_options, html_context, extensions  # noqa
+from lamin_sphinx import html_theme_options, html_context, extensions  # type: ignore[attr-defined]  # noqa
 import lndocs  # noqa
 
 project = "Lamin Blog"
@@ -49,6 +49,9 @@ authors = {
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
+    "treis-tim": ("Tim Treis", "https://github.com/timtreis"),
+    "marconato-luca": ("Luca Marconato", "https://github.com/LucaMarconato"),
+    "zimmermann-lea": ("Lea Zimmermann", "https://github.com/zimea"),
 }
 lndocs.authors = authors
 
