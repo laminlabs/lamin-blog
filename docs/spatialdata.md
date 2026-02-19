@@ -1,7 +1,7 @@
 ---
 title: "Managing spatial omics data with LaminDB & SpatialData"
 date: 2026-02-21
-author: Zethson, namsaraeva-altana, treis-tim, keller-mark, marconato-luca, zimmermann-lea, falexwolf
+author: Zethson, namsaraeva-altana, treis-tim, keller-mark, vierdag-michiel, marconato-luca, zimmermann-lea, falexwolf
 orcid:
   Zethson: 0000-0002-8937-3457
   falexwolf: 0000-0002-8760-7838
@@ -10,6 +10,7 @@ affiliation:
   namsaraeva-altana: Lamin Labs, Munich
   treis-tim: Helmholtz Munich, Munich
   keller-mark: Harvard University, Boston
+  vierdag-michiel: EMBL Heidelberg, Heidelberg
   marconato-luca: EMBL Heidelberg, Heidelberg
   zimmermann-lea: Helmholtz Munich, Munich
   falexwolf: Lamin Labs, Munich
@@ -178,6 +179,7 @@ Lukas designed the integration, developed the `SpatialDataCurator`, the initial 
 Altana Namsaraeva improved the spatial guides.
 Tim Treis [implemented the necessary `get_attrs`](https://github.com/scverse/spatialdata/pull/806) helper function to access shared metadata and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
 Mark Keller develops the Vitessce framework and helped bringing the visualizations to life.
+Wouter-Michiel Vierdag improved cloud support of the SpatialData framework.
 Luca Marconato develops the SpatialData framework and provided implementation guidance.
 Lea Zimmermann implemented the scverse/spatialdata curation schema and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
 Alex supervised the work.
