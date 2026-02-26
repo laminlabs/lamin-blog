@@ -4,8 +4,10 @@ date: 2025-05-06
 author: keller-mark, sunnyosun, falexwolf
 affiliation:
   keller-mark: Harvard Medical School, Boston
-  sunnyosun: Lamin Labs, Munich
+  namsareava: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
+  chaichontat: Lamin Labs, NYC
+  sunnyosun: Lamin Labs, Munich
 ---
 
 ---
@@ -14,18 +16,15 @@ The Lamin Hub interface displays key information about the contents of Artifacts
 Integrations with interactive visualization tools can further enable exploration and communication of data within Artifacts and Collections managed by Lamin.
 In this post, we discuss the usage of the [Vitessce](https://vitessce.io) framework for visualization of multimodal and spatial single-cell data, including that which is accessible via Lamin Hub.
 
-
 ## Background
 
 Single-cell experiments result in heterogeneous datasets due to several factors: differing profiling techniques (e.g., sequencing-based versus imaging-based), platforms, modalities (e.g., transcriptomics, epigenomics, proteomics, and combinations thereof), and scales (e.g., spot to single-cell to subcellular).
 Through data processing, different types of derived information may be produced, such as cell type annotations, unsupervised clusterings, cell segmentations, or dimensionality reductions.
 The heterogeneous nature of single-cell datasets presents challenges for data analysis, including visualization.
 
-
 While there are standalone tools for different purposes, such as scatterplot viewers, image viewers, and genome browsers, disconnected tools can fragment the analysis workflow and can hinder identification of relationships or patterns which span data modalities.
 Other challenges that can arise in the process of single-cell data visualization include the need to deploy and maintain specialized server-side software, the need to convert data to non-standard formats (requiring time, compute, and storage), and the increasing size of single-cell datasets.
 Finally, upon creation of an interactive visualization, it can be useful to be able to access this from multiple environments (Python, R, or the web) and to save and share with collaborators.
-
 
 ## Vitessce
 
@@ -33,12 +32,11 @@ Finally, upon creation of an interactive visualization, it can be useful to be a
 Vitessce can be configured within Python environments (including Jupyter notebooks), and supports viewing data hosted locally or remotely, including Artifacts and Collections that are accessible via Lamin Hub.
 This framework has been designed around the following goals:
 
-1. __Tailor visualizations to problem-specific data and biological questions.__ The interactive plots and control components (together referred to as "views") included within a grid of multiple interactive elements can be configured to reflect the data types available and biological questions of interest.
-2. __Integrate and explore multimodal data with coordinated multiple views.__ Coordinated multiple views refers to the linking of properties across views. For example, selection of a gene, cell type, or a visual property such as a colormap.
-3. __Explore visualizations in different computational environments.__ As the core functionality of Vitessce is implemented using web technologies such as JavaScript and WebGL, the framework can be used not only in websites (as a [React component](https://vitessce.io/docs/js-react-vitessce/)), but also in Python as a [Jupyter widget](https://python-docs.vitessce.io/widget_examples.html) or in R (in the RStudio Viewer pane, in [pkgdown websites](https://r-docs.vitessce.io/articles/pkgdown.html), or as a [Shiny widget](https://r-docs.vitessce.io/articles/shiny.html)).
-4. __Deploy and share interactive visualizations.__ Vitessce visualizations can be shared by [hosting data](https://vitessce.io/docs/data-hosting/) in cloud object storage and either deploying a [standalone website](https://vitessce.io/docs/tutorial-gh-pages/) or including the JSON configuration in a [URL](https://vitessce.io/#?edit=true).
-5. __Access data from multiple file formats.__ Data can be loaded from [multiple file formats](https://vitessce.io/docs/data-types-file-types/), including the Scverse AnnData, MuData, and SpatialData formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
-
+1. **Tailor visualizations to problem-specific data and biological questions.** The interactive plots and control components (together referred to as "views") included within a grid of multiple interactive elements can be configured to reflect the data types available and biological questions of interest.
+2. **Integrate and explore multimodal data with coordinated multiple views.** Coordinated multiple views refers to the linking of properties across views. For example, selection of a gene, cell type, or a visual property such as a colormap.
+3. **Explore visualizations in different computational environments.** As the core functionality of Vitessce is implemented using web technologies such as JavaScript and WebGL, the framework can be used not only in websites (as a [React component](https://vitessce.io/docs/js-react-vitessce/)), but also in Python as a [Jupyter widget](https://python-docs.vitessce.io/widget_examples.html) or in R (in the RStudio Viewer pane, in [pkgdown websites](https://r-docs.vitessce.io/articles/pkgdown.html), or as a [Shiny widget](https://r-docs.vitessce.io/articles/shiny.html)).
+4. **Deploy and share interactive visualizations.** Vitessce visualizations can be shared by [hosting data](https://vitessce.io/docs/data-hosting/) in cloud object storage and either deploying a [standalone website](https://vitessce.io/docs/tutorial-gh-pages/) or including the JSON configuration in a [URL](https://vitessce.io/#?edit=true).
+5. **Access data from multiple file formats.** Data can be loaded from [multiple file formats](https://vitessce.io/docs/data-types-file-types/), including the Scverse AnnData, MuData, and SpatialData formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
 
 ## Visualizing data stored in different locations
 
@@ -72,12 +70,12 @@ This notebook first shows how to visualize data stored locally using the Vitessc
 
 <img href="https://github.com/user-attachments/assets/b82cad06-e7ba-497e-bbb1-60994e6a038e" title="SpatialData object" width="500" />
 
-
 ## Customizing a Vitessce visualization
 
 There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
 Coordinations refers to the linkages among subsets of views (e.g., two views can be coordinated by linking them to the same colormap selection or gene selection property).
 Useful starting points for customization are the following examples:
+
 - [vitessce/examples Lamin instance](https://lamin.ai/vitessce/examples)
 - [Example Jupyter notebooks in the vitessce-python GitHub Repository](https://github.com/vitessce/vitessce-python/tree/main/docs/notebooks)
 - [The vitessce-python-tutorial GitHub Repository](https://github.com/vitessce/vitessce-python-tutorial/)
@@ -88,3 +86,14 @@ Useful starting points for customization are the following examples:
 Vitessce is developed by the [Humans in Data Integration, Visualization, and Exploration (HIDIVE) Lab](https://hidivelab.org) at Harvard Medical School.
 The HIDIVE Lab aims to address challenges in visualization and exploration of biomedical data.
 
+## Author contributions
+
+Mark added support for `lamindb.Artifact` within the vitessce Python package, created the example database http://lamin.ai/vitessce/examples, and wrote the first comprehensive version of the Vitessce ingestion guide: http://docs.lamin.ai/vitessce.
+
+Altana resolved many issues running the integration in production and overhauled the ingestion guide: https://github.com/laminlabs/lamin-spatial/pull/48.
+
+Alex created the Vitessce integration for LaminDB (https://github.com/laminlabs/lamindb/pull/1532) and maintained it over 2 years.
+
+Richard created a storage proxy that would allow secure streaming of private data into an externally hosted (static) Vitessce application, keeping data in the client and data-hosting cloud (AWS, GCP, etc.) account.
+
+Sunny coordinated the project and created the visual LaminHub integration.
