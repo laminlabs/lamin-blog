@@ -12,7 +12,11 @@ db: vitessce/examples
 repo: laminlabs/spatial
 ---
 
+---
+
 In this post, we discuss how to use [Vitessce](https://vitessce.io) to visualize multimodal and spatial single-cell data that is managed with LaminDB.
+
+---
 
 ## Background
 
