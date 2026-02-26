@@ -8,10 +8,8 @@ affiliation:
   falexwolf: Lamin Labs, Munich
   chaichontat: Lamin Labs, NYC
   sunnyosun: Lamin Labs, Munich
-db: vitessce/examples
-repo: laminlabs/spatial
----
-
+db: http://lamin.ai/vitessce/examples
+repo: http://github.com/laminlabs/lamin-spatial
 ---
 
 In this post, we discuss how to use [Vitessce](https://vitessce.io) to visualize multimodal and spatial single-cell data that is managed with LaminDB.
