@@ -1,10 +1,10 @@
 ---
 title: "Interactive visualization of Lamin Artifacts using Vitessce"
 date: 2025-05-06
-author: keller-mark, namsareava, falexwolf, chaichontat, sunnyosun
+author: keller-mark, namsaraeva, falexwolf, chaichontat, sunnyosun
 affiliation:
   keller-mark: Harvard Medical School, Boston
-  namsareava: Lamin Labs, Munich
+  namsaraeva: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
   chaichontat: Lamin Labs, NYC
   sunnyosun: Lamin Labs, Munich
