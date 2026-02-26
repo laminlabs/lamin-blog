@@ -8,6 +8,8 @@ affiliation:
   falexwolf: Lamin Labs, Munich
   chaichontat: Lamin Labs, NYC
   sunnyosun: Lamin Labs, Munich
+db: vitessce/examples
+repo: laminlabs/spatial
 ---
 
 In this post, we discuss how to use [Vitessce](https://vitessce.io) to visualize multimodal and spatial single-cell data when managing data with Lamin.
@@ -46,14 +48,14 @@ Vitessce contains features that enable interactive visualizations to be accessed
 ### Zarr-based data access
 
 When data is stored in a Zarr-based format, the Vitessce Jupyter widget can use the Zarr Store interface to perform partial reads (as opposed to relying on HTTP requests).
-This is made possible thanks to the experimental remote procedure call feature of [Anywidget](https://github.com/manzt/anywidget), which Vitessce uses internally when data is specified using `_store`-suffixed parameters (e.g., `adata_store` for [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
+This is made possible thanks to the experimental remote procedure call feature of [anywidget](https://github.com/manzt/anywidget), which Vitessce uses internally when data is specified using `_store`-suffixed parameters (e.g., `adata_store` for [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
 
 ### LaminDB artifacts
 
 When LaminDB is used to manage datasets, these datasets can be visualized by passing artifacts directly to Vitessce during configuration.
 Specifically, Vitessce can be configured using `_artifact`-suffixed dataset parameters (e.g., `adata_artifact` for [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
 Unlike the aforementioned Zarr-based case, artifact-based configuration is not restricted to particular formats, for instance, enabling visualization of H5AD- and OME-TIFF-based artifacts (e.g., `img_artifact` for [ImageOmeTiffWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.ImageOmeTiffWrapper)).
-Examples of artifact-based configuration of Vitessce can be found in the [Lamin documentation](https://docs.lamin.ai/vitessce) as well as in a new [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk) accessible as a Transform.
+Examples of artifact-based configuration of Vitessce can be found at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce) as well as this [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk).
 
 ## Visualizing data stored using multiple formats
 
@@ -70,12 +72,12 @@ This notebook first demonstrates how to visualize locally stored data using the 
 
 There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
 Coordination refers to the linkages among subsets of views. For example, two views can be coordinated by sharing the same colormap or gene selection.
-Useful starting points for customization are the following examples:
+Useful starting points for customization are available in the following database with examples:
 
-- [vitessce/examples LaminDB instance](https://lamin.ai/vitessce/examples)
-- [Example Jupyter notebooks in the vitessce-python GitHub Repository](https://github.com/vitessce/vitessce-python/tree/main/docs/notebooks)
-- [The vitessce-python-tutorial GitHub Repository](https://github.com/vitessce/vitessce-python-tutorial/)
-- [The paper-figures GitHub Repository](https://github.com/vitessce/paper-figures)
+- Database: [vitessce/examples](https://lamin.ai/vitessce/examples)
+- Vitessce docs:
+  - [The vitessce-python-tutorial GitHub Repository](https://github.com/vitessce/vitessce-python-tutorial/)
+  - [The paper-figures GitHub Repository](https://github.com/vitessce/paper-figures)
 
 ---
 
