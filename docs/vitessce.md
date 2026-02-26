@@ -1,5 +1,5 @@
 ---
-title: "Interactive visualization of multimodal and spatial data artifacts with Vitessce"
+title: "Interactive visualization of multimodal and spatial data with Vitessce"
 date: 2025-05-06
 author: keller-mark, namsaraeva, falexwolf, chaichontat, sunnyosun
 affiliation:
@@ -18,9 +18,9 @@ Single-cell experiments result in heterogeneous datasets due to several factors:
 Through data processing, different types of derived information may be produced, such as cell type annotations, unsupervised clusterings, cell segmentations, or dimensionality reductions.
 The heterogeneous nature of single-cell datasets presents challenges for data analysis, including visualization.
 
-While there are standalone tools for different purposes, such as scatterplot viewers, image viewers, and genome browsers, disconnected tools can fragment the analysis workflow and can hinder identification of relationships or patterns which span data modalities.
+While there are standalone tools for different purposes, such as scatterplot viewers, image viewers, and genome browsers, disconnected tools can fragment the analysis workflow and can hinder identification of relationships or patterns that span data modalities.
 Additional challenges that can arise in the process of single-cell data visualization include deploying and maintaining specialized server-side software, converting data to non-standard formats (requiring time, compute, and storage), and the increasing size of single-cell datasets.
-Finally, upon creation of an interactive visualization, it is useful to be able to access this from multiple environments (Python, R, or the web) and to save and share it with collaborators.
+Finally, once an interactive visualization is created, it is useful to access it from multiple environments (Python, R, or the web) and to save and share it with collaborators.
 
 ## Vitessce
 
@@ -39,14 +39,14 @@ Vitessce has been designed around the following goals:
 The Vitessce Python package contains features to view data stored both locally and remotely.
 As Vitessce is a web-based framework, this often entails pointing to data via URL (localhost URLs and absolute URLs to object storage systems, respectively).
 Challenges can arise when using high-performance computing clusters and cloud notebook platforms, necessitating consideration of where each software process is running with respect to the [location of the data](https://python-docs.vitessce.io/data_options.html).
-For examply, if data is stored in a cluster system, the Python kernel process powering Jupyter might be running on a cluster node, while the Jupyter notebook frontend is running on your laptop web browser.
+For example, if data is stored in a cluster system, the Python kernel process powering Jupyter might be running on a cluster node, while the Jupyter notebook frontend is running on your laptop web browser.
 When using Lamin, a Python kernel process may be running on your laptop, while the data is stored in a cloud object storage system, and you aim to view a visualization in your laptop web browser.
 Vitessce contains features that enable interactive visualizations to be accessed even in these more challenging scenarios.
 
 ### Zarr-based data access
 
 When data is stored in a Zarr-based format, the Vitessce Jupyter widget can use the Zarr Store interface to perform partial reads (as opposed to relying on HTTP requests).
-This is made possible thanks to the experimental remote procedural call feature of [Anywidget](https://github.com/manzt/anywidget), which Vitessce uses internally when data is specified using `_store`-suffixed parameters (e.g., `adata_store` for [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
+This is made possible thanks to the experimental remote procedure call feature of [Anywidget](https://github.com/manzt/anywidget), which Vitessce uses internally when data is specified using `_store`-suffixed parameters (e.g., `adata_store` for [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
 
 ### LaminDB artifacts
 
@@ -64,7 +64,7 @@ While individual elements within a `SpatialData` object can be stored using mult
 In the aforementioned [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), we demonstrate visualization of a `SpatialData` object, followed by visualization of individual Spatial Elements using alternative formats.
 This notebook first demonstrates how to visualize locally stored data using the Vitessce widget, then saves the data as Lamin artifacts and shows how to launch the resulting visualizations from LaminHub.
 
-<img href="https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png" title="SpatialData object" width="500" />
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png" title="SpatialData object" width="500" />
 
 ## Customizing a Vitessce visualization
 
@@ -84,11 +84,11 @@ The HIDIVE Lab aims to address challenges in visualization and exploration of bi
 
 ## Author contributions
 
-Mark added support for `lamindb.artifact` within the vitessce Python package, created the example database http://lamin.ai/vitessce/examples, overhauled the LaminDB integration (https://github.com/laminlabs/lamindb/pull/1953), and wrote the first comprehensive version of the Vitessce ingestion guide: http://docs.lamin.ai/vitessce.
+Mark added support for `lamindb.artifact` within the Vitessce Python package, created the example database http://lamin.ai/vitessce/examples, overhauled the LaminDB integration (https://github.com/laminlabs/lamindb/pull/1953), and wrote the first comprehensive version of the Vitessce ingestion guide: http://docs.lamin.ai/vitessce.
 
 Altana resolved many issues running the integration in production, overhauled the ingestion guide: https://github.com/laminlabs/lamin-spatial/pull/48, and reviewed this post.
 
-Alex created the Vitessce integration for LaminDB (https://github.com/laminlabs/lamindb/pull/1532) and maintained it over 2 years.
+Alex created the Vitessce integration for LaminDB (https://github.com/laminlabs/lamindb/pull/1532) and maintained it over two years.
 
 Richard created a storage proxy that would allow secure streaming of private data into an externally hosted (static) Vitessce application, keeping data in the client and data-hosting cloud (AWS, GCP, etc.) account.
 
