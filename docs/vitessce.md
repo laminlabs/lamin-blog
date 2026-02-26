@@ -23,7 +23,7 @@ Through data processing, different types of derived information may be produced,
 The heterogeneous nature of single-cell datasets presents challenges for data analysis, including visualization.
 
 While there are standalone tools for different purposes, such as scatterplot viewers, image viewers, and genome browsers, disconnected tools can fragment the analysis workflow and can hinder identification of relationships or patterns which span data modalities.
-Other challenges that can arise in the process of single-cell data visualization include the need to deploy and maintain specialized server-side software, the need to convert data to non-standard formats (requiring time, compute, and storage), and the increasing size of single-cell datasets.
+Additional challenges that can arise in the process of single-cell data visualization include deploying and maintaining specialized server-side software, converting data to non-standard formats (requiring time, compute, and storage), and the increasing size of single-cell datasets.
 Finally, upon creation of an interactive visualization, it can be useful to be able to access this from multiple environments (Python, R, or the web) and to save and share with collaborators.
 
 ## Vitessce
