@@ -90,7 +90,7 @@ The HIDIVE Lab aims to address challenges in visualization and exploration of bi
 
 Mark added support for `lamindb.Artifact` within the vitessce Python package, created the example database http://lamin.ai/vitessce/examples, overhauled the LaminDB integration (https://github.com/laminlabs/lamindb/pull/1953), and wrote the first comprehensive version of the Vitessce ingestion guide: http://docs.lamin.ai/vitessce.
 
-Altana resolved many issues running the integration in production and overhauled the ingestion guide: https://github.com/laminlabs/lamin-spatial/pull/48.
+Altana resolved many issues running the integration in production, overhauled the ingestion guide: https://github.com/laminlabs/lamin-spatial/pull/48, and reviewed this post.
 
 Alex created the Vitessce integration for LaminDB (https://github.com/laminlabs/lamindb/pull/1532) and maintained it over 2 years.
 
