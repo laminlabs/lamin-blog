@@ -40,7 +40,7 @@ Vitessce has been designed around the following goals:
 4. **Deploy and share interactive visualizations.** Vitessce visualizations can be shared by [hosting data](https://vitessce.io/docs/data-hosting/) in cloud object storage and either deploying a [standalone website](https://vitessce.io/docs/tutorial-gh-pages/) or including the JSON configuration in a [URL](https://vitessce.io/#?edit=true).
 5. **Access data from multiple file formats.** Data can be loaded from [multiple file formats](https://vitessce.io/docs/data-types-file-types/), including the scverse `AnnData`, `MuData`, and `SpatialData` formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
 
-## Visualizing data stored in different locations
+## Visualizing data across locations
 
 The Vitessce Python package contains features to view data stored both locally and remotely.
 As Vitessce is a web-based framework, this often entails pointing to data via URL (localhost URLs and absolute URLs to object storage systems, respectively).
@@ -61,7 +61,7 @@ Specifically, Vitessce can be configured using `_artifact`-suffixed dataset para
 Unlike the aforementioned Zarr-based case, artifact-based configuration is not restricted to particular formats, for instance, enabling visualization of H5AD- and OME-TIFF-based artifacts (e.g., `img_artifact` for [ImageOmeTiffWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.ImageOmeTiffWrapper)).
 Examples of artifact-based configuration of Vitessce can be found at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce) as well as this [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk).
 
-## Visualizing data stored using multiple formats
+## Visualizing data across formats
 
 Vitessce supports multiple scverse data formats, including `AnnData`, `MuData`, and `SpatialData`, as well as the bioimaging formats OME-TIFF and OME-Zarr.
 SpatialData is the most recent of these formats, and acts as a container object for multiple Spatial Elements: Tables, Points, Shapes, Labels, and Images.
@@ -71,22 +71,6 @@ In the aforementioned [example notebook](https://lamin.ai/vitessce/examples/tran
 This notebook first demonstrates how to visualize locally stored data using the Vitessce widget, then saves the data as Lamin artifacts and shows how to launch the resulting visualizations from LaminHub.
 
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png" title="SpatialData object" width="500" />
-
-## Customizing a Vitessce visualization
-
-There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
-Coordination refers to the linkages among subsets of views. For example, two views can be coordinated by sharing the same colormap or gene selection.
-Useful starting points for customization include the following example database and related resources:
-
-- Database: [vitessce/examples](https://lamin.ai/vitessce/examples)
-- Vitessce docs:
-  - [The vitessce-python-tutorial GitHub Repository](https://github.com/vitessce/vitessce-python-tutorial/)
-  - [The paper-figures GitHub Repository](https://github.com/vitessce/paper-figures)
-
----
-
-Vitessce is developed by the [Humans in Data Integration, Visualization, and Exploration (HIDIVE) Lab](https://hidivelab.org) at Harvard Medical School.
-The HIDIVE Lab aims to address challenges in visualization and exploration of biomedical data.
 
 ## Author contributions
 
@@ -99,3 +83,19 @@ Alex created the Vitessce integration for LaminDB (https://github.com/laminlabs/
 Richard created a storage proxy that would allow secure streaming of private data into an externally hosted (static) Vitessce application, keeping data in the client and data-hosting cloud (AWS, GCP, etc.) account.
 
 Sunny coordinated the project and created the visual LaminHub integration.
+
+## Acknowledgements
+
+Vitessce is developed by the [Humans in Data Integration, Visualization, and Exploration (HIDIVE) Lab](https://hidivelab.org) at Harvard Medical School.
+The HIDIVE Lab aims to address challenges in visualization and exploration of biomedical data.
+
+## Appendix: Customizing a Vitessce visualization
+
+There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
+Coordination refers to the linkages among subsets of views. For example, two views can be coordinated by sharing the same colormap or gene selection.
+Useful starting points for customization include the following example database and related resources:
+
+- Database: [vitessce/examples](https://lamin.ai/vitessce/examples)
+- Vitessce docs:
+  - [The vitessce-python-tutorial GitHub Repository](https://github.com/vitessce/vitessce-python-tutorial/)
+  - [The paper-figures GitHub Repository](https://github.com/vitessce/paper-figures)
