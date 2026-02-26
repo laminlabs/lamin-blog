@@ -73,7 +73,7 @@ This notebook first demonstrates how to visualize locally stored data using the 
 ## Customizing a Vitessce visualization
 
 There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
-Coordinations refers to the linkages among subsets of views (e.g., two views can be coordinated by linking them to the same colormap selection or gene selection property).
+Coordination refers to the linkages among subsets of views. For example, two views can be coordinated by sharing the same colormap or gene selection.
 Useful starting points for customization are the following examples:
 
 - [vitessce/examples Lamin instance](https://lamin.ai/vitessce/examples)
