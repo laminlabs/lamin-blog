@@ -1,0 +1,109 @@
+---
+title: "Curated DNA methylation data with LaminDB"
+date: 2026-02-25
+author: namsaraeva, sunnyosun, falexwolf
+orcid:
+  namsaraeva: 0000-0001-6071-9410
+  sunnyosun: 0000-0002-2365-0888
+  falexwolf: 0000-0002-8760-7838
+affiliation:
+  namsaraeva: Lamin Labs, Munich
+  sunnyosun: Lamin Labs, Munich
+  falexwolf: Lamin Labs, Munich
+db: https://lamin.ai/laminlabs/methyldata
+repo: https://github.com/albert-ying/MethylGPT
+tweet: TBD
+linkedin: TBD
+---
+
+---
+
+DNA methylation patterns vary with age, disease, and tissue type, which makes them useful for both diagnostics and biological age prediction. [MethylGPT](https://github.com/albert-ying/MethylGPT) (Ying, Song, Cui et al., bioRxiv 2024) is a transformer-based foundation model trained on over 150,000 human methylation profiles. We built a [LaminDB instance](https://lamin.ai/laminlabs/methyldata) that curates the MethylGPT training data with consistent metadata, making it easy to query, subset, and feed into downstream ML workflows.
+
+---
+
+## Why methylation data needs structure
+
+MethylGPT was trained on 226,555 DNA methylation profiles (154,063 after QC and deduplication) from 5,281 datasets. The preprocessed default pretraining dataset covers 49,156 CpG sites across diverse tissue types, conditions, and developmental stages. The model learns representations of CpG sites that capture local genomic context and higher-order chromosomal features, achieving a Pearson correlation of 0.929 for methylation value prediction.
+
+We registered MethylGPT's default preprocessed pretraining dataset from [github.com/albert-ying/MethylGPT](https://github.com/albert-ying/MethylGPT) in LaminDB and annotated it with structured metadata. If you want to train a model on a specific tissue type, filter by disease status, or understand the demographic composition of the training set, you need queryable metadata, and that's what our [methyldata](https://lamin.ai/laminlabs/methyldata) instance provides.
+
+## What's in the instance
+
+The [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) instance organizes the MethylGPT data into two artifact types, stored under consistent key prefixes:
+
+**Beta value matrices** are stored as `.parquet` files under `methylGPT/beta/` keys. The original matrices had a compact format with a sample `id` column and a single column containing lists of ~49,000 beta values per sample. We converted these into wide tables where each CpG site is a separate column.
+
+**Sample metadata** files are stored under `methylGPT/sample_metadata/` keys, containing biological and experimental annotations for each sample.
+
+## Structured metadata via MethylGPT Schema
+
+Beyond storing the data, we defined a `Schema` in the instance with consistent labels across all datasets:
+
+- **GSM ID**: GEO sample identifiers
+- **Race and sex**: demographic annotations
+- **Age**: chronological age
+- **Disease**: disease status or diagnosis
+- **Cell line and tissue**: the biological context of each sample
+- **In vivo / in vitro**: whether the sample comes from a living organism or a cell culture
+
+This schema makes the data queryable. For example, you can now filter for all blood samples from healthy donors over age 60, without having to manually filter metadata files.
+
+## Use case: age prediction from methylation profiles
+
+To show what you can do with structured methylation data in LaminDB, we came up with a [tutorial](https://lamin.ai/laminlabs/methyldata) that walks through an example ML workflow.
+
+The notebook includes querying the instance for all blood tissue samples with known age between 18 and 65. Because tissue and age are registered as queryable metadata via our schema, this is a filter operation. The corresponding beta value matrices are then loaded and subset to matching GSM IDs.
+
+From there, the notebook merges beta values with metadata, imputes missing CpG values, and trains a small PyTorch neural network (one hidden layer, 128 units) to predict chronological age from methylation profiles. The trained model is saved back to the instance as an artifact under `methylGPT/models/` and closes the loop from curated data to trained model.
+
+## Explore the instance
+
+The full instance is publicly available at [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata). To access the data programmatically:
+
+```python
+import lamindb as ln
+
+# connect to the instance
+db = ln.DB("laminlabs/methyldata")
+
+# access the MethylGPT project
+project = db.Project.get(name="MethylGPT")
+
+# list beta value matrices
+beta_artifacts = project.artifacts.filter(
+    suffix=".parquet", key__startswith="methylGPT/beta/"
+)
+beta_artifacts.to_dataframe().head()
+
+# list sample metadata
+meta_artifacts = project.artifacts.filter(
+    suffix=".parquet", key__startswith="methylGPT/sample_metadata/"
+)
+meta_artifacts.to_dataframe().head()
+
+# query datasets containing e.g. A549 cells
+cell_lines = db.bionty.CellLine.lookup()
+artifacts_A549 = meta_artifacts.filter(cell_lines=cell_lines.a549_cell)
+```
+
+## Author contributions
+
+Altana curated the metadata, generated wide tables, developed the tutorial notebook and wrote this post.
+
+Sunny ingested raw datasets and supervised the work and reviewed this post.
+
+Alex supervised the work and reviewed this post.
+
+## Code & data availability
+
+- Lamin instance: [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata)
+- MethylGPT GitHub repository: [github.com/albert-ying/MethylGPT](https://github.com/albert-ying/MethylGPT)
+- MethylGPT paper: [doi.org/10.1101/2024.10.30.621013](https://doi.org/10.1101/2024.10.30.621013)
+
+## Citation
+
+```
+Namsaraeva A, Sun S & Wolf A (2026). Curated DNA methylation data with LaminDB. Lamin Blog.
+https://blog.lamin.ai/methyldata
+```
