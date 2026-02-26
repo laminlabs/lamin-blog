@@ -13,7 +13,7 @@ affiliation:
 ---
 
 The Lamin Hub interface displays key information about the contents of artifacts, enabling filtering and querying for data of interest within a Lamin Instance.
-Integrations with interactive visualization tools can further enable exploration and communication of data within Artifacts and Collections managed by Lamin.
+Integrations with interactive visualization tools can further enable exploration and communication of data within artifacts and collections managed on LaminHub.
 In this post, we discuss the usage of the [Vitessce](https://vitessce.io) framework for visualization of multimodal and spatial single-cell data, including that which is accessible via LaminHub.
 
 ## Background
