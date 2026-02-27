@@ -71,7 +71,7 @@ Gemini 3 comments on this: _The reason those [differentiable memory] systems did
 
 All of this gives me some comfort because it tells me that AI agents prefer the same kind of symbolic systems that humans prefer.
 And so I'm less worried about being out-of-the-loop on what matters most: I'll always be able to review persisted work results in symbolic systems.
-This might be evident for language models, but because I'm coming from numerical data that's inaccessible to humans, it seemed plausible that AI would soon store most results as tensorial embeddings.[^narrowmodels]
+This might be evident for language models given they've been trained on symbols, but because I'm coming from numerical data that's inaccessible to humans, it seemed plausible that AI would soon store most results as tensorial embeddings.[^narrowmodels]
 
 All of this lets me also gain confidence in the simple intuitive idea of what "good memory" should be: similar to how it seems that humans feel more comfortable & productive with the advent of recent symbolic systems of records (hybrids of note-taking & database systems like Notion or Obsidian), there should be similar systems that make agents "feel" comfortable & productive in formulating queries to retrieve the context they need.[^gemini3]
 
