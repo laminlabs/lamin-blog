@@ -19,8 +19,8 @@ What should a good shared memory layer for agents and humans look like?
 In December 2025 I realized that large models would soon operate most of the small models in biological R&D.
 LLMs, via AI agents, started reliably executing work plans of remarkable complexity, in particular in software engineering, but also in data science, machine learning, and experimental design.
 
-I started working on improving the interface of machine learning and data infrastructure for scRNA-seq data in 2016 with `scanpy` & `anndata`.
-For 3 years the goal was to reduce the cognitive load & time spent by individual scientists on wrangling data.
+I started working on improving the interface of machine learning and data infra for scRNA-seq in 2016 with `scanpy` & `anndata`.
+For 3 years the goal was to reduce the cognitive load & time scientists spend on wrangling data.
 After transitioning to leading computational teams at the ML-for-bio company Cellarity in close integration with wetlab & automation teams for another 3.5 years, it was evident that the biggest gain wasn't in optimizing for the individual scientist, but for how humans and models would learn and improve together.
 I felt it was clear that this would best be achieved through a "shared memory layer", a query layer that would allow teams to close larger-scale feedback loops.[^largefeedbackloop]
 Now we have these very useful AI agents -- which behave like a mix of junior colleagues, general experts, and small models -- and I wonder whether this changed that premise.
