@@ -1,5 +1,5 @@
 ---
-title: "Good memory for biological R&D"
+title: "Symbolic memory for biological R&D"
 date: 2026-02-27
 author: falexwolf
 orcid:
@@ -12,7 +12,9 @@ tweet: TBD
 linkedin: TBD
 ---
 
-What should a good shared memory layer for agents and humans look like?
+What should the shared memory layer for agents and humans look like?
+Will it live in embeddings or in records?
+A high-level note.
 
 ---
 
