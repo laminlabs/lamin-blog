@@ -19,7 +19,7 @@ What should a good shared memory layer for agents and humans look like?
 In December 2025 I realized that large models would soon operate most of the small models in biological R&D.
 LLMs, via AI agents, started reliably executing work plans of remarkable complexity, in particular in software engineering, but also in data science, machine learning, and experimental design.
 
-**A "shared memory layer".**
+**The shared memory layer.**
 
 I started working on improving the interface of machine learning and data infra for scRNA-seq in 2016 with `scanpy` & `anndata`.
 The goal was to reduce the cognitive load & time scientists spend on wrangling data.
@@ -32,7 +32,7 @@ In the next moment it was clear that it didn't because this new abundance of thi
 On top of that, it suffers from short context windows & context rot.
 Similar to how junior colleagues benefit from supervision with rich & relevant context that lets them find the right way to think about a problem, agents perform remarkable work if they have context. And they produce unusable slop if they don't.
 
-**A good memory layer for agents.**
+**Good memory for agents.**
 
 I don't think anyone debates that this is the key bottleneck of current AI systems, so I want to spend most of this note on what an optimal "shared memory layer" for agents and humans could look like.
 I think that's particularly relevant from the angle that a good part of the magic of agents is -- unlike the merely intelligent compute machine that is an LLM -- their ability to autonomously retrieve context if it's _presented to them_ in the right way.
@@ -65,7 +65,7 @@ Most recent approaches to increase context for LLMs revolve around better bookke
 My understanding is that this is what agents should be doing in almost any setting and that it has been particularly optimized in the "Recursive Language Models" paper.[^zhang18]
 Gemini 3 comments on this: _The reason those [differentiable memory] systems didn't take over is twofold. (1) Scaling Laws: It turned out to be easier to just make the context window larger than to make the external memory differentiable. (2) The bottleneck is symbolic: The real world is symbolic. In R&D, for example, you deal with discrete entities: molecules, experiments, perturbations, sequences, files, etc. Attempting to force these into a continuous differentiable space for the sake of an optimization loop loses that discrete ground truth._
 
-**We're good.**
+**AI agents prefer symbolic memory.**
 
 All of this gives me some comfort because it tells me that AI agents prefer the same kind of symbolic systems that humans prefer.
 And so I'm less worried about being out-of-the-loop on what matters most: I'll always be able to review persisted work results in symbolic systems.
