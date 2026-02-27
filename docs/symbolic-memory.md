@@ -6,10 +6,6 @@ orcid:
   falexwolf: 0000-0002-8760-7838
 affiliation:
   falexwolf: Lamin Labs, Munich
-db: https://lamin.ai/laminlabs/lamindata
-repo: https://github.com/laminlabs/lamindb
-tweet: TBD
-linkedin: TBD
 ---
 
 What should the shared memory layer for agents and humans look like?
