@@ -74,7 +74,7 @@ And so I'm less worried about being out-of-the-loop on what matters most: I'll a
 This might be evident for language models given they've been trained on symbols, but because I'm coming from numerical data that's inaccessible to humans, it seemed plausible that AI would soon store most results as tensorial embeddings.[^narrowmodels]
 
 All of this lets me also gain confidence in the simple intuitive idea of what "good memory" should be.
-Similar to how it seems that humans feel more comfortable & productive with recent symbolic systems of record (hybrids of note-taking & database systems like Notion or Obsidian), there should be similar systems that make agents "feel" comfortable & productive in formulating queries to retrieve the context they need.[^gemini3]
+Similar to how it seems that humans feel more comfortable & productive with modern symbolic systems of record (hybrids of note-taking & database systems like Notion or Obsidian), there should be similar systems that make agents "feel" comfortable & productive in formulating queries to retrieve the context they need.[^gemini3]
 It'll be interesting to observe which systems of record agents will ultimately prefer, and we'll keep optimizing for that at Lamin.
 
 **Thanks.**
