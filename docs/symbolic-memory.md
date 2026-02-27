@@ -75,6 +75,10 @@ This might be evident for language models given they've been trained on symbols,
 
 All of this lets me also gain confidence in the simple intuitive idea of what "good memory" should be: similar to how it seems that humans feel more comfortable & productive with the advent of recent symbolic systems of records (hybrids of note-taking & database systems like Notion or Obsidian), there should be similar systems that make agents "feel" comfortable & productive in formulating queries to retrieve the context they need.[^gemini3]
 
+**Thanks to.**
+
+Sergei Rybakov and Sunny Sun for cross-reading and comments.
+
 [^largefeedbackloop]: It doesn't help to train a narrow model on predicting a drug on 1B cellular omics profiles if the perturbational data underlying these profiles generated in the wetlab wasn't subject to an optimal feedback loop that would govern experimental design. It wouldn't help optimizing experimental design for 1B cellular profiles if the biological systems and perturbations weren't good proxies for clinical problems and so one would first need to close the loop with clinicians (and often sparse, low-dimensional, or confounded clinical data).
 
 [^dualprocess]: I'm skeptical of the analogy with the Dual Process Theory, but that's for another time.
