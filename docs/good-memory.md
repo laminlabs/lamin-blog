@@ -38,8 +38,8 @@ This is complementary to studying the procedural context engineering problem.
 
 The past year revealed that for now the "right way to present context to agents" seems to be files in storage systems paired with established API-based systems of records.
 It doesn't seem to be tensors, vector databases, or RAG systems.
-I found that interesting because I was never in the "symbolic" camp when it came to developing machine learning models.
-So I asked Gemini 3 to clear this up: _Can you disentangle why the symbolic representations in markdown notes & standard SQL databases, i.e., words and tables representing related concepts, are preferable for persisting thoughts whereas we use tensors for modeling/enabling thoughts in the first place?_
+I found that interesting because I was never in the "symbolic camp" when it came to developing machine learning models.
+So I asked Gemini 3 to clear up: _Can you disentangle why the symbolic representations in markdown notes & standard SQL databases, i.e., words and tables representing related concepts, are preferable for persisting thoughts whereas we use tensors for modeling/enabling thoughts in the first place?_
 
 This is what it responded: _We use Tensors to think but Tables to remember.
 The distinction between the "Neural Thinking Engine" and the "Symbolic Memory" is essentially the digital version of the Dual Process Theory in psychology.
@@ -50,7 +50,7 @@ I'm trying to arrive at something more concrete, so I ask: _Is it valid to see "
 
 I also remembered another angle to argue in favor of "symbolic systems" for holding memory: a 2016 paper from DeepMind on differentiable memory.[^graves18]
 Symbolic systems of record aren't differentiable in the sense that you can write a tensor optimization loop, so it's clear that differentiable tensorial memory as presented in that paper fills a gap.
-However, I'd say that a team that monitors updates and reviews changes, e.g. in the context of software development or R&D, runs an optimization process against symbolic systems of records.
+However, I'd say that a team that monitors updates and reviews changes, e.g. in the context of software development or R&D, runs an optimization process against symbolic systems of records.[^ultimate]
 And with AI agents & robotics this becomes much more scalable than it was.
 Not as scalable as optimizing tensors on a GPU, but maybe scalable enough to merit the question of whether these symbolic systems of record are more optimal than memory stored in tensors, at least for present day real-world systems?
 
@@ -72,6 +72,8 @@ All of this lets me also gain confidence in the simple intuitive idea of what "g
 [^fuzzy]: The weights couldn't hold state even if they weren't fuzzy. Could they?
 
 [^graves18]: Graves, A., Wayne, G., Reynolds, M. et al. Hybrid computing using a neural network with dynamic external memory. Nature 538, 471–476 (2016).
+
+[^ultimate]: The optimization objective of a new medicine or material targets the creation of a discrete symbolic entity whose formula will be stored in a system or record.
 
 [^zhang18]: Zhang, A. et al. Recursive Language Models. https://arxiv.org/abs/2512.24601.
 
