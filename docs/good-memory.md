@@ -20,19 +20,21 @@ In December 2025 I realized that large models would soon operate most of the sma
 LLMs, via AI agents, started reliably executing work plans of remarkable complexity, in particular in software engineering, but also in data science, machine learning, and experimental design.
 
 I started working on improving the interface of machine learning and data infrastructure for scRNA-seq data in 2016 with `scanpy` & `anndata`.
-For 3 years the goal was to reduce the cognitive load & time spent by individual scientists on wrangling files.
-After transitioning to leading computational teams at ML-for-bio company Cellarity in close integration with wetlab & automation teams for another 3.5 years, it was evident that the biggest gains for a team weren't in optimizing for the individual scientist, but for how humans and models would learn and improve together.
+For 3 years the goal was to reduce the cognitive load & time spent by individual scientists on wrangling data.
+After transitioning to leading computational teams at ML-for-bio company Cellarity in close integration with wetlab & automation teams for another 3.5 years, it was evident that the biggest gain wasn't in optimizing for the individual scientist, but for how humans and models would learn and improve together.
 I felt it was clear that this would best be achieved through a "shared memory layer", a query layer that would allow teams to close larger-scale feedback loops.[^largefeedbackloop]
-Now we have these very useful AI agents -- which behave like a mix of junior colleagues, general experts, and small/narrow models -- and I wonder whether this changed that premise.
+Now we have these very useful AI agents -- which behave like a mix of junior colleagues, general experts, and small models -- and I wonder whether this changed that premise.
 
-For a moment, I was worried that the premise changed and I might have worked on the wrong problem all these years. But in the next moment it was clear that it didn't because this new abundance of this peculiar kind of intelligent agency is completely lost if it's not exposed to the right context.
-And in addition, it suffers from short context windows & context rot.
+For a moment, I was worried that the premise changed and I might have worked on the wrong problem all these years.
+In the next moment it was clear that it didn't because this new abundance of this peculiar kind of intelligent agency is completely lost if it's not exposed to the right context.
+On top, it suffers from short context windows & context rot.
 Similar to how junior colleagues benefit from supervision with rich & relevant context that lets them find the right way to think about a problem, agents perform remarkable work if they have context. And they produce unusable slop if they don't.
 
 I don't think anyone debates this key bottleneck of current AI systems, so I want to spend most of this note on what an optimal "shared memory layer" for agents and humans could look like.
 I think that's particularly relevant from the angle that a good part of the magic of agents is -- unlike the merely intelligent compute machine that is an LLM -- their ability to autonomously retrieve context if it's _presented to them_ in the right way.
 If you will, agents can solve their own biggest bottleneck if "context engineering" is done right.
-In this note I want to refer to a "layer" that achieves this -- the "shared memory layer" -- as opposed to viewing it as a procedural engineering problem.
+In this note I want to refer to the "layer" that achieves this as the "shared memory layer".
+This is complementary to studying the procedural context engineering problem.
 
 The past year revealed that for now the "right way to present context to agents" seems to be files in storage systems paired with established API-based systems of records.
 It doesn't seem to be tensors, vector databases, or RAG systems.
@@ -63,7 +65,7 @@ This might be evident for language models, but because I'm coming from numerical
 
 All of this lets me also gain confidence in the simple intuitive idea of what "good memory" should be: similar to how it seems that humans feel more comfortable & productive with the advances of recent symbolic systems of records (hybrids of note-taking & database systems like Notion or Obsidian) there should be similar systems that make agents "feel" comfortable & productive in formulating queries to retrieve the context they need.[^gemini3]
 
-[^largefeedbackloop]: It doesn't help to train a narrow model on predicting a drug on 1B cellular omics profiles if the perturbational data underlying these profiles generated in the wetlab wasn't subject to an optimal feedback loop that would govern experimental design. It wouldn't help optimizing experimental design for 1B cellular profiles if the biological systems and perturbations weren't good proxies for clinical problems and so one would first need to close the loop with clinicians and sparse and often low-dimensional or confounded clinical data.
+[^largefeedbackloop]: It doesn't help to train a narrow model on predicting a drug on 1B cellular omics profiles if the perturbational data underlying these profiles generated in the wetlab wasn't subject to an optimal feedback loop that would govern experimental design. It wouldn't help optimizing experimental design for 1B cellular profiles if the biological systems and perturbations weren't good proxies for clinical problems and so one would first need to close the loop with clinicians (and often sparse, low-dimensional, or confounded clinical data).
 
 [^dualprocess]: I'm skeptical of the analogy with the Dual Process Theory, but that's for another time.
 
