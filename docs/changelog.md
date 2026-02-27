@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Editor | Date | Number
 --- | --- | --- | --- | ---
+📝 Symbolic memory for biological R&D | [39](https://github.com/laminlabs/lamin-blog/pull/39) | [falexwolf](https://github.com/falexwolf) | 2026-02-27 |
 🎨 Pre-commit updates | [35](https://github.com/laminlabs/lamin-blog/pull/35) | [Zethson](https://github.com/Zethson) | 2026-02-19 |
 ♻️ Add `.md` version | [31](https://github.com/laminlabs/lamin-blog/pull/31) | [falexwolf](https://github.com/falexwolf) | 2026-02-05 |
 ♻️ Update the title of the `MappedCollection` post | [30](https://github.com/laminlabs/lamin-blog/pull/30) | [falexwolf](https://github.com/falexwolf) | 2026-02-05 |
