@@ -6,6 +6,8 @@ orcid:
   falexwolf: 0000-0002-8760-7838
 affiliation:
   falexwolf: Lamin Labs, Munich
+tweet: https://x.com/falexwolf/status/2027462396273623340
+linkedin: https://www.linkedin.com/posts/falexwolf_symbolic-memory-for-biological-rd-activity-7433228091528945664-axUk
 ---
 
 What should the shared memory layer for agents and humans look like?
