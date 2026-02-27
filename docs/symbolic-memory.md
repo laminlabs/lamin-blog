@@ -25,11 +25,11 @@ LLMs, via AI agents, started reliably executing work plans of remarkable complex
 
 I started working on improving the interface of machine learning and data infra for scRNA-seq in 2016 with `scanpy` & `anndata`.
 The goal was to reduce the cognitive load & time scientists spend on wrangling data.
-After transitioning to leading computational teams at the ML-for-bio company Cellarity in close integration with wetlab & automation teams, it was evident that the biggest gain wasn't in optimizing for the individual scientist, but for how humans and models would learn and improve together.
+After moving to lead computational teams at Cellarity, working closely with wetlab and automation, it became clear that the biggest gains weren’t in optimizing individual workflows, but in how humans and models learn and improve together.
 I felt it was clear that this would best be achieved through a "shared memory layer", a query layer that would allow teams to close larger-scale feedback loops.[^largefeedbackloop]
 Now we have these very useful AI agents -- which behave like a mix of junior colleagues, general experts, and small models -- and I wonder whether this changed that premise.
 
-For a moment, I was worried that the premise changed and I might have worked on the wrong problem all these years.
+For a moment, I worried the premise had changed and I’d been working on the wrong problem.
 In the next moment it was clear that it didn't because this new abundance of this peculiar kind of intelligent agency is completely lost if it's not exposed to the right context.
 On top of that, it suffers from short context windows & context rot.
 Similar to how junior colleagues benefit from supervision with rich & relevant context that lets them find the right way to think about a problem, agents perform remarkable work if they have context. And they produce unusable slop if they don't.
@@ -40,9 +40,9 @@ I don't think anyone debates that this is the key bottleneck of current AI syste
 I think that's particularly relevant from the angle that a good part of the magic of agents is -- unlike the merely intelligent compute machine that is an LLM -- their ability to autonomously retrieve context if it's _presented to them_ in the right way.
 Agents can solve their own biggest bottleneck if "context engineering" is done right.
 In this note I want to refer to the "layer" that achieves this as the "shared memory layer".
-This is complementary to studying the procedural context engineering problem.
+This complements the procedural side of context engineering.
 
-The past year revealed that for now the "right way to present context to agents" seems to be files in storage systems paired with established API-based systems of records.
+The past year revealed that for now the "right way to present context to agents" seems to be files in storage paired with established API-based systems of records.
 It doesn't seem to be tensors, vector databases, or RAG systems.
 I found that interesting because I was never in the "symbolic camp" when it came to developing machine learning models.
 So I asked Gemini 3 to clear this up: _Can you disentangle why the symbolic representations in markdown notes & standard SQL databases, i.e., words and tables representing related concepts, are preferable for persisting thoughts whereas we use tensors for modeling/enabling thoughts in the first place?_
@@ -54,11 +54,11 @@ The distinction between the "Neural Thinking Engine" and the "Symbolic Memory" i
 Tensors in Neural Nets are for thinking because they are continuous, high-dimensional, and fuzzy. This makes them perfect for inference because it allows: (1) pattern matching & generalization, (2) compression & probabilism, (3) differentiability.
 Symbolic Systems like markdown files & SQL databases are for memory because they are discrete, low-dimensional, and rigid. They are preferable for persistence because they display: (1) Perfect Fidelity/ Zero Decay, (2) Addressability & Auditability, (3) Compositionality._[^dualprocess]
 
-I'm trying to arrive at something more concrete, so I ask: _Is it valid to see "reasoning models" as a mix of neural nets trained on symbolic problem-solving tasks (like realizing that they made an error, calling a tool, etc.)?_ And it says: _Modern Reasoning Models are Neural networks trained to simulate symbolic execution via two concepts. (1) Reinforcement Learning on Chain-of-Thought: The model is rewarded for following symbolic rules (e.g., "If I get an error, I must catch the exception and retry"). (2) Internal Symbolic Loops: The "Reasoning" tokens are essentially the model talking to itself in a symbolic language (natural language or code) to "hold" state. It uses the context window as a temporary symbolic scratchpad because its own weights are too fuzzy to hold complex logical state over many steps._[^fuzzy]
+To make this more concrete, I asked: _Is it valid to see "reasoning models" as a mix of neural nets trained on symbolic problem-solving tasks (like realizing that they made an error, calling a tool, etc.)?_ And it says: _Modern Reasoning Models are Neural networks trained to simulate symbolic execution via two concepts. (1) Reinforcement Learning on Chain-of-Thought: The model is rewarded for following symbolic rules (e.g., "If I get an error, I must catch the exception and retry"). (2) Internal Symbolic Loops: The "Reasoning" tokens are essentially the model talking to itself in a symbolic language (natural language or code) to "hold" state. It uses the context window as a temporary symbolic scratchpad because its own weights are too fuzzy to hold complex logical state over many steps._[^fuzzy]
 
 I also remembered another angle to argue in favor of "symbolic systems" for holding memory: a 2016 paper from DeepMind on differentiable memory.[^graves18]
-Symbolic systems of record aren't differentiable in the sense that you can write a tensor optimization loop, so it's clear that differentiable tensorial memory as presented in that paper fills a gap.
-However, I'd say that a team that monitors updates and reviews changes, e.g. in the context of software development or R&D, runs an optimization process against symbolic systems of records.[^ultimate]
+Symbolic systems of record aren't differentiable in the sense that you can write a tensor optimization loop, so differentiable tensorial memory fills a gap.
+On the other hand, a team that monitors updates and reviews changes, e.g. in the context of software development or R&D, also runs an optimization process against symbolic systems of records.[^ultimate]
 And with AI agents & robotics, this becomes much more scalable than it was.
 Not as scalable as optimizing tensors on a GPU, but maybe scalable enough to merit the question of whether these symbolic systems of record are more optimal than memory stored in tensors, at least for present day real-world systems?
 
@@ -71,7 +71,7 @@ Gemini 3 comments on this: _The reason those [differentiable memory] systems did
 
 All of this gives me some comfort because it tells me that AI agents prefer the same kind of symbolic systems that humans prefer.
 And so I'm less worried about being out-of-the-loop on what matters most: I'll always be able to review persisted work results in symbolic systems.
-This might be evident for language models, but because I'm coming from numerical data that's inaccessible to humans anyway, it seemed plausible that tensorial embeddings would be the main way in which AI would store results already in the near future.[^narrowmodels]
+This might be evident for language models, but because I'm coming from numerical data that's inaccessible to humans anyway, it seemed plausible that AI would soon store most results as tensorial embeddings.[^narrowmodels]
 
 All of this lets me also gain confidence in the simple intuitive idea of what "good memory" should be: similar to how it seems that humans feel more comfortable & productive with the advent of recent symbolic systems of records (hybrids of note-taking & database systems like Notion or Obsidian), there should be similar systems that make agents "feel" comfortable & productive in formulating queries to retrieve the context they need.[^gemini3]
 
