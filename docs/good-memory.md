@@ -23,13 +23,14 @@ Now we have these very useful AI agents -- which behave like a mix of junior col
 
 For a moment, I was worried that the premise changed and I might have worked on the wrong problem all these years. But in the next moment it was clear that it didn't because this new abundance of this peculiar kind of intelligent agency is completely lost if it's not exposed to the right context.
 And in addition, it suffers from short context windows & context rot.
-Similar to how junior colleagues benefit from supervision with rich & relevant context that lets them find the right way to think about a problem, agents perform remarkable work if they have it or produce unusable slop if they don't.
+Similar to how junior colleagues benefit from supervision with rich & relevant context that lets them find the right way to think about a problem, agents perform remarkable work if they have context. And they produce unusable slop if they don't.
 
-I don't think anyone debates that this is the key bottleneck of current AI systems, so I want to spend most of this note on what an optimal shared memory for agents and humans could look like.
-I think that's particularly relevant from the angle that observes that a good part of the magic of agents is -- unlike the merely intelligent compute machine that is an LLM -- they can autonomously access context if it's _presented to them_ in the right way.
-The layer that achieves this is what I generally want to refer to as the "memory layer".
+I don't think anyone debates this key bottleneck of current AI systems, so I want to spend most of this note on what an optimal "shared memory layer" for agents and humans could look like.
+I think that's particularly relevant from the angle that a good part of the magic of agents is -- unlike the merely intelligent compute machine that is an LLM -- their ability to autonomously retrieve context if it's _presented to them_ in the right way.
+If you will, agents can solve their own biggest bottleneck if "context engineering" is done right.
+In this note I want to refer to a "layer" that achieves this -- the "shared memory layer" -- as opposed to viewing it as a procedural engineering problem.
 
-The past year revealed that for now the "right way" seems to be files in storage systems paired with established SQL-based systems of records.
+The past year revealed that for now the "right way to present context to agents" seems to be files in storage systems paired with established API-based systems of records.
 It doesn't seem to be tensors, vector databases, or RAG systems.
 I found that interesting because I was never in the "symbolic" camp when it came to developing machine learning models.
 So I asked Gemini 3 to clear this up: _Can you disentangle why the symbolic representations in markdown notes & SQL databases, i.e., words and tables representing related concepts, are preferable for persisting thoughts whereas we use tensors for modeling/enabling thoughts in the first place?_
