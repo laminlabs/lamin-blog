@@ -38,7 +38,7 @@ Similar to how junior colleagues benefit from supervision with rich & relevant c
 
 I don't think anyone debates that this is the key bottleneck of current AI systems, so I want to spend most of this note on what an optimal "shared memory layer" for agents and humans could look like.
 I think that's particularly relevant from the angle that a good part of the magic of agents is -- unlike the merely intelligent compute machine that is an LLM -- their ability to autonomously retrieve context if it's _presented to them_ in the right way.
-If you will, agents can solve their own biggest bottleneck if "context engineering" is done right.
+Agents can solve their own biggest bottleneck if "context engineering" is done right.
 In this note I want to refer to the "layer" that achieves this as the "shared memory layer".
 This is complementary to studying the procedural context engineering problem.
 
