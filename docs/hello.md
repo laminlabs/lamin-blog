@@ -17,5 +17,3 @@ Why Lamin? It's a metaphor for an interfacing layer between biology and computin
 
 **Fibroblasts with a stained lamin layer around the nucleus.** Microscopy images of samples from a control (a, b) and a subject with [Progreria](https://en.wikipedia.org/wiki/Progeria) (c, d) where nuclear envelopes are shaped irregularly. The image is from [Paradisi et al. (2005)](https://doi.org/10.1186/1471-2121-6-27), CC BY 2.0 via [Wiki Commons](https://commons.wikimedia.org/wiki/File:Laminopathic_nuclei.jpg).
 :::
-
-_Note: This blog post was [updated](https://github.com/laminlabs/legacy-lamin-blog/commits/main/2022/hello.md)._
