@@ -11,10 +11,10 @@ affiliation:
   Koncopd: Helmholtz Munich
   Zethson: Helmholtz Munich
   falexwolf: Lamin Labs, Munich
-docs: https://lamin.ai/docs/nbproject
+docs: https://nbproject.lamin.ai
 repo: https://github.com/laminlabs/nbproject
 tweet: https://twitter.com/falexwolf/status/1567053722919882752
-linkedin: https://www.linkedin.com/posts/falexwolf_new-tool-nbproject-helps-manage-jupyter-activity-6972823453892542464-Hvxz?utm_source=share&utm_medium=member_desktop
+linkedin: https://www.linkedin.com/posts/falexwolf_new-tool-nbproject-helps-manage-jupyter-activity-6972823453892542464-Hvxz
 ---
 
 [nbproject](https://lamin.ai/docs/nbproject) is an open-source Python tool to help manage Jupyter notebooks with metadata, dependency, and integrity tracking.
