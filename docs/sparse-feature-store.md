@@ -46,9 +46,12 @@ Data warehouses impose too much structure for multi-modal biological data. Data 
 As shown on the right of the previous figure, a data lakehouse functions as a layer on top of a data lake that records structural information about each isolated dataset that can be used to dynamically extract consistently formatted information and integrate it with other datasets, external ontologies and other resources.
 
 This option provides the best of both worlds: enough flexibility to store data from any assay/experiment/protocol that might come up, with enough structure to enable intuitive querying and model training while eliminating manual cleaning and bookkeeping.
-But the layer of structure still needs to be designed around the specific characteristics of multi-modal biology data. So Lamin has built the first biology-aware data lakehouse, around two key features:
-First, Lamin’s Lakehouse natively handles non-tabular, biological data structures such as anndata, MuData, TileDBSoma and spatial data. As shown in Figure 4, computational biologists can focus on the information in the sparse feature store rather than what format each file is in.
+But the layer of structure still needs to be designed around the specific characteristics of multi-modal biology data.
 
-Second, as shown in Figure 5, Lamin seamlessly integrates biological entities via vocabularies/ontologies (a biological ORM), while hiding engineering details so users can think in terms of the biology. No more looking up ids or manually joining external vocabularies. Lamin takes care of it automatically.
+LaminDB integrates biological entities via registries holding ontologies & experimental metadata, while hiding engineering details so users can think in terms of the biology. No more looking up ids or manually joining external vocabularies. Lamin takes care of it automatically.
 
-Lamin’s digital platform allows computational biologists to focus on the biology that matters instead of engineering details, enabling learning at scale from multi-modal data.
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Duc60Ut5oykXThEL0000.svg">
+</div>
+
+In addition to tabular, `DataFrame`-like data, this works for non-tabular, biological data structures such as `AnnData`, `MuData`, `tiledbsoma` and spatial data.
