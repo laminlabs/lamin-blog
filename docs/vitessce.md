@@ -45,7 +45,7 @@ As Vitessce is a web-based framework, this often entails pointing to data via UR
 Challenges can also arise on high-performance computing clusters and cloud notebook platforms, where the location of each software process relative to the [data](https://python-docs.vitessce.io/data_options.html) must be carefully considered.
 For example, if data is stored in a cluster system, the Python kernel process powering Jupyter might be running on a cluster node, while the Jupyter notebook frontend is running on your laptop web browser.
 When using Lamin, a Python kernel process may be running on your laptop, while the data is stored in a cloud object storage system, and you aim to view a visualization in your laptop web browser.
-Vitessce contains features that enable interactive visualizations to be accessed even in these more challenging scenarios.
+Vitessce provides features that enable interactive visualizations even in these more challenging scenarios.
 
 ### Zarr-based data access
 
