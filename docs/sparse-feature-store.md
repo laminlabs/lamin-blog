@@ -7,18 +7,22 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-The future of biotech is enabling learning at scale from multi-modal data. But this data requires a new kind of digital platform to fully empower computational biologists.
+The future of biotech will be enabled through scaled learning from multi-modal data.
+But how shall we store these data, given their representations with millions and billions of features prevents queries in any established data infrastructure.
+This note proposes to view and model the sparse biological feature store as a data lakehouse.
 
 ## Multi-modal datasets
 
-Early discovery biotech/pharma often feels like stumbling around a dark room with a flashlight: Each assay and experiment provides a narrow slice of insight into a highly complex system with more exceptions than rules.
+Early discovery biotech often feels like stumbling around a dark room with a flashlight: Each assay and experiment provides a narrow slice of insight into a highly complex system with more exceptions than rules.
 Multi-modal data such as transcriptomics, proteomics and high-content imaging give researchers additional spotlights, expanding their field of view. But to understand what they’re seeing, they need to stitch these data modalities together into a single coherent whole.
 Most biological data consists of large numbers of relatively small datasets from different experiments, assays, labs and protocols. Some are large matrices, such as single-cell gene expression data, with additional annotations on both rows and columns.
 Others, such as sequences or image features are more conventional tables with a small number of columns.
 Most are annotated with complex, external ontologies or vocabularies linked to additional structured and unstructured metadata. And even datasets that are purportedly the same “type” often have slightly different schemas/structures.
 Because of the partially overlapping features between these datasets, they conceptually fit together into a giant, sparse "feature matrix" where each row is an observation and each column could be a numerical measurement, a reference to a shared vocabulary/ontology, or something else.
 
+<div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0000.svg">
+</div>
 
 To build multi-modal machine learning models, computational biologists need to extract data from this (conceptual) matrix. But because datasets are stored as flat files scattered across different directories and file stores, doing this in practice is complex and time consuming under the best of circumstances. In most circumstances, it makes training ML models across multiple datasets effectively impossible.
 
