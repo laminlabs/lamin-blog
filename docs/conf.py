@@ -17,7 +17,7 @@ ogp_site_url = "https://blog.lamin.ai"
 ogp_site_name = project
 
 html_theme_options["logo"] = {
-    "link": ogp_site_url,
+    "link": "/",
     "text": project,
     "root": "https://lamin.ai",
 }
@@ -36,6 +36,7 @@ authors = {
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "falexwolf": ("Alex Wolf", "https://falexwolf.me"),
     "felix-fischer": ("Felix Fischer", "https://github.com/felix0097"),
+    "jejomath": ("Jesse Johnson", "https://github.com/jejomath"),
     "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
     "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
     "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
