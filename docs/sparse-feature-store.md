@@ -51,7 +51,7 @@ But the layer of structure still needs to be designed around the specific charac
 LaminDB integrates biological entities via registries holding ontologies & experimental metadata, while hiding engineering details so users can think in terms of the biology. No more looking up ids or manually joining external vocabularies. Lamin takes care of it automatically.
 
 <div style="text-align: center">
-<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Duc60Ut5oykXThEL0000.svg">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Duc60Ut5oykXThEL0001.svg">
 </div>
 
 In addition to tabular, `DataFrame`-like data, this works for non-tabular, biological data structures such as `AnnData`, `MuData`, `tiledbsoma` and spatial data.
