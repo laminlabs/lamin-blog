@@ -1,10 +1,9 @@
 ---
 title: "The sparse biological feature store as data lakehouse"
 date: 2026-03-01
-author: jejomath, falexwolf
+author: jejomath
 affiliation:
   jejomath: MergeLogic, Cambridge, MA
-  falexwolf: Lamin Labs, Munich
 ---
 
 One avenue into the future of biotech is scaled learning from multi-modal data.
@@ -17,14 +16,14 @@ Early discovery biotech often feels like stumbling around a dark room with a fla
 Multi-modal data such as transcriptomics, proteomics and high-content imaging give researchers additional spotlights, expanding their field of view. But to understand what they’re seeing, they need to stitch these data modalities together into a single coherent whole.
 Most biological data consists of large numbers of relatively small datasets from different experiments, assays, labs and protocols. Some are large matrices, such as single-cell gene expression data, with additional annotations on both rows and columns.
 Others, such as sequences or image features are more conventional tables with a small number of columns.
-Most are annotated with complex, external ontologies or vocabularies linked to additional structured and unstructured metadata. And even datasets that are purportedly the same “type” often have slightly different schemas/structures.
-Because of the partially overlapping features between these datasets, they conceptually fit together into a giant, sparse "feature matrix" where each row is an observation and each column could be a numerical measurement, a reference to a shared vocabulary/ontology, or something else.
+Most are annotated with complex, external ontologies or vocabularies linked to additional structured and unstructured metadata. And even datasets that are purportedly the same “type” often have slightly different schemas.
+Because of the partially overlapping features between these datasets, they conceptually fit together into a giant, sparse "feature matrix" where each "row" is an observation and each "column" a numerical measurement, a measurement of a discrete/categorical entity, the registration of text, or the measurement of a tensor, for example in the case of images or embeddings.
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0000.svg">
 </div>
 
-To build multi-modal machine learning models, computational biologists need to extract data from this (conceptual) matrix. But because datasets are stored as flat files scattered across different directories and file stores, doing this in practice is complex and time consuming under the best of circumstances. In most circumstances, it makes training ML models across multiple datasets effectively impossible.
+To build multi-modal machine learning models, computational biologists need to extract data from this (conceptual) matrix. But because datasets are stored as flat files scattered across different directories and file stores, doing this in practice is complex and time consuming under the best of circumstances. In many circumstances, it makes training ML models across all theoretically available datasets effectively impossible.
 
 ## Data lakes and warehouses
 
@@ -46,12 +45,23 @@ Data warehouses impose too much structure for multi-modal biological data. Data 
 As shown on the right of the previous figure, a data lakehouse functions as a layer on top of a data lake that records structural information about each isolated dataset that can be used to dynamically extract consistently formatted information and integrate it with other datasets, external ontologies and other resources.
 
 This option provides the best of both worlds: enough flexibility to store data from any assay/experiment/protocol that might come up, with enough structure to enable intuitive querying and model training while eliminating manual cleaning and bookkeeping.
-But the layer of structure still needs to be designed around the specific characteristics of multi-modal biology data.
-
-LaminDB integrates biological entities via registries holding ontologies & experimental metadata, while hiding engineering details so users can think in terms of the biology. No more looking up ids or manually joining external vocabularies. Lamin takes care of it automatically.
+One specific implementation that's based on integrating biological registries with support of biological data structures is put forward in the open-source tool `lamindb`, and illustrated in the figure below.
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Duc60Ut5oykXThEL0001.svg">
 </div>
 
-In addition to tabular, `DataFrame`-like data, this works for non-tabular, biological data structures such as `AnnData`, `MuData`, `tiledbsoma` and spatial data.
+You can pip install `lamindb` or check it out on GitHub: https://github.com/laminlabs/lamindb.
+
+## About the author
+
+Jesse was a math professor and worked as a software engineer with a focus on data platforms at Google, Verily, Sanofi, Cellarity, and other companies.
+Today he runs a consulting company called Merelogic.
+
+## Disclosure
+
+Lamin engaged Jesse to explain the connection between biology's "sparse feature matrix" and the lakehouse concept. This blog post is the result of it.
+
+## Author contributions
+
+Jesse conceived the text and the second graphic. The first and the third graphic were created by Lamin Labs.
