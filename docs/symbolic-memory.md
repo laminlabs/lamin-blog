@@ -15,8 +15,6 @@ What should the shared memory layer for agents and humans look like?
 Will it live in embeddings or in records?
 A high-level note.
 
----
-
 In December 2025 I realized that large models would soon operate most of the small models in biological R&D.
 LLMs, via AI agents, started reliably executing work plans of remarkable complexity, in particular in software engineering, but also in data science, machine learning, and experimental design.
 

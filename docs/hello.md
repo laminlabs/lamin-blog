@@ -8,7 +8,7 @@ author: sunnyosun, falexwolf
 We just launched [lamin.ai](https://lamin.ai) as a place for sharing prototypes with our beta customers and collaborators.
 Over time, we'll add public releases and use this blog to explain our work.
 
-Why Lamin? It's a metaphor for an interfacing layer between biology and computing.
+Why _Lamin_? It's a metaphor for an interfacing layer between biology and computing.
 [Lamin proteins](https://en.wikipedia.org/wiki/Lamin) make up the essential filament layer that provides the cell nucleus with structural and functional support.
 
 :::{figure-md}
