@@ -1,7 +1,6 @@
 ---
 title: Key problems of data-heavy R&D
 date: 2022-07-31
-number: 2
 author: sunnyosun, falexwolf
 orcid:
   sunnyosun: 0000-0002-2365-0888
