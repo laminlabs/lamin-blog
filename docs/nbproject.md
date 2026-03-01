@@ -1,7 +1,6 @@
 ---
 title: "nbproject: Manage Jupyter notebooks"
 date: 2022-08-29
-number: 4
 doi: 10.56528/nbp
 author: Koncopd, Zethson, falexwolf
 orcid:
@@ -18,15 +17,11 @@ tweet: https://twitter.com/falexwolf/status/1567053722919882752
 linkedin: https://www.linkedin.com/posts/falexwolf_new-tool-nbproject-helps-manage-jupyter-activity-6972823453892542464-Hvxz?utm_source=share&utm_medium=member_desktop
 ---
 
-## Abstract
-
 [nbproject](https://lamin.ai/docs/nbproject) is an open-source Python tool to help manage Jupyter notebooks with metadata, dependency, and integrity tracking.
 A draft-to-publish workflow creates more reproducible notebooks with context.
 
 There are a number of approaches to address reproducibility & manageability problems of computational R&D projects.
 nbproject complements - and should be combined with - approaches that are based on modularizing notebooks into pipelines, containerizing compute environments, or managing notebooks on centralized platforms.
-
-## Introduction
 
 Over the past 11 years, Jupyter notebooks [{ct}`Pérez07`, {ct}`Kluyver16`] have become data scientists' most popular user interface {cp}`Perkel18`.[^origin]
 Today, GitHub hosts about 9M publicly accessible notebooks in active repositories at exponential growth (**Figure 1**).
@@ -41,13 +36,13 @@ VS Code made notebooks an integral component of its developer experience {cp}`Di
 **Figure 1: Number of public GitHub-hosted Jupyter notebooks.** The graph is from [nbestimate](https://github.com/parente/nbestimate) and was generated in July 2022 {cp}`Parente22` (MIT license). The kink in December 2020 was caused by GitHub changing their query results to exclude repositories without activity for the past year.
 ```
 
+## Problems of notebooks
+
 Nonetheless, the average notebook-based data science workflow has a severe reproducibility problem [{ct}`Perkel18`, {ct}`Balogh22`].[^famousgrus]
 In addition, large notebook-based projects are hard to manage and often develop into an organic collection of notebook files that are hard to navigate.
 The situation seems particularly severe in biology, where even scientific results that are published in high impact journals often come with disorganized, hard-to-reproduce collections of notebooks.
 
 [^famousgrus]: Famous became "I don't like notebooks" by Joel Grus [Grus18].
-
-## Problems of notebooks
 
 1. The overarching project is an unstructured collection of notebooks, code, and data files.
 2. Notebook cells are non-consecutively executed.[^grusbalogh][^opinionsconsecutivenss]
@@ -57,7 +52,9 @@ The situation seems particularly severe in biology, where even scientific result
 6. Notebook has low code quality {cp}`Grotov22`.[^codequality]
 
 [^grusbalogh]: “I have seen programmers get frustrated when notebooks don’t behave as expected, usually because they inadvertently run code cells out of order." [Grus18], quoted in [Balogh22] & [Perkel18].
+
 [^opinionsconsecutivenss]: Laura Norén: “Restart and run all or it didn’t happen” [[source](https://twitter.com/digitalFlaneuse/status/996481061092806658)]. Kyle Cranmer: "Idea: A 'clean state' badge at top of notebook that is green if notebook was in restart+rerun all state, and red otherwise" [[source](https://twitter.com/KyleCranmer/status/996488486667587584)]. Andreas Mueller: "The badge would be indeed a nicer way to express 'all cells are numbered consecutively starting at 0'" [[source](https://twitter.com/amuellerml/status/996738771642191872)]. Alex remembers bioRxiv-co-founder Richard Sever & CarbonPlan-founder Jeremy Freeman - then Director of Comp Bio at CZI - express similar opinions at the Human Cell Atlas Comp Tools meeting in Aptos in May 2018.
+
 [^codequality]: "Jupyter notebooks also encourage poor coding practice, he [Joel Grus] says, by making it difficult to organize code logically, break it into reusable modules and develop tests to ensure the code is working properly." [Perkel18]
 
 ## Why notebooks, then?
@@ -73,6 +70,7 @@ Hence, instead of optimizing a narrow class of computational models, computation
 <!-- prettier-ignore -->
 [^universe]: "There you were, doing your work using Jupyter Notebooks, cleaning and analyzing that massive data set to model the expansion of the Universe [...].
     Notebooks in VS Code should feel natural so that you can seamlessly move between crafting your code files and your notebook modeling the Universe in Python." [Diaz21]
+
 [^cheptsov]: And for prototyping, even critical assessments of notebooks call them out as the "industry standard": "In fairness to Jupyter notebooks, they have become the standard way of prototyping ML models all over the industry. Because the notebooks are interactive and support visual outputs, there is no better way of exploring data and sharing the results." [Cheptsov22]
 
 Notebooks' “computational narrative” offers a format for this type of work: A "document that allows researchers to supplement their code and data with analysis, hypotheses and conjecture", according to Brian Granger {cp}`Peres18`.
