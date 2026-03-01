@@ -65,3 +65,11 @@ Lamin engaged Jesse to explain the connection between biology's "sparse feature 
 ## Author contributions
 
 Jesse conceived the text and the second graphic. The first and the third graphic were created by Lamin Labs.
+
+## Materials
+
+A slide with Alex's "1 million features" pencil drawing.
+
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vriNut4LCbfvd3qu0000.jpg">
+</div>
