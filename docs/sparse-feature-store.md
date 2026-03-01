@@ -1,5 +1,5 @@
 ---
-title: "The sparse biological feature store as a data lakehouse"
+title: "The sparse biological feature store as data lakehouse"
 date: 2026-03-01
 author: jejomath, falexwolf
 affiliation:
@@ -7,9 +7,9 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-The future of biotech will be enabled through scaled learning from multi-modal data.
-But how shall we store these data, given their representations with millions and billions of features prevents queries in any established data infrastructure.
-This note proposes to view and model the sparse biological feature store as a data lakehouse.
+One avenue into the future of biotech is scaled learning from multi-modal data.
+Given these data easily measure millions of features, they can't be queried through any established data infrastructure.
+This note proposes to model the sparse biological feature store as a data lakehouse.
 
 ## Multi-modal datasets
 
