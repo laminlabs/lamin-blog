@@ -17,7 +17,7 @@ ogp_site_url = "https://blog.lamin.ai"
 ogp_site_name = project
 
 html_theme_options["logo"] = {
-    "link": ogp_site_url,
+    "link": "/",
     "text": project,
     "root": "https://lamin.ai",
 }
