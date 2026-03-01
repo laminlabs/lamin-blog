@@ -18,7 +18,9 @@ linkedin:
 
 [readfcs](https://lamin.ai/docs/readfcs) is a lightweight open-source Python package that loads data and metadata from Flow Cytometry Standard (FCS) files into `DataFrame` and `AnnData` objects, allowing users to flexibly use downstream analytical tools.
 
-With this, it fills a gap among existing FCS readers in the Python ecosystem: These are either part of comprehensive analytical packages (e.g., FlowIO by {ct}`White21`, cytopy by {ct}`Burton21`) that operate on data structures tailored to specific downstream analyses or they do not offer support for `AnnData` objects {cp}`Yurtsev22`.
+## Filling a gap
+
+`readfcs` fills a gap among existing FCS readers in the Python ecosystem: These are either part of comprehensive analytical packages (e.g., FlowIO by {ct}`White21`, cytopy by {ct}`Burton21`) that operate on data structures tailored to specific downstream analyses or they do not offer support for `AnnData` objects {cp}`Yurtsev22`.
 
 For the main data and metadata functionality, readfcs builds on fcsparser {cp}`Yurtsev22`.
 In addition to `FCSParser`, readfcs offers compensation, indexing channels by markers, and structuring metadata in `AnnData`.
