@@ -1,5 +1,5 @@
 ---
-title: "Modeling the sparse biological feature store as a data lakehouse"
+title: "The sparse biological feature store as a data lakehouse"
 date: 2026-03-01
 author: jejomath, falexwolf
 affiliation:
