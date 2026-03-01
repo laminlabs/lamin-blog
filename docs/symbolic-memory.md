@@ -15,10 +15,10 @@ What should the shared memory layer for agents and humans look like?
 Will it live in embeddings or in records?
 A high-level note.
 
+## The shared memory layer
+
 In December 2025 I realized that large models would soon operate most of the small models in biological R&D.
 LLMs, via AI agents, started reliably executing work plans of remarkable complexity, in particular in software engineering, but also in data science, machine learning, and experimental design.
-
-## The shared memory layer
 
 I started working on improving the interface of machine learning and data infra for scRNA-seq in 2016 with `scanpy` & `anndata`.
 The goal was to reduce the cognitive load & time scientists spend on wrangling data.
