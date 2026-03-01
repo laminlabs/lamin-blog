@@ -30,16 +30,20 @@ To build multi-modal machine learning models, computational biologists need to e
 
 General-purpose data storage tools and infrastructure weren’t built for this reality of biological data.
 Until recently, the gold standard for managing data at scale was the data warehouse, which extends the paradigm of the classical relational database. But while data warehouses have no problem managing the scale of multi-modal biological data, the problem is the relational paradigm.
-Data warehouses expect data to fit into a fixed number of tables with consistent schemas and with new data appended below existing rows, as on the left in Figure 2. This works well for data that is collected incrementally through a consistent process. But for batches of biological data from a constantly changing collection of experimental protocols and objectives, it doesn’t work at all.
+Data warehouses expect data to fit into a fixed number of tables with consistent schemas and with new data appended below existing rows, as on the left in the figure below. This works well for data that is collected incrementally through a consistent process. But for batches of biological data from a constantly changing collection of experimental protocols and objectives, it doesn’t work at all.
+
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/gQW0EWG9iR7ArkJ40000.svg">
+</div>
 
 The data lake architecture was introduced for contexts like this that don’t provide enough consistency to use a data warehouse. Data lakes give users complete flexibility to store data of any type in any format. This flexibility has made data lakes the standard solution for multi-modal biological data.
-However, the only way data lakes are able to provide this level of flexibility is to completely eliminate structure and consistency. Each dataset becomes its own isolated universe of information, as on the right in Figure 2. If you want to connect it to an external ontology or even another dataset in the same format, it’s a completely manual process.
+However, the only way data lakes are able to provide this level of flexibility is to completely eliminate structure and consistency. Each dataset becomes its own isolated universe of information, as in the center of the above figure. If you want to connect it to an external ontology or even another dataset in the same format, it’s a completely manual process.
 This is part of why computational biologists spend half their time on manual cleaning and integration work.
 
-## Enter the Lakehouse
+## The Lakehouse
 
 Data warehouses impose too much structure for multi-modal biological data. Data lakes don’t provide enough. So an intermediate framework, the data lakehouse, was introduced to find a better balance for exactly this kind of situation.
-As shown in Figure 3, a data lakehouse functions as a layer on top of a data lake that records structural information about each isolated dataset that can be used to dynamically extract consistently formatted information and integrate it with other datasets, external ontologies and other resources.
+As shown on the right of the previous figure, a data lakehouse functions as a layer on top of a data lake that records structural information about each isolated dataset that can be used to dynamically extract consistently formatted information and integrate it with other datasets, external ontologies and other resources.
 
 This option provides the best of both worlds: enough flexibility to store data from any assay/experiment/protocol that might come up, with enough structure to enable intuitive querying and model training while eliminating manual cleaning and bookkeeping.
 But the layer of structure still needs to be designed around the specific characteristics of multi-modal biology data. So Lamin has built the first biology-aware data lakehouse, around two key features:
