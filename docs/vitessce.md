@@ -9,7 +9,6 @@ affiliation:
   chaichontat: Lamin Labs, NYC
   sunnyosun: Lamin Labs, Munich
 db: http://lamin.ai/vitessce/examples
-repo: http://github.com/laminlabs/lamin-spatial
 ---
 
 The open-source tool [Vitessce](https://vitessce.io) and Lamin now work together to manage & visualize multimodal and spatial single-cell data.
@@ -25,7 +24,7 @@ Single-cell experiments result in heterogeneous datasets due to several factors:
 Data pipelines pipelines often add cell type annotations or cell segmentations together with embeddings and other types of information.
 Visualizing the rich information in these complex datasets helps scientists interpret key features be it biologists looking to answer to biological questions or machine learning engineers trying to understand behaviors of outlier datasets.
 
-Vitessce is an open-source JavaScript-based framework for interactive visualization of multimodal and spatial single-cell data. Its dashboard-like views can easily be defined programmatically and then serialized as a JSON artifact. Vitessce then runs serverless anywhere against common storage backends like AWS S3. Specifically, it was designed around the following goals:
+Vitessce[^keller25] is an open-source JavaScript-based framework for interactive visualization of multimodal and spatial single-cell data. Its dashboard-like views can easily be defined programmatically and then serialized as a JSON artifact. Vitessce then runs serverless anywhere against common storage backends like AWS S3. Specifically, it was designed around the following goals:
 
 1. Tailor visualizations to problem-specific data and biological questions.
 2. Integrate and explore multimodal data with multiple coordinated views triggered, e.g. by the selecting a gene, a cell type, or a visual property such as a colormap.
@@ -58,18 +57,20 @@ Mark added support for `lamindb.artifact` within the Vitessce Python package, cr
 
 Altana resolved many issues running the integration in production, overhauled the ingestion guide ([laminlabs/lamin-spatial#48](https://github.com/laminlabs/lamin-spatial/pull/48)), and reviewed this post.
 
-Alex created the Vitessce integration for LaminDB ([laminlabs/lamindb#1532](https://github.com/laminlabs/lamindb/pull/1532)) and maintained it over two years.
+Alex created & maintained the Vitessce integration for LaminDB ([laminlabs/lamindb#1532](https://github.com/laminlabs/lamindb/pull/1532)).
 
-Richard created a storage proxy that would allow secure streaming of private data into an externally hosted (static) Vitessce application, keeping data in the client and data-hosting cloud (AWS, GCP, etc.) account.
+Richard created a storage proxy that would allow secure streaming of private data into an externally hosted (static) Vitessce application, keeping data within the client and data-hosting cloud.
 
 Sunny coordinated the project and created the visual LaminHub integration.
+
+Mark, Sunny & Alex wrote the blog post.
 
 ## Acknowledgements
 
 Vitessce is developed by the [Humans in Data Integration, Visualization, and Exploration (HIDIVE) Lab](https://hidivelab.org) at Harvard Medical School.
 The HIDIVE Lab aims to address challenges in visualization and exploration of biomedical data.
 
-## Appendix: Customizing a Vitessce visualization
+## Appendix
 
 There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
 Useful starting points for customization include the following example database and related resources:
@@ -77,3 +78,5 @@ Useful starting points for customization include the following example database 
 - The [vitessce/examples](https://lamin.ai/vitessce/examples) database
 - The [vitessce-python-tutorial](https://github.com/vitessce/vitessce-python-tutorial/) repository
 - The [paper-figures](https://github.com/vitessce/paper-figures) repository
+
+[^keller25]: Keller, M.S., Gold, I., McCallum, C. et al. Vitessce: integrative visualization of multimodal and spatially resolved single-cell data. Nat Methods 22, 63–67 (2025).
