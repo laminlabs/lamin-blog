@@ -1,6 +1,6 @@
 ---
 title: "Interactive visualization of multimodal and spatial data with Vitessce"
-date: 2025-05-06
+date: 2026-03-02
 author: keller-mark, namsaraeva, falexwolf, chaichontat, sunnyosun
 affiliation:
   keller-mark: Harvard Medical School, Boston
@@ -12,37 +12,27 @@ db: http://lamin.ai/vitessce/examples
 repo: http://github.com/laminlabs/lamin-spatial
 ---
 
-In this post, we discuss how [Vitessce](https://vitessce.io), [LaminDB](https://lamin.ai), and LaminHub work together to visualize multimodal and spatial single-cell data.
+In this post, we discuss how he open-source tool [Vitessce](https://vitessce.io) and Lamin work together to visualize multimodal and spatial single-cell data.
 
-The key idea is simple: define a Vitessce view in code, save it with your data as LaminDB artifacts, and open the same interactive visualization from LaminHub to explore and share.
+The key idea is simple: define a Vitessce config in code, save it as an artifact, and share the interactive visualization along with your datasets on LaminHub.
 
-1. **Vitessce + LaminDB API (in Python):** Build a Vitessce configuration from local or remote data and bind it to LaminDB artifacts.
-2. **LaminHub UI:** Persist that configuration with metadata and access control in LaminHub, where it can be discovered and shared.
-3. **Vitessce UI:** Launch the interactive viewer from LaminHub to explore linked spatial and molecular views.
-
-![Overview of Vitessce, LaminDB, and LaminHub integration flow](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0004.png)
-
-## Background
-
-Single-cell experiments result in heterogeneous datasets due to several factors: differing profiling techniques (e.g., sequencing-based versus imaging-based), platforms, modalities (e.g., transcriptomics, epigenomics, proteomics, and combinations thereof), and scales (e.g., spot to single-cell to subcellular).
-Through data processing, different types of derived information may be produced, such as cell type annotations, unsupervised clusterings, cell segmentations, or dimensionality reductions.
-The heterogeneous nature of single-cell datasets presents challenges for data analysis, including visualization.
-
-While there are standalone tools for different purposes, such as scatterplot viewers, image viewers, and genome browsers, disconnected tools can fragment the analysis workflow and hinder identification of relationships or patterns that span data modalities.
-Additional challenges that can arise in the process of single-cell data visualization include deploying and maintaining specialized server-side software, converting data to non-standard formats (requiring time, compute, and storage), and the increasing size of single-cell datasets.
-Finally, once an interactive visualization is created, it is useful to access it from multiple environments (Python, R, or the web) and to save and share it with collaborators.
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0004.png">
+</div>
 
 ## Vitessce
 
-[Vitessce](https://vitessce.io) is a web-based framework for interactive visualization of multimodal and spatial single-cell data.
-Vitessce can be configured within Python environments (including Jupyter notebooks), and supports viewing data hosted locally or remotely, including LaminDB's artifacts and collections.
-Vitessce has been designed around the following goals:
+Single-cell experiments result in heterogeneous datasets due to several factors: differing profiling techniques (e.g., sequencing-based versus imaging-based), platforms, modalities (e.g., transcriptomics, epigenomics, proteomics, and combinations thereof), and scales (e.g., spot to single-cell to subcellular).
+In addition, data pipelines pipelines often add cell type annotations or cell segmentations together with embeddings and other types of information.
+Allow interactive visualizing of the rich information evidently helps interpreting key features of datasets be it biologists looking for answers to biological questions, or by machine learning engineers, trying to understand behaviors of outlier datasets.
 
-1. **Tailor visualizations to problem-specific data and biological questions.** The interactive plots and control components (together referred to as "views") included within a grid of multiple interactive elements can be configured to reflect the data types available and biological questions of interest.
-2. **Integrate and explore multimodal data with coordinated multiple views.** Coordinated multiple views refers to the linking of properties across views. For example, selection of a gene, cell type, or a visual property such as a colormap.
-3. **Explore visualizations in different computational environments.** As the core functionality of Vitessce is implemented using web technologies such as JavaScript and WebGL, the framework can be used not only in websites (as a [React component](https://vitessce.io/docs/js-react-vitessce/)), but also in Python as a [Jupyter widget](https://python-docs.vitessce.io/widget_examples.html) or in R (in the RStudio Viewer pane, in [pkgdown websites](https://r-docs.vitessce.io/articles/pkgdown.html), or as a [Shiny widget](https://r-docs.vitessce.io/articles/shiny.html)).
-4. **Deploy and share interactive visualizations.** Vitessce visualizations can be shared by [hosting data](https://vitessce.io/docs/data-hosting/) in cloud object storage and either deploying a [standalone website](https://vitessce.io/docs/tutorial-gh-pages/) or including the JSON configuration in a [URL](https://vitessce.io/#?edit=true).
-5. **Access data from multiple file formats.** Data can be loaded from [multiple file formats](https://vitessce.io/docs/data-types-file-types/), including the scverse `AnnData`, `MuData`, and `SpatialData` formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
+Vitessce is an open-source JavaScript-based framework for interactive visualization of multimodal and spatial single-cell data. Its dashboard-like views can easily be defined programmatically and then serialized as a JSON artifact. Vitessce then runs serverless anywhere against common storage backends like AWS S3. Specifically, it was designed around the following goals:
+
+1. Tailor visualizations to problem-specific data and biological questions.
+2. Integrate and explore multimodal data with multiple coordinated views triggered, e.g. by the selecting a gene, a cell type, or a visual property such as a colormap.
+3. Platform-independence: Being implemented in JavaScript and WebGL, the framework can be used not only in websites as a [React component](https://vitessce.io/docs/js-react-vitessce/), but also in Python as a [Jupyter widget](https://python-docs.vitessce.io/widget_examples.html) or in R in the RStudio Viewer pane, in [pkgdown websites](https://r-docs.vitessce.io/articles/pkgdown.html), or as a [Shiny widget](https://r-docs.vitessce.io/articles/shiny.html).
+4. Deploy and share interactive visualizations.
+5. Access data from different storage formats. Data can be loaded from [multiple storage formats](https://vitessce.io/docs/data-types-file-types/), including the scverse `AnnData`, `MuData`, and `SpatialData` formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
 
 ## How Vitessce and LaminDB connect
 
