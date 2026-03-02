@@ -12,9 +12,8 @@ db: http://lamin.ai/vitessce/examples
 repo: http://github.com/laminlabs/lamin-spatial
 ---
 
-In this post, we discuss how he open-source tool [Vitessce](https://vitessce.io) and Lamin work together to visualize multimodal and spatial single-cell data.
-
-The key idea is simple: define a Vitessce config in code, save it as an artifact, and share the interactive visualization along with your datasets on LaminHub.
+The open-source tool [Vitessce](https://vitessce.io) and Lamin now work together to manage & visualize multimodal and spatial single-cell data.
+It's simple: define a Vitessce config in code, save it as an artifact, and share the interactive visualization along with your datasets on LaminHub.
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0004.png">
@@ -23,8 +22,8 @@ The key idea is simple: define a Vitessce config in code, save it as an artifact
 ## Vitessce
 
 Single-cell experiments result in heterogeneous datasets due to several factors: differing profiling techniques (e.g., sequencing-based versus imaging-based), platforms, modalities (e.g., transcriptomics, epigenomics, proteomics, and combinations thereof), and scales (e.g., spot to single-cell to subcellular).
-In addition, data pipelines pipelines often add cell type annotations or cell segmentations together with embeddings and other types of information.
-Allow interactive visualizing of the rich information evidently helps interpreting key features of datasets be it biologists looking for answers to biological questions, or by machine learning engineers, trying to understand behaviors of outlier datasets.
+Data pipelines pipelines often add cell type annotations or cell segmentations together with embeddings and other types of information.
+Visualizing the rich information in these complex datasets helps scientists interpret key features be it biologists looking to answer to biological questions or machine learning engineers trying to understand behaviors of outlier datasets.
 
 Vitessce is an open-source JavaScript-based framework for interactive visualization of multimodal and spatial single-cell data. Its dashboard-like views can easily be defined programmatically and then serialized as a JSON artifact. Vitessce then runs serverless anywhere against common storage backends like AWS S3. Specifically, it was designed around the following goals:
 
@@ -40,7 +39,6 @@ Managing the URL paths to local and cloud object storage systems manually become
 Through the integration with LaminDB, the `vitessce` Python module now supports building configurations directly based on LaminDB artifacts, which are tracked, validated, and queryable and let the user focus on the entities they care about -- genes, experiments, cell types, samples, etc. -- rather than storage paths.
 
 The way this works is by passing `Artifact` objects to `_artifact`-suffixed arguments, for example, for `AnnData`, via the `adata_artifact` argument in Vitessce's `AnnDataWrapper`, or for OME-TIFF via the `img_artifact` argument in `ImageOmeTiffWrapper`.
-Examples are available in the [Lamin Vitessce guide](https://docs.lamin.ai/vitessce).
 
 ## Supported formats
 
@@ -48,7 +46,11 @@ Vitessce supports multiple scverse data formats, including `AnnData`, `MuData`, 
 `SpatialData` is the most recent of these formats, and acts as a container object for multiple spatial elements: Tables, Points, Shapes, Labels, and Images.
 While individual elements within a `SpatialData` object can be stored using multiple separate formats (e.g., `AnnData` for Tables; OME-TIFF for Images), usage of `SpatialData` enables storing metadata such as coordinate systems and transformations in a single place. It hence facilitates operations such as spatial queries that involve table columns or rapid conversion between vector- and raster-based representations.
 
-In this [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), we demonstrate visualization of a `SpatialData` object, followed by visualization of individual Spatial Elements using alternative formats, all tracked & managed with LaminDB, and explorable through LaminHub.
+## Example & guides
+
+You'll find a simple guide for visualizing an `AnnData` at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce). You'll find a simple guide for the spatial formats `SpatialData`, `OME-ZARR` and `OME-TIFF` at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce)
+
+In this [rich example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), you find a complex example for a `SpatialData` object that includes visualizing individual Spatial Elements using alternative formats, all tracked & managed with LaminDB.
 
 ## Author contributions
 
@@ -70,10 +72,8 @@ The HIDIVE Lab aims to address challenges in visualization and exploration of bi
 ## Appendix: Customizing a Vitessce visualization
 
 There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
-Coordination refers to the linkages among subsets of views. For example, two views can be coordinated by sharing the same colormap or gene selection.
 Useful starting points for customization include the following example database and related resources:
 
-- Database: [vitessce/examples](https://lamin.ai/vitessce/examples)
-- Vitessce docs:
-  - [The vitessce-python-tutorial GitHub Repository](https://github.com/vitessce/vitessce-python-tutorial/)
-  - [The paper-figures GitHub Repository](https://github.com/vitessce/paper-figures)
+- The [vitessce/examples](https://lamin.ai/vitessce/examples) database
+- The [vitessce-python-tutorial](https://github.com/vitessce/vitessce-python-tutorial/) repository
+- The [paper-figures](https://github.com/vitessce/paper-figures) repository
