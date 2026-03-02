@@ -42,12 +42,12 @@ The way this works is by passing `Artifact` objects to `_artifact`-suffixed argu
 ## Supported formats
 
 Vitessce supports multiple scverse data formats, including `AnnData`, `MuData`, and `SpatialData`, as well as the bioimaging formats OME-TIFF and OME-Zarr.
-`SpatialData` is the most recent of these formats, and acts as a container object for multiple spatial elements: Tables, Points, Shapes, Labels, and Images.
+`SpatialData`[^marconato25] is the most recent of these formats, and acts as a container object for multiple spatial elements: Tables, Points, Shapes, Labels, and Images.
 While individual elements within a `SpatialData` object can be stored using multiple separate formats (e.g., `AnnData` for Tables; OME-TIFF for Images), usage of `SpatialData` enables storing metadata such as coordinate systems and transformations in a single place. It hence facilitates operations such as spatial queries that involve table columns or rapid conversion between vector- and raster-based representations.
 
 ## Example & guides
 
-You'll find a simple guide for visualizing an `AnnData` at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce), as well as guides for the spatial formats `SpatialData`, `OME-ZARR` and `OME-TIFF`.
+You'll find simple guides for visualizing `AnnData`, `SpatialData`, `OME-ZARR` and `OME-TIFF` at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce).
 
 In this [rich example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), you'll find a complex example for a `SpatialData` object that includes visualizing individual Spatial Elements using alternative formats, all tracked & managed with LaminDB.
 
@@ -80,3 +80,5 @@ Useful starting points for customization include the following example database 
 - The [paper-figures](https://github.com/vitessce/paper-figures) repository
 
 [^keller25]: Keller, M.S., Gold, I., McCallum, C. et al. Vitessce: integrative visualization of multimodal and spatially resolved single-cell data. Nat Methods 22, 63–67 (2025).
+
+[^marconato25]: Marconato, L., Palla, G., Yamauchi, K.A. et al. SpatialData: an open and universal data framework for spatial omics. Nat Methods 22, 58–62 (2025).
