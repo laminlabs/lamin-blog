@@ -65,10 +65,12 @@ Vitessce supports multiple scverse data formats, including `AnnData`, `MuData`, 
 SpatialData is the most recent of these formats, and acts as a container object for multiple Spatial Elements: Tables, Points, Shapes, Labels, and Images.
 While individual elements within a `SpatialData` object can be stored using multiple separate formats (e.g., AnnData for Tables; OME-TIFF for Images), usage of `SpatialData` enables storing metadata such as coordinate systems and transformations in a single place and facilitates operations such as spatial queries that involve table columns or rapid conversion between vector- and raster-based representations.
 
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png" title="SpatialData object" width="500" />
+
 In the aforementioned [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), we demonstrate visualization of a `SpatialData` object, followed by visualization of individual Spatial Elements using alternative formats.
 This notebook first demonstrates how to visualize locally stored data using the Vitessce widget, then saves the data as Lamin artifacts and shows how to launch the resulting visualizations from LaminHub.
 
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png" title="SpatialData object" width="500" />
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0000.png" title="LaminHub vitessce visualization" width="800" />
 
 ## Author contributions
 
