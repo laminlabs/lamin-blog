@@ -70,6 +70,8 @@ Mark, Sunny & Alex wrote the blog post.
 Vitessce is developed by the [Humans in Data Integration, Visualization, and Exploration (HIDIVE) Lab](https://hidivelab.org) at Harvard Medical School.
 The HIDIVE Lab aims to address challenges in visualization and exploration of biomedical data.
 
+Lamin started first working on the integration because the need was surfaced by Tim Treis & Lukas Heumos. We're grateful for that!
+
 ## Appendix
 
 There are three main ways that a Vitessce visualization can be customized: [data](https://vitessce.io/docs/data-types-file-types/), [views](https://vitessce.io/docs/components/), and [coordinations](https://vitessce.io/docs/coordination/).
