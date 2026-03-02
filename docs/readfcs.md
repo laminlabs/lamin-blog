@@ -9,10 +9,8 @@ orcid:
 affiliation:
   sunnyosun: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
-docs: https://lamin.ai/docs/readfcs
+docs: https://readfcs.lamin.ai
 repo: https://github.com/laminlabs/readfcs
-tweet:
-linkedin:
 ---
 
 [readfcs](https://lamin.ai/docs/readfcs) is a lightweight open-source Python package that loads data and metadata from Flow Cytometry Standard (FCS) files into `DataFrame` and `AnnData` objects, allowing users to flexibly use downstream analytical tools.
