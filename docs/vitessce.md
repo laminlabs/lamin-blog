@@ -12,9 +12,15 @@ db: http://lamin.ai/vitessce/examples
 repo: http://github.com/laminlabs/lamin-spatial
 ---
 
-In this post, we discuss how to use [Vitessce](https://vitessce.io) to visualize multimodal and spatial single-cell data that is managed with LaminDB.
+In this post, we discuss how [Vitessce](https://vitessce.io), [LaminDB](https://lamin.ai), and LaminHub work together to visualize multimodal and spatial single-cell data.
 
----
+The key idea is simple: define a Vitessce view in code, save it with your data as LaminDB artifacts, and open the same interactive visualization from LaminHub to explore and share.
+
+1. **Vitessce + LaminDB API (in Python):** Build a Vitessce configuration from local or remote data and bind it to LaminDB artifacts.
+2. **LaminHub UI:** Persist that configuration with metadata and access control in LaminHub, where it can be discovered and shared.
+3. **Vitessce UI:** Launch the interactive viewer from LaminHub to explore linked spatial and molecular views.
+
+![Overview of Vitessce, LaminDB, and LaminHub integration flow](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0001.png)
 
 ## Background
 
@@ -38,26 +44,32 @@ Vitessce has been designed around the following goals:
 4. **Deploy and share interactive visualizations.** Vitessce visualizations can be shared by [hosting data](https://vitessce.io/docs/data-hosting/) in cloud object storage and either deploying a [standalone website](https://vitessce.io/docs/tutorial-gh-pages/) or including the JSON configuration in a [URL](https://vitessce.io/#?edit=true).
 5. **Access data from multiple file formats.** Data can be loaded from [multiple file formats](https://vitessce.io/docs/data-types-file-types/), including the scverse `AnnData`, `MuData`, and `SpatialData` formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
 
-## Visualizing data across locations
+## How Vitessce and LaminDB connect
 
 The Vitessce Python package contains features to view data stored both locally and remotely.
 As Vitessce is a web-based framework, this often entails pointing to data via URL (localhost URLs and absolute URLs to object storage systems, respectively).
 Challenges can also arise on high-performance computing clusters and cloud notebook platforms, where the location of each software process relative to the [data](https://python-docs.vitessce.io/data_options.html) must be carefully considered.
 For example, if data is stored in a cluster system, the Python kernel process powering Jupyter might be running on a cluster node, while the Jupyter notebook frontend is running on your laptop web browser.
-When using Lamin, the Python kernel may run on your laptop while the data is stored in a cloud object storage, and you want to view the visualization in your local web browser."
+When using Lamin, the Python kernel may run on your laptop while the data is stored in a cloud object storage, and you want to view the visualization in your local web browser.
 Vitessce provides features that enable interactive visualizations even in these more challenging scenarios.
+
+The Vitessce Python package can consume LaminDB artifacts directly.
+In practice, this means you can configure visualizations against tracked artifacts instead of manually wiring URLs and file paths.
 
 ### Zarr-based data access
 
-When data is stored in a Zarr-based format, the Vitessce Jupyter widget can use the Zarr Store interface to perform partial reads (as opposed to relying on HTTP requests).
-This is made possible thanks to the experimental remote procedure call feature of [anywidget](https://github.com/manzt/anywidget), which Vitessce uses internally when data is specified using `_store`-suffixed parameters (e.g., `adata_store` for [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
+When data is stored in Zarr-based formats, the Vitessce Jupyter widget can use Zarr Store interfaces for efficient partial reads (as opposed to relying on HTTP requests).
+Internally, this uses the experimental remote procedure call capabilities of [anywidget](https://github.com/manzt/anywidget) via `_store`-suffixed parameters (for example, `adata_store` in [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
 
 ### LaminDB artifacts
 
-When LaminDB is used to manage datasets, these datasets can be visualized by passing artifacts directly to Vitessce during configuration.
-Specifically, Vitessce can be configured using `_artifact`-suffixed dataset parameters (e.g., `adata_artifact` for [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
-Unlike the aforementioned Zarr-based case, artifact-based configuration is not restricted to particular formats, for instance, enabling visualization of H5AD- and OME-TIFF-based artifacts (e.g., `img_artifact` for [ImageOmeTiffWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.ImageOmeTiffWrapper)).
-Examples of artifact-based configuration of Vitessce can be found at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce) as well as this [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk).
+When datasets are managed in LaminDB, you can pass artifacts directly into Vitessce wrappers using `_artifact`-suffixed parameters (for example, `adata_artifact` in [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
+Unlike the Zarr-store path, this approach works across multiple formats, including H5AD and OME-TIFF (for example, `img_artifact` in [ImageOmeTiffWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.ImageOmeTiffWrapper)).
+Examples are available in the [Lamin Vitessce guide](https://docs.lamin.ai/vitessce) and this [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk).
+
+## LaminHub UI
+
+In this integration, data and visualization-relevant objects are managed as LaminDB artifacts, then viewed in LaminHub. From LaminHub, users can filter and discover artifacts, apply access controls, and launch the corresponding Vitessce views in the browser.
 
 ## Visualizing data across formats
 
@@ -65,20 +77,18 @@ Vitessce supports multiple scverse data formats, including `AnnData`, `MuData`, 
 SpatialData is the most recent of these formats, and acts as a container object for multiple Spatial Elements: Tables, Points, Shapes, Labels, and Images.
 While individual elements within a `SpatialData` object can be stored using multiple separate formats (e.g., AnnData for Tables; OME-TIFF for Images), usage of `SpatialData` enables storing metadata such as coordinate systems and transformations in a single place and facilitates operations such as spatial queries that involve table columns or rapid conversion between vector- and raster-based representations.
 
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png" title="SpatialData object" width="500" />
+![SpatialData object](https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png)
 
 In the aforementioned [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), we demonstrate visualization of a `SpatialData` object, followed by visualization of individual Spatial Elements using alternative formats.
 This notebook first demonstrates how to visualize locally stored data using the Vitessce widget, then saves the data as Lamin artifacts and shows how to launch the resulting visualizations from LaminHub.
 
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0000.png" title="LaminHub vitessce visualization" width="800" />
-
 ## Author contributions
 
-Mark added support for `lamindb.artifact` within the Vitessce Python package, created the example database http://lamin.ai/vitessce/examples, overhauled the LaminDB integration (https://github.com/laminlabs/lamindb/pull/1953), and wrote the first comprehensive version of the Vitessce ingestion guide: http://docs.lamin.ai/vitessce.
+Mark added support for `lamindb.artifact` within the Vitessce Python package, created the example database [lamin.ai/vitessce/examples](http://lamin.ai/vitessce/examples), overhauled the LaminDB integration ([laminlabs/lamindb#1953](https://github.com/laminlabs/lamindb/pull/1953)), and wrote the first comprehensive version of the Vitessce ingestion guide: [docs.lamin.ai/vitessce](http://docs.lamin.ai/vitessce).
 
-Altana resolved many issues running the integration in production, overhauled the ingestion guide: https://github.com/laminlabs/lamin-spatial/pull/48, and reviewed this post.
+Altana resolved many issues running the integration in production, overhauled the ingestion guide ([laminlabs/lamin-spatial#48](https://github.com/laminlabs/lamin-spatial/pull/48)), and reviewed this post.
 
-Alex created the Vitessce integration for LaminDB (https://github.com/laminlabs/lamindb/pull/1532) and maintained it over two years.
+Alex created the Vitessce integration for LaminDB ([laminlabs/lamindb#1532](https://github.com/laminlabs/lamindb/pull/1532)) and maintained it over two years.
 
 Richard created a storage proxy that would allow secure streaming of private data into an externally hosted (static) Vitessce application, keeping data in the client and data-hosting cloud (AWS, GCP, etc.) account.
 
