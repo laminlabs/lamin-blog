@@ -21,20 +21,20 @@ It's simple: define a Vitessce config in code, save it as an artifact, and share
 ## Vitessce
 
 Single-cell experiments result in heterogeneous datasets due to several factors: differing profiling techniques (e.g., sequencing-based versus imaging-based), platforms, modalities (e.g., transcriptomics, epigenomics, proteomics, and combinations thereof), and scales (e.g., spot to single-cell to subcellular).
-Data pipelines pipelines often add cell type annotations or cell segmentations together with embeddings and other types of information.
-Visualizing the rich information in these complex datasets helps scientists interpret key features be it biologists looking to answer to biological questions or machine learning engineers trying to understand behaviors of outlier datasets.
+Data pipelines often add cell type annotations or cell segmentations together with embeddings and other types of information.
+Visualizing the rich information in these complex datasets helps scientists interpret key features, whether they are biologists looking to answer biological questions or machine learning engineers trying to understand behaviors of outlier datasets.
 
 Vitessce[^keller25] is an open-source JavaScript-based framework for interactive visualization of multimodal and spatial single-cell data. Its dashboard-like views can easily be defined programmatically and then serialized as a JSON artifact. Vitessce then runs serverless anywhere against common storage backends like AWS S3. Specifically, it was designed around the following goals:
 
 1. Tailor visualizations to problem-specific data and biological questions.
-2. Integrate and explore multimodal data with multiple coordinated views triggered, e.g. by the selecting a gene, a cell type, or a visual property such as a colormap.
+2. Integrate and explore multimodal data with multiple coordinated views triggered, e.g. by selecting a gene, a cell type, or a visual property such as a colormap.
 3. Deploy and share interactive visualizations.
 4. Access data from different storage formats. Data can be loaded from [multiple storage formats](https://vitessce.io/docs/data-types-file-types/), including the scverse `AnnData`, `MuData`, and `SpatialData` formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
 5. Platform-independence: Being implemented in JavaScript and WebGL, the framework can be used not only in websites as a [React component](https://vitessce.io/docs/js-react-vitessce/), but also in Python as a [Jupyter widget](https://python-docs.vitessce.io/widget_examples.html) or in R in the RStudio Viewer pane, in [pkgdown websites](https://r-docs.vitessce.io/articles/pkgdown.html), or as a [Shiny widget](https://r-docs.vitessce.io/articles/shiny.html).
 
 ## Integration with LaminDB
 
-Managing the URL paths to local and cloud object storage systems manually becomes cumbersome in particular when managing a high numbers of datasets.
+Managing the URL paths to local and cloud object storage systems manually becomes cumbersome in particular when managing a high number of datasets.
 Through the integration with LaminDB, the `vitessce` Python module now supports building configurations directly based on LaminDB artifacts, which are tracked, validated, and queryable and let the user focus on the entities they care about -- genes, experiments, cell types, samples, etc. -- rather than storage paths.
 
 The way this works is by passing `Artifact` objects to `_artifact`-suffixed arguments, for example, for `AnnData`, via the `adata_artifact` argument in Vitessce's `AnnDataWrapper`, or for OME-TIFF via the `img_artifact` argument in `ImageOmeTiffWrapper`.
@@ -47,9 +47,9 @@ While individual elements within a `SpatialData` object can be stored using mult
 
 ## Example & guides
 
-You'll find a simple guide for visualizing an `AnnData` at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce). You'll find a simple guide for the spatial formats `SpatialData`, `OME-ZARR` and `OME-TIFF` at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce)
+You'll find a simple guide for visualizing an `AnnData` at [docs.lamin.ai/vitessce](https://docs.lamin.ai/vitessce), as well as guides for the spatial formats `SpatialData`, `OME-ZARR` and `OME-TIFF`.
 
-In this [rich example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), you find a complex example for a `SpatialData` object that includes visualizing individual Spatial Elements using alternative formats, all tracked & managed with LaminDB.
+In this [rich example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), you'll find a complex example for a `SpatialData` object that includes visualizing individual Spatial Elements using alternative formats, all tracked & managed with LaminDB.
 
 ## Author contributions
 
