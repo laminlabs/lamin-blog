@@ -30,47 +30,25 @@ Vitessce is an open-source JavaScript-based framework for interactive visualizat
 
 1. Tailor visualizations to problem-specific data and biological questions.
 2. Integrate and explore multimodal data with multiple coordinated views triggered, e.g. by the selecting a gene, a cell type, or a visual property such as a colormap.
-3. Platform-independence: Being implemented in JavaScript and WebGL, the framework can be used not only in websites as a [React component](https://vitessce.io/docs/js-react-vitessce/), but also in Python as a [Jupyter widget](https://python-docs.vitessce.io/widget_examples.html) or in R in the RStudio Viewer pane, in [pkgdown websites](https://r-docs.vitessce.io/articles/pkgdown.html), or as a [Shiny widget](https://r-docs.vitessce.io/articles/shiny.html).
-4. Deploy and share interactive visualizations.
-5. Access data from different storage formats. Data can be loaded from [multiple storage formats](https://vitessce.io/docs/data-types-file-types/), including the scverse `AnnData`, `MuData`, and `SpatialData` formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
+3. Deploy and share interactive visualizations.
+4. Access data from different storage formats. Data can be loaded from [multiple storage formats](https://vitessce.io/docs/data-types-file-types/), including the scverse `AnnData`, `MuData`, and `SpatialData` formats and the Open Microscopy Environment OME-TIFF and OME-Zarr formats.
+5. Platform-independence: Being implemented in JavaScript and WebGL, the framework can be used not only in websites as a [React component](https://vitessce.io/docs/js-react-vitessce/), but also in Python as a [Jupyter widget](https://python-docs.vitessce.io/widget_examples.html) or in R in the RStudio Viewer pane, in [pkgdown websites](https://r-docs.vitessce.io/articles/pkgdown.html), or as a [Shiny widget](https://r-docs.vitessce.io/articles/shiny.html).
 
-## How Vitessce and LaminDB connect
+## Integration with LaminDB
 
-The Vitessce Python package contains features to view data stored both locally and remotely.
-As Vitessce is a web-based framework, this often entails pointing to data via URL (localhost URLs and absolute URLs to object storage systems, respectively).
-Challenges can also arise on high-performance computing clusters and cloud notebook platforms, where the location of each software process relative to the [data](https://python-docs.vitessce.io/data_options.html) must be carefully considered.
-For example, if data is stored in a cluster system, the Python kernel process powering Jupyter might be running on a cluster node, while the Jupyter notebook frontend is running on your laptop web browser.
-When using Lamin, the Python kernel may run on your laptop while the data is stored in a cloud object storage, and you want to view the visualization in your local web browser.
-Vitessce provides features that enable interactive visualizations even in these more challenging scenarios.
+Managing the URL paths to local and cloud object storage systems manually becomes cumbersome in particular when managing a high numbers of datasets.
+Through the integration with LaminDB, the `vitessce` Python module now supports building configurations directly based on LaminDB artifacts, which are tracked, validated, and queryable and let the user focus on the entities they care about -- genes, experiments, cell types, samples, etc. -- rather than storage paths.
 
-The Vitessce Python package can consume LaminDB artifacts directly.
-In practice, this means you can configure visualizations against tracked artifacts instead of manually wiring URLs and file paths.
+The way this works is by passing `Artifact` objects to `_artifact`-suffixed arguments, for example, for `AnnData`, via the `adata_artifact` argument in Vitessce's `AnnDataWrapper`, or for OME-TIFF via the `img_artifact` argument in `ImageOmeTiffWrapper`.
+Examples are available in the [Lamin Vitessce guide](https://docs.lamin.ai/vitessce).
 
-### Zarr-based data access
-
-When data is stored in Zarr-based formats, the Vitessce Jupyter widget can use Zarr Store interfaces for efficient partial reads (as opposed to relying on HTTP requests).
-Internally, this uses the experimental remote procedure call capabilities of [anywidget](https://github.com/manzt/anywidget) via `_store`-suffixed parameters (for example, `adata_store` in [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
-
-### LaminDB artifacts
-
-When datasets are managed in LaminDB, you can pass artifacts directly into Vitessce wrappers using `_artifact`-suffixed parameters (for example, `adata_artifact` in [AnnDataWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.AnnDataWrapper)).
-Unlike the Zarr-store path, this approach works across multiple formats, including H5AD and OME-TIFF (for example, `img_artifact` in [ImageOmeTiffWrapper](https://python-docs.vitessce.io/api_data.html#vitessce.wrappers.ImageOmeTiffWrapper)).
-Examples are available in the [Lamin Vitessce guide](https://docs.lamin.ai/vitessce) and this [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk).
-
-## LaminHub UI
-
-In this integration, data and visualization-relevant objects are managed as LaminDB artifacts, then viewed in LaminHub. From LaminHub, users can filter and discover artifacts, apply access controls, and launch the corresponding Vitessce views in the browser.
-
-## Visualizing data across formats
+## Supported formats
 
 Vitessce supports multiple scverse data formats, including `AnnData`, `MuData`, and `SpatialData`, as well as the bioimaging formats OME-TIFF and OME-Zarr.
-SpatialData is the most recent of these formats, and acts as a container object for multiple Spatial Elements: Tables, Points, Shapes, Labels, and Images.
-While individual elements within a `SpatialData` object can be stored using multiple separate formats (e.g., AnnData for Tables; OME-TIFF for Images), usage of `SpatialData` enables storing metadata such as coordinate systems and transformations in a single place and facilitates operations such as spatial queries that involve table columns or rapid conversion between vector- and raster-based representations.
+`SpatialData` is the most recent of these formats, and acts as a container object for multiple spatial elements: Tables, Points, Shapes, Labels, and Images.
+While individual elements within a `SpatialData` object can be stored using multiple separate formats (e.g., `AnnData` for Tables; OME-TIFF for Images), usage of `SpatialData` enables storing metadata such as coordinate systems and transformations in a single place. It hence facilitates operations such as spatial queries that involve table columns or rapid conversion between vector- and raster-based representations.
 
-![SpatialData object](https://lamin-site-assets.s3.amazonaws.com/.lamindb/YjFyCUEICxunisKs0000.png)
-
-In the aforementioned [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), we demonstrate visualization of a `SpatialData` object, followed by visualization of individual Spatial Elements using alternative formats.
-This notebook first demonstrates how to visualize locally stored data using the Vitessce widget, then saves the data as Lamin artifacts and shows how to launch the resulting visualizations from LaminHub.
+In this [example notebook](https://lamin.ai/vitessce/examples/transform/3ixi4FetqaJk0000), we demonstrate visualization of a `SpatialData` object, followed by visualization of individual Spatial Elements using alternative formats, all tracked & managed with LaminDB, and explorable through LaminHub.
 
 ## Author contributions
 
