@@ -15,7 +15,7 @@ The open-source tool [Vitessce](https://vitessce.io) and Lamin now work together
 It's simple: define a Vitessce config in code, save it as an artifact, and share the interactive visualization along with your datasets on LaminHub.
 
 <div style="text-align: center">
-<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0004.png">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0005.png">
 </div>
 
 ## Vitessce
