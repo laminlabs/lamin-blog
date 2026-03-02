@@ -20,7 +20,7 @@ The key idea is simple: define a Vitessce view in code, save it with your data a
 2. **LaminHub UI:** Persist that configuration with metadata and access control in LaminHub, where it can be discovered and shared.
 3. **Vitessce UI:** Launch the interactive viewer from LaminHub to explore linked spatial and molecular views.
 
-![Overview of Vitessce, LaminDB, and LaminHub integration flow](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0003.png)
+![Overview of Vitessce, LaminDB, and LaminHub integration flow](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rcJQthuZfseneY0m0004.png)
 
 ## Background
 
