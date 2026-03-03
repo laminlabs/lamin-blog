@@ -42,11 +42,9 @@ The original PerturBench codebase hosts processed datasets on [HuggingFace](http
 
 The [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database captures the entire curation and split-building pipeline with full data lineage. Here's what's inside:
 
-**Raw data ingestion.** We ingested all raw datasets from the PerturBench publication: registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
-
-**Curation transforms.** The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, linking them to their input and output artifacts to establish full lineage.
-
-**ML split construction.** The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
+- **Raw data ingestion.** We ingested all raw datasets from the PerturBench publication: registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
+- **Curation transforms.** The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, linking them to their input and output artifacts to establish full lineage.
+- **ML split construction.** The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
 
 The process can be visualized in the data lineage graph, for example, for the Jiang24 and Frangieh21 datasets:
 
