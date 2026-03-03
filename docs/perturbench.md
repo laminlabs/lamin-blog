@@ -91,11 +91,10 @@ Sunny supervised the work and reviewed the post.
 - PerturBench publication: [arxiv.org/abs/2408.10609](https://arxiv.org/abs/2408.10609)
 - Datasets on HuggingFace: [https://huggingface.co/datasets/altoslabs/perturbench/tree/main](https://huggingface.co/datasets/altoslabs/perturbench/tree/main)
 
-## Citation
+## How to cite
 
 ```
-Namsaraeva A, Sun S, Wu Y & Wolf A (2026). Tracking PerturBench datasets with LaminDB: Full lineage from raw data to ML-ready splits. Lamin Blog.
-https://blog.lamin.ai/perturbench
+Namsaraeva A, Wu Y, Wolf A & Sun S (2026). The PerturBench datasets in LaminDB. Lamin Blog. https://blog.lamin.ai/perturbench
 ```
 
 [^wu26]: Yan Wu, Esther Wershof, Sebastian M Schmon, Marcel Nassar, Błażej Osiński, Ridvan Eksi, Zichao Yan, Rory Stark, Kun Zhang, Thore Graepel. PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. arXiv:2408.10609.
