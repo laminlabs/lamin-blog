@@ -64,11 +64,11 @@ Lamin engaged Jesse to explain the connection between biology's "sparse measurem
 
 ## Author contributions
 
-Jesse authored the text and the second graphic in collaboration with Lamin Labs. The first and the third graphic were created by Lamin Labs.
+Jesse authored the text and the second graphic in collaboration with the Lamin team. The first and the third graphic were created by the Lamin team.
 
 ## Materials
 
-A slide with Alex's "1 million features" pencil drawing.
+A slide with Alex Wolf's "1 million features" pencil drawing.
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vriNut4LCbfvd3qu0000.jpg">
