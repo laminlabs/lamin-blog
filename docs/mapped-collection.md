@@ -22,8 +22,6 @@ tweet: https://twitter.com/falexwolf/status/1775476575011553500
 linkedin: https://www.linkedin.com/posts/falexwolf_whats-a-good-way-of-organizing-scrna-seq-activity-7181245277415079937-caSw
 ---
 
----
-
 A few labs and companies now train models on large-scale scRNA-seq count matrices and related data modalities. But unlike for many other data types, there isn’t yet a playbook for data scales that don’t fit into memory.
 
 We study different approaches to building data loaders and, through a series of benchmarks, identify three favorable setups:
@@ -33,8 +31,6 @@ We study different approaches to building data loaders and, through a series of 
 3. **Uncached:** If you run the training in the AWS data center that hosts the data, use `tiledbsoma` for unweighted random sampling at ~1.5k samples/sec directly from the cloud.
 
 In the first setup, you train compute-limited foundation models on harmonized array collections. To enable this out-of-the-box, we developed `MappedCollection`, a pytorch-compatible map-style dataset that virtually concatenates arrays. If your model is data-loading-limited because it has fewer parameters, it’s worthwhile to transform a collection of `.h5ad` files into `.parquet` and leverage the second setup. And if you don’t want to work with a cache and don’t need weighted sampling, you can transform the collection into a large `tiledbsoma` array and leverage setup 3.
-
----
 
 ## From scVI to Transformers
 
