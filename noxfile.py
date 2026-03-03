@@ -11,5 +11,5 @@ def lint(session: nox.Session) -> None:
 
 @nox.session
 def build(session: nox.Session):
-    session.run(*["lndocs", "--strict"])
+    session.run(*["lndocs", "--strict", "--blog"])
     session.run(*["lndocs", "--format", "text"])
