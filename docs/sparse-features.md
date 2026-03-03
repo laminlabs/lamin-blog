@@ -60,11 +60,11 @@ Today he runs a consulting company called Merelogic.
 
 ## Disclosure
 
-Lamin engaged Jesse to explain the connection between biology's "sparse feature matrix" and the lakehouse concept. This blog post is the result of it.
+Lamin engaged Jesse to explain the connection between biology's "sparse measurements" and the lakehouse concept. This blog post is the result of that engagement.
 
 ## Author contributions
 
-Jesse conceived the text and the second graphic. The first and the third graphic were created by Lamin Labs.
+Jesse authored the text and the second graphic in collaboration with Lamin Labs. The first and the third graphic were created by Lamin Labs.
 
 ## Materials
 
