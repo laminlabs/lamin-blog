@@ -17,7 +17,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
-The PerturBench database contains 6 curated datasets for evaluting machine learning models that predict how cells respond to genetic or chemical perturbations.
+The PerturBench database contains 6 curated datasets for evaluating machine learning models that predict how cells' transcriptional states respond to genetic or chemical perturbations.
 
 ## The datasets
 
