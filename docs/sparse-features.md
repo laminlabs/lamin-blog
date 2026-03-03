@@ -1,6 +1,6 @@
 ---
-title: "The sparse biological feature store as data lakehouse"
-date: 2026-03-01
+title: "A data lakehouse for sparse biological features"
+date: 2026-03-03
 author: jejomath
 affiliation:
   jejomath: MergeLogic, Cambridge, MA
