@@ -1,5 +1,5 @@
 ---
-title: "A data lakehouse for sparse biological features"
+title: "A data lakehouse for biology's sparse measurements"
 date: 2026-03-03
 author: jejomath
 affiliation:
@@ -7,7 +7,7 @@ affiliation:
 ---
 
 One avenue into the future of biotech is scaled learning from multi-modal datasets.
-Given the union of these datasets can easily measure millions of features, they can't be queried through any established data infrastructure.
+Given the union of these datasets can easily measure millions of sparse features, they can't be queried through any established data infrastructure.
 This note proposes to model them as data lakehouse with support for bio-formats and registries.
 
 ## Multi-modal datasets
