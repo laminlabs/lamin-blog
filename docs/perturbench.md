@@ -25,14 +25,14 @@ The PerturBench database contains 6 curated datasets for evaluating machine lear
 
 The framework includes six datasets spanning genetic and chemical perturbations at different scales:
 
-| Dataset            | Perturbation type | Scale           | Source                                                                                     |
-| ------------------ | ----------------- | --------------- | ------------------------------------------------------------------------------------------ |
-| Norman19           | Genetic           | 91,168 cells    | [Norman et al., Science 2019](https://doi.org/10.1126/science.aax4438)                     |
-| Srivatsan20        | Chemical          | 178,213 cells   | [Srivatsan et al., Science 2020](https://doi.org/10.1126/science.aax6234)                  |
-| Frangieh21         | Genetic           | 218,331 cells   | [Frangieh et al., Nat Genet. 2021](https://doi.org/10.1038/s41588-021-00779-1)             |
-| McFalineFigueroa23 | Genetic           | 892,800 cells   | [McFaline-Figueroa et al., Cell Genomics 2024](https://doi.org/10.1016/j.xgen.2023.100487) |
-| Jiang24            | Genetic           | 1,628,476 cells | [Jiang et al., Nat Cell Biology 2025](https://doi.org/10.1038/s41556-025-01622-z)          |
-| OP3                | Chemical          | 298,087 cells   | [Szałata et al., NeurIPS 2024](https://openreview.net/forum?id=WTI4RJYSVm)                 |
+| Dataset            | Perturbation type | Number of cells | Reference      |
+| ------------------ | ----------------- | --------------- | -------------- |
+| Norman19           | Genetic           | 91,168 cells    | [^norman19]    |
+| Srivatsan20        | Chemical          | 178,213 cells   | [^srivatsan20] |
+| Frangieh21         | Genetic           | 218,331 cells   | [^frangieh21]  |
+| McFalineFigueroa23 | Genetic           | 892,800 cells   | [^mcfaline23]  |
+| Jiang24            | Genetic           | 1,628,476 cells | [^jiang24]     |
+| OP3                | Chemical          | 298,087 cells   | [^szalata24]   |
 
 These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can train on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
 
@@ -98,3 +98,15 @@ Namsaraeva A, Wu Y, Wolf A & Sun S (2026). The PerturBench datasets in LaminDB. 
 ```
 
 [^wu26]: Yan Wu, Esther Wershof, Sebastian M Schmon, Marcel Nassar, Błażej Osiński, Ridvan Eksi, Zichao Yan, Rory Stark, Kun Zhang, Thore Graepel. PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. arXiv:2408.10609.
+
+[^norman19]: Norman et al., Science 2019. https://doi.org/10.1126/science.aax4438
+
+[^srivatsan20]: Srivatsan et al., Science 2020. https://doi.org/10.1126/science.aax6234
+
+[^frangieh21]: Frangieh et al., Nat Genet. 2021. https://doi.org/10.1038/s41588-021-00779-1
+
+[^mcfaline23]: McFaline-Figueroa et al., Cell Genomics 2024. https://doi.org/10.1016/j.xgen.2023.100487
+
+[^jiang24]: Jiang et al., Nat Cell Biology 2025. https://doi.org/10.1038/s41556-025-01622-z
+
+[^szalata24]: Szałata et al., NeurIPS 2024. https://openreview.net/forum?id=WTI4RJYSVm
