@@ -3,7 +3,7 @@ title: "A data lakehouse for sparse biological features"
 date: 2026-03-03
 author: jejomath
 affiliation:
-  jejomath: MergeLogic, Cambridge, MA
+  jejomath: MereLogic, Cambridge, MA
 ---
 
 One avenue into the future of biotech is scaled learning from multi-modal datasets.
