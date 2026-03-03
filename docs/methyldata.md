@@ -16,11 +16,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
----
-
 DNA methylation patterns vary with age, disease, and tissue type, which makes them useful for both diagnostics and biological age prediction. [MethylGPT](https://github.com/albert-ying/MethylGPT) (Ying, Song, Cui et al., bioRxiv 2024) is a transformer-based foundation model trained on over 150,000 human methylation profiles. We built a [LaminDB instance](https://lamin.ai/laminlabs/methyldata) that curates the MethylGPT training data with consistent metadata, making it easy to query, subset, and feed into downstream ML workflows.
-
----
 
 ## Why methylation data needs structure
 
