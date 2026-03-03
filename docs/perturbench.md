@@ -21,7 +21,7 @@ The PerturBench database contains 6 curated datasets for evaluating machine lear
 
 ## The datasets
 
-[PerturBench](https://github.com/altoslabs/perturbench) (Wu, Wershof, Schmon, Nassar et al., 2025)[^wu26] introduced a comprehensive framework for benchmarking ML models that predict single-cell transcriptomic responses to perturbations. It addresses the problem that published models are often evaluated on inconsistent benchmarks with different datasets and metrics, making it hard to know what actually works.
+[PerturBench](https://github.com/altoslabs/perturbench) (Wu, Wershof, Schmon, Nassar et al., 2025)[^wu26] introduced a comprehensive framework for benchmarking machine learning (ML) models that predict single-cell transcriptomic responses to perturbations. It addresses the problem that published models are often evaluated on inconsistent benchmarks with different datasets and metrics, making it hard to know what actually works.
 
 The framework includes six datasets spanning genetic and chemical perturbations at different scales:
 
