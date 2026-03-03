@@ -1,6 +1,6 @@
 ---
 title: "Tracking PyTorch Lightning checkpoints with LaminDB"
-date: 2026-02-21
+date: 2026-03-03
 author: Zethson, falexwolf
 orcid:
   Zethson: 0000-0002-8937-3457
@@ -8,7 +8,6 @@ orcid:
 affiliation:
   Zethson: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
-db: https://lamin.ai/laminlabs/lamindata
 repo: https://github.com/laminlabs/lamindb
 tweet: TBD
 linkedin: TBD
