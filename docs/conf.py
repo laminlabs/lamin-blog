@@ -50,6 +50,7 @@ authors = {
     "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
+    "yanwu2014": ("Yan Wu", "https://github.com/yanwu2014"),
     "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
 }
 lndocs.authors = authors
