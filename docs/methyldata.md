@@ -1,5 +1,5 @@
 ---
-title: "MethylGPT's curated DNA methylation data"
+title: "MethylGPT's DNA methylation data curated: 150k profiles from 5281 datasets"
 date: 2026-03-03
 author: namsaraeva, falexwolf, sunnyosun
 orcid:
