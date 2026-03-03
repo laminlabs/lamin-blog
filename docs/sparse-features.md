@@ -45,7 +45,7 @@ Data warehouses impose too much structure for multi-modal biological data. Data 
 As shown on the right of the previous figure, a data lakehouse functions as a layer on top of a data lake that records structural information about each isolated dataset that can be used to dynamically extract consistently formatted information and integrate it with other datasets, external ontologies and other resources.
 
 This option provides the best of both worlds: enough flexibility to store data from any assay/experiment/protocol that might come up, with enough structure to enable intuitive querying and model training while eliminating manual cleaning and bookkeeping.
-One specific implementation that's based on integrating biological registries with support of biological data structures is put forward in the open-source tool `lamindb`, and illustrated in the figure below.
+One specific implementation that's based on integrating biological registries with support of biological data formats is put forward in the open-source tool `lamindb`, and illustrated in the figure below.
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Duc60Ut5oykXThEL0001.svg">
