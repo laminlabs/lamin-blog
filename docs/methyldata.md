@@ -1,15 +1,15 @@
 ---
-title: "Curated DNA methylation data with LaminDB"
-date: 2026-02-25
-author: namsaraeva, sunnyosun, falexwolf
+title: "MethylGPT's curated DNA methylation data"
+date: 2026-03-03
+author: namsaraeva, falexwolf, sunnyosun
 orcid:
   namsaraeva: 0000-0001-6071-9410
+  falexwolf: 0000-0002-8760-7838  
   sunnyosun: 0000-0002-2365-0888
-  falexwolf: 0000-0002-8760-7838
 affiliation:
   namsaraeva: Lamin Labs, Munich
+  falexwolf: Lamin Labs, Munich  
   sunnyosun: Lamin Labs, Munich
-  falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/methyldata
 repo: https://github.com/albert-ying/MethylGPT
 tweet: TBD
@@ -28,7 +28,7 @@ MethylGPT was trained on 226,555 DNA methylation profiles (154,063 after QC and 
 
 We registered MethylGPT's default preprocessed pretraining dataset from [github.com/albert-ying/MethylGPT](https://github.com/albert-ying/MethylGPT) in LaminDB and annotated it with structured metadata. If you want to train a model on a specific tissue type, filter by disease status, or understand the demographic composition of the training set, you need queryable metadata, and that's what our [methyldata](https://lamin.ai/laminlabs/methyldata) instance provides.
 
-## What's in the instance
+## What's in the database
 
 The [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) instance organizes the MethylGPT data into two artifact types, stored under consistent key prefixes:
 
@@ -61,9 +61,9 @@ The notebook includes querying the instance for all blood tissue samples with kn
 
 From there, the notebook merges beta values with metadata, imputes missing CpG values, and trains a small PyTorch neural network (one hidden layer, 128 units) to predict chronological age from methylation profiles. The trained model is saved back to the instance as an artifact under `methylGPT/models/` and closes the loop from curated data to trained model.
 
-## Explore the instance
+## Explore the database
 
-The full instance is publicly available at [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata). To access the data programmatically:
+The database is publicly available at [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata). To access the data programmatically:
 
 ```python
 import lamindb as ln
@@ -95,15 +95,15 @@ artifacts_A549 = meta_artifacts.filter(cell_lines=cell_lines.a549_cell)
 
 Altana curated the metadata, generated wide tables, developed the tutorial notebook and wrote this post.
 
-Sunny ingested raw datasets and supervised the work and reviewed this post.
+Alex helped conceive the project and write the post.
 
-Alex supervised the work and reviewed this post.
+Sunny supervised the work, ingested raw datasets, and reviewed this post.
 
 ## Code & data availability
 
-- Lamin instance: [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata)
-- MethylGPT GitHub repository: [github.com/albert-ying/MethylGPT](https://github.com/albert-ying/MethylGPT)
-- MethylGPT paper: [doi.org/10.1101/2024.10.30.621013](https://doi.org/10.1101/2024.10.30.621013)
+- Database: [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata)
+- MethylGPT repository: [github.com/albert-ying/MethylGPT](https://github.com/albert-ying/MethylGPT)
+- MethylGPT paper: [Ying et al. (2024)](https://doi.org/10.1101/2024.10.30.621013)
 
 ## Citation
 
