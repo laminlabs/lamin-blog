@@ -1,7 +1,7 @@
 ---
 title: "The PerturBench datasets in LaminDB"
 date: 2026-03-03
-author: namsaraeva, yanwu2024, falexwolf, sunnyosun
+author: namsaraeva, yanwu2014, falexwolf, sunnyosun
 orcid:
   namsaraeva: 0000-0001-6071-9410
   sunnyosun: 0000-0002-2365-0888
@@ -9,7 +9,7 @@ orcid:
 affiliation:
   namsaraeva: Lamin Labs, Munich
   sunnyosun: Lamin Labs, Munich
-  yanwu2024: Altos Labs, Redwood City
+  yanwu2014: Altos Labs, Redwood City
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/altoslabs/perturbench
 repo: https://github.com/altoslabs/perturbench
