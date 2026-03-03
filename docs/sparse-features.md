@@ -6,9 +6,9 @@ affiliation:
   jejomath: MergeLogic, Cambridge, MA
 ---
 
-One avenue into the future of biotech is scaled learning from multi-modal data.
-Given these data easily measure millions of features, they can't be queried through any established data infrastructure.
-This note proposes to model the sparse biological feature store as a data lakehouse.
+One avenue into the future of biotech is scaled learning from multi-modal datasets.
+Given the union of these datasets can easily measure millions of features, they can't be queried through any established data infrastructure.
+This note proposes to model them as data lakehouse with support for bio-formats and registries.
 
 ## Multi-modal datasets
 
