@@ -56,7 +56,7 @@ In this [rich example notebook](https://lamin.ai/vitessce/examples/transform/3ix
 
 ## Author contributions
 
-Mark added support for `lamindb.artifact` within the Vitessce Python package, created the example database [lamin.ai/vitessce/examples](http://lamin.ai/vitessce/examples), overhauled the LaminDB integration ([laminlabs/lamindb#1953](https://github.com/laminlabs/lamindb/pull/1953)), and wrote the first comprehensive version of the Vitessce ingestion guide: [docs.lamin.ai/vitessce](http://docs.lamin.ai/vitessce).
+Mark added support for the `lamindb.Artifact` type within the Vitessce Python package, created the example database [lamin.ai/vitessce/examples](http://lamin.ai/vitessce/examples), overhauled the LaminDB integration ([laminlabs/lamindb#1953](https://github.com/laminlabs/lamindb/pull/1953)), and wrote the first comprehensive version of the Vitessce ingestion guide: [docs.lamin.ai/vitessce](http://docs.lamin.ai/vitessce).
 
 Altana resolved many issues running the integration in production, overhauled the ingestion guide ([laminlabs/lamin-spatial#48](https://github.com/laminlabs/lamin-spatial/pull/48)), and reviewed this post.
 
