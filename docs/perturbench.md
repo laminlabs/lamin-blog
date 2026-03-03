@@ -48,13 +48,13 @@ The [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database c
 
 **ML split construction.** The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
 
-The process can be visualized in the data lineage graph, for example, for the Jiang24 and Frangieh21 datasets (**Figure 1**).
+The process can be visualized in the data lineage graph, for example, for the Jiang24 and Frangieh21 datasets:
 
+<div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/X6UYqnvFVrsSXoqT0000.png" width="700">
+</div>
 
-**Figure 1**: Lineage graph for the Jiang24 and Frangieh21 datasets on [lamin.ai/altoslabs/perturbench](https://lamin.ai/altoslabs/perturbench). Two curation pipelines converge on a shared split-building notebook. On the top path, four raw Seurat `.rds` files (IFNG, IFNB, INS, TGFB, and TNFA perturbation conditions) feed into `curate_Jiang24_step2.ipynb`, producing a processed `.h5ad.gz` file. On the bottom path, a raw `.h5ad` file (`Frangieh2021_RNA.h5ad`) feeds into `curate_Frangieh21.ipynb`, producing another processed `.h5ad.gz`. Both processed datasets then feed into `build_jiang24_frangieh21_splits.ipynb`, which produces two split artifacts: the Frangieh21 split shown here, and a Jiang24 split (not shown).
-
-The lineage graph reads left to right: raw input → curation notebook → processed dataset → split-building notebook → ML-ready splits. Every node is a tracked artifact or transform with a unique identifier. This gives you an advantage of **traceability**. If a model produces unexpected results on a particular dataset, you can trace the training data all the way back to the raw source. The lineage graph makes it immediately clear which raw file, which curation script, and which split-building step were involved.
+Two curation pipelines converge on a shared split-building notebook. On the top path, four raw Seurat `.rds` files (IFNG, IFNB, INS, TGFB, and TNFA perturbation conditions) feed into `curate_Jiang24_step2.ipynb`, producing a processed `.h5ad.gz` file. On the bottom path, a raw `.h5ad` file (`Frangieh2021_RNA.h5ad`) feeds into `curate_Frangieh21.ipynb`, producing another processed `.h5ad.gz`. Both processed datasets then feed into `build_jiang24_frangieh21_splits.ipynb`, which produces two split artifacts: the Frangieh21 split shown here, and a Jiang24 split (not shown).
 
 ## Explore the database
 
