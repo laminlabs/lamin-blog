@@ -68,7 +68,7 @@ Jesse authored the text and the second graphic in collaboration with the Lamin t
 
 ## Materials
 
-A slide with Alex Wolf's "1 million features" pencil drawing.
+The original slide with Alex Wolf's "1 million features" pencil drawing that, over the years, led to the first figure in this post.
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vriNut4LCbfvd3qu0000.jpg">
