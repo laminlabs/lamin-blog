@@ -20,7 +20,7 @@ Most are annotated with complex, external ontologies or vocabularies linked to a
 Because of the partially overlapping features between these datasets, they conceptually fit together into a giant, sparse "feature matrix" where each "row" is an observation and each "column" a numerical measurement, a measurement of a discrete/categorical entity, textual records, or tensor data (for example, in the case of images or embeddings).
 
 <div style="text-align: center">
-<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0000.svg">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg">
 </div>
 
 To build multi-modal machine learning models, computational biologists need to extract data from this (conceptual) matrix. But because datasets are typically stored as files scattered across different directories and storage locations, doing this in practice is complex and time-consuming under the best of circumstances. In many circumstances, it makes training ML models across the theoretically available datasets practically impossible.
