@@ -4,6 +4,10 @@ date: 2026-03-04
 author: jejomath
 affiliation:
   jejomath: MereLogic, Cambridge, MA
+repo: https://github.com/laminlabs/lamindb
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7434991882767716352/
+tweet: https://x.com/laminlabs/status/2029225038562435195
+bsky: https://bsky.app/profile/laminlabs.bsky.social/post/3mganov2lnk2s
 ---
 
 One avenue into the future of biotech is scaled learning from multi-modal datasets.
