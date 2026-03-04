@@ -8,6 +8,7 @@ affiliation:
 
 One avenue into the future of biotech is scaled learning from multi-modal datasets.
 Given that the union of these datasets can easily span millions of sparse features, they can't be queried through any established data infrastructure.
+Warehouses are too rigid, data lakes can't be queried, and tabular lakehouses don't understand the formats.
 It needs a data lakehouse with support for bio-formats and registries.
 
 ## Multi-modal datasets
