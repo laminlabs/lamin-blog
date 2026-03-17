@@ -1,6 +1,6 @@
 ---
 title: "The PerturBench datasets in LaminDB"
-date: 2026-03-03
+date: 2026-03-17
 author: namsaraeva, yanwu2014, falexwolf, sunnyosun
 orcid:
   namsaraeva: 0000-0001-6071-9410
@@ -17,7 +17,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
-The PerturBench database contains 6 curated datasets for evaluating machine learning models that predict how cells' transcriptional states respond to genetic or chemical perturbations.
+The PerturBench database contains six curated datasets for evaluating machine learning models that predict how cells' transcriptional states respond to genetic or chemical perturbations.
 
 ## The datasets
 
@@ -34,15 +34,15 @@ The framework includes six datasets spanning genetic and chemical perturbations 
 | Jiang24            | Genetic           | 1,628,476 cells | [^jiang24]     |
 | OP3                | Chemical          | 298,087 cells   | [^szalata24]   |
 
-These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can train on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
+These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can be trained on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
 
-The original PerturBench codebase hosts processed datasets on [HuggingFace](https://huggingface.co/datasets/altoslabs/perturbench/tree/main) as gzipped `.h5ad` files. But these files alone don't tell you how the processing was done, what changed between versions, or how the train/val/test splits relate to the processed data.
+The original PerturBench codebase hosts processed datasets on [Hugging Face](https://huggingface.co/datasets/altoslabs/perturbench/tree/main) as gzipped `.h5ad` files. But these files alone don't tell you how the processing was done, what changed between versions, or how the train/val/test splits relate to the processed data.
 
 ## The datasets in LaminDB
 
 The [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database captures the entire curation and split-building pipeline with full data lineage. Here's what's inside:
 
-- **Raw data ingestion.** We ingested all raw datasets from the PerturBench publication: registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
+- **Raw data ingestion.** We ingested all raw datasets from the PerturBench publication by registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
 - **Curation transforms.** The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, linking them to their input and output artifacts to establish full lineage.
 - **ML split construction.** The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
 
@@ -74,11 +74,11 @@ adata = artifact.load()
 
 ## Author contributions
 
-Altana ingested all raw datasets and registered PerturBench's curation notebooks as transforms in the Lamin instance, and wrote the post.
+Altana curated the data in the database and wrote the post.
 
-Yan developed the curation and preprocessing notebooks, provided the datasets, and advice.
+Yan advised on the project and developed the curation and preprocessing notebooks.
 
-Alex contributed to conception and helped writing the post.
+Alex contributed to the conception and helped write the post.
 
 Sunny supervised the work and reviewed the post.
 
