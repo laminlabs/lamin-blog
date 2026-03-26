@@ -17,7 +17,7 @@ ogp_site_url = "https://blog.lamin.ai"
 ogp_site_name = project
 
 html_theme_options["logo"] = {
-    "link": ogp_site_url,
+    "link": "/",
     "text": project,
     "root": "https://lamin.ai",
 }
@@ -34,20 +34,24 @@ html_theme_options["icon_links"] = [
 extensions.append("ablog")
 authors = {
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
-    "falexwolf": ("Alex Wolf", "https://falexwolf.me"),
-    "felix-fischer": ("Felix Fischer", "https://github.com/felix0097"),
-    "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
-    "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
-    "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
     "fabian-theis": (
         "Fabian Theis",
         "https://scholar.google.com/citations?user=sqWpn2AAAAAJ&hl=en",
     ),
-    "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
-    "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
+    "falexwolf": ("Alex Wolf", "https://falexwolf.com"),
+    "felix-fischer": ("Felix Fischer", "https://github.com/felix0097"),
     "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
+    "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
+    "jejomath": ("Jesse Johnson", "https://github.com/jejomath"),
+    "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
+    "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
+    "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
+    "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
+    "tjburns08": ("Tyler Burns", "https://github.com/tjburns08"),
+    "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
+    "yanwu2014": ("Yan Wu", "https://github.com/yanwu2014"),
     "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
 }
 lndocs.authors = authors
