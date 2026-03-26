@@ -61,14 +61,19 @@ The database is publicly available at [lamin.ai/altoslabs/perturbench](https://l
 ```python
 import lamindb as ln
 
-# connect to the instance
+# connect the database
 db = ln.DB("altoslabs/perturbench")
 
-# list all artifacts
+# list artifacts in the database
 df = db.Artifact.to_dataframe()
 
-# access the processed Frangieh21 dataset
+# query the processed Frangieh21 dataset
 artifact = db.Artifact.get(description="Frangieh21 processed dataset")
+
+# describe the context of that artifact
+artifact.describe()
+
+# load an AnnData object into memory
 adata = artifact.load()
 ```
 
