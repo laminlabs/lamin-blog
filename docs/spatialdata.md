@@ -1,25 +1,21 @@
 ---
-title: "Managing spatial omics data with LaminDB & SpatialData"
+title: "Managing spatial omics data with SpatialData & LaminDB"
 date: 2026-02-21
-author: Zethson, namsaraeva-altana, treis-tim, keller-mark, vierdag-michiel, marconato-luca, zimmermann-lea, falexwolf
+author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, falexwolf
 orcid:
   Zethson: 0000-0002-8937-3457
   falexwolf: 0000-0002-8760-7838
 affiliation:
   Zethson: Lamin Labs, Munich
-  namsaraeva-altana: Lamin Labs, Munich
-  treis-tim: Helmholtz Munich, Munich
+  namsaraeva: Lamin Labs, Munich
+  timtreis: Helmholtz Munich, Munich
   keller-mark: Harvard University, Boston
-  vierdag-michiel: EMBL Heidelberg, Heidelberg
-  marconato-luca: EMBL Heidelberg, Heidelberg
-  zimmermann-lea: Helmholtz Munich, Munich
+  melonora: EMBL Heidelberg, Heidelberg
+  LucaMarconato: EMBL Heidelberg, Heidelberg
+  zimea: Helmholtz Munich, Munich
   falexwolf: Lamin Labs, Munich
-db: https://lamin.ai/laminlabs/lamindata
-repo: https://github.com/laminlabs/lamindb
 tweet: TBD
 linkedin: TBD
----
-
 ---
 
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
@@ -29,8 +25,6 @@ But as spatial datasets accumulate across experiments, technologies, and labs, q
 LaminDB now provides first-class support for SpatialData — from ingestion and validation to cross-dataset queries, interactive visualization, and ML training.
 
 This post walks through the full integration.
-
----
 
 ## Querying spatial datasets by biological metadata
 
