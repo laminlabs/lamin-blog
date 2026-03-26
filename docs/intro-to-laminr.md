@@ -33,8 +33,8 @@ I'm not going to cut and paste the entire guided clustering tutorial into this, 
 Before you even do anything with Seurat analysis whatsoever, you start by logging in. You import the Lamin command line interface (CLI) into R. You then log in, and connect. In R, it looks like this:
 
 ```r
-lc \<- laminr::import_module("lamin_cli")
-lc$login(user \= "username")
+lc <- laminr::import_module("lamin_cli")
+lc$login(user = "username")
 lc$connect("instance_owner/your_instance")
 ```
 
@@ -42,24 +42,24 @@ Now we move to the R interface to Lamin (where you would otherwise use Python). 
 
 ```r
 library(laminr)
-ln \<- laminr::import_module("lamindb")
+ln <- laminr::import_module("lamindb")
 ```
 
 And then from here, you set up your project. Below is what that looks like. Importantly, you want Lamin to track what you do, so the code can be stored on their end and you can know what you did when you check back however many days/months/years from now:
 
 ```r
-\# Set up a project
-proj \<- ln$Project(name \= "Basic Seurat analysis")$save()
+# Set up a project
+proj <- ln$Project(name = "Basic Seurat analysis")$save()
 
-\# For the knitting (otherwise Lamin does not recognize path)
-this_rmd \<- normalizePath(knitr::current_input(dir \= TRUE))
+# For the knitting (otherwise Lamin does not recognize path)
+this_rmd <- normalizePath(knitr::current_input(dir = TRUE))
 
-\# Start a tracked run
-ln$track(project \= "Basic Seurat analysis", path \= this_rmd)
+# Start a tracked run
+ln$track(project = "Basic Seurat analysis", path = this_rmd)
 
 ```
 
-From here, you load the PBMC 3k dataset, and take it through whatever analysis you're going to do. Let's assume you did a standard pre-processing \-\> PCA \-\> clustering \-\> nonlinear dimensionality reduction set up. What you do next is save your Seurat object as a rds file.
+From here, you load the PBMC 3k dataset, and take it through whatever analysis you're going to do. Let's assume you did a standard pre-processing -> PCA -> clustering -> nonlinear dimensionality reduction set up. What you do next is save your Seurat object as a rds file.
 
 Let's do that now. Below is the pipeline, as defined for the PBMC 3k dataset, in Seurat's [Guided Clustering Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html).
 
@@ -67,21 +67,21 @@ Let's do that now. Below is the pipeline, as defined for the PBMC 3k dataset, in
 library(Seurat)
 library(SeuratData)
 
-cells \<- SeuratData::LoadData("pbmc3k")
-cells \<- NormalizeData(cells, normalization.method \= "LogNormalize", scale.factor \= 10000\)
-cells \<- FindVariableFeatures(cells, selection.method \= "vst", nfeatures \= 2000\)
-all.genes \<- rownames(cells)
-cells \<- ScaleData(cells, features \= all.genes)
-cells \<- RunPCA(cells, features \= VariableFeatures(object \= cells))
-cells \<- FindNeighbors(cells, dims \= 1:10)
-cells \<- FindClusters(cells, resolution \= 0.5)
-cells \<- RunUMAP(cells, dims \= 1:10)
+cells <- SeuratData::LoadData("pbmc3k")
+cells <- NormalizeData(cells, normalization.method = "LogNormalize", scale.factor = 10000)
+cells <- FindVariableFeatures(cells, selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(cells)
+cells <- ScaleData(cells, features = all.genes)
+cells <- RunPCA(cells, features = VariableFeatures(object = cells))
+cells <- FindNeighbors(cells, dims = 1:10)
+cells <- FindClusters(cells, resolution = 0.5)
+cells <- RunUMAP(cells, dims = 1:10)
 ```
 
 Ok, let's have a look at the output of our work:
 
 ```r
-DimPlot(cells, reduction \= "umap")
+DimPlot(cells, reduction = "umap")
 ```
 
 ![][image1]
@@ -91,7 +91,7 @@ The direct source of the image is [here](https://lamin.ai/laminlabs/training/tra
 And we'll go ahead and do one more from the tutorial. Coloring the UMAP by specific genes:
 
 ```r
-FeaturePlot(cells, features \= c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A"))
+FeaturePlot(cells, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A"))
 ```
 
 ![][image2]
@@ -111,7 +111,7 @@ saveRDS(cells, "pbmc3k_processed.rds")
 The next thing we are going to do is turn it into an artifact using the following code:
 
 ```r
-ln$Artifact("pbmc3k\_processed.rds", key \= "pbmc3k/pbmc3k\_processed.rds")$save()
+ln$Artifact("pbmc3k_processed.rds", key = "pbmc3k/pbmc3k_processed.rds")$save()
 ```
 
 And from here, we are going to end the session, by running:
@@ -166,8 +166,8 @@ In this simple example, we are going to pull out the PBMC 3k dataset that we jus
 To this end, we make a new Rmd file. In it, we start again by connecting to the Lamin database, as we did before:
 
 ```r
-lc \<- laminr::import_module("lamin_cli")
-lc$login(user \= "username")
+lc <- laminr::import_module("lamin_cli")
+lc$login(user = "username")
 lc$connect("instance_owner/your_instance")
 ```
 
@@ -176,13 +176,13 @@ Then we have the same setup code as before.
 ```r
 library(laminr)
 
-ln \<- import_module("lamindb")
+ln <- import_module("lamindb")
 
-\# For the knitting (otherwise Lamin does not recognize path)
-this_rmd \<- normalizePath(knitr::current_input(dir \= TRUE))
+# For the knitting (otherwise Lamin does not recognize path)
+this_rmd <- normalizePath(knitr::current_input(dir = TRUE))
 
-\# Start a tracked run
-ln$track(project \= "Basic Seurat analysis", path \= this_rmd)
+# Start a tracked run
+ln$track(project = "Basic Seurat analysis", path = this_rmd)
 ```
 
 From here, we are going to pull the artifact that we have saved. The artifact is going to have an ID associated with it. The way we find that ID is you go onto the Lamin website, go to your artifact, and in the upper right corner you will see some text just above the "Get" button. That's the artifact ID. It looks like this, on the right side:
@@ -194,7 +194,7 @@ This image comes from [here](https://lamin.ai/laminlabs/training/artifact/fNsILw
 Notice the "copy" button to the left of the "Get" button. Click on that. Then, you'll paste into R, like this:
 
 ```r
-art \<- ln$Artifact$get("VugfUMiwR8OtlnIU0002")
+art <- ln$Artifact$get("VugfUMiwR8OtlnIU0002")
 ```
 
 Now you have access to your artifact.
@@ -202,7 +202,7 @@ Now you have access to your artifact.
 From here, we pull out the data (the Seurat object) like this:
 
 ```r
-cells \<- art$load()
+cells <- art$load()
 ```
 
 And from here, we do our modification:
@@ -210,7 +210,7 @@ And from here, we do our modification:
 ```r
 library(Seurat)
 
-cells \<- Seurat::RunTSNE(cells)
+cells <- Seurat::RunTSNE(cells)
 ```
 
 Now to get the new artifact back into Lamin, we will first save it as a rds file as before. For the sake of understanding in this tutorial, we are going to save it as a different rds file rather than overwriting the first one.
@@ -222,7 +222,7 @@ saveRDS(cells, "pbmc_processed_2.rds")
 From here, we create a new artifact, but with the same key as the first one. And then we save it.
 
 ```r
-ln$Artifact("pbmc\_processed\_2.rds", key \= "pbmc3k/pbmc3k\_processed.rds")$save()
+ln$Artifact("pbmc_processed_2.rds", key = "pbmc3k/pbmc3k_processed.rds")$save()
 ```
 
 And finish the session.
