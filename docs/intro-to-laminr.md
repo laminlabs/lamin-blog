@@ -1,18 +1,10 @@
-# An introduction to LaminR, using the PBMC 3k dataset
-
-Tyler Burns
-Burns Life Sciences Consulting GmbH
-June 23, 2025 \- March 1, 2026
-
 ---
-
-_The fate of future generations depends more than ever before on the quality and quantity of our infrastructure investment today._
-
-Ursula von der Leyen, European Development Days 2022
-
+title: "An introduction to LaminR, using the PBMC 3k dataset"
+date: 2026-03-26
+author: tjburns08
+affiliation:
+  tjburns08: Burns Life Sciences Consulting, Berlin
 ---
-
-# Introduction
 
 There are always exciting new analyses of new data to be done with new tools. This is especially true in the current frothing cauldron of innovation around AI. But any data scientist will tell you that one of the keys to a good data science project is good data engineering practices. If your data infrastructure is bad (e.g. your data are disorganized, you don't know who did what, and so forth), you're not going to have a good time. Thus, a lot of work needs to be front loaded into how the data are going to be handled, stored, modified, and tracked over a project, while being compliant to any regulations around the data itself (e.g. in the US, HIPAA).
 
@@ -28,7 +20,7 @@ It does not matter how good your AI foundation model (or whatever you are using)
 
 This is where [Lamin](https://lamin.ai/) comes in. Lamin is a SAAS infrastructure that specializes in dealing with data infrastructure needs that naturally arise in the current paradigm of massive datasets training massive AI models. This includes (among other things) data storage, metadata (descriptions of the data objects in question), and tracking every last line of code that did any sort of modification to any part of a data object by whom and at what time. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
 
-# PBMC 3k dataset analysis: round 1
+## PBMC 3k dataset analysis: round 1
 
 We will start with the flagship PBMC 3k dataset. This dataset is featured in Seurat's [guided clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html), a common entrypoint in single-cell RNA sequencing analysis using Seurat.
 
@@ -165,7 +157,7 @@ And you can also get the environment, which is the packages and versions thereof
 
 This image comes from [here](https://lamin.ai/tjburns08/projectdata/transform/tyGjt1zD6H73).
 
-# PBMC 3k dataset analysis: round 2
+## PBMC 3k dataset analysis: round 2
 
 Now that we have looked at analysis of the PBMC 3k dataset in Seurat can be made into an artifact on Lamin's side using the Laminr package, we are now going to look at how to retrieve this object and modify it.
 
@@ -250,7 +242,7 @@ Remember to knit the Rmd file so you can see the updated source code that went i
 lamin save pbmc3k.Rmd
 \#+end_src
 
-# Conclusions
+## Conclusions
 
 As you can see from this post, every unit of work that you do can be more easily communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored.
 
