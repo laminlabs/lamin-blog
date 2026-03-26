@@ -1,6 +1,6 @@
 ---
 title: "Managing spatial omics data with SpatialData & LaminDB"
-date: 2026-02-21
+date: 2026-03-26
 author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, falexwolf
 orcid:
   Zethson: 0000-0002-8937-3457
@@ -19,7 +19,7 @@ linkedin: TBD
 ---
 
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
-The [SpatialData](https://github.com/scverse/spatialdata) framework (Marconato et al., Nat Methods, 2025) provides a unified in-memory and on-disk representation for these heterogeneous data types: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` container.
+The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified in-memory and on-disk representation for these heterogeneous data types: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` container.
 
 But as spatial datasets accumulate across experiments, technologies, and labs, querying, curating, and sharing them becomes a challenge.
 LaminDB now provides first-class support for SpatialData — from ingestion and validation to cross-dataset queries, interactive visualization, and ML training.
@@ -231,3 +231,5 @@ Alex supervised the work.
 Heumos L, Namsaraeva A, Treis T, Marconato L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
 https://blog.lamin.ai/spatialdata
 ```
+
+[^marconato25]: Marconato, L., Palla, G., Yamauchi, K.A. et al. SpatialData: an open and universal data framework for spatial omics. Nat Methods 22, 58–62 (2025).
