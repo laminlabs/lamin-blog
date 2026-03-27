@@ -12,6 +12,8 @@ Anyone who has worked with large and complex datasets knows that the devil is in
 
 It does not matter how good an AI foundation model (or whatever you are using) is, if your datasets and the infrastructure that hosts them are problematic. It's the classic term "garbage in, garbage out." So how do we handle all of this, aside from hiring a team of data engineers? This is where LaminR helps. It is an open-source package that specializes in dealing with data infrastructure needs that naturally arise in the current paradigm of using many big datasets with many agents and large teams to train better models. In particular, LaminR manages metadata to allow querying and finding data and it tracks every last line of code that did any sort of modification to any part of a data object by whom and at what time. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
 
+## PBMC 3k
+
 To illustrate this, we use the well-known PBMC 3k dataset. This dataset has been featured in Seurat's [guided clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) for a decade, and is still the common entrypoint in single-cell RNA sequencing analysis.
 
 If you have access to a hosted LaminDB instance on [lamin.ai](https://lamin.ai) you can login and connect to it:
@@ -158,3 +160,16 @@ You can also get the environment, which is the packages and versions thereof tha
 [Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
 Every unit of work that you do can now be easily shared and communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored making it easier to understand and reproduce. And this is particularly useful in large projects where many stakeholders contribute data and analyses.
+
+## Materials
+
+- The LaminR source code: https://github.com/laminlabs/laminr
+- The LaminDB source code: https://github.com/laminlabs/lamindb
+
+## Acknowledgements
+
+Thanks to Luke Zappia and Robrecht Cannoodt for creating LaminR and to Alex Wolf for editing this post.
+
+## Disclosure
+
+Lamin engaged Tyler to illustrate a use case for LaminR. This blog post is the result of that engagement.
