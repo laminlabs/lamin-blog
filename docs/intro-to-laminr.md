@@ -51,9 +51,6 @@ And then from here, you set up your project. Below is what that looks like. Impo
 # Set up a project
 proj <- ln$Project(name = "Basic Seurat analysis")$save()
 
-# For the knitting (otherwise Lamin does not recognize path)
-this_rmd <- normalizePath(knitr::current_input(dir = TRUE))
-
 # Start a tracked run
 ln$track(project = "Basic Seurat analysis", path = this_rmd)
 
@@ -78,25 +75,17 @@ cells <- FindClusters(cells, resolution = 0.5)
 cells <- RunUMAP(cells, dims = 1:10)
 ```
 
-Ok, let's have a look at the output of our work:
-
-```r
-DimPlot(cells, reduction = "umap")
-```
-
-![][image1]
-
-The direct source of the image is [here](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm0002).
-
-And we'll go ahead and do one more from the tutorial. Coloring the UMAP by specific genes:
+We can now e.g. look at a UMAP colored by specific genes:
 
 ```r
 FeaturePlot(cells, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A"))
 ```
 
-![][image2]
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/DDi04PvoNdjc9Xba0000.png">
+</div>
 
-The direct source of this image is [here](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm00020002).
+[Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
 In other words, we have uploaded the PBMC 3k dataset, and have taken it through a standard data analysis pipeline.
 
@@ -130,36 +119,35 @@ lamin save pbmc3k.Rmd
 
 The above saves the file pbmc3k.Rmd as a transform, to go along with your artifact “pbmc3k_processed.rds.” Now let's have a look at what things look like on their end.
 
-Here is where the artifacts are, with mine being just under “last updated” in this picture:
-![][image3]
+If we navigate to `pbmc3k/pbmc3k_processed.rds` we see that it is connected to the notebook `pbmc3k.Rmd`, which we had saved earlier:
 
-Clicking on pbmc3k/pbmc3k_processed.rds shows us the artifact itself. You can see here that it is connected to the file pbmc3k.Rmd, which we had saved earlier:
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VMTTBgRdPy81Fb590000.png">
+</div>
 
-![][image4]
+[Source](https://lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU000L).
 
-Clicking on our transform “pbmc3k.Rmd” gives us the run report, which you can see below.
-![][image5]
-This image comes from [here](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm0002/rUIgMcUOjXZxdrD3Olt5?filter[and][0][or][0][branch.name][eq]=main&filter[and][1][or][0][is_latest][eq]=true).
+Clicking on the `pbmc3k.Rmd` notebook gives us the run report, which you can see below.
+
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/XTqrtXrdxkBjCIlw0000.png">
+</div>
+
+[Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
 This is something that is very useful when using Lamin: you get the exact code that went into the production of the artifact. You might be able to point to the script on the computer that you used or what not. But what if this object was given to you by a colleague. Or what if you're rebooting a project that is several years old, where everyone forgot the exact details of what was done when and how? Now you have full access to these things so you can quickly pick up where you (or others) left off.
 
-You'll note that the code visualized above is a R Markdown that is separate from this blog post, which is also written in the literate programming format. I bring up here for the sake of making the nit picky distinction for the more detail-oriented readership.
+You can also get the environment, which is the packages and versions thereof that were loaded at the time of running the script:
 
-Anyway, you can get the source code, which is the code minus the output:
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/eGL2ZsiTk3E0pPEk0000.png">
+</div>
 
-![][image6]
-
-This image comes from [here](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm0002).
-
-And you can also get the environment, which is the packages and versions thereof that were loaded at the time of running the script:
-
-![][image7]
-
-This image comes from [here](https://lamin.ai/tjburns08/projectdata/transform/tyGjt1zD6H73).
+[Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
 ## PBMC 3k dataset analysis: round 2
 
-Now that we have looked at analysis of the PBMC 3k dataset in Seurat can be made into an artifact on Lamin's side using the Laminr package, we are now going to look at how to retrieve this object and modify it.
+Now that we have looked at analysis of the PBMC 3k dataset in Seurat can be made into an artifact on Lamin's side using the LaminR package, we are now going to look at how to retrieve this object and modify it.
 
 In this simple example, we are going to pull out the PBMC 3k dataset that we just stored as an artifact. We note that we ran UMAP on it in the previous run, and here we are going to run t-SNE on it. We will then save the Seurat object, now with t-SNE coordinates, and store it again as an artifact.
 
@@ -185,16 +173,10 @@ this_rmd <- normalizePath(knitr::current_input(dir = TRUE))
 ln$track(project = "Basic Seurat analysis", path = this_rmd)
 ```
 
-From here, we are going to pull the artifact that we have saved. The artifact is going to have an ID associated with it. The way we find that ID is you go onto the Lamin website, go to your artifact, and in the upper right corner you will see some text just above the "Get" button. That's the artifact ID. It looks like this, on the right side:
-
-![][image8]
-
-This image comes from [here](https://lamin.ai/laminlabs/training/artifact/fNsILwJTiDMhOBvc).
-
-Notice the "copy" button to the left of the "Get" button. Click on that. Then, you'll paste into R, like this:
+From here, we are going to pull the artifact that we have saved. The artifact has a UID. On the top right of the artifact page for the `pbmc3k/pbmc3k_processed.rds` file, there is a "copy" button. Click on that. Then, paste it into R, like this:
 
 ```r
-art <- ln$Artifact$get("VugfUMiwR8OtlnIU0002")
+art <- ln$Artifact$get("VugfUMiwR8OtlnIU")
 ```
 
 Now you have access to your artifact.
@@ -229,17 +211,6 @@ And finish the session.
 
 ```r
 ln$finish()
-```
-
-Let’s have a look at what we were able to do. We have a saved Seurat object artifact that has a t-SNE map done on it. We can see this in the image below:
-
-![][image9]
-This image is from [here](https://lamin.ai/laminlabs/training/transform/fAGSp4iqMJG0?filter%5Band%5D%5B0%5D%5Bor%5D%5B0%5D%5Bbranch.name%5D%5Beq%5D=main&filter%5Band%5D%5B1%5D%5Bor%5D%5B0%5D%5Bis_latest%5D%5Beq%5D=true).
-
-Remember to knit the Rmd file so you can see the updated source code that went into the artifact, as shown in the “run report” as discussed above. And as before, if you did not use notebook mode on RStudio, you need to go to the command line, in the directory with the R Markdown, and run:
-
-```
-lamin save pbmc3k.Rmd
 ```
 
 ## Conclusions
