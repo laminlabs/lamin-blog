@@ -14,7 +14,7 @@ It does not matter how good an AI foundation model (or whatever you are using) i
 
 To illustrate this, we use the well-known PBMC 3k dataset. This dataset has been featured in Seurat's [guided clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) for a decade, and is still the common entrypoint in single-cell RNA sequencing analysis.
 
-The present example assumes you have access to a hosted LaminDB instance via LaminHub, but you could just as well create your own instance on the command line. To connect to a hosted instance, you can use either the CLI or R:
+If you have access to a hosted LaminDB instance on [lamin.ai](https://lamin.ai) you can login and connect to it:
 
 :::::{tab-set}
 ::::{tab-item} CLI
@@ -36,27 +36,43 @@ lc$connect("instance_owner/your_instance")
 ::::
 :::::
 
-Now we move to the R interface to Lamin (where you would otherwise use Python). In your script or Rmd file, you will do the following to set things up:
+If you want to initialize your own database instead, use:
+
+::::::{tab-set}
+:::::{tab-item} CLI
+
+```bash
+lamin init --storage ./mydata --modules bionty
+```
+
+:::::
+:::::{tab-item} R
+
+```r
+lc <- laminr::import_module("lamin_cli")
+lc$init(storage = "./mydata", modules = "bionty")
+```
+
+:::::
+::::::
+
+In your script or Rmd notebook, you will do the following to set things up:
 
 ```r
 library(laminr)
 ln <- laminr::import_module("lamindb")
 ```
 
-And then from here, you set up your project. Below is what that looks like. Importantly, you want Lamin to track what you do, so the code can be stored on their end and you can know what you did when you check back however many days/months/years from now:
+LaminR is based on the Python package LaminDB and `reticulate`.
+
+Importantly, you typically want LaminR to track what you do, so all datasets will be linked to the generating code:
 
 ```r
-# Set up a project
-proj <- ln$Project(name = "Basic Seurat analysis")$save()
-
-# Start a tracked run
-ln$track(project = "Basic Seurat analysis", path = this_rmd)
-
+# Start a tracked run of your script or notebook
+ln$track()
 ```
 
-From here, you load the PBMC 3k dataset, and take it through whatever analysis you're going to do. Let's assume you did a standard pre-processing -> PCA -> clustering -> nonlinear dimensionality reduction set up. What you do next is save your Seurat object as a rds file.
-
-Let's do that now. Below is the pipeline, as defined for the PBMC 3k dataset, in Seurat's [Guided Clustering Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html).
+From here, you load the PBMC 3k dataset, and take it through whatever analysis you're going to do. Let's assume you did a standard pre-processing -> PCA -> clustering -> nonlinear dimensionality reduction set up. What you do next is save your Seurat object as a rds file:
 
 ```r
 library(Seurat)
@@ -85,19 +101,10 @@ FeaturePlot(cells, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR
 
 [Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
-In other words, we have uploaded the PBMC 3k dataset, and have taken it through a standard data analysis pipeline.
-
-Now here is where Lamin comes in.
-
-The first thing we are going to do is store this Seurat object as an artifact on Lamin's side. Here is how we are going to do that. First, we are going to save the Seurat object as an rds file:
+Let's now save this Seurat object as an artifact in LaminR:
 
 ```r
 saveRDS(cells, "pbmc3k_processed.rds")
-```
-
-The next thing we are going to do is turn it into an artifact using the following code:
-
-```r
 ln$Artifact("pbmc3k_processed.rds", key = "pbmc3k/pbmc3k_processed.rds")$save()
 ```
 
@@ -107,17 +114,26 @@ And from here, we are going to end the session, by running:
 ln$finish()
 ```
 
-Importantly, in the R Markdown you are running, you're going to want to knit it. This allows for the visualization of a run report on Lamin's end, which is the knitted R markdown, stored on their end, so you can see what code is associated with your artifact.
+If you use notebook mode in RStudio, this will already upload a run report. But if you didn't, you can knit your notebook and run one of the following to save the knitted html. You can think about it as equivalent to `git push`:
 
-Then the last thing you need to do in order for the run report to properly load, if you did not use notebook mode in R Studio. Go to the command line, in the directory that contains the R Markdown you’ve been working on (here, the file is pbmc3k.Rmd), and run:
+:::::{tab-set}
+::::{tab-item} CLI
 
-```
+```bash
 lamin save pbmc3k.Rmd
 ```
 
-The above saves the file pbmc3k.Rmd as a transform, to go along with your artifact “pbmc3k_processed.rds.” Now let's have a look at what things look like on their end.
+::::
+::::{tab-item} R
 
-If we navigate to `pbmc3k/pbmc3k_processed.rds` we see that it is connected to the notebook `pbmc3k.Rmd`, which we had saved earlier:
+```r
+lc$save("pbmc3k.Rmd")
+```
+
+::::
+:::::
+
+The above saves the file `pbmc3k.Rmd` as a "transform", which is short hand for data transformation, so that it's linked against the output file `pbmc3k/pbmc3k_processed.rds`. This is also visible on the LaminHub GUI:
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VMTTBgRdPy81Fb590000.png">
@@ -133,8 +149,6 @@ Clicking on the `pbmc3k.Rmd` notebook gives us the run report, which you can see
 
 [Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
-This is something that is very useful when using Lamin: you get the exact code that went into the production of the artifact. You might be able to point to the script on the computer that you used or what not. But what if this object was given to you by a colleague. Or what if you're rebooting a project that is several years old, where everyone forgot the exact details of what was done when and how? Now you have full access to these things so you can quickly pick up where you (or others) left off.
-
 You can also get the environment, which is the packages and versions thereof that were loaded at the time of running the script:
 
 <div style="text-align: center">
@@ -143,4 +157,4 @@ You can also get the environment, which is the packages and versions thereof tha
 
 [Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
-Every unit of work that you do can be more easily communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored making it easier to understand and reproduce. This becomes particularly useful in large projects where many stakeholders contribute data and analyses.
+Every unit of work that you do can now be easily shared and communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored making it easier to understand and reproduce. And this is particularly useful in large projects where many stakeholders contribute data and analyses.
