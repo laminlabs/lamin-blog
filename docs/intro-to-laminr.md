@@ -101,22 +101,20 @@ FeaturePlot(cells, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/DDi04PvoNdjc9Xba0000.png">
 </div>
 
-[Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
-
-Let's now save this Seurat object as an artifact in LaminR:
+Let's save this Seurat object as an artifact in LaminR:
 
 ```r
 saveRDS(cells, "pbmc3k_processed.rds")
 ln$Artifact("pbmc3k_processed.rds", key = "pbmc3k/pbmc3k_processed.rds")$save()
 ```
 
-And from here, we are going to end the session, by running:
+And end the compute session:
 
 ```r
 ln$finish()
 ```
 
-If you use notebook mode in RStudio, this will already upload a run report. But if you didn't, you can knit your notebook and run one of the following to save the knitted html. You can think about it as equivalent to `git push`:
+If you use notebook mode in RStudio, this will already upload a run report. But if you didn't, you can knit your notebook and run one of the following to save the knitted html:
 
 :::::{tab-set}
 ::::{tab-item} CLI
@@ -135,13 +133,11 @@ lc$save("pbmc3k.Rmd")
 ::::
 :::::
 
-The above saves the file `pbmc3k.Rmd` as a "transform", which is short hand for data transformation, so that it's linked against the output file `pbmc3k/pbmc3k_processed.rds`. This is also visible on the LaminHub GUI:
+The above saves the file `pbmc3k.Rmd` as a "transform", which is short hand for data transformation, so that it's linked against the output file `pbmc3k/pbmc3k_processed.rds`. This is also visible on the LaminHub GUI on the artifact page: [lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU](https://lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU)
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VMTTBgRdPy81Fb590000.png">
 </div>
-
-[Source](https://lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU000L).
 
 Clicking on the `pbmc3k.Rmd` notebook gives us the run report, which you can see below.
 
@@ -149,15 +145,13 @@ Clicking on the `pbmc3k.Rmd` notebook gives us the run report, which you can see
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/XTqrtXrdxkBjCIlw0000.png">
 </div>
 
-[Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
+To share this notebook, you can share a persistent link to the transform page: [lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm).
 
-You can also get the environment, which is the packages and versions thereof that were loaded at the time of running the script:
+Beyond inputs and ouputs this page also shows the environment, the packages that were loaded at the time of running the script:
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/eGL2ZsiTk3E0pPEk0000.png">
 </div>
-
-[Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
 Every unit of work that you do can now be easily shared and communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored making it easier to understand and reproduce. And this is particularly useful in large projects where many stakeholders contribute data and analyses.
 
