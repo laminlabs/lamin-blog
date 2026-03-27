@@ -1,5 +1,5 @@
 ---
-title: "An introduction to LaminR, using the PBMC 3k dataset"
+title: "An introduction to LaminR"
 date: 2026-03-26
 author: tjburns08
 affiliation:
