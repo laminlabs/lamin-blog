@@ -6,35 +6,35 @@ affiliation:
   tjburns08: Burns Life Sciences Consulting, Berlin
 ---
 
-There are always exciting new analyses of new data to be done with new tools. This is especially true in the current frothing cauldron of innovation around AI. But any data scientist will tell you that one of the keys to a good data science project is good data engineering practices. If your data infrastructure is bad (e.g. your data are disorganized, you don't know who did what, and so forth), you're not going to have a good time. Thus, a lot of work needs to be front loaded into how the data are going to be handled, stored, modified, and tracked over a project, while being compliant to any regulations around the data itself (e.g. in the US, HIPAA).
+Any data scientist will tell you that one of the keys to a good data science project is good data management practices. If your data are disorganized or you don't know who did what or you can't reproduced results, it'll "bite you" and your team. Thus, thought should go into how the data are going to be handled, stored, modified, and tracked over a project. Here, we'll be using an example from single-cell analysis to illustrate how the open-source LaminR package helps with traceability and reproducibility of data analyses in R.
 
-Here, we are going to focus on single-cell analysis as a use case...a particularly important one. If we roll the clock back to the early to mid 2010s, single-cell technologies (e.g. CyTOF, droplet-based sequencing) were still relatively new. Thus, the datasets were still relatively small compared to now. But today, we see the development of large single-cell "atlases" of increasing size, with a flagship example being Chan-Zuckerberg Initiative's (CZI's) [Billion Cells Project](https://chanzuckerberg.com/newsroom/billion-cells-project-launches-advance-ai-biology/).
+Anyone who has worked with large and complex datasets knows that the devil is in the details. You might have multiple data scientists and agents manipulating the data in multiple ways. Did we do a log1p transform or an asinh transform? Did we center and scale the data? I see some clusters. How did we cluster it? Did we use the default parameters or change something? And so forth. On top, there is the whole topic of revisiting datasets and projects that are several years old, where the people who were working on it have moved on, but which are now treasure troves that provide context and training data for agents.
 
-If we stick with CZI for a minute, we note that their vision is around a so-called [virtual cell](https://arxiv.org/abs/2409.11654). You can think of this as an AI-based cell simulation that will allow for in-silico clinical predictions (among other things). How is this related to the Billion Cells project? In the current paradigms around generative AI (genAI), we note that they require lots of training data. Thus, the more data CZI has, the better their AI models are going to be, which is going to lead to a more fully realized vision around virtual cells. To this end, they are indeed building foundation models, with [Universal Cell Embeddings](https://www.biorxiv.org/content/10.1101/2023.11.28.568918v1) as an early example (2023) and [TranscriptFormer](https://www.biorxiv.org/content/10.1101/2025.04.25.650731v1) (2025) as a more recent one.
+It does not matter how good an AI foundation model (or whatever you are using) is, if your datasets and the infrastructure that hosts them are problematic. It's the classic term "garbage in, garbage out." So how do we handle all of this, aside from hiring a team of data engineers? This is where LaminR helps. It is an open-source package that specializes in dealing with data infrastructure needs that naturally arise in the current paradigm of using many big datasets with many agents and large teams to train better models. In particular, LaminR manages metadata to allow querying and finding data and it tracks every last line of code that did any sort of modification to any part of a data object by whom and at what time. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
 
-Between the very large datasets being fed into the AI foundation models, one emerging theme is that of managing lots and lots of data. This could be at the level of a major organization like CZI making their own foundation models with their own billion cells dataset, or a smaller academic lab taking these foundation models and fine-tuning them with their internal data.
+To illustrate this, we use the well-known PBMC 3k dataset. This dataset has been featured in Seurat's [guided clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) for a decade, and is still the common entrypoint in single-cell RNA sequencing analysis.
 
-This goes well beyond having enough disk space to store everything you have. Anyone who has worked with large and complex datasets knows that the devil is in the details. You might have multiple data scientists manipulating the data in multiple ways. Did we do a log1p transform or an asinh transform? Did we center and scale the data? I see some clusters. How did we cluster it? Did we use the default parameters or change something? And so forth. For each sample. In who knows how many samples. And of course, there is the whole issue of revisiting datasets and projects that are several years old, where the people who were working on it have moved on.
+The present example assumes you have access to a hosted LaminDB instance via LaminHub, but you could just as well create your own instance on the command line. To connect to a hosted instance, you can use either the CLI or R:
 
-It does not matter how good your AI foundation model (or whatever you are using) is, if your datasets and the infrastructure that houses them are problematic. It's the classic term "garbage in, garbage out." So how do we handle all of this, aside from hiring a team of data engineers?
+:::::{tab-set}
+::::{tab-item} CLI
 
-This is where [Lamin](https://lamin.ai/) comes in. Lamin is a SAAS infrastructure that specializes in dealing with data infrastructure needs that naturally arise in the current paradigm of massive datasets training massive AI models. This includes (among other things) data storage, metadata (descriptions of the data objects in question), and tracking every last line of code that did any sort of modification to any part of a data object by whom and at what time. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
+```bash
+lamin login username
+lamin connect instance_owner/your_instance
+```
 
-We will use the well-known PBMC 3k dataset. This dataset has been featured in Seurat's [guided clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) for a decade, and is still the common entrypoint in single-cell RNA sequencing analysis.
-
-Here, we are going to deal with the following use case: a raw dataset is analyzed, and the Seurat object is saved as a rds file. Then, I or someone else wants to load the Seurat object and modify it. This modification is saved and the rds file is overwritten.
-
-Lamin can track exactly what was done on the PBMC 3k dataset Seurat object, to the level of remembering what script was used for what modification. Lamin stores its data as what are called "artifacts." This is a collection of data and metadata that is stored in the cloud on Lamin's side, but accessible by the user at any time. So here is how it works.
-
-I'm not going to cut and paste the entire guided clustering tutorial into this, but rest assured this is what was done. I'm just going to show you the extra stuff that allows for the use of Lamin's infrastructure with the analysis.
-
-Before you even do anything with Seurat analysis whatsoever, you start by logging in. You import the Lamin command line interface (CLI) into R. You then log in, and connect. In R, it looks like this:
+::::
+::::{tab-item} R
 
 ```r
 lc <- laminr::import_module("lamin_cli")
 lc$login(user = "username")
 lc$connect("instance_owner/your_instance")
 ```
+
+::::
+:::::
 
 Now we move to the R interface to Lamin (where you would otherwise use Python). In your script or Rmd file, you will do the following to set things up:
 
