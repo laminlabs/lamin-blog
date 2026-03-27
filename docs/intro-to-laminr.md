@@ -20,9 +20,7 @@ It does not matter how good your AI foundation model (or whatever you are using)
 
 This is where [Lamin](https://lamin.ai/) comes in. Lamin is a SAAS infrastructure that specializes in dealing with data infrastructure needs that naturally arise in the current paradigm of massive datasets training massive AI models. This includes (among other things) data storage, metadata (descriptions of the data objects in question), and tracking every last line of code that did any sort of modification to any part of a data object by whom and at what time. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
 
-## PBMC 3k dataset analysis: round 1
-
-We will start with the flagship PBMC 3k dataset. This dataset is featured in Seurat's [guided clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html), a common entrypoint in single-cell RNA sequencing analysis using Seurat.
+We will use the well-known PBMC 3k dataset. This dataset has been featured in Seurat's [guided clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) for a decade, and is still the common entrypoint in single-cell RNA sequencing analysis.
 
 Here, we are going to deal with the following use case: a raw dataset is analyzed, and the Seurat object is saved as a rds file. Then, I or someone else wants to load the Seurat object and modify it. This modification is saved and the rds file is overwritten.
 
