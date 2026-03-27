@@ -145,12 +145,4 @@ You can also get the environment, which is the packages and versions thereof tha
 
 [Source](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm000A).
 
-## Conclusions
-
-As you can see from this post, every unit of work that you do can be more easily communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored.
-
-Here, we took single-cell data and did two rounds of standard Seurat analysis on it. The first round was a standard analysis pipeline with the PBMC 3k dataset. The second round was a modification, whereby we added t-SNE to the Seurat object. Both rounds have been codified and stored. The Seurat object has been stored as an artifact on Lamin's side. You or anyone on your team can pull the artifact or previous versions of the artifact (in case you want to "roll it back" the way you would code within GitHub).
-
-For long term projects and projects that involve collaborators, the type of infrastructure that Lamin provides is valuable, if not indispensable, for computational biology teams doing single-cell or anything else.
-
-We note that as the datasets become larger and more complex, especially in projects that involve training or fine tuning foundation models, this type of infrastructure will become increasingly important and really show its value for the community. It is thus recommended that even if you don't need this type of infrastructure right now, you should learn the ropes around it. Because given the current trends in bioinformatics, it is inevitable that you are going to need this type of infrastructure down the line.
+Every unit of work that you do can be more easily communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored making it easier to understand and reproduce. This becomes particularly useful in large projects where many stakeholders contribute data and analyses.
