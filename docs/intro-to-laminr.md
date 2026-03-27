@@ -58,20 +58,17 @@ lc$init(storage = "./mydata", modules = "bionty")
 :::::
 ::::::
 
-In your script or Rmd notebook, you will do the following to set things up:
+LaminR is based on the Python package LaminDB and `reticulate`. To set things up in your script or Rmd notebook, run the following:
 
 ```r
 library(laminr)
-ln <- laminr::import_module("lamindb")
+ln <- laminr::import_module("lamindb")  # `ln` is the central object, equivalent to Python's `lamindb`
 ```
-
-LaminR is based on the Python package LaminDB and `reticulate`.
 
 Importantly, you typically want LaminR to track what you do, so all datasets will be linked to the generating code:
 
 ```r
-# Start a tracked run of your script or notebook
-ln$track()
+ln$track()  # start a tracked run of your script or notebook
 ```
 
 From here, you load the PBMC 3k dataset and take it through whatever analysis you're going to do, e.g., a standard pre-processing → PCA → clustering → nonlinear dimensionality reduction setup:
