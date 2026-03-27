@@ -6,11 +6,11 @@ affiliation:
   tjburns08: Burns Life Sciences Consulting, Berlin
 ---
 
-Any data scientist will tell you that one of the keys to a good data science project is good data management practices. If your data are disorganized or you don't know who did what or you can't reproduce results, it will come back to bite you and your team. Thus, thought should go into how the data are going to be handled, stored, modified, and tracked over a project. Here, we'll be using an example from single-cell analysis to illustrate how the open-source LaminR package helps with traceability and reproducibility of data analyses in R.
+Any data scientist will tell you that a key to a successful project is strong data management. If your data are disorganized or you don't know who did what or you can't reproduce results, it will come back to bite you and your team. Thus, teams should carefully plan how they handle, store, modify, and track data throughout a project. Here, we'll be using an example from single-cell analysis to illustrate how the open-source LaminR package helps with traceability and reproducibility of data analyses in R.
 
-Anyone who has worked with large and complex datasets knows that the devil is in the details. You might have multiple data scientists and agents manipulating the data in multiple ways. Did we do a log1p transform or an asinh transform? Did we center and scale the data? I see some clusters. How did we cluster it? Did we use the default parameters or change something? And so forth. On top of that, there is the whole topic of revisiting datasets and projects that are several years old, where the people who worked on them have moved on, but which can now provide context and training data for agents.
+Anyone who has worked with large and complex datasets knows that the devil is in the details. You might have multiple data scientists and agents manipulating the data in multiple ways. Did we do a log1p transform or an asinh transform? Did we center and scale the data? I see some clusters. How did we cluster it? Did we use the default parameters or change something? And so forth. Furthermore, revisiting older projects can be a nightmare when the original authors have moved on. Yet, these datasets are treasure troves that provide crucial context and training data for AI agents.
 
-It does not matter how good an AI foundation model (or whatever you are using) is if your datasets and the infrastructure that hosts them are problematic. It's the classic term "garbage in, garbage out." So how do we handle all of this, aside from hiring a team of data engineers? This is where LaminR helps. It is an open-source package that specializes in dealing with data management needs that naturally arise in the current paradigm of using many big datasets with many agents and large teams to train better models. In particular, LaminR manages metadata to allow querying and finding data and it tracks every line of code that modified a data object, including who made the change and when. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
+It doesn't matter how good your AI foundation model is if your datasets and infrastructure are problematic. It boils down to the classic adage: 'garbage in, garbage out.' So how do we handle all of this, aside from hiring a team of data engineers? This is where LaminR helps. LaminR is an open-source package designed to solve the data infrastructure challenges that naturally arise when large teams and AI agents collaborate on massive datasets. In particular, LaminR manages metadata to allow querying and finding data, and it tracks every line of code that modified a data object, including who made the change and when. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
 
 ## PBMC 3k
 
@@ -74,7 +74,7 @@ Importantly, you typically want LaminR to track what you do, so all datasets wil
 ln$track()
 ```
 
-From here, you load the PBMC 3k dataset, and take it through whatever analysis you're going to do, e.g., a standard pre-processing → PCA → clustering → nonlinear dimensionality reduction setup:
+From here, you load the PBMC 3k dataset and take it through whatever analysis you're going to do, e.g., a standard pre-processing → PCA → clustering → nonlinear dimensionality reduction setup:
 
 ```r
 library(Seurat)
@@ -109,7 +109,7 @@ And end the compute session:
 ln$finish()
 ```
 
-If you use notebook mode in RStudio, this will already upload a run report. But if you didn't, you can knit your notebook and run one of the following to save the knitted html:
+If you use notebook mode in RStudio, this will automatically upload a run report. Otherwise, you can knit your notebook and run one of the following to save the knitted HTML:
 
 :::::{tab-set}
 ::::{tab-item} CLI
@@ -140,15 +140,15 @@ Clicking on the `pbmc3k.Rmd` notebook gives us the run report, which you can see
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/XTqrtXrdxkBjCIlw0000.png">
 </div>
 
-To share this notebook, you can share a persistent link to the transform page: [lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm).
+To share this notebook, you can send colleagues a persistent link to the transform page: [lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm](https://lamin.ai/laminlabs/training/transform/KFtlfbCiP9Bm).
 
-Beyond inputs and outputs, this page also shows the environment, the packages that were loaded at the time of running the script:
+Beyond inputs and outputs, this page also shows the environment—specifically, the packages that were loaded at the time of running the script:
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/eGL2ZsiTk3E0pPEk0000.png">
 </div>
 
-Every unit of work that you do can now be easily shared and communicated, both with colleagues and your future self. For a given piece of data, every manipulation and the code surrounding a given manipulation is now recorded and stored, making it easier to understand and reproduce. And this is particularly useful in large projects where many stakeholders contribute data and analyses.
+Every unit of work that you do can now be easily shared and communicated, both with colleagues and your future self. For a given piece of data, every manipulation and its surrounding code are now recorded and stored, making it easier to understand and reproduce. And this is particularly useful in large projects where many stakeholders contribute data and analyses.
 
 ## Materials
 
