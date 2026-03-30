@@ -1,28 +1,22 @@
 ---
 title: "Tracking PyTorch Lightning checkpoints with LaminDB"
 date: 2026-03-03
-author: Zethson, falexwolf
+author: Zethson, falexwolf, jorenretel
 orcid:
   Zethson: 0000-0002-8937-3457
   falexwolf: 0000-0002-8760-7838
 affiliation:
   Zethson: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
-repo: https://github.com/laminlabs/lamindb
-tweet: TBD
-linkedin: TBD
+  jorenretel: Pfizer, Berlin
 ---
 
----
-
-When training deep learning models in biology, keeping track of model checkpoints alongside the datasets and code that produced them is essential for reproducibility.
-Existing experiment trackers like Weights & Biases, MLflow, and others excel at logging metrics over time, but don't natively capture the full lineage of input data, output checkpoints, and source code in a single queryable system.
+When training deep learning models, keeping track of model checkpoints alongside the datasets and code that produced them is essential for reproducibility.
+Existing experiment trackers like Weights & Biases, MLflow, and others excel at logging metrics over time, but don't natively capture the full lineage of input data, output checkpoints, and source code in a single queryable database.
 
 We built a [PyTorch Lightning](https://lightning.ai/docs/pytorch/stable/) integration for LaminDB that bridges this gap.
 The `ll.Checkpoint` callback automatically registers every model checkpoint as a LaminDB artifact — annotated with training metrics, linked to input datasets, and traced back to the notebook or script that produced it.
 It composes with W&B, MLflow, and other tracking frameworks rather than replacing them.
-
----
 
 ## The problem
 
@@ -188,13 +182,11 @@ Every checkpoint's full lineage — from input dataset to source code to output 
 best.view_lineage()
 ```
 
-![](https://lamin-site-assets.s3.us-east-1.amazonaws.com/.lamindb/oqbx2eNyNfbIsJtt0000.svg)
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.us-east-1.amazonaws.com/.lamindb/oqbx2eNyNfbIsJtt0000.svg">
+</div>
 
 This renders a DAG showing the notebook/script, the input dataset (e.g., MNIST), and the output checkpoint, all linked through the LaminDB `Run`.
-
-## Acknowledgements
-
-We thank Joren Retel for very helpful discussions, implementation guidance, and code contributions.
 
 ## Code & data availability
 
@@ -205,12 +197,13 @@ We thank Joren Retel for very helpful discussions, implementation guidance, and 
 
 ## Author contributions
 
-Lukas designed and implemented the Lightning integration.
-Alex supervised the work.
+Lukas designed & implemented the initial version of the Lightning integration.
+Alex contributed design decisions and code refactoring.
+Joren designed & implemented a production-ready version of the Lightning integration.
 
 ## Citation
 
 ```
-Heumos L & Wolf A (2026). Tracking PyTorch Lightning checkpoints with LaminDB. Lamin Blog.
+Heumos L, Wolf A & Joren R (2026). Tracking PyTorch Lightning checkpoints with LaminDB. Lamin Blog.
 https://blog.lamin.ai/lightning
 ```
