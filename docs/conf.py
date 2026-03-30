@@ -44,6 +44,7 @@ authors = {
     "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
     "jejomath": ("Jesse Johnson", "https://github.com/jejomath"),
     "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
+    "jorenretel": ("Joren Retel", "https://github.com/jorenretel"),
     "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
     "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
