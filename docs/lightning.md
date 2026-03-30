@@ -201,6 +201,13 @@ Lukas designed & implemented the initial version of the Lightning integration.
 Alex contributed design decisions and code refactoring.
 Joren designed & implemented a production-ready version of the Lightning integration.
 
+Pull requests:
+
+- 🚸 Optimize DB interactions in `lightning` integration [PR](https://github.com/laminlabs/lamindb/pull/3577) [@falexwolf](https://github.com/falexwolf)
+- 🐛 Fix feature collisions in lightning integration [PR](https://github.com/laminlabs/lamindb/pull/3576) [@falexwolf](https://github.com/falexwolf)
+- 🚸 Overhaul the pytorch `lightning` integration [PR](https://github.com/laminlabs/lamindb/pull/3425) [@Zethson](https://github.com/Zethson) [@jorenretel](https://github.com/jorenretel)
+- ✨ Add pytorch `lightning` integration with a `Callback` class [PR](https://github.com/laminlabs/lamindb/pull/3115) [PR Guide](https://github.com/laminlabs/lamin-mlops/pull/30) [@Zethson](https://github.com/Zethson)
+
 ## Citation
 
 ```
