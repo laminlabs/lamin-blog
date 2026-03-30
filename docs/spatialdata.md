@@ -160,7 +160,7 @@ After saving a SpatialData artifact, you can configure a Vitessce dashboard and 
 ```python
 from vitessce import VitessceConfig, AnnDataWrapper
 
-vc = VitessceConfig(schema_version="1.0.16", name="Xenium Lung")
+vc = VitessceConfig(schema_version="1.0.18", name="Xenium Lung")
 dataset = vc.add_dataset(name="lung").add_object(
     AnnDataWrapper(adata_artifact=artifact, ...)
 )
