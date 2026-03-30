@@ -1,6 +1,6 @@
 ---
 title: "Tracking PyTorch Lightning checkpoints with LaminDB"
-date: 2026-03-03
+date: 2026-03-30
 author: Zethson, falexwolf, jorenretel
 affiliation:
   Zethson: Lamin Labs, Munich
