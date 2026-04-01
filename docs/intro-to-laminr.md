@@ -131,7 +131,7 @@ The above saves the `pbmc3k.Rmd` notebook as a "transform" (shorthand for data t
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VMTTBgRdPy81Fb590000.png">
 </div>
 
-Clicking on the `pbmc3k.Rmd` notebook gives us the run report, which you can see below and which contains all plots and results:
+Clicking on the `pbmc3k.Rmd` notebook gives us the run report, which contains all plots and results:
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/XTqrtXrdxkBjCIlw0000.png">
@@ -145,10 +145,11 @@ Beyond inputs and outputs, this page also shows the environment—specifically, 
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/eGL2ZsiTk3E0pPEk0000.png">
 </div>
 
-Every unit of work that you do can now be easily shared and communicated, both with colleagues and your future self. For a given piece of data, every manipulation and its surrounding code are now recorded and stored, making it easier to understand and reproduce. And this is particularly useful in large projects where many stakeholders contribute data and analyses.
+Every unit of work that you do can now be easily shared and communicated, both with colleagues and your future self. For a given piece of data, every manipulation and its surrounding code are now recorded and stored, making it easier to understand and reproduce.
 
-## Materials
+To learn more, take a look at the docs or the source code:
 
+- The docs: https://docs.lamin.ai
 - The LaminR source code: https://github.com/laminlabs/laminr
 - The LaminDB source code: https://github.com/laminlabs/lamindb
 
