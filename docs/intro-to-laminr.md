@@ -6,11 +6,11 @@ affiliation:
   tjburns08: Burns Life Sciences Consulting, Berlin
 ---
 
-Any data scientist will tell you that a key to a successful project is strong data management. If your data are disorganized or you don't know who did what or you can't reproduce results, it will come back to bite you and your team. Thus, teams should carefully plan how they handle, store, modify, and track data throughout a project. Here, we'll be using an example from single-cell analysis to illustrate how the open-source LaminR package helps with traceability and reproducibility of data analyses in R.
+Any data scientist will tell you that a key to a successful project is strong data management. If your data are disorganized, you don't know who did what, or you can't reproduce results, it will come back to bite you and your team. Thus, teams should carefully plan how they handle, store, modify, and track data throughout a project. Here, we'll be using an example from single-cell analysis to illustrate how the open-source LaminR package helps with traceability and reproducibility of data analyses in R.
 
-Anyone who has worked with large and complex datasets knows that the devil is in the details. You might have multiple data scientists and agents manipulating the data in multiple ways. Did we do a log1p transform or an asinh transform? Did we center and scale the data? I see some clusters. How did we cluster it? Did we use the default parameters or change something? And so forth. Furthermore, revisiting older projects can be a nightmare when the original authors have moved on. Yet, these datasets are treasure troves that provide crucial context and training data for AI agents.
+The devil is in the details, in particular when working with many complex datasets. You might have multiple data scientists and agents manipulating the data in multiple ways. Did we do a log1p transform or an asinh transform? Did we center and scale the data? I see some clusters. How did we cluster? Did we use the default parameters or change something? And so forth. Furthermore, revisiting older projects can be a nightmare when the original authors have moved on. Yet, these projects can be treasure troves that provide crucial context and training data for AI agents.
 
-It doesn't matter how good your AI foundation model is if your datasets and infrastructure are problematic. It boils down to the classic adage: 'garbage in, garbage out.' So how do we handle all of this, aside from hiring a team of data engineers? This is where LaminR helps. LaminR is an open-source package designed to solve the data infrastructure challenges that naturally arise when large teams and AI agents collaborate on massive datasets. In particular, LaminR manages metadata to allow querying and finding data, and it tracks every line of code that modified a data object, including who made the change and when. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information that they need.
+It doesn't matter how good your AI foundation model is if your datasets and infrastructure are problematic. It boils down to the classic adage: 'garbage in, garbage out.' So how do we handle all of this, aside from hiring a team of data engineers? This is where LaminR helps. LaminR is an open-source package designed to solve the data infrastructure challenges that naturally arise when large teams and AI agents collaborate on massive datasets. In particular, LaminR manages metadata to allow querying and finding data, and it tracks every line of code that modified a data object, including who made the change and when. So if a data scientist has to revisit an old dataset or one they did not work on, they'll have the information they need.
 
 ## PBMC 3k
 
@@ -125,7 +125,7 @@ lc$save("pbmc3k.Rmd")
 ::::
 :::::
 
-The above saves the `pbmc3k.Rmd` notebook as a "transform", which is shorthand for data transformation, so that it's linked against the output file `pbmc3k/pbmc3k_processed.rds`. This is also visible on the LaminHub GUI on the artifact page: [lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU](https://lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU)
+The above saves the `pbmc3k.Rmd` notebook as a "transform" (shorthand for data transformation), linking it against the output file `pbmc3k/pbmc3k_processed.rds`. This is also visible on the LaminHub GUI on the artifact page: [lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU](https://lamin.ai/laminlabs/training/artifact/VugfUMiwR8OtlnIU)
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VMTTBgRdPy81Fb590000.png">
