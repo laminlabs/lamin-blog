@@ -159,4 +159,4 @@ Thanks to Luke Zappia and Robrecht Cannoodt for creating LaminR and to Alex Wolf
 
 ## Disclosure
 
-Lamin engaged Tyler to illustrate a use case for LaminR. This blog post is the result of that engagement.
+Lamin engaged Tyler to illustrate a simple introductory use case for LaminR. This blog post is the result of that engagement.
