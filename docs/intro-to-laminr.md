@@ -90,7 +90,7 @@ FeaturePlot(cells, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR
 ```
 
 <div style="text-align: center">
-<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/DDi04PvoNdjc9Xba0000.png">
+<img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/DDi04PvoNdjc9Xba0000.png">
 </div>
 
 Let's save this Seurat object as an artifact in LaminR:
