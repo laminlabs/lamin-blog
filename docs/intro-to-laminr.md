@@ -1,6 +1,6 @@
 ---
 title: "An introduction to LaminR"
-date: 2026-03-26
+date: 2026-04-02
 author: tjburns08
 affiliation:
   tjburns08: Burns Life Sciences Consulting, Berlin
