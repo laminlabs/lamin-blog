@@ -78,9 +78,9 @@ adata = artifact.load()
 
 `*` These authors contributed equally.
 
-Altana & Ishita re-curated the datasets, scripts, and notebooks.
+Altana & Ishita curated the datasets, scripts, and notebooks with LaminDB.
 
-Sunny & Yan advised on the project. Yan developed the original curation and preprocessing notebooks.
+Sunny & Yan advised on the project. Yan developed the original curation notebooks & scripts.
 
 Alex supervised the project.
 
