@@ -1,13 +1,10 @@
 ---
 title: "The PerturBench datasets in LaminDB"
 date: 2026-03-17
-author: namsaraeva, yanwu2014, falexwolf, sunnyosun
-orcid:
-  namsaraeva: 0000-0001-6071-9410
-  sunnyosun: 0000-0002-2365-0888
-  falexwolf: 0000-0002-8760-7838
+author: namsaraeva*, ishitajain9717*, sunnyosun, yanwu2014, falexwolf
 affiliation:
   namsaraeva: Lamin Labs, Munich
+  ishitajain9717: Lamin Labs, Munich
   sunnyosun: Lamin Labs, Munich
   yanwu2014: Altos Labs, Redwood City
   falexwolf: Lamin Labs, Munich
@@ -79,13 +76,13 @@ adata = artifact.load()
 
 ## Author contributions
 
-Altana curated the data in the database and wrote the post.
+`*` These authors contributed equally.
 
-Yan advised on the project and developed the curation and preprocessing notebooks.
+Altana & Ishita re-curated the datasets, scripts, and notebooks.
 
-Alex contributed to the conception and helped write the post.
+Sunny & Yan advised on the project. Yan developed the original curation and preprocessing notebooks.
 
-Sunny supervised the work and reviewed the post.
+Alex supervised the project.
 
 ## Code & data availability
 
