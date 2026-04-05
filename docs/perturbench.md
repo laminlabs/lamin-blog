@@ -22,14 +22,14 @@ The PerturBench database contains six curated datasets for evaluating machine le
 
 The framework includes six datasets spanning genetic and chemical perturbations at different scales:
 
-| Dataset            | Perturbation type | Number of cells | Reference      |
-| ------------------ | ----------------- | --------------- | -------------- |
-| Norman19           | Genetic           | 91,168 cells    | [^norman19]    |
-| Srivatsan20        | Chemical          | 178,213 cells   | [^srivatsan20] |
-| Frangieh21         | Genetic           | 218,331 cells   | [^frangieh21]  |
-| McFalineFigueroa23 | Genetic           | 892,800 cells   | [^mcfaline23]  |
-| Jiang24            | Genetic           | 1,628,476 cells | [^jiang24]     |
-| OP3                | Chemical          | 298,087 cells   | [^szalata24]   |
+| Dataset                                                                      | Perturbation type | Number of cells | Reference      |
+| ---------------------------------------------------------------------------- | ----------------- | --------------- | -------------- |
+| [Norman19](https://lamin.ai/altoslabs/perturbench/artifact/givpxz10Nce9GZU7) | Genetic           | 91,168 cells    | [^norman19]    |
+| Srivatsan20                                                                  | Chemical          | 178,213 cells   | [^srivatsan20] |
+| Frangieh21                                                                   | Genetic           | 218,331 cells   | [^frangieh21]  |
+| McFalineFigueroa23                                                           | Genetic           | 892,800 cells   | [^mcfaline23]  |
+| Jiang24                                                                      | Genetic           | 1,628,476 cells | [^jiang24]     |
+| OP3                                                                          | Chemical          | 298,087 cells   | [^szalata24]   |
 
 These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can be trained on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
 
