@@ -152,7 +152,7 @@ Every unit of work that you do can now be easily shared and communicated, both w
 
 To learn more, take a look at the docs or the source code:
 
-- The docs: https://docs.lamin.ai
+- The docs: https://docs.lamin.ai/laminr
 - The LaminR source code: https://github.com/laminlabs/laminr
 - The LaminDB source code: https://github.com/laminlabs/lamindb
 
