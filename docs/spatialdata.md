@@ -22,20 +22,65 @@ The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25
 
 ## Querying spatial datasets by biological metadata
 
-Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact`, annotated with biological metadata from ontology-backed registries.
-This means you can find datasets by tissue, assay, disease, or cell type — without knowing file paths or folder structures.
+Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact` annotated with biological metadata.
+This means you can query datasets by tissue, assay, disease, or cell type — without knowing file paths or folder structures.
+Here are three exemplary queries:
+
+:::::{tab-set}
+
+::::{tab-item} Simple strings
 
 ```python
 import lamindb as ln
 
 db = ln.DB("laminlabs/lamindata")
 
+# pass strings to keyword arguments that map on features
 xenium_lung = db.Artifact.filter(
     assay="Xenium Spatial Gene Expression",
     tissue="lung",
 )
 xenium_lung.to_dataframe()
 ```
+
+::::
+
+::::{tab-item} Feature expressions
+
+```python
+import lamindb as ln
+
+db = ln.DB("laminlabs/lamindata")
+
+# query feature objects and construct expressions
+xenium_lung = db.Artifact.filter(
+    ln.Feature.get(name="assay") == "Xenium Spatial Gene Expression",
+    ln.Feature.get(name="tissue") == "lung",
+)
+xenium_lung.to_dataframe()
+```
+
+::::
+
+::::{tab-item} Ontology records
+
+```python
+import lamindb as ln
+import bionty as bt
+
+db = ln.DB("laminlabs/lamindata")
+
+# query ontological records to create an expression
+xenium_lung = db.Artifact.filter(
+    ln.Feature.get(name="assay") == bt.ExperimentalFactor.get(name="Xenium Spatial Gene Expression"),
+    ln.Feature.get(name="tissue") == bt.Tissue.get(name="lung"),
+)
+xenium_lung.to_dataframe()
+```
+
+::::
+
+:::::
 
 This returns all Xenium lung datasets in the instance, each with its full metadata context accessible via `.describe()`.
 
