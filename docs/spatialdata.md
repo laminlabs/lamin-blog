@@ -1,10 +1,7 @@
 ---
 title: "Managing spatial omics data with SpatialData & LaminDB"
-date: 2026-03-26
+date: 2026-04-07
 author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, falexwolf
-orcid:
-  Zethson: 0000-0002-8937-3457
-  falexwolf: 0000-0002-8760-7838
 affiliation:
   Zethson: Lamin Labs, Munich
   namsaraeva: Lamin Labs, Munich
