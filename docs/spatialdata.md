@@ -15,10 +15,10 @@ tweet: TBD
 linkedin: TBD
 ---
 
-LaminDB now provides native support for SpatialData — from ingestion and validation to cross-dataset queries, interactive visualization, and ML training.
+To simplify managing large collections of spatial datasets in this format, we added native support for SpatialData to LaminDB.
 
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
-The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified data format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` container. But as spatial datasets accumulate across experiments, technologies, and labs, querying, curating, and sharing them become challenges. To address these challenges, LaminDB now supports `SpatialData` similar to how it supports `DataFrame` and `AnnData`.
+The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified data format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store. But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become a challenge. LaminDB's cross-dataset queries & validation can now fill this gap with the new support for `SpatialData` similar, in fully analogy to LaminDB's support for `DataFrame` and `AnnData`.
 
 ## Querying spatial datasets by biological metadata
 
