@@ -6,6 +6,7 @@ affiliation:
   tjburns08: Burns Life Sciences Consulting, Berlin
 linkedin: https://www.linkedin.com/posts/tylerjburns_hi-friends-i-wrote-a-guest-post-for-lamin-share-7445459710889336832-bNxF/
 tweet: https://x.com/tjburns08/status/2039700022522974646
+bsky: https://bsky.app/profile/lazappi.bsky.social/post/3miv5ydk7m22l
 ---
 
 Any data scientist will tell you that a key to a successful project is strong data management. If your data are disorganized, you don't know who did what, or you can't reproduce results, it will come back to bite you and your team. Thus, teams should carefully plan how they handle, store, modify, and track data throughout a project. Here, we'll be using an example from single-cell analysis to illustrate how the open-source LaminR package helps with traceability and reproducibility of data analyses in R.
@@ -159,6 +160,6 @@ To learn more, take a look at the docs or the source code:
 
 Thanks to Luke Zappia and Robrecht Cannoodt for creating LaminR and to Alex Wolf for editing this post.
 
-## Disclosure
+## Background
 
 Lamin engaged Tyler to illustrate a simple introductory use case for LaminR. This blog post is the result of that engagement.
