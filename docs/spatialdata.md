@@ -246,6 +246,7 @@ This instance provides ready-to-query spatial datasets in standardized format â€
 
 ## Code & data availability
 
+- The code snippets of this post: https://lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml0000
 - Spatial guide: [docs.lamin.ai/spatial](https://docs.lamin.ai/spatial)
 - Vitessce integration: [docs.lamin.ai/vitessce2](https://docs.lamin.ai/vitessce2)
 - Curate & ingest guide: [docs.lamin.ai/spatial3](https://docs.lamin.ai/spatial3)
