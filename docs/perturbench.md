@@ -25,11 +25,11 @@ The framework includes six datasets spanning genetic and chemical perturbations 
 | Dataset                                                                      | Perturbation type | Number of cells | Reference      | Lineage                                                                           |
 | ---------------------------------------------------------------------------- | ----------------- | --------------- | -------------- | --------------------------------------------------------------------------------- |
 | [Norman19](https://lamin.ai/altoslabs/perturbench/artifact/givpxz10Nce9GZU7) | Genetic           | 91,168 cells    | [^norman19]    | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rx0HTSN1zzdzXrQ20000.png) |
-| Srivatsan20                                                                  | Chemical          | 178,213 cells   | [^srivatsan20] |
-| Frangieh21                                                                   | Genetic           | 218,331 cells   | [^frangieh21]  |
-| McFalineFigueroa23                                                           | Genetic           | 892,800 cells   | [^mcfaline23]  |
-| Jiang24                                                                      | Genetic           | 1,628,476 cells | [^jiang24]     |
-| OP3                                                                          | Chemical          | 298,087 cells   | [^szalata24]   |
+| Srivatsan20                                                                  | Chemical          | 178,213 cells   | [^srivatsan20] | ![](https://lamin.ai/laminlabs/lamin-site-assets/artifact/QAlH61B4G7gvllzR)
+| Frangieh21                                                                   | Genetic           | 218,331 cells   | [^frangieh21]  | ![](https://lamin.ai/laminlabs/lamin-site-assets/artifact/LZrunW7bhaNpTMyx)
+| McFalineFigueroa23                                                           | Genetic           | 892,800 cells   | [^mcfaline23]  | ![](https://lamin.ai/laminlabs/lamin-site-assets/artifact/DWYAIVFtzMnWZZfZ)
+| Jiang24                                                                      | Genetic           | 1,628,476 cells | [^jiang24]     | ![](https://lamin.ai/laminlabs/lamin-site-assets/artifact/JvxJOGt6DKI3hrWR)
+| OP3                                                                          | Chemical          | 298,087 cells   | [^szalata24]   | ![](https://lamin.ai/laminlabs/lamin-site-assets/artifact/YrfaJYZRs0rRI5kj)
 
 These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can be trained on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
 
