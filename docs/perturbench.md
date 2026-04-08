@@ -19,17 +19,16 @@ The PerturBench database contains six curated datasets for evaluating machine le
 ## The datasets
 
 [PerturBench](https://github.com/altoslabs/perturbench) (Wu, Wershof, Shmon, Nassar, Osinski, Eksi, Yan et al., 2025)[^wu26] introduced a comprehensive framework for benchmarking machine learning (ML) models that predict single-cell transcriptomic responses to perturbations. It addresses the problem that published models are often evaluated on inconsistent benchmarks with different datasets and metrics, making it hard to know what actually works.
-
 The framework includes six datasets spanning genetic and chemical perturbations at different scales:
 
 | Dataset                                                                      | Perturbation type | Number of cells | Reference      | Lineage                                                                           |
 | ---------------------------------------------------------------------------- | ----------------- | --------------- | -------------- | --------------------------------------------------------------------------------- |
 | [Norman19](https://lamin.ai/altoslabs/perturbench/artifact/givpxz10Nce9GZU7) | Genetic           | 91,168 cells    | [^norman19]    | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rx0HTSN1zzdzXrQ20000.png) |
-| Srivatsan20                                                                  | Chemical          | 178,213 cells   | [^srivatsan20] | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/QAlH61B4G7gvllzR0000.png)
-| Frangieh21                                                                   | Genetic           | 218,331 cells   | [^frangieh21]  | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/LZrunW7bhaNpTMyx0000.png)
-| McFalineFigueroa23                                                           | Genetic           | 892,800 cells   | [^mcfaline23]  | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/DWYAIVFtzMnWZZfZ0000.png)
-| Jiang24                                                                      | Genetic           | 1,628,476 cells | [^jiang24]     | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/JvxJOGt6DKI3hrWR0000.png)
-| OP3                                                                          | Chemical          | 298,087 cells   | [^szalata24]   | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/YrfaJYZRs0rRI5kj0000.png)
+| Srivatsan20                                                                  | Chemical          | 178,213 cells   | [^srivatsan20] | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/QAlH61B4G7gvllzR0000.png)|
+| Frangieh21                                                                   | Genetic           | 218,331 cells   | [^frangieh21]  | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/LZrunW7bhaNpTMyx0000.png)|
+| McFalineFigueroa23                                                           | Genetic           | 892,800 cells   | [^mcfaline23]  | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/DWYAIVFtzMnWZZfZ0000.png)|
+| Jiang24                                                                      | Genetic           | 1,628,476 cells | [^jiang24]     | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/JvxJOGt6DKI3hrWR0000.png)|
+| OP3                                                                          | Chemical          | 298,087 cells   | [^szalata24]   | ![](https://lamin.ai/storage/s3/lamin-site-assets%2F/.lamindb/YrfaJYZRs0rRI5kj0000.png)|
 
 These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can be trained on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
 
