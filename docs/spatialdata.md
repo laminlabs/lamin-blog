@@ -233,10 +233,11 @@ tiles_dataset = ImageTilesDataset(
 This dataset plugs directly into PyTorch Lightning for training spatial models — for example, cell type classifiers using DenseNet on image tiles.
 See the [spatial ML guide](https://docs.lamin.ai/spatial4) for a full example.
 
-## The `scverse/spatialdata-db` instance
+## Outlook: The `scverse/spatialdata-db` instance
 
-A curated collection of public SpatialData datasets is available at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
-This instance provides ready-to-query spatial datasets in standardized format — useful for benchmarking, method development, or as reference atlases.
+There is work on progress for a curated collection of public SpatialData datasets at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
+This database provides ready-to-query spatial datasets in standardized format — useful for benchmarking, method development, or as reference atlases.
+Contributions are welcome!
 
 ## Code & data availability
 
@@ -250,13 +251,20 @@ This instance provides ready-to-query spatial datasets in standardized format �
 
 ## Author contributions
 
-Lukas designed the integration, developed the `SpatialDataCurator`, the initial spatial guides, and helped implement scverse/spatialdata-db.
+Lukas designed the integration, developed the `SpatialDataCurator`, the initial spatial guides, and helped implement `scverse/spatialdata-db`.
+
 Altana Namsaraeva improved the spatial guides.
+
 Tim Treis [implemented the necessary `get_attrs`](https://github.com/scverse/spatialdata/pull/806) helper function to access shared metadata, is the lead author of spatialdata-plot, and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
+
 Mark Keller develops the Vitessce framework and helped bring the visualizations to life.
+
 Wouter-Michiel Vierdag improved cloud support of the SpatialData framework.
+
 Luca Marconato develops the SpatialData framework and provided implementation guidance.
-Lea Zimmermann implemented the scverse/spatialdata curation schema and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
+
+Lea Zimmermann implemented the `scverse/spatialdata` curation schema and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
+
 Alex supervised the work.
 
 ## Citation
