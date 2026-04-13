@@ -158,8 +158,6 @@ LaminDB provides `Artifact.from_spatialdata()` and a `SpatialDataCurator` for va
 The curator validates table metadata against ontology-backed registries — ensuring gene IDs, cell types, diseases, and assays are standardized before data enters your instance.
 
 ```python
-import lamindb as ln
-
 sdata_schema = ln.Schema.get(name="my_spatial_schema")
 curator = ln.curators.SpatialDataCurator(sdata, sdata_schema)
 curator.validate()
@@ -177,7 +175,7 @@ The resulting artifact stores the full SpatialData `.zarr` — images, labels, s
 Its `.describe()` output shows dataset features from the table's `obs` and `var`, external features like assay and disease, and all linked ontology labels.
 
 <div style="text-align: center">
-<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0gtAqs1IBzHZ0m8t0000.png">
+<img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0gtAqs1IBzHZ0m8t0000.png">
 </div>
 
 ## Interactive visualization with Vitessce
@@ -194,7 +192,7 @@ dataset = vc.add_dataset(name="lung").add_object(
 )
 # ... configure views ...
 
-artifact.save_vitessce_config(vc)
+ln.integrations.save_vitessce_config(vc)
 ```
 
 Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the spatial data interactively — no downloads required.
@@ -214,26 +212,19 @@ Combined with LaminDB's artifact tracking, you get a complete lineage from raw s
 ```python
 from spatialdata.dataloader.datasets import ImageTilesDataset
 
-import torchvision.transforms as v2
-
-tile_transform = v2.Compose([
-    v2.ToTensor(),
-])
-
 tiles_dataset = ImageTilesDataset(
     sdata=sdata,
     regions_to_images={"cell_circles": "he_image"},
     regions_to_coordinate_systems={"cell_circles": "global"},
     tile_dim_in_units=128,
     tile_scale=1.0,
-    transform=tile_transform,
 )
 ```
 
 This dataset plugs directly into PyTorch Lightning for training spatial models — for example, cell type classifiers using DenseNet on image tiles.
 See the [spatial ML guide](https://docs.lamin.ai/spatial4) for a full example.
 
-## Outlook: The `scverse/spatialdata-db` instance
+## Outlook: `scverse/spatialdata-db`
 
 There is work on progress for a curated collection of public SpatialData datasets at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
 This database provides ready-to-query spatial datasets in standardized format — useful for benchmarking, method development, or as reference atlases.
