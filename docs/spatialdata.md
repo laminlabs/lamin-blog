@@ -15,16 +15,14 @@ tweet: TBD
 linkedin: TBD
 ---
 
-To simplify managing large collections of spatial datasets in this format, we added native support for SpatialData to LaminDB.
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
 The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified data format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store.
-But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become a challenge. LaminDB's cross-dataset queries & validation can now fill this gap with the new support for `SpatialData` similar, in fully analogy to LaminDB's support for `DataFrame` and `AnnData`.
+But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become a challenge. LaminDB's cross-dataset queries & validation can now fill this gap with the new support for `SpatialData`.
 
 ## Querying spatial datasets by biological metadata
 
 Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact` annotated with biological & operational metadata.
-This means you can query datasets by tissue, assay, disease, cell type, projects, source code, etc. — without knowing file paths or folder structures.
-Here are three exemplary queries:
+This means you can query datasets by tissue, assay, disease, cell type, projects, source code, etc. — without knowing file paths or folder structures:
 
 :::::{tab-set}
 
@@ -167,7 +165,7 @@ curator = ln.curators.SpatialDataCurator(spatialdata, sdata_schema)
 curator.validate()
 
 artifact = ln.Artifact.from_spatialdata(
-    spatialdata,
+    sdata,
     key="xenium/my_experiment.zarr",
     schema=sdata_schema,
 ).save()
@@ -249,7 +247,7 @@ This instance provides ready-to-query spatial datasets in standardized format �
 Lukas designed the integration, developed the `SpatialDataCurator`, the initial spatial guides, and helped implement scverse/spatialdata-db.
 Altana Namsaraeva improved the spatial guides.
 Tim Treis [implemented the necessary `get_attrs`](https://github.com/scverse/spatialdata/pull/806) helper function to access shared metadata, is the lead author of spatialdata-plot, and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
-Mark Keller develops the Vitessce framework and helped bringing the visualizations to life.
+Mark Keller develops the Vitessce framework and helped bring the visualizations to life.
 Wouter-Michiel Vierdag improved cloud support of the SpatialData framework.
 Luca Marconato develops the SpatialData framework and provided implementation guidance.
 Lea Zimmermann implemented the scverse/spatialdata curation schema and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
@@ -258,7 +256,7 @@ Alex supervised the work.
 ## Citation
 
 ```
-Heumos L, Namsaraeva A, Treis T, Marconato L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
+Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
 https://blog.lamin.ai/spatialdata
 ```
 
