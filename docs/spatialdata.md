@@ -16,19 +16,19 @@ linkedin: TBD
 ---
 
 To simplify managing large collections of spatial datasets in this format, we added native support for SpatialData to LaminDB.
-
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
-The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified data format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store. But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become a challenge. LaminDB's cross-dataset queries & validation can now fill this gap with the new support for `SpatialData` similar, in fully analogy to LaminDB's support for `DataFrame` and `AnnData`.
+The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified data format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store.
+But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become a challenge. LaminDB's cross-dataset queries & validation can now fill this gap with the new support for `SpatialData` similar, in fully analogy to LaminDB's support for `DataFrame` and `AnnData`.
 
 ## Querying spatial datasets by biological metadata
 
-Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact` annotated with biological metadata.
-This means you can query datasets by tissue, assay, disease, or cell type — without knowing file paths or folder structures.
+Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact` annotated with biological & operational metadata.
+This means you can query datasets by tissue, assay, disease, cell type, projects, source code, etc. — without knowing file paths or folder structures.
 Here are three exemplary queries:
 
 :::::{tab-set}
 
-::::{tab-item} Simple strings
+::::{tab-item} By strings
 
 ```python
 import lamindb as ln
@@ -45,7 +45,7 @@ xenium_lung.to_dataframe()
 
 ::::
 
-::::{tab-item} Feature expressions
+::::{tab-item} Via expressions
 
 ```python
 import lamindb as ln
@@ -62,7 +62,7 @@ xenium_lung.to_dataframe()
 
 ::::
 
-::::{tab-item} Ontology records
+::::{tab-item} Via ontology lookups
 
 ```python
 import lamindb as ln
@@ -82,7 +82,7 @@ xenium_lung.to_dataframe()
 
 :::::
 
-This returns all Xenium lung datasets in the instance, each with its full metadata context accessible via `.describe()`.
+This returns all Xenium datasets in the connected database that characterize the lung tissue.
 
 ## Loading and analyzing spatial data
 
@@ -130,7 +130,9 @@ sdata.pl.render_images("morphology_focus", scale="scale4").pl.show(
 )
 ```
 
-![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/PMPKWayCU7fa8o9R0000.svg)
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/PMPKWayCU7fa8o9R0000.svg">
+</div>
 
 The `AnnData` table embedded in SpatialData stores the expression matrix alongside cell-level annotations:
 
@@ -176,23 +178,9 @@ artifact.describe()
 The resulting artifact stores the full SpatialData `.zarr` — images, labels, shapes, points, and tables — as a single tracked unit.
 Its `.describe()` output shows dataset features from the table's `obs` and `var`, external features like assay and disease, and all linked ontology labels.
 
-```
-Artifact .zarr/SpatialData
-├── General
-│   ├── .key = 'xenium/my_experiment.zarr'
-│   ├── .size = 7.0 GB
-│   ├── .n_files = 1457
-│   └── .created_by = namsaraeva
-├── Dataset features
-│   ├── attrs:bio • 2 [Feature]
-│   │   developmental_stage  cat[bionty.DevelopmentalStage]  adult stage
-│   │   disease              cat[bionty.Disease]            normal
-│   ├── attrs:tech • 1 [Feature]
-│   │   assay                cat[bionty.ExperimentalFactor]  Xenium Spatial Gene Expression
-│   └── tables:table:obs • ...
-└── Labels
-    └── .tissues             bionty.Tissue                   lung
-```
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0gtAqs1IBzHZ0m8t0000.png">
+</div>
 
 ## Interactive visualization with Vitessce
 
@@ -214,7 +202,9 @@ artifact.save_vitessce_config(vc)
 Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the spatial data interactively — no downloads required.
 When viewed, it looks like:
 
-![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/0AMvLfVX9VXVbhUf0000.png)
+<div style="text-align: center">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0AMvLfVX9VXVbhUf0000.png">
+</div>
 
 For a full walkthrough, see the [Vitessce: SpatialData guide](https://docs.lamin.ai/vitessce2).
 
