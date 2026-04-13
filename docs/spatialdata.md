@@ -1,6 +1,6 @@
 ---
 title: "Managing spatial omics data with SpatialData & LaminDB"
-date: 2026-04-07
+date: 2026-04-13
 author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, falexwolf
 affiliation:
   Zethson: Lamin Labs, Munich
@@ -80,7 +80,7 @@ xenium_lung.to_dataframe()
 
 :::::
 
-This returns all Xenium datasets in the connected database that characterize the lung tissue.
+This returns all Xenium datasets in the connected database that characterize lung tissue.
 
 ## Loading and analyzing spatial data
 
@@ -161,7 +161,7 @@ The curator validates table metadata against ontology-backed registries — ensu
 import lamindb as ln
 
 sdata_schema = ln.Schema.get(name="my_spatial_schema")
-curator = ln.curators.SpatialDataCurator(spatialdata, sdata_schema)
+curator = ln.curators.SpatialDataCurator(sdata, sdata_schema)
 curator.validate()
 
 artifact = ln.Artifact.from_spatialdata(
@@ -214,6 +214,12 @@ Combined with LaminDB's artifact tracking, you get a complete lineage from raw s
 ```python
 from spatialdata.dataloader.datasets import ImageTilesDataset
 
+import torchvision.transforms as v2
+
+tile_transform = v2.Compose([
+    v2.ToTensor(),
+])
+
 tiles_dataset = ImageTilesDataset(
     sdata=sdata,
     regions_to_images={"cell_circles": "he_image"},
@@ -256,7 +262,7 @@ Alex supervised the work.
 ## Citation
 
 ```
-Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L & Wolf A (2026). Managing spatial omics data with LaminDB & SpatialData. Lamin Blog.
+Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L & Wolf A (2026). Managing spatial omics data with SpatialData & LaminDB. Lamin Blog.
 https://blog.lamin.ai/spatialdata
 ```
 
