@@ -255,7 +255,7 @@ This database is work in progress but already today provides validated ready-to-
 
 Lukas created the `SpatialDataCurator` class and usage guides.
 
-Altana overhauled the `spatialdata` guides.
+Altana overhauled the usage guides.
 
 Tim [implemented a helper function](https://github.com/scverse/spatialdata/pull/806) to access shared metadata, is the lead author of `spatialdata-plot` and provided feedback in the context of his work on [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
 
