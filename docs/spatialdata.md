@@ -189,6 +189,7 @@ artifact = ln.Artifact.from_spatialdata(
 ```
 
 Under the hood, this leverages the {class}`~lamindb.curators.SpatialDataCurator` class, which offers helpers for standardization in addition to validation.
+Because validation is a verifiable task and `SpatialDataCurator` provides clear feedback, agents excel at working with it.
 For a deeper dive into the richer curation API, see the [curation guide](https://docs.lamin.ai/spatial3).
 
 ## Interactive visualization with Vitessce
