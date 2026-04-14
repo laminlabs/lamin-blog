@@ -18,13 +18,13 @@ linkedin: TBD
 
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
 The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store.
-But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become challenges.
+But as spatial datasets accumulate across experiments, technologies, and labs, managing, querying, and training models on them become challenges.
 To address these challenges, we have built native SpatialData support into LaminDB, enabling robust cross-dataset queries, validation, and lineage tracking.
 
 ## Querying spatial datasets by biological metadata
 
 Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact` annotated with biological & operational metadata.
-This means you can query datasets by tissue, assay, disease, cell type, project, source code, etc. — without knowing file paths or folder structures:
+This means you can query datasets by tissue, assay, disease, cell type, project, source code, etc. — without knowing file paths or folder structures, but based on registries for the features and entities you care about.
 
 :::::{tab-set}
 
@@ -52,7 +52,7 @@ import lamindb as ln
 
 db = ln.DB("laminlabs/lamindata")
 
-# safer: query feature objects and construct expressions
+# more explicit: query the feature registry and construct expressions
 xenium_datasets = db.Artifact.filter(
     ln.Feature.get(name="assay") == "Xenium Spatial Gene Expression",
     ln.Feature.get(name="disease") == "ductal breast carcinoma in situ",
@@ -70,7 +70,7 @@ import bionty as bt
 
 db = ln.DB("laminlabs/lamindata")
 
-# safest: query ontological records to create an expression
+# very explicit: query ontological registries and construct expressions
 xenium_datasets = db.Artifact.filter(
     ln.Feature.get(name="assay") == bt.ExperimentalFactor.get(name="Xenium Spatial Gene Expression"),
     ln.Feature.get(name="disease") == bt.Disease.get(name="ductal breast carcinoma in situ"),
@@ -86,14 +86,14 @@ This returns all Xenium datasets in the `laminlabs/lamindata` database that char
 
 ## Understanding the context of a dataset
 
-Let us pick the first dataset in the results. If we call `.describe()`, we can see all additional metadata, including that the dataset was created in this notebook [`blog/spatialdata/curate.ipynb`](https://lamin.ai/laminlabs/lamindata/transform/PDKnhPHpxeMU0001).
+Let us pick the first dataset in the results. Let us call `.describe()`:
 
 ```python
 artifact = xenium_datasets[0]
 artifact.describe()
 ```
 
-Which outputs:
+We can see all metadata, including the notebook that created the dataset [`blog/spatialdata/curate.ipynb`](https://lamin.ai/laminlabs/lamindata/transform/PDKnhPHpxeMU0001):
 
 <div style="text-align: center">
 <img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0gtAqs1IBzHZ0m8t0001.png">
