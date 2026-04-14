@@ -165,12 +165,14 @@ AnnData object with n_obs × n_vars = 1812 × 313
 
 While you can store any `.zarr` folder in LaminDB using the standard {class}`~lamindb.Artifact` constructor, some workflows require stricter data integrity.
 To enforce this, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata` — a specialized constructor that validates the object against a {class}`~lamindb.Schema`.
-Because `SpatialData` objects are highly compositional, the `Schema` object allows you to define precise validation rules for specific components:
+Because `SpatialData` objects are highly compositional, the `Schema` object allows you to define validation rules for specific components. Let's inspect an example schema:
 
 ```python
 schema = db.Schema.get(name="spatialdata_blog_schema")
 schema.describe()
 ```
+
+The output reveals the expected components of the `SpatialData` object, where validation rules are expressed as features and their corresponding data types, similar to the popular validation frameworks `pandera` and `pydantic`:
 
 <div style="text-align: center">
 <img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KUNmrvM5R1kEOqv60000.png">
