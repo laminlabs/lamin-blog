@@ -86,7 +86,7 @@ This returns all Xenium datasets in the `laminlabs/lamindata` database that char
 
 ## Understanding the context of a dataset
 
-Let us pick the first dataset in the results. Let us call `.describe()`:
+Let us pick the first dataset in the results and call `.describe()`:
 
 ```python
 artifact = xenium_datasets[0]
@@ -208,8 +208,7 @@ dataset = vc.add_dataset(name="lung").add_object(
 ln.integrations.save_vitessce_config(vc)
 ```
 
-Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the dataset interactively.
-The resulting interactive dashboard allows collaborators to explore the spatial context alongside molecular features directly in the browser:
+Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the dataset interactively:
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0AMvLfVX9VXVbhUf0000.png">
