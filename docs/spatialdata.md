@@ -21,8 +21,8 @@ To address this, we have built native SpatialData support into LaminDB, enabling
 
 ## Querying spatial datasets by biological metadata
 
-Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact` annotated with biological & operational metadata.
-This means you can query datasets by tissue, assay, disease, cell type, project, source code, etc. — without knowing file paths or folder structures, but based on registries for the features and entities you care about.
+Every SpatialData object in LaminDB is a queryable `Artifact` annotated with biological & operational metadata.
+This means you can query datasets by any feature and entity you care about without relying on brittle file paths and folder structures. For example, this queries two features `assay` and `disease`:
 
 :::::{tab-set}
 
@@ -80,7 +80,7 @@ xenium_datasets.to_dataframe()
 
 :::::
 
-This returns all Xenium datasets in the `laminlabs/lamindata` database that characterize breast carcinoma.
+It returns a dataframe of all Xenium datasets in the `laminlabs/lamindata` database that characterize breast carcinoma.
 
 ## Understanding the context of a dataset
 
@@ -99,7 +99,7 @@ We can see all metadata, including the notebook that created the dataset [`blog/
 
 ## Loading and analyzing spatial data
 
-Loading the artifact into a `SpatialData` object is one line:
+Loading the artifact into a `SpatialData` object backed by a local cache is one line:
 
 ```python
 sdata = artifact.load()
@@ -172,13 +172,13 @@ schema = db.Schema.get(name="spatialdata_blog_schema")
 schema.describe()
 ```
 
-The output reveals the expected components of the `SpatialData` object, where validation rules are expressed as features and their corresponding data types, similar to the popular validation frameworks `pandera` and `pydantic`:
+The output reveals the expected components of the `SpatialData` object, where validation rules are expressed as features and their corresponding data types, based on the `pandera` validation library:
 
 <div style="text-align: center">
 <img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KUNmrvM5R1kEOqv60000.png">
 </div>
 
-The schema validates metadata against ontology-backed registries — ensuring gene IDs, cell types, diseases, and assays are standardized before a dataset gets ingested. The ingestion then looks like this:
+Beyond standard validation through `pandera`, the schema validates metadata against ontology-backed registries — ensuring gene IDs, cell types, diseases, and assays are standardized before a dataset gets ingested. The ingestion then looks like this:
 
 ```python
 artifact = ln.Artifact.from_spatialdata(
