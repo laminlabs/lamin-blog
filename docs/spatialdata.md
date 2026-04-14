@@ -165,10 +165,9 @@ AnnData object with n_obs × n_vars = 1812 × 313
 
 ## Validating `SpatialData` objects
 
-In LaminDB, you can store any `.zarr` folder irrespective of its format via the standard {class}`~lamindb.Artifact` constructor.
-For validating a `SpatialData` object, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
-
-The compositional nature of the SpatialData format is mirrored in a `Schema` object that defines validation rules for those slots of a `SpatialData` object that should be validated.
+While you can store any `.zarr` folder in LaminDB using the standard {class}`~lamindb.Artifact` constructor, some workflows require stricter data integrity.
+To enforce this, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata` — a specialized constructor that validates the object against a {class}`~lamindb.Schema`.
+Because `SpatialData` objects are highly compositional, the `Schema` object allows you to define precise validation rules for specific components:
 
 ```python
 schema = db.Schema.get(name="spatialdata_blog_schema")
@@ -189,7 +188,8 @@ artifact = ln.Artifact.from_spatialdata(
 ).save()
 ```
 
-Under-the-hood, this leverages the {class}`~lamindb.curators.SpatialDataCurator` class that offers helpers for standardization in addition to validation. There is a full guide showcasing the richer curation API [here](https://docs.lamin.ai/spatial3).
+Under the hood, this leverages the {class}`~lamindb.curators.SpatialDataCurator` class, which offers helpers for standardization in addition to validation.
+For a deeper dive into the richer curation API, see the [curation guide](https://docs.lamin.ai/spatial3).
 
 ## Interactive visualization with Vitessce
 
@@ -209,13 +209,13 @@ ln.integrations.save_vitessce_config(vc)
 ```
 
 Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the dataset interactively.
-When viewed, it looks something like:
+The resulting interactive dashboard allows collaborators to explore the spatial context alongside molecular features directly in the browser:
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0AMvLfVX9VXVbhUf0000.png">
 </div>
 
-You can also try it out [here](https://lamin.ai/laminlabs/lamindata/artifact/8sPWscz3SICG1D8t0000). For a full walkthrough, see the [Vitessce: SpatialData guide](https://docs.lamin.ai/vitessce2).
+You can explore such a dashboard [here](https://lamin.ai/laminlabs/lamindata/artifact/8sPWscz3SICG1D8t0000). For a full walkthrough, see the [Vitessce: SpatialData guide](https://docs.lamin.ai/vitessce2).
 
 ## Training ML models on spatial data
 
