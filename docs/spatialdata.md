@@ -1,5 +1,5 @@
 ---
-title: "Managing spatial omics data with SpatialData & LaminDB"
+title: "Managing spatial omics datasets with SpatialData & LaminDB"
 date: 2026-04-13
 author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, falexwolf
 affiliation:
@@ -16,8 +16,9 @@ linkedin: TBD
 ---
 
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
-The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified data format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store.
-But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become a challenge. LaminDB's cross-dataset queries & validation can now fill this gap with the new support for `SpatialData`.
+The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store.
+But as spatial datasets accumulate across experiments, technologies, and labs, querying, finding them, and training models on them become a challenge.
+To address this with cross-dataset queries & validation, we're now reporting native `SpatialData` format in LaminDB after more than 2 years of building and improving support for it.
 
 ## Querying spatial datasets by biological metadata
 
@@ -129,7 +130,7 @@ sdata.pl.render_images("morphology_focus", scale="scale4").pl.show(
 ```
 
 <div style="text-align: center">
-<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/PMPKWayCU7fa8o9R0000.svg">
+<img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/PMPKWayCU7fa8o9R0000.png">
 </div>
 
 The `AnnData` table embedded in SpatialData stores the expression matrix alongside cell-level annotations:
@@ -261,7 +262,7 @@ Alex supervised the work.
 ## Citation
 
 ```
-Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L & Wolf A (2026). Managing spatial omics data with SpatialData & LaminDB. Lamin Blog.
+Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L & Wolf A (2026). Managing spatial omics datasets with SpatialData & LaminDB. Lamin Blog.
 https://blog.lamin.ai/spatialdata
 ```
 
