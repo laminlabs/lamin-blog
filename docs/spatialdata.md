@@ -12,14 +12,12 @@ affiliation:
   zimea: Helmholtz Munich, Munich
   sunnyosun: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
-tweet: TBD
-linkedin: TBD
 ---
 
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
 The [SpatialData](https://github.com/scverse/spatialdata) framework[^marconato25] provides a unified format for these heterogeneous datasets: images, segmentation masks, point clouds, shapes, and count tables, all stored in a single `.zarr` store.
-But as spatial datasets accumulate across experiments, technologies, and labs, managing, querying, and training models on them become challenges.
-To address these challenges, we have built native SpatialData support into LaminDB, enabling robust cross-dataset queries, validation, and lineage tracking.
+But as spatial datasets accumulate across experiments, technologies, and labs, managing, querying, and training models on them becomes a major challenge.
+To address this, we have built native SpatialData support into LaminDB, enabling robust cross-dataset queries, validation, and lineage tracking.
 
 ## Querying spatial datasets by biological metadata
 
