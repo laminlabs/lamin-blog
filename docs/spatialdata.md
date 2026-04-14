@@ -24,7 +24,7 @@ To address this with cross-dataset queries & validation, we're now reporting nat
 ## Querying spatial datasets by biological metadata
 
 Every SpatialData `.zarr` stored in LaminDB is a queryable `Artifact` annotated with biological & operational metadata.
-This means you can query datasets by tissue, assay, disease, cell type, projects, source code, etc. — without knowing file paths or folder structures:
+This means you can query datasets by tissue, assay, disease, cell type, project, source code, etc. — without knowing file paths or folder structures:
 
 :::::{tab-set}
 
@@ -35,7 +35,7 @@ import lamindb as ln
 
 db = ln.DB("laminlabs/lamindata")
 
-# pass strings to keyword arguments that map on features
+# easiest: pass strings to keyword arguments that map on features
 xenium_datasets = db.Artifact.filter(
     assay="Xenium Spatial Gene Expression",
     disease="ductal breast carcinoma in situ",
@@ -52,7 +52,7 @@ import lamindb as ln
 
 db = ln.DB("laminlabs/lamindata")
 
-# query feature objects and construct expressions
+# safer: query feature objects and construct expressions
 xenium_datasets = db.Artifact.filter(
     ln.Feature.get(name="assay") == "Xenium Spatial Gene Expression",
     ln.Feature.get(name="disease") == "ductal breast carcinoma in situ",
@@ -70,7 +70,7 @@ import bionty as bt
 
 db = ln.DB("laminlabs/lamindata")
 
-# query ontological records to create an expression
+# safest: query ontological records to create an expression
 xenium_datasets = db.Artifact.filter(
     ln.Feature.get(name="assay") == bt.ExperimentalFactor.get(name="Xenium Spatial Gene Expression"),
     ln.Feature.get(name="disease") == bt.Disease.get(name="ductal breast carcinoma in situ"),
@@ -82,11 +82,11 @@ xenium_datasets.to_dataframe()
 
 :::::
 
-This returns all Xenium datasets in the `laminlabs/lamindata` database that characterize breast carcinoma. Queries are not based on strings but on registry entries.
+This returns all Xenium datasets in the `laminlabs/lamindata` database that characterize breast carcinoma.
 
 ## Understanding the context of a dataset
 
-Let us pick the first dataset in the results. If we call `.describe()`, we can understand all additional metadata, including that the dataset was created in this notebook [`blog/spatialdata/curate.ipynb`](https://lamin.ai/laminlabs/lamindata/transform/PDKnhPHpxeMU0001).
+Let us pick the first dataset in the results. If we call `.describe()`, we can see all additional metadata, including that the dataset was created in this notebook [`blog/spatialdata/curate.ipynb`](https://lamin.ai/laminlabs/lamindata/transform/PDKnhPHpxeMU0001).
 
 ```python
 artifact = xenium_datasets[0]
@@ -165,7 +165,8 @@ AnnData object with n_obs × n_vars = 1812 × 313
 
 ## Validating `SpatialData` objects
 
-In LaminDB, you can store any `.zarr` folder irrespective of its format via the standard {class}`~lamindb.Artifact` constructor.For validating a `SpatialData` object, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
+In LaminDB, you can store any `.zarr` folder irrespective of its format via the standard {class}`~lamindb.Artifact` constructor.
+For validating a `SpatialData` object, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
 
 The compositional nature of the SpatialData format is mirrored in a `Schema` object that defines validation rules for those slots of a `SpatialData` object that should be validated.
 
@@ -188,7 +189,7 @@ artifact = ln.Artifact.from_spatialdata(
 ).save()
 ```
 
-Under-the-hood, this leverages the {class}`~lamindb.curators.SpatialDataCurator` class that offers helpers for standaridization in addition to validation. There is a full guide showcasing the richer curation API [here](https://docs.lamin.ai/spatial3).
+Under-the-hood, this leverages the {class}`~lamindb.curators.SpatialDataCurator` class that offers helpers for standardization in addition to validation. There is a full guide showcasing the richer curation API [here](https://docs.lamin.ai/spatial3).
 
 ## Interactive visualization with Vitessce
 
@@ -200,7 +201,7 @@ from vitessce import VitessceConfig, SpatialDataWrapper
 
 vc = VitessceConfig(schema_version="1.0.18")
 dataset = vc.add_dataset(name="lung").add_object(
-    SpatialDataWrapper(adata_artifact=artifact, ...)
+    SpatialDataWrapper(sdata_artifact=artifact, ...)
 )
 # ... configure views ...
 
@@ -239,11 +240,11 @@ See the [spatial ML guide](https://docs.lamin.ai/spatial4) for a full example.
 ## Acknowledgements: `scverse`
 
 We are grateful for collaborating with `scverse` not only on interoperability but also by supporting a curated collection of public SpatialData datasets at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
-This database is work in progress but already today provides validated ready-to-query spatial datasets — useful for benchmarking, method development, model training, and as a reference atlas.
+This database is a work in progress but already today provides validated ready-to-query spatial datasets — useful for benchmarking, method development, model training, and as a reference atlas.
 
 ## Code & data availability
 
-- The code snippets & figures of this post: https://lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml
+- The code snippets & figures of this post: [lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml](https://lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml)
 - Spatial guide: [docs.lamin.ai/spatial](https://docs.lamin.ai/spatial)
 - Vitessce integration: [docs.lamin.ai/vitessce2](https://docs.lamin.ai/vitessce2) & [blog.lamin.ai/vitessce](https://blog.lamin.ai/vitessce)
 - Curate & ingest guide: [docs.lamin.ai/spatial3](https://docs.lamin.ai/spatial3)
@@ -269,7 +270,7 @@ Lea provided valuable feedback on designing schemas for SpatialData in the conte
 
 Sunny built use cases and co-supervised the work.
 
-Alex created composable schemas -- suitable for validating data formats such as `SpatialData` -- and co-supervised the work.
+Alex created composable schemas — suitable for validating data formats such as `SpatialData` — and co-supervised the work.
 
 ## Citation
 
