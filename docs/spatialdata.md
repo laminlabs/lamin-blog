@@ -35,11 +35,11 @@ import lamindb as ln
 db = ln.DB("laminlabs/lamindata")
 
 # pass strings to keyword arguments that map on features
-xenium_lung = db.Artifact.filter(
+xenium_datasets = db.Artifact.filter(
     assay="Xenium Spatial Gene Expression",
-    tissue="lung",
+    disease="ductal breast carcinoma in situ",
 )
-xenium_lung.to_dataframe()
+xenium_datasets.to_dataframe()
 ```
 
 ::::
@@ -52,11 +52,11 @@ import lamindb as ln
 db = ln.DB("laminlabs/lamindata")
 
 # query feature objects and construct expressions
-xenium_lung = db.Artifact.filter(
+xenium_datasets = db.Artifact.filter(
     ln.Feature.get(name="assay") == "Xenium Spatial Gene Expression",
-    ln.Feature.get(name="tissue") == "lung",
+    ln.Feature.get(name="disease") == "ductal breast carcinoma in situ",
 )
-xenium_lung.to_dataframe()
+xenium_datasets.to_dataframe()
 ```
 
 ::::
@@ -70,52 +70,63 @@ import bionty as bt
 db = ln.DB("laminlabs/lamindata")
 
 # query ontological records to create an expression
-xenium_lung = db.Artifact.filter(
+xenium_datasets = db.Artifact.filter(
     ln.Feature.get(name="assay") == bt.ExperimentalFactor.get(name="Xenium Spatial Gene Expression"),
-    ln.Feature.get(name="tissue") == bt.Tissue.get(name="lung"),
+    ln.Feature.get(name="disease") == bt.Disease.get(name="ductal breast carcinoma in situ"),
 )
-xenium_lung.to_dataframe()
+xenium_datasets.to_dataframe()
 ```
 
 ::::
 
 :::::
 
-This returns all Xenium datasets in the connected database that characterize lung tissue.
+This returns all Xenium datasets in the `laminlabs/lamindata` database that characterize breast carcinoma. Queries are not based on strings but on registry entries.
+
+## Understanding the context of a dataset
+
+Let us pick the first dataset in the results. If we call `.describe()`, we can understand all additional metadata, including that the dataset was created in this notebook [`blog/spatialdata/curate.ipynb`](https://lamin.ai/laminlabs/lamindata/transform/PDKnhPHpxeMU0001).
+
+```python
+artifact = xenium_datasets[0]
+artifact.describe()
+```
+
+<div style="text-align: center">
+<img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0gtAqs1IBzHZ0m8t0001.png">
+</div>
 
 ## Loading and analyzing spatial data
 
-Once you've found a dataset, loading it into a `SpatialData` object is one line:
+Loading the artifact into a `SpatialData` object is one line:
 
 ```python
-sdata = xenium_lung[0].load()
+sdata = artifact.load()
 ```
 
-which looks like:
+It looks like:
 
 ```
-SpatialData object, with associated Zarr store: /home/user/.cache/lamindb/lamindata/xenium/2.0.0/Xenium_V1_humanLung_Cancer_FFPE_outs.sdata.zarr
+SpatialData object, with associated Zarr store: /Users/falexwolf/Library/Caches/lamindb/lamindata/sample_datasets/xenium1_curated_breast_carcinoma_in_situ.zarr
 ├── Images
-│     ├── 'he_image': DataTree[cyx] (3, 45087, 11580), (3, 22543, 5790), (3, 11271, 2895), (3, 5635, 1447), (3, 2817, 723)
-│     └── 'morphology_focus': DataTree[cyx] (5, 17098, 51187), (5, 8549, 25593), (5, 4274, 12796), (5, 2137, 6398), (5, 1068, 3199)
-├── Labels
-│     ├── 'cell_labels': DataTree[yx] (17098, 51187), (8549, 25593), (4274, 12796), (2137, 6398), (1068, 3199)
-│     └── 'nucleus_labels': DataTree[yx] (17098, 51187), (8549, 25593), (4274, 12796), (2137, 6398), (1068, 3199)
+│     ├── 'morphology_focus': DataTree[cyx] (1, 2310, 3027), (1, 1155, 1514), (1, 578, 757), (1, 288, 379), (1, 145, 189)
+│     └── 'morphology_mip': DataTree[cyx] (1, 2310, 3027), (1, 1155, 1514), (1, 578, 757), (1, 288, 379), (1, 145, 189)
 ├── Points
-│     └── 'transcripts': DataFrame with shape: (<dask_expr.expr.Scalar: expr=ReadParquetFSSpec(f1038c4).size() // 11, dtype=int64>, 11) (3D points)
+│     └── 'transcripts': DataFrame with shape: (<Delayed>, 8) (3D points)
 ├── Shapes
-│     ├── 'cell_boundaries': GeoDataFrame shape: (162254, 1) (2D shapes)
-│     ├── 'cell_circles': GeoDataFrame shape: (162254, 2) (2D shapes)
-│     └── 'nucleus_boundaries': GeoDataFrame shape: (156628, 1) (2D shapes)
+│     ├── 'cell_boundaries': GeoDataFrame shape: (1899, 1) (2D shapes)
+│     └── 'cell_circles': GeoDataFrame shape: (1812, 2) (2D shapes)
 └── Tables
-      └── 'table': AnnData (154472, 377)
+      └── 'table': AnnData (1812, 313)
 with coordinate systems:
+    ▸ 'aligned', with elements:
+        morphology_focus (Images), morphology_mip (Images), transcripts (Points), cell_boundaries (Shapes), cell_circles (Shapes)
     ▸ 'global', with elements:
-        he_image (Images), morphology_focus (Images), cell_labels (Labels), nucleus_labels (Labels), transcripts (Points), cell_boundaries (Shapes), cell_circles (Shapes), nucleus_boundaries (Shapes)
+        morphology_focus (Images), morphology_mip (Images), transcripts (Points), cell_boundaries (Shapes), cell_circles (Shapes)
 ```
 
-The resulting object integrates seamlessly with the scverse ecosystem.
-You can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot), run spatial analyses with [squidpy](https://github.com/scverse/squidpy), apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`, and use any other scverse ecosystem package.
+The resulting object integrates with the scverse ecosystem.
+For instance, can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot), run spatial analyses with [squidpy](https://github.com/scverse/squidpy), apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`, and use any other scverse ecosystem package.
 
 ```python
 import spatialdata_plot
@@ -153,16 +164,19 @@ AnnData object with n_obs × n_vars = 154472 × 377
     obsp: 'connectivities', 'distances'
 ```
 
-## Curating and ingesting spatial data
+## Validating `SpatialData` objects
 
-LaminDB provides `Artifact.from_spatialdata()` and a `SpatialDataCurator` for validated ingestion.
-The curator validates table metadata against ontology-backed registries — ensuring gene IDs, cell types, diseases, and assays are standardized before data enters your instance.
+In LaminDB, you can store any `.zarr` folder irrespective of its format via the standard {class}`~lamindb.Artifact` constructor.
+
+For validating a `SpatialData` object, LaminDB provides {class}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
 
 ```python
-sdata_schema = ln.Schema.get(name="my_spatial_schema")
-curator = ln.curators.SpatialDataCurator(sdata, sdata_schema)
-curator.validate()
+schema = db.Schema.get(name="spatialdata_blog_schema")
+```
 
+The schema validates metadata against ontology-backed registries — ensuring gene IDs, cell types, diseases, and assays are standardized before a dataset gets ingested.
+
+```python
 artifact = ln.Artifact.from_spatialdata(
     sdata,
     key="xenium/my_experiment.zarr",
@@ -171,13 +185,6 @@ artifact = ln.Artifact.from_spatialdata(
 
 artifact.describe()
 ```
-
-The resulting artifact stores the full SpatialData `.zarr` — images, labels, shapes, points, and tables — as a single tracked unit.
-Its `.describe()` output shows dataset features from the table's `obs` and `var`, external features like assay and disease, and all linked ontology labels.
-
-<div style="text-align: center">
-<img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0gtAqs1IBzHZ0m8t0000.png">
-</div>
 
 ## Interactive visualization with Vitessce
 
