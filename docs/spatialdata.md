@@ -1,7 +1,7 @@
 ---
 title: "Managing spatial omics datasets with SpatialData & LaminDB"
 date: 2026-04-13
-author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, falexwolf
+author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, sunnyosun, falexwolf
 affiliation:
   Zethson: Lamin Labs, Munich
   namsaraeva: Lamin Labs, Munich
@@ -10,6 +10,7 @@ affiliation:
   melonora: EMBL Heidelberg, Heidelberg
   LucaMarconato: EMBL Heidelberg, Heidelberg
   zimea: Helmholtz Munich, Munich
+  sunnyosun: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 tweet: TBD
 linkedin: TBD
@@ -128,7 +129,7 @@ with coordinate systems:
 ```
 
 The resulting object integrates with the scverse ecosystem.
-For instance, one can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot), run spatial analyses with [squidpy](https://github.com/scverse/squidpy), apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`, and use any other scverse ecosystem package.
+For instance, one can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot),[^examplebelow] run spatial analyses with [squidpy](https://github.com/scverse/squidpy), apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`, and use any other scverse ecosystem package.
 
 ```python
 import spatialdata_plot
@@ -146,7 +147,7 @@ sdata.pl.render_images("morphology_focus", scale="scale4").pl.show(
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/PMPKWayCU7fa8o9R0000.png">
 </div>
 
-The `AnnData` table embedded in SpatialData stores the expression matrix alongside cell-level annotations:
+The `AnnData` table embedded in `SpatialData` stores the expression matrix alongside cell-level annotations:
 
 ```python
 sdata.tables["table"]
@@ -164,25 +165,30 @@ AnnData object with n_obs × n_vars = 1812 × 313
 
 ## Validating `SpatialData` objects
 
-In LaminDB, you can store any `.zarr` folder irrespective of its format via the standard {class}`~lamindb.Artifact` constructor.
+In LaminDB, you can store any `.zarr` folder irrespective of its format via the standard {class}`~lamindb.Artifact` constructor.For validating a `SpatialData` object, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
 
-For validating a `SpatialData` object, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
+The compositional nature of the SpatialData format is mirrored in a `Schema` object that defines validation rules for those slots of a `SpatialData` object that should be validated.
 
 ```python
 schema = db.Schema.get(name="spatialdata_blog_schema")
+schema.describe()
 ```
 
-The schema validates metadata against ontology-backed registries — ensuring gene IDs, cell types, diseases, and assays are standardized before a dataset gets ingested.
+<div style="text-align: center">
+<img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KUNmrvM5R1kEOqv60000.png">
+</div>
+
+The schema validates metadata against ontology-backed registries — ensuring gene IDs, cell types, diseases, and assays are standardized before a dataset gets ingested. The ingestion then looks like this:
 
 ```python
 artifact = ln.Artifact.from_spatialdata(
     sdata,
     key="xenium/my_experiment.zarr",
-    schema=sdata_schema,
+    schema=schema,
 ).save()
-
-artifact.describe()
 ```
+
+Under-the-hood, this leverages the {class}`~lamindb.curators.SpatialDataCurator` class that offers helpers for standaridization in addition to validation. There is a full guide showcasing the richer curation API [here](https://docs.lamin.ai/spatial3).
 
 ## Interactive visualization with Vitessce
 
@@ -208,7 +214,7 @@ When viewed, it looks something like:
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0AMvLfVX9VXVbhUf0000.png">
 </div>
 
-For a full walkthrough, see the [Vitessce: SpatialData guide](https://docs.lamin.ai/vitessce2).
+You can also try it out [here](https://lamin.ai/laminlabs/lamindata/artifact/8sPWscz3SICG1D8t0000). For a full walkthrough, see the [Vitessce: SpatialData guide](https://docs.lamin.ai/vitessce2).
 
 ## Training ML models on spatial data
 
@@ -230,15 +236,14 @@ tiles_dataset = ImageTilesDataset(
 This dataset plugs directly into PyTorch Lightning for training spatial models — for example, cell type classifiers using DenseNet on image tiles.
 See the [spatial ML guide](https://docs.lamin.ai/spatial4) for a full example.
 
-## Outlook: `scverse/spatialdata-db`
+## Acknowledgements: `scverse`
 
-There is work on progress for a curated collection of public SpatialData datasets at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
-This database provides ready-to-query spatial datasets in standardized format — useful for benchmarking, method development, or as reference atlases.
-Contributions are welcome!
+We are grateful for collaborating with `scverse` not only on interoperability but also by supporting a curated collection of public SpatialData datasets at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
+This database is work in progress but already today provides validated ready-to-query spatial datasets — useful for benchmarking, method development, model training, and as a reference atlas.
 
 ## Code & data availability
 
-- The code snippets of this post: https://lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml0000
+- The code snippets & figures of this post: https://lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml
 - Spatial guide: [docs.lamin.ai/spatial](https://docs.lamin.ai/spatial)
 - Vitessce integration: [docs.lamin.ai/vitessce2](https://docs.lamin.ai/vitessce2) & [blog.lamin.ai/vitessce](https://blog.lamin.ai/vitessce)
 - Curate & ingest guide: [docs.lamin.ai/spatial3](https://docs.lamin.ai/spatial3)
@@ -248,27 +253,31 @@ Contributions are welcome!
 
 ## Author contributions
 
-Lukas designed the integration, developed the `SpatialDataCurator`, the initial spatial guides, and helped implement `scverse/spatialdata-db`.
+Lukas created the `SpatialDataCurator` class and usage guides.
 
-Altana Namsaraeva improved the spatial guides.
+Altana overhauled the `spatialdata` guides.
 
-Tim Treis [implemented the necessary `get_attrs`](https://github.com/scverse/spatialdata/pull/806) helper function to access shared metadata, is the lead author of spatialdata-plot, and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
+Tim [implemented a helper function](https://github.com/scverse/spatialdata/pull/806) to access shared metadata, is the lead author of `spatialdata-plot` and provided feedback in the context of his work on [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
 
-Mark Keller develops the Vitessce framework and helped bring the visualizations to life.
+Mark develops the Vitessce framework and advised on topics related to it.
 
-Wouter-Michiel Vierdag improved cloud support of the SpatialData framework.
+Wouter-Michiel improved cloud support of the SpatialData framework, relevant for a seamless experience with LaminDB, which is typically hosted in the cloud.
 
-Luca Marconato develops the SpatialData framework and provided implementation guidance.
+Luca develops the SpatialData framework and provided implementation guidance.
 
-Lea Zimmermann implemented the `scverse/spatialdata` curation schema and registered datasets in [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
+Lea provided valuable feedback on designing schemas for SpatialData in the context of her work on [spatialdata-db](https://lamin.ai/scverse/spatialdata-db).
 
-Alex supervised the work.
+Sunny built use cases and co-supervised the work.
+
+Alex created composable schemas -- suitable for validating data formats such as `SpatialData` -- and co-supervised the work.
 
 ## Citation
 
 ```
-Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L & Wolf A (2026). Managing spatial omics datasets with SpatialData & LaminDB. Lamin Blog.
+Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L, Sunny S & Wolf A (2026). Managing spatial omics datasets with SpatialData & LaminDB. Lamin Blog.
 https://blog.lamin.ai/spatialdata
 ```
 
 [^marconato25]: Marconato, L., Palla, G., Yamauchi, K.A. et al. SpatialData: an open and universal data framework for spatial omics. Nat Methods 22, 58–62 (2025).
+
+[^examplebelow]: The `spatialdata_plot` example displayed is for better effect for a larger object: `sdata = ln.DB("laminlabs/lamindata").get("8sPWscz3SICG1D8t").load()`. See here: https://lamin.ai/laminlabs/lamindata/transform/ZVBwKNxmg0mN. An equivalent plot for the smaller example dataset showcased can be found here: https://lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml.
