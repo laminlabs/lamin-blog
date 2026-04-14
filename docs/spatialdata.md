@@ -92,6 +92,8 @@ artifact = xenium_datasets[0]
 artifact.describe()
 ```
 
+Which outputs:
+
 <div style="text-align: center">
 <img width="600" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0gtAqs1IBzHZ0m8t0001.png">
 </div>
@@ -126,7 +128,7 @@ with coordinate systems:
 ```
 
 The resulting object integrates with the scverse ecosystem.
-For instance, can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot), run spatial analyses with [squidpy](https://github.com/scverse/squidpy), apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`, and use any other scverse ecosystem package.
+For instance, one can visualize H&E images and segmentation masks with [spatialdata-plot](https://github.com/scverse/spatialdata-plot), run spatial analyses with [squidpy](https://github.com/scverse/squidpy), apply standard [scanpy](https://github.com/scverse/scanpy) workflows to the count matrix in `sdata.tables["table"]`, and use any other scverse ecosystem package.
 
 ```python
 import spatialdata_plot
@@ -153,22 +155,18 @@ sdata.tables["table"]
 gives us:
 
 ```
-AnnData object with n_obs × n_vars = 154472 × 377
-    ...
-    obs: 'cell_id', 'transcript_counts', 'control_probe_counts', 'control_codeword_counts', ...
-    var: 'gene_ids', 'feature_types', 'genome', 'n_cells_by_counts', ...
-    uns: 'umap', 'pca', 'spatialdata_attrs', 'leiden', 'neighbors', 'log1p'
-    obsm: 'X_umap', 'spatial', 'X_pca'
-    varm: 'PCs'
-    layers: 'counts'
-    obsp: 'connectivities', 'distances'
+AnnData object with n_obs × n_vars = 1812 × 313
+    obs: 'cell_id', 'transcript_counts', 'control_probe_counts', 'control_codeword_counts', 'total_counts', 'cell_area', 'nucleus_area', 'region', 'dataset', 'celltype_major', 'celltype_minor'
+    var: 'symbols', 'feature_types', 'genome'
+    uns: 'spatialdata_attrs'
+    obsm: 'spatial'
 ```
 
 ## Validating `SpatialData` objects
 
 In LaminDB, you can store any `.zarr` folder irrespective of its format via the standard {class}`~lamindb.Artifact` constructor.
 
-For validating a `SpatialData` object, LaminDB provides {class}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
+For validating a `SpatialData` object, LaminDB provides {meth}`~lamindb.Artifact.from_spatialdata`, a constructor that takes a {class}`~lamindb.Schema` object.
 
 ```python
 schema = db.Schema.get(name="spatialdata_blog_schema")
@@ -192,19 +190,19 @@ LaminDB integrates with [Vitessce](https://vitessce.io/) for interactive spatial
 After saving a SpatialData artifact, you can configure a Vitessce dashboard and attach it:
 
 ```python
-from vitessce import VitessceConfig, AnnDataWrapper
+from vitessce import VitessceConfig, SpatialDataWrapper
 
-vc = VitessceConfig(schema_version="1.0.18", name="Xenium Lung")
+vc = VitessceConfig(schema_version="1.0.18")
 dataset = vc.add_dataset(name="lung").add_object(
-    AnnDataWrapper(adata_artifact=artifact, ...)
+    SpatialDataWrapper(adata_artifact=artifact, ...)
 )
 # ... configure views ...
 
 ln.integrations.save_vitessce_config(vc)
 ```
 
-Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the spatial data interactively — no downloads required.
-When viewed, it looks like:
+Once saved, a **Vitessce** button appears next to the artifact on LaminHub, enabling collaborators to explore the dataset interactively.
+When viewed, it looks something like:
 
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/0AMvLfVX9VXVbhUf0000.png">
