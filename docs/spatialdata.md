@@ -12,6 +12,9 @@ affiliation:
   zimea: Helmholtz Munich, Munich
   sunnyosun: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
+linkedin: https://www.linkedin.com/posts/falexwolf_when-spatial-datasets-accumulate-across-experiments-share-7450091581111640064-I539
+tweet: https://x.com/falexwolf/status/2044326739405328710
+bsky: https://bsky.app/profile/falexwolf.bsky.social/post/3mjjgwxjsic2l
 ---
 
 Spatial omics technologies — Xenium, Visium, MERFISH, seqFISH, and others — are generating datasets that combine molecular profiling with spatial coordinates.
