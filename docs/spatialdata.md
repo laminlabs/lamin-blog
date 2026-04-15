@@ -1,6 +1,6 @@
 ---
 title: "Managing spatial omics datasets with SpatialData & LaminDB"
-date: 2026-04-13
+date: 2026-04-15
 author: Zethson, namsaraeva, timtreis, keller-mark, melonora, LucaMarconato, zimea, sunnyosun, falexwolf
 affiliation:
   Zethson: Lamin Labs, Munich
@@ -239,18 +239,19 @@ See the [spatial ML guide](https://docs.lamin.ai/spatial4) for a full example.
 
 ## Acknowledgements: `scverse`
 
-We are grateful for collaborating with `scverse` not only on interoperability but also by supporting a curated collection of public SpatialData datasets at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
+We are grateful to collaborate with `scverse` — not only on interoperability, but also on supporting a curated collection of public SpatialData datasets at [`scverse/spatialdata-db`](https://lamin.ai/scverse/spatialdata-db).
 This database is a work in progress but already today provides validated ready-to-query spatial datasets — useful for benchmarking, method development, model training, and as a reference atlas.
 
 ## Code & data availability
 
+- The `spatialdata` source code: [github.com/scverse/spatialdata](https://github.com/scverse/spatialdata)
+- The `lamindb` soure code including `from_spatialdata()` and `SpatialDataCurator`: [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb)
 - The code snippets & figures of this post: [lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml](https://lamin.ai/laminlabs/lamindata/transform/PqAYAQzVm8ml)
 - Spatial guide: [docs.lamin.ai/spatial](https://docs.lamin.ai/spatial)
 - Vitessce integration: [docs.lamin.ai/vitessce2](https://docs.lamin.ai/vitessce2) & [blog.lamin.ai/vitessce](https://blog.lamin.ai/vitessce)
 - Curate & ingest guide: [docs.lamin.ai/spatial3](https://docs.lamin.ai/spatial3)
 - Spatial ML training: [docs.lamin.ai/spatial4](https://docs.lamin.ai/spatial4)
 - Public spatial datasets: [lamin.ai/scverse/spatialdata-db](https://lamin.ai/scverse/spatialdata-db)
-- SpatialData framework: [github.com/scverse/spatialdata](https://github.com/scverse/spatialdata)
 
 ## Author contributions
 
