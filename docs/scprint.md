@@ -1,6 +1,6 @@
 ---
 title: "How I used LaminDB to build the scPRINT family of models"
-date: 2026-04-15
+date: 2026-04-16
 author: jkobject
 affiliation:
   jkobject: ENS Ulm
