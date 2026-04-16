@@ -1,5 +1,5 @@
 ---
-title: "How I used LaminDB to build the scPRINT family of models"
+title: "How I used LaminDB to build the scPRINT family of scRNA-seq foundation models"
 date: 2026-04-16
 author: jkobject
 affiliation:
@@ -10,7 +10,7 @@ At the start of my PhD, I was faced with what seemed like a mountain to climb: b
 
 To train a cell foundation model that actually generalizes, you need thousands of datasets. You need to find them, download them, harmonize gene names across species, align cell type labels to controlled ontologies, preprocess everything consistently, store it in a way that doesn't collapse under its own weight, and feed it to a model at scale. Managing a dozen datasets is already painful for most computational biologists. I needed to handle thousands.
 
-Thirty months ago, three things came at exactly the right moment. The Chan Zuckerberg Initiative had made around 700 datasets easily accessible through CellxGene. Alex Wolf's Lamin.ai project gave me a way to manage large, heterogeneous collections of biological data with metadata that actually meant something. And Sergei Rybakov (now at Lamin) was building a loader for streaming single-cell data at scale.
+Thirty months ago, three things came at exactly the right moment. The Chan Zuckerberg Initiative had made around 700 datasets easily accessible through CellxGene. The LaminDB project gave me a way to manage large, heterogeneous collections of biological data with metadata that actually meant something. And Sergei Rybakov was building a loader for streaming single-cell data at scale.
 
 ## Managing scale with LaminDB
 
@@ -24,7 +24,7 @@ Without LaminDB I would have spent months on this. With it, it took weeks.
 
 Loading 350 million cells into memory is not an option. You need streaming, shuffling across datasets, and batching that mixes cell types, species, and sequencing technologies, without the dataloader becoming the bottleneck.
 
-scDataloader handles this. It's built on top of LaminDB's MappedCollection interface, which lets you treat hundreds of separate datasets as a single object you can sample, filter, and iterate over. It streams directly from the artifact store and integrates cleanly with PyTorch's DataLoader. I was able to train scPRINT-2 on 350 million cells and 25 TB of data on a single cluster without writing custom data infrastructure. That felt like a minor miracle at the time.
+`scDataLoader` handles this. It's built on top of LaminDB's `MappedCollection` interface, which lets you treat hundreds of separate datasets as a single object you can sample, filter, and iterate over. It streams directly from the artifact store and integrates cleanly with PyTorch's DataLoader. I was able to train scPRINT-2 on 350 million cells and 25 TB of data on a single cluster without writing custom data infrastructure. That felt like a minor miracle at the time.
 
 ## Beyond training
 
@@ -37,3 +37,7 @@ It also meant I could serve processed data to the team with enough context attac
 I used LaminDB throughout my PhD. It let me do a lot alone, in a reasonable time, in a reproducible way. That's a rare combination in this field.
 
 These days, when I start a computational biology project, I set up a git repo and a LaminDB instance. In that order, roughly.
+
+## Background
+
+In fall 2023, Jeremie & Alex met in CZI's CellXGene Slack channel both trying to figure out how to best manage metadata of thousands of scRNA-seq datasets. Jeremie for his work on scRNA-seq foundation models, and Alex for his work on LaminDB.
