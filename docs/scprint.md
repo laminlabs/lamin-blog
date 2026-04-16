@@ -24,11 +24,11 @@ Without LaminDB I would have spent months on this. With it, it took weeks.
 
 Loading 350 million cells into memory is not an option. You need streaming, shuffling across datasets, and batching that mixes cell types, species, and sequencing technologies, without the dataloader becoming the bottleneck.
 
-`scDataLoader` handles this. It's built on top of LaminDB's `MappedCollection` interface, which lets you treat hundreds of separate datasets as a single object you can sample, filter, and iterate over. It streams directly from the artifact store and integrates cleanly with PyTorch's DataLoader. I was able to train scPRINT-2 on 350 million cells and 25 TB of data on a single cluster without writing custom data infrastructure. That felt like a minor miracle at the time.
+`scDataLoader` handles this. It's built on top of LaminDB's `MappedCollection` interface, which lets you treat hundreds of separate datasets as a single object you can sample, filter, and iterate over. It streams directly from the artifact store and integrates cleanly with PyTorch's DataLoader. I was able to train scPRINT-2[^2] on 350 million cells and 25 TB of data on a single cluster without writing custom data infrastructure. That felt like a minor miracle at the time.
 
 ## Beyond training
 
-Once scPRINT was published and colleagues and interns started using the infrastructure, having a LaminDB instance meant they could reproduce my work exactly: same artifacts, same lineage, same ontology mappings. Data lineage made it easy to answer "which datasets went into this version of the model?" or "was this processed before or after the normalization change?" without digging through scripts.
+Once scPRINT[^1] was published and colleagues and interns started using the infrastructure, having a LaminDB instance meant they could reproduce my work exactly: same artifacts, same lineage, same ontology mappings. Data lineage made it easy to answer "which datasets went into this version of the model?" or "was this processed before or after the normalization change?" without digging through scripts.
 
 It also meant I could serve processed data to the team with enough context attached that they didn't need me to explain what they were looking at.
 
@@ -41,3 +41,7 @@ These days, when I start a computational biology project, I set up a git repo an
 ## Background
 
 In fall 2023, Jeremie & Alex met in CZI's CellXGene Slack channel both trying to figure out how to best manage metadata of thousands of scRNA-seq datasets. Jeremie for his work on scRNA-seq foundation models, and Alex for his work on LaminDB.
+
+[^1]: Kalfon, J., Samaran, J., Peyre, G., & Cantini, L. (2025). scPRINT: pre-training on 50 million cells allows robust gene network predictions. _Nature Communications_, 16, 3607. https://doi.org/10.1038/s41467-025-58699-1
+
+[^2]: Kalfon, J., Peyre, G., & Cantini, L. (2026). scPRINT-2: Towards the next-generation of cell foundation models and benchmarks. _bioRxiv_. https://doi.org/10.64898/2025.12.11.693702
