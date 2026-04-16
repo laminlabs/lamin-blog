@@ -34,6 +34,6 @@ It also meant I could serve processed data to the team with enough context attac
 
 ## The reflex it created
 
-These days, when I start a computational biology project, I set up a git repo and a LaminDB instance. In that order, roughly. The alternative — an ad hoc folder of CSVs and undocumented preprocessing scripts — is a debt that compounds faster than most people expect.
-
 I used LaminDB throughout my PhD. It let me do a lot alone, in a reasonable time, in a reproducible way. That's a rare combination in this field.
+
+These days, when I start a computational biology project, I set up a git repo and a LaminDB instance. In that order, roughly.
