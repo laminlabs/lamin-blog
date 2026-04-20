@@ -1,6 +1,6 @@
 ---
 title: "How I managed thousands of datasets to build the scPRINT family of scRNA-seq foundation models"
-date: 2026-04-16
+date: 2026-04-20
 author: jkobject
 affiliation:
   jkobject: ENS Ulm
