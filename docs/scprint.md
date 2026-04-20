@@ -1,5 +1,5 @@
 ---
-title: "How I used LaminDB to build the scPRINT family of scRNA-seq foundation models"
+title: "How I managed thousands of datasets to build the scPRINT family of scRNA-seq foundation models"
 date: 2026-04-16
 author: jkobject
 affiliation:
