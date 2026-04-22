@@ -1,7 +1,7 @@
 ---
 title: "MethylGPT's DNA methylation data curated: 150k profiles from 5281 datasets"
 date: 2026-03-03
-author: namsaraeva, falexwolf, sunnyosun
+author: namsaraeva, sheetalgiri, falexwolf, sunnyosun
 orcid:
   namsaraeva: 0000-0001-6071-9410
   falexwolf: 0000-0002-8760-7838  
@@ -51,7 +51,7 @@ This schema makes the data queryable. For example, you can now filter for all bl
 
 ## Use case: age prediction from methylation profiles
 
-To show what you can do with structured methylation data in LaminDB, we came up with a [tutorial](https://lamin.ai/laminlabs/methyldata) that walks through an example ML workflow.
+To show what you can do with structured methylation data in LaminDB, we came up with a [tutorial](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C) that walks through an example ML workflow.
 
 The notebook includes querying the instance for all blood tissue samples with known age between 18 and 65. Because tissue and age are registered as queryable metadata via our schema, this is a filter operation. The corresponding beta value matrices are then loaded and subset to matching GSM IDs.
 
@@ -91,6 +91,8 @@ artifacts_A549 = meta_artifacts.filter(cell_lines=cell_lines.a549_cell)
 
 Altana curated the metadata, generated wide tables, developed the tutorial notebook and wrote this post.
 
+Sheetal reviewed and made adjustments to the tutorial notebook.
+
 Alex helped conceive the project and write the post.
 
 Sunny supervised the work, ingested raw datasets, and reviewed this post.
@@ -104,6 +106,6 @@ Sunny supervised the work, ingested raw datasets, and reviewed this post.
 ## Citation
 
 ```
-Namsaraeva A, Sun S & Wolf A (2026). Curated DNA methylation data with LaminDB. Lamin Blog.
+Namsaraeva A, Giri S, Sun S & Wolf A (2026). MethylGPT's DNA methylation data curated: 150k profiles from 5281 datasets. Lamin Blog.
 https://blog.lamin.ai/methyldata
 ```
