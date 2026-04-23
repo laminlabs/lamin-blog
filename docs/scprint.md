@@ -10,7 +10,7 @@ tweet: https://x.com/jkobject/status/2047043597820666039
 
 :::{note}
 
-This re-prints a post from [here](https://www.jkobject.com/blog/lamindb-these/).
+This post was originally published on [Jérémie Kalfon's blog](https://www.jkobject.com/blog/lamindb-these/).
 
 :::
 
