@@ -8,12 +8,6 @@ linkedin: https://www.linkedin.com/feed/update/urn:li:activity:74527785336570142
 tweet: https://x.com/jkobject/status/2047043597820666039
 ---
 
-:::{note}
-
-This post was originally published on [Jérémie Kalfon's blog](https://www.jkobject.com/blog/lamindb-these/).
-
-:::
-
 At the start of my PhD, I was faced with what seemed like a mountain to climb: build, largely alone, a foundation model for single-cell RNA-seq data. As anyone in the field knows, building the model is not the hard part. Getting the data is.
 
 To train a cell foundation model that actually generalizes, you need thousands of datasets. You need to find them, download them, harmonize gene names across species, align cell type labels to controlled ontologies, preprocess everything consistently, store it in a way that doesn't collapse under its own weight, and feed it to a model at scale. Managing a dozen datasets is already painful for most computational biologists. I needed to handle thousands.
@@ -49,6 +43,12 @@ These days, when I start a computational biology project, I set up a git repo an
 ## Background
 
 In fall 2023, Jeremie & Alex met in CZI's CellXGene Slack channel both trying to figure out how to best manage metadata of thousands of scRNA-seq datasets. Jeremie for his work on scRNA-seq foundation models, and Alex for his work on LaminDB.
+
+:::{note}
+
+This post was originally published on [Jérémie Kalfon's blog](https://www.jkobject.com/blog/lamindb-these/).
+
+:::
 
 [^1]: Kalfon, J., Samaran, J., Peyre, G., & Cantini, L. (2025). scPRINT: pre-training on 50 million cells allows robust gene network predictions. _Nature Communications_, 16, 3607. https://doi.org/10.1038/s41467-025-58699-1
 
