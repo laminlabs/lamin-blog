@@ -1,10 +1,18 @@
 ---
 title: "How I managed thousands of datasets to build the scPRINT family of scRNA-seq foundation models"
-date: 2026-04-20
+date: 2026-04-23
 author: jkobject
 affiliation:
   jkobject: ENS Ulm
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7452778533657014273/
+tweet: https://x.com/jkobject/status/2047043597820666039
 ---
+
+:::{note}
+
+This re-prints a post from [here](https://www.jkobject.com/blog/lamindb-these/).
+
+:::
 
 At the start of my PhD, I was faced with what seemed like a mountain to climb: build, largely alone, a foundation model for single-cell RNA-seq data. As anyone in the field knows, building the model is not the hard part. Getting the data is.
 
