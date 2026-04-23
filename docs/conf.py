@@ -49,6 +49,7 @@ authors = {
     "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
     "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
+    "sheetalgiri": ("Sheetal Giri", "https://github.com/sheetalgiri"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
 }
