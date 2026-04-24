@@ -4,10 +4,12 @@ date: 2026-03-03
 author: namsaraeva, sheetalgiri, falexwolf, sunnyosun
 orcid:
   namsaraeva: 0000-0001-6071-9410
+  sheetalgiri: 0009-0005-2852-074X
   falexwolf: 0000-0002-8760-7838  
   sunnyosun: 0000-0002-2365-0888
 affiliation:
   namsaraeva: Lamin Labs, Munich
+  sheetalgiri: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich  
   sunnyosun: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/methyldata
