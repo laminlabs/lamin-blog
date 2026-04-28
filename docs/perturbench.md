@@ -22,17 +22,21 @@ The PerturBench database contains six curated datasets for evaluating machine le
 The framework includes six datasets spanning genetic and chemical perturbations at different scales:
 
 | Dataset                                                                                | Perturbation type | Number of cells | Reference      | Lineage                                                                           |
-|----------------------------------------------------------------------------------------| ----------------- | --------------- | -------------- | --------------------------------------------------------------------------------- |
+| -------------------------------------------------------------------------------------- | ----------------- | --------------- | -------------- | --------------------------------------------------------------------------------- |
 | [Norman19](https://lamin.ai/altoslabs/perturbench/artifact/givpxz10Nce9GZU7)           | Genetic           | 91,168 cells    | [^norman19]    | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rx0HTSN1zzdzXrQ20000.png) |
-| [Srivatsan20](https://lamin.ai/altoslabs/perturbench/artifact/cFNvt9rQt0kEGkhj)        | Chemical          | 178,213 cells   | [^srivatsan20] | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/QAlH61B4G7gvllzR0000.png)|
-| [Frangieh21](https://lamin.ai/altoslabs/perturbench/artifact/eA1ej5uzGWKXrEax)         | Genetic           | 218,331 cells   | [^frangieh21]  | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/LZrunW7bhaNpTMyx0000.png)|
-| [McFalineFigueroa23](https://lamin.ai/altoslabs/perturbench/artifact/GnL8Spg9MReCzhrs) | Genetic           | 892,800 cells   | [^mcfaline23]  | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/DWYAIVFtzMnWZZfZ0000.png)|
-| [Jiang24](https://lamin.ai/altoslabs/perturbench/artifact/bEKTIM2ephr7Ks3t)            | Genetic           | 1,628,476 cells | [^jiang24]     | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/JvxJOGt6DKI3hrWR0000.png)|
-| [OP3](https://lamin.ai/altoslabs/perturbench/artifact/bY8zl3NwmHqYt5zT)                | Chemical          | 298,087 cells   | [^szalata24]   | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/YrfaJYZRs0rRI5kj0000.png)|
+| [Srivatsan20](https://lamin.ai/altoslabs/perturbench/artifact/cFNvt9rQt0kEGkhj)        | Chemical          | 178,213 cells   | [^srivatsan20] | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/QAlH61B4G7gvllzR0000.png) |
+| [Frangieh21](https://lamin.ai/altoslabs/perturbench/artifact/eA1ej5uzGWKXrEax)         | Genetic           | 218,331 cells   | [^frangieh21]  | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/LZrunW7bhaNpTMyx0000.png) |
+| [McFalineFigueroa23](https://lamin.ai/altoslabs/perturbench/artifact/GnL8Spg9MReCzhrs) | Genetic           | 892,800 cells   | [^mcfaline23]  | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/DWYAIVFtzMnWZZfZ0000.png) |
+| [Jiang24](https://lamin.ai/altoslabs/perturbench/artifact/bEKTIM2ephr7Ks3t)            | Genetic           | 1,628,476 cells | [^jiang24]     | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/JvxJOGt6DKI3hrWR0000.png) |
+| [OP3](https://lamin.ai/altoslabs/perturbench/artifact/bY8zl3NwmHqYt5zT)                | Chemical          | 298,087 cells   | [^szalata24]   | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/YrfaJYZRs0rRI5kj0000.png) |
 
 These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can be trained on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
 
 The original PerturBench codebase hosts processed datasets on [Hugging Face](https://huggingface.co/datasets/altoslabs/perturbench/tree/main) as gzipped `.h5ad` files. But these files alone don't tell you how the processing was done, what changed between versions, or how the train/val/test splits relate to the processed data.
+
+## How it is different from pertdata.
+
+Pertdata [https://lamin.ai/laminlabs/pertdata] includes a wide variety of perturbational datasets, covering both genetic and drug screens across diverse cell types and experimental contexts. PerturbBench, by contrast, is a more focused collection: it centers on a small number of carefully selected datasets which includes notably Norman (CRISPRa combinatorial perturbations in K562), Srivatsan (sci-Plex drug screen across three cell lines), and Frangieh (Perturb-CITE-seq in melanoma), among others, chosen specifically to benchmark model performance across distinct tasks.
 
 ## The datasets in LaminDB
 
@@ -41,6 +45,7 @@ The [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database c
 - **Raw data ingestion.** We ingested all raw datasets from the PerturBench publication by registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
 - **Curation transforms.** The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, linking them to their input and output artifacts to establish full lineage.
 - **ML split construction.** The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
+- **Fetching the datasets from laminDB.** The datasets can be fetched from the lamindb using ln.Artifact.get(key=" "). For querying and loading the artifacts you can also check (https://docs.lamin.ai/query-search).
 
 The process can be visualized in the data lineage graph, for example, for the Jiang24 and Frangieh21 datasets:
 
@@ -72,6 +77,10 @@ artifact.describe()
 # load an AnnData object into memory
 adata = artifact.load()
 ```
+
+## Work in progress
+
+A follow-up post will discuss metadata management of perturbational datasets in depth. Defining and standardizing metadata for perturbation experiments, from perturbation type and dosage to control definitions and cell state annotations.
 
 ## Author contributions
 
