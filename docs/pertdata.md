@@ -9,6 +9,6 @@ affiliation:
 ## Citation
 
 ```
-Sunny S (2026). pertdata - A collaborative atlas for perturbational omics datasets. Lamin Blog.
-https://blog.lamin.ai/spatialdata
+Sunny S, Namsaraeva A, Kalfon J, Heumos L & Wolf A (2026). pertdata - A collaborative atlas for perturbational omics datasets. Lamin Blog.
+https://blog.lamin.ai/pertdata
 ```
