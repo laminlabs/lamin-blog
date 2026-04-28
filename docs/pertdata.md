@@ -1,7 +1,7 @@
 ---
-title: "`pertdata` - A collaborative atlas for perturbational omics datasets"
+title: "pertdata - A collaborative atlas for perturbational omics datasets"
 date: 2026-04-28
-author: sunnyosun
+author: sunnyosun, namsaraeva, jkobject, Zethson, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
 ---
