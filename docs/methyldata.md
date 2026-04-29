@@ -69,17 +69,14 @@ import lamindb as ln
 # connect to the instance
 db = ln.DB("laminlabs/methyldata")
 
-# access the MethylGPT project
-project = db.Project.get(name="MethylGPT")
-
-# list beta value matrices
-beta_artifacts = project.artifacts.filter(
+# list beta value matrices as parquet files
+beta_artifacts = db.Artifact.filter(
     suffix=".parquet", key__startswith="methylGPT/beta/"
 )
 beta_artifacts.to_dataframe().head()
 
-# list sample metadata
-meta_artifacts = project.artifacts.filter(
+# list sample metadata, 
+meta_artifacts = db.Artifact.filter(
     suffix=".parquet", key__startswith="methylGPT/sample_metadata/"
 )
 meta_artifacts.to_dataframe().head()
