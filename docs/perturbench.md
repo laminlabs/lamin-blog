@@ -18,7 +18,7 @@ The PerturBench database contains six curated datasets for evaluating machine le
 
 ## The datasets
 
-[PerturBench](https://github.com/altoslabs/perturbench) (Wu, Wershof, Shmon, Nassar, Osinski, Eksi, Yan et al., 2025)[^wu26] introduced a comprehensive framework for benchmarking machine learning (ML) models that predict single-cell transcriptomic responses to perturbations. It addresses the problem that published models are often evaluated on inconsistent benchmarks with different datasets and metrics, making it hard to know what actually works.
+[PerturBench](https://github.com/altoslabs/perturbench) (Wu, Wershof, Shmon, Nassar, Osinski, Eksi, Yan et al., 2025)[^wu26] introduced a comprehensive framework for benchmarking machine learning (ML) models that predict single-cell transcriptomic responses to perturbations. It addresses the problem that published models are often evaluated on inconsistent benchmarks, making it hard to compare results across studies.
 The framework includes six datasets spanning genetic and chemical perturbations at different scales:
 
 | Dataset                                                                                | Perturbation type | Number of cells | Reference      | Lineage                                                                           |
@@ -32,11 +32,17 @@ The framework includes six datasets spanning genetic and chemical perturbations 
 
 These datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where ML models can be trained on them requires substantial data wrangling: format conversion, quality control, normalization, metadata harmonization, and the construction of meaningful train/val/test splits.
 
-The original PerturBench codebase hosts processed datasets on [Hugging Face](https://huggingface.co/datasets/altoslabs/perturbench/tree/main) as gzipped `.h5ad` files. But these files alone don't tell you how the processing was done, what changed between versions, or how the train/val/test splits relate to the processed data.
+The original PerturBench codebase hosts processed datasets on [Hugging Face](https://huggingface.co/datasets/altoslabs/perturbench/tree/main) as gzipped `.h5ad` files. But these files alone don't reveal how the processing was done, what changed between versions, or how the train/val/test splits relate to the processed data.
 
-## How it is different from pertdata.
+All six datasets in lamin contain the obs columns required by the PerturBench training pipeline (`condition`, `cell_type`, `treatment`, `perturbation_type`, `dose`, etc.). Five of them are byte-equivalent to the gzipped `.h5ad` files on HuggingFace (within the small tie-breaking noise of `seurat_v3` HVG selection across scanpy versions). Srivatsan20 is the exception: its HuggingFace upload was produced by the chemCPA preprocessing pipeline (Lotfollahi et al., 2022), not by `curate_Srivatsan20.ipynb`, so it ships with extra chemCPA-specific columns (`_scvi_cell_type`, `ood_split`, `perturbation_raw`) that the lamin curation does not reproduce. The lamin Srivatsan20 file is the output of the public curation notebook and is fully usable for PerturBench training.
 
-Pertdata [https://lamin.ai/laminlabs/pertdata] includes a wide variety of perturbational datasets, covering both genetic and drug screens across diverse cell types and experimental contexts. PerturbBench, by contrast, is a more focused collection: it centers on a small number of carefully selected datasets which includes notably Norman (CRISPRa combinatorial perturbations in K562), Srivatsan (sci-Plex drug screen across three cell lines), and Frangieh (Perturb-CITE-seq in melanoma), among others, chosen specifically to benchmark model performance across distinct tasks.
+## How it differs from pertdata
+
+[Pertdata](https://lamin.ai/laminlabs/pertdata) is a broad collection of perturbational single-cell datasets, currently around 25, spanning genetic and chemical perturbations across many tissues and cell systems. It is designed to give researchers easy programmatic access to as many published perturbation screens as possible, in a consistent AnnData layout.
+
+PerturBench has a narrower goal: a *fixed* benchmark for comparing perturbation-prediction models. It includes six datasets selected to cover distinct prediction tasks — combinatorial CRISPRa (Norman19), large-scale chemical screens (Srivatsan20, McFaline23), Perturb-CITE-seq (Frangieh21), multi-stimulus CRISPRi (Jiang24), and a NeurIPS competition dataset (OP3). For each, the repository ships pre-defined splits and tuned model hyperparameters, so a benchmark number on one of these datasets is directly comparable across publications.
+
+The two databases are complementary: pertdata for breadth and exploration, PerturBench for reproducible model evaluation against a community-vetted baseline.
 
 ## The datasets in LaminDB
 
@@ -45,7 +51,7 @@ The [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database c
 - **Raw data ingestion.** We ingested all raw datasets from the PerturBench publication by registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
 - **Curation transforms.** The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, linking them to their input and output artifacts to establish full lineage.
 - **ML split construction.** The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
-- **Fetching the datasets from laminDB.** The datasets can be fetched from the lamindb using ln.Artifact.get(key=" "). For querying and loading the artifacts you can also check (https://docs.lamin.ai/query-search).
+- **Fetching the datasets from LaminDB.** The datasets can be fetched from lamindb using `ln.Artifact.get(key=...)`. For more on querying and loading artifacts, see the [lamindb query/search docs](https://docs.lamin.ai/query-search).
 
 The process can be visualized in the data lineage graph, for example, for the Jiang24 and Frangieh21 datasets:
 
@@ -76,6 +82,22 @@ artifact.describe()
 
 # load an AnnData object into memory
 adata = artifact.load()
+```
+
+## Using the datasets to train a model
+
+The PerturBench repository ships pre-tuned Hydra configs for six baseline models — [CPA](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/cpa.yaml), [Biolord](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/biolord.yaml), [SAMS-VAE](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/sams_vae.yaml), [Linear additive](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/linear_additive.yaml), [Latent additive](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/latent_additive.yaml), and [Decoder only](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/decoder_only.yaml) — each tuned per dataset.
+
+A typical run pulls a dataset and its matching split from lamin, then hands them to the trainer:
+
+```python
+import lamindb as ln
+
+adata    = ln.Artifact.get(key="norman19_cpa_hvg_normalized_curated.h5ad").load()
+split_df = ln.Artifact.get(key="split_6.csv").load()
+
+# python -m perturbench.modelcore.train \
+#     experiment=neurips2025/norman19/linear_best_params_norman19
 ```
 
 ## Work in progress
