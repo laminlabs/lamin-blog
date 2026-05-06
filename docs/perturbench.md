@@ -57,20 +57,7 @@ Two curation pipelines converge on a shared split-building notebook. On the top 
 
 All six datasets in lamin contain the obs columns required by the PerturBench training pipeline (`condition`, `cell_type`, `treatment`, `perturbation_type`, `dose`, etc.). Five of them are byte-equivalent to the gzipped `.h5ad` files on HuggingFace (within the small tie-breaking noise of `seurat_v3` HVG selection across scanpy versions). Srivatsan20 is the exception: its HuggingFace upload was produced by the chemCPA preprocessing pipeline (Lotfollahi et al., 2022), not by `curate_Srivatsan20.ipynb`, so it ships with extra chemCPA-specific columns (`_scvi_cell_type`, `ood_split`, `perturbation_raw`) that the lamin curation does not reproduce. The lamin Srivatsan20 file is the output of the public curation notebook and is fully usable for PerturBench training.
 
-The PerturBench repository ships pre-tuned Hydra configs for six baseline models — [CPA](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/cpa.yaml), [Biolord](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/biolord.yaml), [SAMS-VAE](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/sams_vae.yaml), [Linear additive](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/linear_additive.yaml), [Latent additive](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/latent_additive.yaml), and [Decoder only](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/decoder_only.yaml) — each tuned per dataset.
-
-A typical run pulls a dataset and its matching split from lamin, then hands them to the trainer:
-
-```python
-import lamindb as ln
-
-db = ln.DB("altoslabs/perturbench")
-adata    = db.Artifact.get(key="norman19_cpa_hvg_normalized_curated.h5ad").load()
-split_df = db.Artifact.get(key="split_6.csv").load()
-
-# python -m perturbench.modelcore.train \
-#     experiment=neurips2025/norman19/linear_best_params_norman19
-```
+For a full training and model evaluation run, see [lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl](https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
 
 ## Author contributions
 
@@ -92,6 +79,8 @@ Alex supervised the project.
 ```
 Jain I, Namsaraeva A, Sun S, Wu Y & Wolf A (2026). Re-engineering the PerturBench benchmarking tasks with data lineage. Lamin Blog. https://blog.lamin.ai/perturbench
 ```
+
+## References
 
 [^wu25]: Yan Wu, Esther Wershof, Sebastian M Schmon, Marcel Nassar, Błażej Osiński, Ridvan Eksi, Zichao Yan, Rory Stark, Kun Zhang, Thore Graepel. PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. The Thirty-ninth Annual Conference on Neural Information Processing Systems Datasets and Benchmarks Track 2025. https://openreview.net/forum?id=PPPDuyiZaG.
 
