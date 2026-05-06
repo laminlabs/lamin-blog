@@ -59,6 +59,7 @@ Two curation pipelines converge on a shared split-building notebook. On the top 
 All six datasets in lamin contain the obs columns required by the PerturBench training pipeline (`condition`, `cell_type`, `treatment`, `perturbation_type`, `dose`, etc.). Five of them are byte-equivalent to the gzipped `.h5ad` files on HuggingFace (within the small tie-breaking noise of `seurat_v3` HVG selection across scanpy versions). Srivatsan20 is the exception: its HuggingFace upload was produced by the chemCPA preprocessing pipeline (Lotfollahi et al., 2022), not by `curate_Srivatsan20.ipynb`, so it ships with extra chemCPA-specific columns (`_scvi_cell_type`, `ood_split`, `perturbation_raw`) that the lamin curation does not reproduce. The lamin Srivatsan20 file is the output of the public curation notebook and is fully usable for PerturBench training.
 
 For a full training and model evaluation run, see [lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl](https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
+For a comparison showing equivalence of the original datasets and the re-curated datasets, see [lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI](https://lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI).
 
 ## Author contributions
 
