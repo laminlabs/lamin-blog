@@ -90,7 +90,7 @@ Alex supervised the project.
 ## How to cite
 
 ```
-Jain I, Namsaraeva A, Sun S, Wu Y & Wolf A (2026). The PerturBench datasets in LaminDB. Lamin Blog. https://blog.lamin.ai/perturbench
+Jain I, Namsaraeva A, Sun S, Wu Y & Wolf A (2026). Re-engineering the PerturBench benchmarking tasks with data lineage. Lamin Blog. https://blog.lamin.ai/perturbench
 ```
 
 [^wu25]: Yan Wu, Esther Wershof, Sebastian M Schmon, Marcel Nassar, Błażej Osiński, Ridvan Eksi, Zichao Yan, Rory Stark, Kun Zhang, Thore Graepel. PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. The Thirty-ninth Annual Conference on Neural Information Processing Systems Datasets and Benchmarks Track 2025. https://openreview.net/forum?id=PPPDuyiZaG.
