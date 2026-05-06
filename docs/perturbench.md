@@ -78,7 +78,7 @@ split_df = db.Artifact.get(key="split_6.csv").load()
 
 Ishita & Altana curated the datasets, scripts, and notebooks with LaminDB.
 
-Sunny & Yan advised on the project. Yan developed the original curation notebooks & scripts together with the authors of the original publication.[^wu25]
+Sunny & Yan advised on the project. Yan developed the original curation notebooks & scripts together with the authors of the original publication.
 
 Alex supervised the project.
 
