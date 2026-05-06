@@ -78,16 +78,14 @@ split_df = db.Artifact.get(key="split_6.csv").load()
 
 Ishita & Altana curated the datasets, scripts, and notebooks with LaminDB.
 
-Sunny & Yan advised on the project. Yan developed the original curation notebooks & scripts.
+Sunny & Yan advised on the project. Yan developed the original curation notebooks & scripts together with the authors of the original publication.[^wu25]
 
 Alex supervised the project.
 
 ## Code & data availability
 
-- Database: [lamin.ai/altoslabs/perturbench](https://lamin.ai/altoslabs/perturbench)
-- PerturBench GitHub repository: [github.com/altoslabs/perturbench](https://github.com/altoslabs/perturbench)
-- PerturBench publication: [arxiv.org/abs/2408.10609](https://arxiv.org/abs/2408.10609)
-- Datasets on HuggingFace: [https://huggingface.co/datasets/altoslabs/perturbench/tree/main](https://huggingface.co/datasets/altoslabs/perturbench/tree/main)
+- database: [lamin.ai/altoslabs/perturbench](https://lamin.ai/altoslabs/perturbench)
+- repo: [github.com/altoslabs/perturbench](https://github.com/altoslabs/perturbench)
 
 ## How to cite
 
