@@ -14,7 +14,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
-PerturBench (Wu, Wershof, Schmon, Nassar, Osinski, Eksi, Yan, et al., 2025)[^wu25] is a framework for benchmarking models that predict cellular transcriptional response to perturbations, featured in last years Datasets and Benchmarks Track of NeurIPS 2025.
+PerturBench (Wu, Wershof, Schmon, Nassar, Osinski, Eksi, Yan, et al., 2025)[^wu25] is a framework for benchmarking models that predict cellular transcriptional response to perturbations, featured in last year's Datasets and Benchmarks Track of NeurIPS 2025.
 Reviewers agreed on the value of curated scRNA-seq datasets in combination with new rank-based metrics and datasets were deposited on Hugging Face and code on GitHub, without data lineage.
 To make it easy for anyone interested to understand how exactly each dataset and corresponding benchmarking task came about, we re-ran all curation workflows using lineage tracking, exemplify model training, model evaluation, and show equivalence of the lineage-ware datasets with the originally deposited datasets.
 
@@ -40,14 +40,14 @@ To make data lineage easy to browse and understand, we re-ran all curation steps
 | [Jiang24](https://lamin.ai/altoslabs/perturbench/artifact/bEKTIM2ephr7Ks3t)            | Genetic           | 1,628,476 cells | [^jiang24]     | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/JvxJOGt6DKI3hrWR0000.png) |
 | [OP3](https://lamin.ai/altoslabs/perturbench/artifact/bY8zl3NwmHqYt5zT)                | Chemical          | 298,087 cells   | [^szalata24]   | ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/YrfaJYZRs0rRI5kj0000.png) |
 
-On a high level, the steps are roughly:
+On a high level, the steps are:
 
 1. Raw data ingestion: We ingested all raw datasets from the PerturBench publication by registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
 2. Curation: The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, linking them to their input and output artifacts to establish full lineage.
 3. ML splits: The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
 4. Training and eval examples: Loading the curated datasets to train and evaluate models using the `PerturBench` framework.
 
-The process can be visualized in the data lineage graph, for example, for the Jiang24 and Frangieh21 datasets:
+Let us look at the example of the `Jiang24` and `Frangieh21` datasets:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/X6UYqnvFVrsSXoqT0000.png" width="700">
@@ -57,31 +57,6 @@ Two curation pipelines converge on a shared split-building notebook. On the top 
 
 All six datasets in lamin contain the obs columns required by the PerturBench training pipeline (`condition`, `cell_type`, `treatment`, `perturbation_type`, `dose`, etc.). Five of them are byte-equivalent to the gzipped `.h5ad` files on HuggingFace (within the small tie-breaking noise of `seurat_v3` HVG selection across scanpy versions). Srivatsan20 is the exception: its HuggingFace upload was produced by the chemCPA preprocessing pipeline (Lotfollahi et al., 2022), not by `curate_Srivatsan20.ipynb`, so it ships with extra chemCPA-specific columns (`_scvi_cell_type`, `ood_split`, `perturbation_raw`) that the lamin curation does not reproduce. The lamin Srivatsan20 file is the output of the public curation notebook and is fully usable for PerturBench training.
 
-## Explore the database
-
-The database is publicly available at [lamin.ai/altoslabs/perturbench](https://lamin.ai/altoslabs/perturbench). You can browse all artifacts, inspect lineage graphs, and see which transforms produced which outputs. To access the data programmatically:
-
-```python
-import lamindb as ln
-
-# connect the database
-db = ln.DB("altoslabs/perturbench")
-
-# list artifacts in the database
-df = db.Artifact.to_dataframe()
-
-# query the processed Frangieh21 dataset
-artifact = db.Artifact.get(description="Frangieh21 processed dataset")
-
-# describe the context of that artifact
-artifact.describe()
-
-# load an AnnData object into memory
-adata = artifact.load()
-```
-
-## Using the datasets to train a model
-
 The PerturBench repository ships pre-tuned Hydra configs for six baseline models — [CPA](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/cpa.yaml), [Biolord](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/biolord.yaml), [SAMS-VAE](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/sams_vae.yaml), [Linear additive](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/linear_additive.yaml), [Latent additive](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/latent_additive.yaml), and [Decoder only](https://github.com/altoslabs/perturbench/blob/main/src/perturbench/configs/model/decoder_only.yaml) — each tuned per dataset.
 
 A typical run pulls a dataset and its matching split from lamin, then hands them to the trainer:
@@ -89,8 +64,9 @@ A typical run pulls a dataset and its matching split from lamin, then hands them
 ```python
 import lamindb as ln
 
-adata    = ln.Artifact.get(key="norman19_cpa_hvg_normalized_curated.h5ad").load()
-split_df = ln.Artifact.get(key="split_6.csv").load()
+db = ln.DB("altoslabs/perturbench")
+adata    = db.Artifact.get(key="norman19_cpa_hvg_normalized_curated.h5ad").load()
+split_df = db.Artifact.get(key="split_6.csv").load()
 
 # python -m perturbench.modelcore.train \
 #     experiment=neurips2025/norman19/linear_best_params_norman19
