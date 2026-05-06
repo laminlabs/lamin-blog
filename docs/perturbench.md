@@ -71,8 +71,7 @@ Alex supervised the project.
 
 ## Code & data availability
 
-- database: [lamin.ai/altoslabs/perturbench](https://lamin.ai/altoslabs/perturbench)
-- repo: [github.com/altoslabs/perturbench](https://github.com/altoslabs/perturbench)
+Database: [lamin.ai/altoslabs/perturbench](https://lamin.ai/altoslabs/perturbench). Repo: [github.com/altoslabs/perturbench](https://github.com/altoslabs/perturbench).
 
 ## How to cite
 
@@ -82,16 +81,16 @@ Jain I, Namsaraeva A, Sun S, Wu Y & Wolf A (2026). Re-engineering the PerturBenc
 
 ## References
 
-[^wu25]: Yan Wu, Esther Wershof, Sebastian M Schmon, Marcel Nassar, Błażej Osiński, Ridvan Eksi, Zichao Yan, Rory Stark, Kun Zhang, Thore Graepel. PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. The Thirty-ninth Annual Conference on Neural Information Processing Systems Datasets and Benchmarks Track 2025. https://openreview.net/forum?id=PPPDuyiZaG.
+[^wu25]: Yan Wu, Esther Wershof, Sebastian M Schmon, Marcel Nassar, Błażej Osiński, Ridvan Eksi, Zichao Yan, Rory Stark, Kun Zhang, Thore Graepel. PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. NeurIPS 2025. https://openreview.net/forum?id=PPPDuyiZaG.
 
-[^norman19]: Norman et al., Science 2019. https://doi.org/10.1126/science.aax4438
+[^norman19]: Thomas M. Norman, Max A. Horlbeck, Joseph M. Replogle, Alex Y. Ge, Albert Xu, Marco Jost, Luke A. Gilbert, Jonathan S. Weissman. Exploring genetic interaction manifolds constructed from rich single-cell phenotypes. Science 2019. https://doi.org/10.1126/science.aax4438
 
-[^srivatsan20]: Srivatsan et al., Science 2020. https://doi.org/10.1126/science.aax6234
+[^srivatsan20]: Sanjay R. Srivatsan, Jose L. McFaline-Figueroa, Vijay Ramani, Lauren Saunders, Junyue Cao, Jonathan Packer, Hannah A. Pliner, Dana L. Jackson, Riza M. Daza, Lena Christiansen, Donald A. Zhang, Frank Steemers, Jay Shendure, Cole Trapnell. Massively multiplex chemical transcriptomics at single-cell resolution. Science 2020. https://doi.org/10.1126/science.aax6234
 
-[^frangieh21]: Frangieh et al., Nat Genet. 2021. https://doi.org/10.1038/s41588-021-00779-1
+[^frangieh21]: Chris J. Frangieh, Johannes C. Melms, Pratiksha I. Thakore, Kathryn R. Geiger-Schuller, Patricia Ho, Adrienne M. Luoma, Brian Cleary, Livnat Jerby-Arnon, Shruti Garg, Aviv Regev, Benjamin Izar. Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion. Nature Genetics 2021. https://doi.org/10.1038/s41588-021-00779-1
 
-[^mcfaline23]: McFaline-Figueroa et al., Cell Genomics 2024. https://doi.org/10.1016/j.xgen.2023.100487
+[^mcfaline23]: José L. McFaline-Figueroa, Sanjay R. Srivatsan, Andrew J. Hill, Molly Gasperini, Dana L. Jackson, Lauren Saunders, Silvia Domcke, Samuel G. Regalado, Paul Lazarchuck, Sarah Alvarez, Raymond J. Monnat Jr, Jay Shendure, Cole Trapnell. Multiplex single-cell chemical genomics reveals the kinase dependence of the response to targeted therapy. Cell Genomics 2024. https://doi.org/10.1016/j.xgen.2023.100487
 
-[^jiang24]: Jiang et al., Nat Cell Biology 2025. https://doi.org/10.1038/s41556-025-01622-z
+[^jiang24]: Longda Jiang, Carol Dalgarno, Efthymia Papalexi, Isabella Mascio, Hans-Hermann Wessels, Huiyoung Yun, Rahul Satija. Systematic reconstruction of molecular pathway signatures using scalable single-cell perturbation screens. Nature Cell Biology 2025. https://doi.org/10.1038/s41556-025-01622-z
 
-[^szalata24]: Szałata et al., NeurIPS 2024. https://openreview.net/forum?id=WTI4RJYSVm
+[^szalata24]: Artur Szałata, Andrew Benz, Robrecht Cannoodt, Mauricio Cortes, Jason Fong, Sunil Kuppasani, Richard Lieberman, Tianyu Liu, Javier A. Mas-Rosario, Rico Meinl, Jalil Nourisa, Jared Tumiel, Tin M. Tunjic, Mengbo Wang, Noah Weber, Hongyu Zhao, Benedict Anchang, Fabian J. Theis, Malte D. Luecken, Daniel B. Burkhardt. A Benchmark for Prediction of Transcriptomic Responses to Chemical Perturbations Across Cell Types. NeurIPS 2024. https://openreview.net/forum?id=WTI4RJYSVm
