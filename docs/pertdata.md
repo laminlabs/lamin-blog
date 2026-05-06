@@ -9,6 +9,5 @@ affiliation:
 ## Citation
 
 ```
-Sunny S, Namsaraeva A, Kalfon J, Heumos L & Wolf A (2026). pertdata - A collaborative atlas for perturbational omics datasets. Lamin Blog.
-https://blog.lamin.ai/pertdata
+Sunny S, Namsaraeva A, Kalfon J, Heumos L & Wolf A (2026). pertdata - A collaborative atlas for perturbational omics datasets. Lamin Blog. https://blog.lamin.ai/pertdata
 ```
