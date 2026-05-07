@@ -32,7 +32,7 @@ The NeurIPS PerturBench submission hosts the six processed datasets at [huggingf
 
 To make data lineage easy to browse and understand, we re-ran all curation steps with `ln.track()` switched on in the [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database. You can explore it by clicking on the link in the "Lineage" column of the following table.
 
-| Reference             | Perturbation type | Number of cells | Dataset + lineage                                                                                                                                            |
+| Reference             | Perturbation type | Number of cells | Dataset + lineage (click the image to explore)                                                                                                               |
 | --------------------- | ----------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | {ct}`Norman19`        | Genetic           | 91,168 cells    | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rx0HTSN1zzdzXrQ20000.png)](https://lamin.ai/altoslabs/perturbench/artifact/givpxz10Nce9GZU7) |
 | {ct}`Srivatsan20`     | Chemical          | 178,213 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/QAlH61B4G7gvllzR0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/cFNvt9rQt0kEGkhj) |
