@@ -48,14 +48,7 @@ On a high level, the steps are:
 3. ML splits: The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the curate_Frangieh21 [notebook](https://lamin.ai/altoslabs/perturbench/run/tlDauKQm4uS1OVsm) and curate_jiang24 [notebook](https://lamin.ai/altoslabs/perturbench/transform/AwSoPNuxC6Ol) respectively. Splits for the datasets are also registered as artifacts.
 4. Training and eval examples: We loaded the curated datasets to train and evaluate models using the `PerturBench` framework.
 
-Let us look at the example of the `Jiang24` and `Frangieh21` datasets:
-
-<div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/g4eWwsk7LyPpNV3f0000.png" width="700">
-</div>
-<div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/92wj7ROuldSIqFGo0000.png" width="700">
-</div>
+Let us look at the example of the `Jiang24` and `Frangieh21` datasets (lineages shown in table):
 
 Raw Seurat .rds files (IFNG, IFNB, INS, TGFB, and TNFA perturbation conditions) feed into `curate_jiang24.ipynb`, producing a processed `.h5ad` file. In the second lineage shown, a raw `.h5ad` file (`frangieh21.h5ad`) feeds into `curate_Frangieh21.ipynb`, producing another processed `.h5ad`. Both datasets are used to generate splits, which produces two split artifacts: the Frangieh21 split shown here, and a Jiang24 split (not shown).
 
