@@ -34,31 +34,37 @@ To make data lineage easy to browse and understand, we re-ran all curation steps
 
 | Reference             | Perturbation type | Number of cells | Dataset + lineage (click the image to explore)                                                                                                               |
 | --------------------- | ----------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| {ct}`Norman19`        | Genetic           | 91,168 cells    | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rx0HTSN1zzdzXrQ20000.png)](https://lamin.ai/altoslabs/perturbench/artifact/givpxz10Nce9GZU7) |
-| {ct}`Srivatsan20`     | Chemical          | 178,213 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/QAlH61B4G7gvllzR0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/cFNvt9rQt0kEGkhj) |
-| {ct}`Frangieh21`      | Genetic           | 218,331 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/LZrunW7bhaNpTMyx0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/eA1ej5uzGWKXrEax) |
-| {ct}`McFaline23`      | Genetic           | 892,800 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/DWYAIVFtzMnWZZfZ0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/GnL8Spg9MReCzhrs) |
-| {ct}`Jiang24`         | Genetic           | 1,628,476 cells | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/JvxJOGt6DKI3hrWR0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/bEKTIM2ephr7Ks3t) |
+| {ct}`Norman19`        | Genetic           | 91,168 cells    | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/rx0HTSN1zzdzXrQ20000.png)](https://lamin.ai/altoslabs/perturbench/artifact/FcUTtbnPgZMPekeu) |
+| {ct}`Srivatsan20`     | Chemical          | 178,213 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/QAlH61B4G7gvllzR0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap) |
+| {ct}`Frangieh21`      | Genetic           | 218,331 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/LZrunW7bhaNpTMyx0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/buJK5JWkcSlNifNv) |
+| {ct}`McFaline23`      | Genetic           | 892,800 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/DWYAIVFtzMnWZZfZ0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/v9uNxbYt79VnEcvT) |
+| {ct}`Jiang24`         | Genetic           | 1,628,476 cells | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/JvxJOGt6DKI3hrWR0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/AFAZw9hLdUIQ2Szo) |
 | {ct}`Szalata24` (OP3) | Chemical          | 298,087 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/YrfaJYZRs0rRI5kj0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/bY8zl3NwmHqYt5zT) |
 
 On a high level, the steps are:
 
 1. Raw data ingestion: We ingested all raw datasets from the PerturBench publication by registering them as LaminDB artifacts with URLs pointing to their original sources (e.g. Zenodo).
 2. Curation: The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, linking them to their input and output artifacts to establish full lineage.
-3. ML splits: The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the `build_jiang24_frangieh21_splits.ipynb` [notebook](https://lamin.ai/altoslabs/perturbench/transform/AdHN7pqkuP5J). Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
+3. ML splits: The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the curate_Frangieh21 [notebook](https://lamin.ai/altoslabs/perturbench/run/tlDauKQm4uS1OVsm) and curate_jiang24 [notebook](https://lamin.ai/altoslabs/perturbench/transform/AwSoPNuxC6Ol) respectively. Splits are stored as `.csv` artifacts linked to their corresponding processed datasets.
 4. Training and eval examples: We loaded the curated datasets to train and evaluate models using the `PerturBench` framework.
 
 Let us look at the example of the `Jiang24` and `Frangieh21` datasets:
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/X6UYqnvFVrsSXoqT0000.png" width="700">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/g4eWwsk7LyPpNV3f0000.png" width="700">
+</div>
+<div style="text-align: center">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/92wj7ROuldSIqFGo0000.png" width="700">
 </div>
 
-Two curation pipelines converge on a shared split-building notebook. On the top path, four raw Seurat `.rds` files (IFNG, IFNB, INS, TGFB, and TNFA perturbation conditions) feed into `curate_Jiang24_step2.ipynb`, producing a processed `.h5ad.gz` file. On the bottom path, a raw `.h5ad` file (`Frangieh2021_RNA.h5ad`) feeds into `curate_Frangieh21.ipynb`, producing another processed `.h5ad.gz`. Both processed datasets then feed into `build_jiang24_frangieh21_splits.ipynb`, which produces two split artifacts: the Frangieh21 split shown here, and a Jiang24 split (not shown).
+Raw Seurat .rds files (IFNG, IFNB, INS, TGFB, and TNFA perturbation conditions) feed into `curate_Jiang24_step2.ipynb`, producing a processed `.h5ad` file. In the second lineage shown, a raw `.h5ad` file (`frangieh21.h5ad`) feeds into `curate_Frangieh21.ipynb`, producing another processed `.h5ad`. Both datasets are used to generate splits, which produces two split artifacts: the Frangieh21 split shown here, and a Jiang24 split (not shown).
 
 All six datasets in lamin contain the obs columns required by the PerturBench training pipeline (`condition`, `cell_type`, `treatment`, `perturbation_type`, `dose`, etc.). Five of them are byte-equivalent to the gzipped `.h5ad` files on HuggingFace (within the small tie-breaking noise of `seurat_v3` HVG selection across scanpy versions). Srivatsan20 is the exception: its HuggingFace upload was produced by the chemCPA preprocessing pipeline (Lotfollahi et al., 2022), not by `curate_Srivatsan20.ipynb`, so it ships with extra chemCPA-specific columns (`_scvi_cell_type`, `ood_split`, `perturbation_raw`) that the lamin curation does not reproduce. The lamin Srivatsan20 file is the output of the public curation notebook and is fully usable for PerturBench training.
 
-For a full training and model evaluation run, see [lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl](https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
+
+For a full training and model evaluation run, see, [`Jiang24 dataset`](https://lamin.ai/altoslabs/perturbench/transform/Que2xKjA1byH). For a smaller counter part see `Norman19 dataset` (https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
+We compared validation loss curves and evaluation/summary metrics.
+
 For a comparison showing equivalence of the original datasets and the re-curated datasets, see [lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI](https://lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI).
 
 ## Author contributions
