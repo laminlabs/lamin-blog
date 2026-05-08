@@ -34,12 +34,12 @@ To make data lineage easy to browse and understand, we re-ran all curation steps
 
 | Reference             | Perturbation type | Number of cells | Dataset + lineage (click the image to explore)                                                                                                                   |
 | --------------------- | ----------------- | --------------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| {ct}`Norman19`        | Genetic           | 91,168 cells    | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/0aWMppH5BouVjyna0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/DbIfhUaqAkOyJOZw)     |
-| {ct}`Srivatsan20`     | Chemical          | 178,213 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/ipr6mwzew9CNVNJh0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap) |
-| {ct}`Frangieh21`      | Genetic           | 218,331 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Q64Lt4WRhnQzDySZ0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/buJK5JWkcSlNifNv)     |
-| {ct}`McFaline23`      | Genetic           | 892,800 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/bvCNUyy9AMwv7UBO0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/XeHoYYNbB9Xnf09i)     |
-| {ct}`Jiang24`         | Genetic           | 1,628,476 cells | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/0icPQORV5QCZClk60000.png)](https://lamin.ai/altoslabs/perturbench/artifact/AFAZw9hLdUIQ2Szo)     |
-| {ct}`Szalata24` (OP3) | Chemical          | 298,087 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/P4Gxl6su2ghtiOVK0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/bY8zl3NwmHqYt5zT0001) |
+| {ct}`Norman19`        | Genetic           | 91,168 cells    | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/MTyaI1pyHs5kjyVB0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/DbIfhUaqAkOyJOZw)     |
+| {ct}`Srivatsan20`     | Chemical          | 178,213 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/T0TyPozsu58ILgGo0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap) |
+| {ct}`Frangieh21`      | Genetic           | 218,331 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/qCyM0WSAy85xAUVP0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/buJK5JWkcSlNifNv)     |
+| {ct}`McFaline23`      | Genetic           | 892,800 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/OPVOGgL5SdieRsKD0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/XeHoYYNbB9Xnf09i)     |
+| {ct}`Jiang24`         | Genetic           | 1,628,476 cells | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/W09MZX1rF83cAwlo0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/AFAZw9hLdUIQ2Szo)     |
+| {ct}`Szalata24` (OP3) | Chemical          | 298,087 cells   | [![Lineage](https://lamin-site-assets.s3.amazonaws.com/.lamindb/j5gok9AQHj3mt7FP0000.png)](https://lamin.ai/altoslabs/perturbench/artifact/bY8zl3NwmHqYt5zT0001) |
 
 On a high level, the steps are:
 
