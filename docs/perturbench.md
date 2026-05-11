@@ -19,7 +19,7 @@ Its core contribution are benchmarking tasks in form of curated datasets and def
 To make it easy to understand how exactly each dataset came about and assess model performance in light of that context, we re-ran all curation workflows using lineage tracking.
 We also exemplify model training and evaluation, and show equivalence of the lineage-aware datasets with the originally deposited datasets.
 
-While the situation has been improving in recent years through efforts like PerturBench {cp}`Wu25`, published scRNA-seq-based models have often been evaluated on inconsistent benchmarks, making it hard to know what works and going counter the fact that all machine learning breakthroughs so far originated in well-curated datasets and well-defined tasks. PerturBench is one of several efforts in the field and recently got featured in Valence Labs' MultiOmics Reading Group: [youtu.be/5M0HWIjmEhQ](https://youtu.be/5M0HWIjmEhQ). Another recent prominent example is the [Arc Virtual Cell Challenge](https://virtualcellchallenge.org/), while a similar NeurIPS 2024 contribution came in form of an [Open Problems benchmark](https://openproblems.bio/benchmarks/perturbation_prediction) {cp}`Szalata24`.
+While the situation has been improving in recent years through efforts like PerturBench[^wu25], published scRNA-seq-based models have often been evaluated on inconsistent benchmarks, making it hard to know what works and going counter the fact that all machine learning breakthroughs so far originated in well-curated datasets and well-defined tasks. PerturBench is one of several efforts in the field and recently got featured in Valence Labs' MultiOmics Reading Group: [youtu.be/5M0HWIjmEhQ](https://youtu.be/5M0HWIjmEhQ). Another recent prominent example is the [Arc Virtual Cell Challenge](https://virtualcellchallenge.org/), while a similar NeurIPS 2024 contribution came in form of an [Open Problems benchmark](https://openproblems.bio/benchmarks/perturbation_prediction)[^szalata24].
 
 Every benchmarking task in PerturBench is a dataset and a metric that quantifies how well a machine learning model predicts transcriptional response to perturbation.
 Important to the meaningfulness of the task is the distribution of the dataset and the train/val/test splits, which depends on the exact steps taken during the curation workflow. PerturBench features six published datasets spanning genetic and chemical perturbations at different scales. The datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where they can be used for benchmarking requires data wrangling across Python and R workflows: format conversion, quality control, normalization, metadata harmonization, and the construction of train/val/test splits.
@@ -32,14 +32,14 @@ The NeurIPS PerturBench submission hosts the six processed datasets at [huggingf
 
 To make data lineage easy to browse and understand, we re-ran all curation steps with `ln.track()` switched on in the [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database. You can explore it by clicking on the link in the "Lineage" column of the following table.
 
-| Reference             | Perturbation type | Number of cells | Dataset + lineage (click the image to explore)                                                                                                                                                                    |
-| --------------------- | ----------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| {ct}`Norman19`        | Genetic           | 91,168 cells    | <a href="https://lamin.ai/altoslabs/perturbench/artifact/DbIfhUaqAkOyJOZw"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/MTyaI1pyHs5kjyVB0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
-| {ct}`Srivatsan20`     | Chemical          | 178,213 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/T0TyPozsu58ILgGo0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
-| {ct}`Frangieh21`      | Genetic           | 218,331 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/buJK5JWkcSlNifNv"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/qCyM0WSAy85xAUVP0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
-| {ct}`McFaline23`      | Genetic           | 892,800 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/XeHoYYNbB9Xnf09i"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OPVOGgL5SdieRsKD0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
-| {ct}`Jiang24`         | Genetic           | 1,628,476 cells | <a href="https://lamin.ai/altoslabs/perturbench/artifact/AFAZw9hLdUIQ2Szo"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/W09MZX1rF83cAwlo0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
-| {ct}`Szalata24` (OP3) | Chemical          | 298,087 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/gxem2yy0fsOYQmMC"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/j5gok9AQHj3mt7FP0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
+| Reference                   | Perturbation type | Number of cells | Dataset + lineage (click the image to explore)                                                                                                                                                                    |
+| --------------------------- | ----------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Norman19[^norman19]         | Genetic           | 91,168 cells    | <a href="https://lamin.ai/altoslabs/perturbench/artifact/DbIfhUaqAkOyJOZw"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/MTyaI1pyHs5kjyVB0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
+| Srivatsan20[^srivatsan20]   | Chemical          | 178,213 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/T0TyPozsu58ILgGo0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
+| Frangieh21[^frangieh21]     | Genetic           | 218,331 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/buJK5JWkcSlNifNv"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/qCyM0WSAy85xAUVP0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
+| McFaline23[^mcfaline23]     | Genetic           | 892,800 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/XeHoYYNbB9Xnf09i"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OPVOGgL5SdieRsKD0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
+| Jiang24[^jiang24]           | Genetic           | 1,628,476 cells | <a href="https://lamin.ai/altoslabs/perturbench/artifact/AFAZw9hLdUIQ2Szo"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/W09MZX1rF83cAwlo0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
+| Szalata24 (OP3)[^szalata24] | Chemical          | 298,087 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/gxem2yy0fsOYQmMC"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/j5gok9AQHj3mt7FP0000.png" alt="Lineage" style="border-radius: 8px;"></a> |
 
 On a high level, the steps are:
 
@@ -79,38 +79,16 @@ Database: [lamin.ai/altoslabs/perturbench](https://lamin.ai/altoslabs/perturbenc
 Jain I, Namsaraeva A, Sun S, Wu Y & Wolf A (2026). Re-engineering the PerturBench benchmarking tasks with data lineage. Lamin Blog. https://blog.lamin.ai/perturbench
 ```
 
-## References
+[^wu25]: Wu Y, Wershof E, Schmon SM, Nassar M, Osiński B, Eksi R, Yan Z, Stark R, Zhang K & Graepel T (2025). PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. [NeurIPS](https://openreview.net/forum?id=PPPDuyiZaG).
 
-<ol>
+[^norman19]: Norman TM, Horlbeck MA, Replogle JM, Ge AY, Xu A, Jost M, Gilbert LA & Weissman JS (2019). Exploring genetic interaction manifolds constructed from rich single-cell phenotypes. [Science](https://doi.org/10.1126/science.aax4438).
 
-<li id="Wu25">
+[^srivatsan20]: Srivatsan SR, McFaline-Figueroa JL, Ramani V, Saunders L, Cao J, Packer J, Pliner HA, Jackson DL, Daza RM, Christiansen L, Zhang DA, Steemers F, Shendure J & Trapnell C (2020). Massively multiplex chemical transcriptomics at single-cell resolution. [Science](https://doi.org/10.1126/science.aax6234).
 
-Wu Y, Wershof E, Schmon SM, Nassar M, Osiński B, Eksi R, Yan Z, Stark R, Zhang K & Graepel T (2025). PerturBench: Benchmarking Machine Learning Models for Cellular Perturbation Analysis. [NeurIPS](https://openreview.net/forum?id=PPPDuyiZaG).
+[^frangieh21]: Frangieh CJ, Melms JC, Thakore PI, Geiger-Schuller KR, Ho P, Luoma AM, Cleary B, Jerby-Arnon L, Garg S, Regev A & Izar B (2021). Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion. [Nature Genetics](https://doi.org/10.1038/s41588-021-00779-1).
 
-</li><li id="Norman19">
+[^mcfaline23]: McFaline-Figueroa JL, Srivatsan SR, Hill AJ, Gasperini M, Jackson DL, Saunders L, Domcke S, Regalado SG, Lazarchuck P, Alvarez S, Monnat RJ Jr, Shendure J & Trapnell C (2024). Multiplex single-cell chemical genomics reveals the kinase dependence of the response to targeted therapy. [Cell Genomics](https://doi.org/10.1016/j.xgen.2023.100487).
 
-Norman TM, Horlbeck MA, Replogle JM, Ge AY, Xu A, Jost M, Gilbert LA & Weissman JS (2019). Exploring genetic interaction manifolds constructed from rich single-cell phenotypes. [Science](https://doi.org/10.1126/science.aax4438).
+[^jiang24]: Jiang L, Dalgarno C, Papalexi E, Mascio I, Wessels HH, Yun H & Satija R (2025). Systematic reconstruction of molecular pathway signatures using scalable single-cell perturbation screens. [Nature Cell Biology](https://doi.org/10.1038/s41556-025-01622-z).
 
-</li><li id="Srivatsan20">
-
-Srivatsan SR, McFaline-Figueroa JL, Ramani V, Saunders L, Cao J, Packer J, Pliner HA, Jackson DL, Daza RM, Christiansen L, Zhang DA, Steemers F, Shendure J & Trapnell C (2020). Massively multiplex chemical transcriptomics at single-cell resolution. [Science](https://doi.org/10.1126/science.aax6234).
-
-</li><li id="Frangieh21">
-
-Frangieh CJ, Melms JC, Thakore PI, Geiger-Schuller KR, Ho P, Luoma AM, Cleary B, Jerby-Arnon L, Garg S, Regev A & Izar B (2021). Multimodal pooled Perturb-CITE-seq screens in patient models define mechanisms of cancer immune evasion. [Nature Genetics](https://doi.org/10.1038/s41588-021-00779-1).
-
-</li><li id="McFaline23">
-
-McFaline-Figueroa JL, Srivatsan SR, Hill AJ, Gasperini M, Jackson DL, Saunders L, Domcke S, Regalado SG, Lazarchuck P, Alvarez S, Monnat RJ Jr, Shendure J & Trapnell C (2024). Multiplex single-cell chemical genomics reveals the kinase dependence of the response to targeted therapy. [Cell Genomics](https://doi.org/10.1016/j.xgen.2023.100487).
-
-</li><li id="Jiang24">
-
-Jiang L, Dalgarno C, Papalexi E, Mascio I, Wessels HH, Yun H & Satija R (2025). Systematic reconstruction of molecular pathway signatures using scalable single-cell perturbation screens. [Nature Cell Biology](https://doi.org/10.1038/s41556-025-01622-z).
-
-</li><li id="Szalata24">
-
-Szałata A, Benz A, Cannoodt R, Cortes M, Fong J, Kuppasani S, Lieberman R, Liu T, Mas-Rosario JA, Meinl R, Nourisa J, Tumiel J, Tunjic TM, Wang M, Weber N, Zhao H, Anchang B, Theis FJ, Luecken MD & Burkhardt DB (2024). A Benchmark for Prediction of Transcriptomic Responses to Chemical Perturbations Across Cell Types. [NeurIPS](https://openreview.net/forum?id=WTI4RJYSVm).
-
-</li>
-
-</ol>
+[^szalata24]: Szałata A, Benz A, Cannoodt R, Cortes M, Fong J, Kuppasani S, Lieberman R, Liu T, Mas-Rosario JA, Meinl R, Nourisa J, Tumiel J, Tunjic TM, Wang M, Weber N, Zhao H, Anchang B, Theis FJ, Luecken MD & Burkhardt DB (2024). A Benchmark for Prediction of Transcriptomic Responses to Chemical Perturbations Across Cell Types. [NeurIPS](https://openreview.net/forum?id=WTI4RJYSVm).
