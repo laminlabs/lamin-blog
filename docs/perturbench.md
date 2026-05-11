@@ -50,7 +50,7 @@ This post was motivated by the desire to reproduce the PerturBench's training an
 
 `*` These authors contributed equally.
 
-Ishita & Altana curated the datasets, scripts, and notebooks with LaminDB.
+Ishita & Altana performed the computational work.
 
 Sunny & Yan advised on the project. Yan developed the original curation notebooks & scripts together with the authors of the original publication.
 
