@@ -27,19 +27,19 @@ Important to the meaningfulness of the task is the distribution of the dataset a
 The NeurIPS PerturBench submission hosts the six processed datasets at [huggingface.co/datasets/altoslabs/perturbench](https://huggingface.co/datasets/altoslabs/perturbench) as `.h5ad` files, with splits encoded in the `.obs` metadata of the corresponding `AnnData` objects, and in separate `.csv` files. These files alone don't reveal how the processing was done, what changed between versions, and how the train/val/test splits relate to the processed data.
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/RuJnsLkk9Bd7IRx90000.png" width="700" style="border-radius: 8px; padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/RuJnsLkk9Bd7IRx90000.png" width="700" style="padding: 0;">
 </div>
 
 To make data lineage easy to browse and understand, we re-ran all curation steps with `ln.track()` switched on in the [`altoslabs/perturbench`](https://lamin.ai/altoslabs/perturbench) database. You can explore it by clicking on the link in the "Lineage" column of the following table.
 
-| Reference                   | Perturbation type | Number of cells | Dataset + lineage (click the image to explore)                                                                                                                                                                                |
-| --------------------------- | ----------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Norman19[^norman19]         | Genetic           | 91,168 cells    | <a href="https://lamin.ai/altoslabs/perturbench/artifact/DbIfhUaqAkOyJOZw"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/MTyaI1pyHs5kjyVB0000.png" alt="Lineage" style="border-radius: 8px; padding: 0;"></a> |
-| Srivatsan20[^srivatsan20]   | Chemical          | 178,213 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/T0TyPozsu58ILgGo0000.png" alt="Lineage" style="border-radius: 8px; padding: 0;"></a> |
-| Frangieh21[^frangieh21]     | Genetic           | 218,331 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/buJK5JWkcSlNifNv"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/qCyM0WSAy85xAUVP0000.png" alt="Lineage" style="border-radius: 8px; padding: 0;"></a> |
-| McFaline23[^mcfaline23]     | Genetic           | 892,800 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/XeHoYYNbB9Xnf09i"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OPVOGgL5SdieRsKD0000.png" alt="Lineage" style="border-radius: 8px; padding: 0;"></a> |
-| Jiang24[^jiang24]           | Genetic           | 1,628,476 cells | <a href="https://lamin.ai/altoslabs/perturbench/artifact/AFAZw9hLdUIQ2Szo"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/W09MZX1rF83cAwlo0000.png" alt="Lineage" style="border-radius: 8px; padding: 0;"></a> |
-| Szalata24 (OP3)[^szalata24] | Chemical          | 298,087 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/gxem2yy0fsOYQmMC"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/j5gok9AQHj3mt7FP0000.png" alt="Lineage" style="border-radius: 8px; padding: 0;"></a> |
+| Reference                   | Perturbation type | Number of cells | Dataset + lineage (click the image to explore)                                                                                                                                                            |
+| --------------------------- | ----------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Norman19[^norman19]         | Genetic           | 91,168 cells    | <a href="https://lamin.ai/altoslabs/perturbench/artifact/DbIfhUaqAkOyJOZw"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/MTyaI1pyHs5kjyVB0000.png" alt="Lineage" style="padding: 0;"></a> |
+| Srivatsan20[^srivatsan20]   | Chemical          | 178,213 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/T0TyPozsu58ILgGo0000.png" alt="Lineage" style="padding: 0;"></a> |
+| Frangieh21[^frangieh21]     | Genetic           | 218,331 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/buJK5JWkcSlNifNv"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/qCyM0WSAy85xAUVP0000.png" alt="Lineage" style="padding: 0;"></a> |
+| McFaline23[^mcfaline23]     | Genetic           | 892,800 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/XeHoYYNbB9Xnf09i"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OPVOGgL5SdieRsKD0000.png" alt="Lineage" style="padding: 0;"></a> |
+| Jiang24[^jiang24]           | Genetic           | 1,628,476 cells | <a href="https://lamin.ai/altoslabs/perturbench/artifact/AFAZw9hLdUIQ2Szo"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/W09MZX1rF83cAwlo0000.png" alt="Lineage" style="padding: 0;"></a> |
+| Szalata24 (OP3)[^szalata24] | Chemical          | 298,087 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/gxem2yy0fsOYQmMC"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/j5gok9AQHj3mt7FP0000.png" alt="Lineage" style="padding: 0;"></a> |
 
 On a high level, the steps are:
 
