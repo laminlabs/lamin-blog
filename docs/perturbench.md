@@ -12,7 +12,7 @@ db: https://lamin.ai/altoslabs/perturbench
 repo: https://github.com/altoslabs/perturbench
 ---
 
-PerturBench (Wu, Wershof, Schmon, Nassar, Osinski, Eksi, Yan, et al., NeurIPS 2025) is a framework for benchmarking scRNA-seq based machine learning models that predict transcriptional response to perturbations.
+PerturBench (Wu, Wershof, Schmon, Nassar, Osinski, Eksi, Yan, et al., NeurIPS 2025) is a framework for benchmarking machine learning models that predict cellular transcriptional response to perturbations.
 Its core contribution are benchmarking tasks in form of curated datasets and definitions of metrics, which are available from GitHub and Hugging Face, albeit without data lineage.
 To make it easy to understand how exactly each dataset came about and assess model performance in light of that context, we re-ran all curation workflows using lineage tracking.
 We exemplify model training and evaluation, and show equivalence of the re-curated datasets with the originally deposited datasets.
