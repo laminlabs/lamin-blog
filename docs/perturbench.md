@@ -1,6 +1,6 @@
 ---
 title: "Re-engineering the PerturBench benchmarking tasks with data lineage"
-date: 2026-05-06
+date: 2026-05-11
 author: ishitajain9717*, namsaraeva*, sunnyosun, yanwu2014, falexwolf
 affiliation:
   ishitajain9717: Lamin Labs, Munich
@@ -15,11 +15,11 @@ linkedin: TBD
 ---
 
 PerturBench (Wu, Wershof, Schmon, Nassar, Osinski, Eksi, Yan, et al., NeurIPS 2025) is a framework for benchmarking scRNA-seq based machine learning models that predict transcriptional response to perturbations.
-Its core contribution are benchmarking tasks in form of curated datasets and definitions of metrics. They are available from GitHub and Hugging Face, but without data lineage.
+Its core contribution are benchmarking tasks in form of curated datasets and definitions of metrics, which are available from GitHub and Hugging Face, albeit without data lineage.
 To make it easy to understand how exactly each dataset came about and assess model performance in light of that context, we re-ran all curation workflows using lineage tracking.
 We also exemplify model training and evaluation, and show equivalence of the lineage-aware datasets with the originally deposited datasets.
 
-While the situation has been improving in recent years through efforts like PerturBench[^wu25], published scRNA-seq-based models have often been evaluated on inconsistent benchmarks, making it hard to know what works and going counter the fact that all machine learning breakthroughs so far originated in well-curated datasets and well-defined tasks. PerturBench is one of several efforts in the field and recently got featured in Valence Labs' MultiOmics Reading Group: [youtu.be/5M0HWIjmEhQ](https://youtu.be/5M0HWIjmEhQ). Another recent prominent example is the [Arc Virtual Cell Challenge](https://virtualcellchallenge.org/), while a similar NeurIPS 2024 contribution came in form of an [Open Problems benchmark](https://openproblems.bio/benchmarks/perturbation_prediction)[^szalata24].
+While the situation has been improving in recent years through efforts like PerturBench[^wu25], published scRNA-seq-based models have often been evaluated on inconsistent benchmarks, making it hard to know what works and going counter the fact that all machine learning breakthroughs so far originated in well-curated datasets and well-defined tasks. PerturBench is one of several efforts in the field and recently got featured in Valence Labs' MultiOmics Reading Group: [youtu.be/5M0HWIjmEhQ](https://youtu.be/5M0HWIjmEhQ). Perturbench was preceded by an [Open Problems benchmark](https://openproblems.bio/benchmarks/perturbation_prediction), published at NeurIPS 2024[^szalata24]. Another recent example for a benchmarking effort is last year's [Arc Virtual Cell Challenge](https://virtualcellchallenge.org/),
 
 Every benchmarking task in PerturBench is a dataset and a metric that quantifies how well a machine learning model predicts transcriptional response to perturbation.
 Important to the meaningfulness of the task is the distribution of the dataset and the train/val/test splits, which depends on the exact steps taken during the curation workflow. PerturBench features six published datasets spanning genetic and chemical perturbations at different scales. The datasets originate from different labs, use different experimental protocols, and were originally stored in different formats: some as Seurat objects, others as `.h5ad` files. Getting them into a state where they can be used for benchmarking requires data wrangling across Python and R workflows: format conversion, quality control, normalization, metadata harmonization, and the construction of train/val/test splits.
