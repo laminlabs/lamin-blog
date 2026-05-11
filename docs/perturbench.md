@@ -42,7 +42,7 @@ On a high level, the data flow is:
 2. Curation: Curation notebooks (prefixed with `curate_`) handle format conversion, preprocessing, metadata harmonization, and split genration.
 3. Training and eval: Curated datasets are loaded to train and evaluate models using the `PerturBench` Python framework.
 
-For a comparison that shows the equivalence of the original datasets and the re-curated datasets, explore [lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI](https://lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI). For a full training and model evaluation run, explore [lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl](https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
+For a comparison that shows the equivalence of the original datasets and the re-curated datasets, explore [altoslabs/perturbench/transform/3bZAUr0kXokI](https://lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI). For a full training and model evaluation run, explore [altoslabs/perturbench/transform/KxV14blvjANl](https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
 
 This post was motivated by the desire to reproduce the PerturBench's training and eval results in a file-centric manner, omitting the detailed modeling of perturbational & biological metadata. Modeling and validating perturbations will be the topic of an upcoming post.
 
