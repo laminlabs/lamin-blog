@@ -41,7 +41,7 @@ To make data lineage easy to browse and understand, we re-ran all curation steps
 On a high level, the steps are:
 
 1. Raw data ingestion: Each dataset has a dedicated notebook (prefixed with `ingestion_`) that ingests raw datasets.
-2. Curation: The PerturBench team developed dedicated curation notebooks (prefixed with `curate_`), handling format conversion, scRNA-seq preprocessing with scanpy, and metadata harmonization. We registered these notebooks as LaminDB transforms, and inputs (raw data) and outputs (processed data) as artifacts to establish full lineage.
+2. Curation: Curation notebooks (prefixed with `curate_`) handle format conversion, preprocessing, and metadata harmonization.
 3. ML splits: The train/val/test splits from PerturBench's GitHub [repo](https://github.com/altoslabs/perturbench/tree/main/notebooks/neurips2025) were built through additional notebooks, which were also registered as transforms. For example, the Frangieh21 and Jiang24 splits were generated from the curate_Frangieh21 [notebook](https://lamin.ai/altoslabs/perturbench/run/tlDauKQm4uS1OVsm) and curate_jiang24 [notebook](https://lamin.ai/altoslabs/perturbench/transform/AwSoPNuxC6Ol) respectively. Splits for the datasets are also registered as artifacts.
 4. Training and eval examples: We loaded the curated datasets to train and evaluate models using the `PerturBench` framework.
 
