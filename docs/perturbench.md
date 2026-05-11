@@ -44,16 +44,11 @@ On a high level, the steps are:
 2. Curation: Curation notebooks (prefixed with `curate_`) handle format conversion, preprocessing, metadata harmonization, and split genration.
 3. Training and eval: Curated datasets are loaded to train and evaluate models using the `PerturBench` Python framework.
 
-Let us look at the example of the `Jiang24` and `Frangieh21` datasets (lineages shown in table):
+For a comparison that shows the equivalence of the original datasets and the re-curated datasets, explore [lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI](https://lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI).
 
-Raw Seurat .rds files (IFNG, IFNB, INS, TGFB, and TNFA perturbation conditions) feed into `curate_jiang24.ipynb`, producing a processed `.h5ad` file. In the second lineage shown, a raw `.h5ad` file (`frangieh21.h5ad`) feeds into `curate_Frangieh21.ipynb`, producing another processed `.h5ad`. Both datasets are used to generate splits, which produces two split artifacts: the Frangieh21 split shown here, and a Jiang24 split (not shown).
+For a full training and model evaluation run, explore [lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl](https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
 
-All six datasets in lamin contain the obs columns required by the PerturBench training pipeline (`condition`, `cell_type`, `treatment`, `perturbation_type`, `dose`, etc.). Five of them are byte-equivalent to the gzipped `.h5ad` files on HuggingFace (within the small tie-breaking noise of `seurat_v3` HVG selection across scanpy versions). Srivatsan20 is the exception: its HuggingFace upload was produced by the chemCPA preprocessing pipeline [Srivatsan et al., 2019](https://www.science.org/doi/10.1126/science.aax6234), not by `curate_Srivatsan20.ipynb`, so it ships with extra chemCPA-specific columns (`_scvi_cell_type`, `ood_split`, `perturbation_raw`) that the lamin curation does not reproduce. The lamin Srivatsan20 file is the output of the public curation notebook and is fully usable for PerturBench training.
-
-For a full training and model evaluation run, see, [`Jiang24 dataset`](https://lamin.ai/altoslabs/perturbench/transform/Que2xKjA1byH). For a smaller counter part see `Norman19 dataset` (https://lamin.ai/altoslabs/perturbench/transform/KxV14blvjANl).
-We compared validation loss curves and evaluation/summary metrics.
-
-For a comparison showing equivalence of the original datasets and the re-curated datasets, see [lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI](https://lamin.ai/altoslabs/perturbench/transform/3bZAUr0kXokI).
+This post was motivated by the desire to reproduce the PerturBench's training and eval results in a file-centric manner, omitting the detailed modeling of perturbational & biological metadata. Modeling and validating perturbations will be the topic of a future post.
 
 ## Author contributions
 
