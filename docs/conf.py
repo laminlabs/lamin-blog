@@ -42,6 +42,7 @@ authors = {
     "felix-fischer": ("Felix Fischer", "https://github.com/felix0097"),
     "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
     "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
+    "ishitajain9717": ("Ishita Jain", "https://github.com/ishitajain9717"),
     "jejomath": ("Jesse Johnson", "https://github.com/jejomath"),
     "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
     "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
