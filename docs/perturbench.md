@@ -10,6 +10,8 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/altoslabs/perturbench
 repo: https://github.com/altoslabs/perturbench
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7459877823147679744/
+tweet: https://x.com/falexwolf/status/2054113103449665731
 ---
 
 PerturBench (Wu, Wershof, Schmon, Nassar, Osinski, Eksi, Yan, et al., NeurIPS 2025) is a framework for benchmarking machine learning models that predict cellular transcriptional response to perturbations.
