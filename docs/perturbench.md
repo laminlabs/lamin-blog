@@ -27,7 +27,7 @@ The NeurIPS PerturBench submission hosts its six curated benchmarking datasets o
 
 To make data lineage easy to browse and understand, we re-ran all curation steps with `ln.track()` added to the source code. You can explore the result by clicking on the link in the "Dataset + lineage" column of the following table.
 
-| Reference                   | Perturbation | Number of cells | Dataset + lineage (click the image to explore)                                                                                                                                                            |
+| Reference                   | Perturbation | _N_             | Dataset + lineage (click the image to explore)                                                                                                                                                            |
 | --------------------------- | ------------ | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Norman19[^norman19]         | Genetic      | 91,168 cells    | <a href="https://lamin.ai/altoslabs/perturbench/artifact/DbIfhUaqAkOyJOZw"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/F5wgWWNMTGx9BL5I0000.png" alt="Lineage" style="padding: 0;"></a> |
 | Srivatsan20[^srivatsan20]   | Chemical     | 178,213 cells   | <a href="https://lamin.ai/altoslabs/perturbench/artifact/sUlZYMsyLUPaAmap"><img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Nw7jvVRZFYn50iEx0000.png" alt="Lineage" style="padding: 0;"></a> |
