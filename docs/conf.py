@@ -6,7 +6,7 @@ HERE = Path(__file__).parent
 sys.path[:0] = [str(HERE), str(HERE.parent)]
 
 from lamin_sphinx import *  # noqa
-from lamin_sphinx import html_theme_options, html_context, extensions  # noqa
+from lamin_sphinx import html_theme_options, html_context, extensions  # type: ignore[attr-defined]  # noqa
 import lndocs  # noqa
 
 project = "Lamin Blog"
@@ -42,18 +42,23 @@ authors = {
     "felix-fischer": ("Felix Fischer", "https://github.com/felix0097"),
     "fredericenard": ("Frederic Enard", "https://github.com/fredericenard"),
     "ilan-gold": ("Ilan Gold", "https://github.com/ilan-gold"),
+    "ishitajain9717": ("Ishita Jain", "https://github.com/ishitajain9717"),
     "jejomath": ("Jesse Johnson", "https://github.com/jejomath"),
     "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
     "jorenretel": ("Joren Retel", "https://github.com/jorenretel"),
     "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
+    "LucaMarconato": ("Luca Marconato", "https://github.com/LucaMarconato"),
     "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
+    "melonora": ("Wouter-Michiel Vierdag", "https://github.com/melonora"),
     "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
+    "timtreis": ("Tim Treis", "https://github.com/timtreis"),
     "tjburns08": ("Tyler Burns", "https://github.com/tjburns08"),
     "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
     "yanwu2014": ("Yan Wu", "https://github.com/yanwu2014"),
     "Zethson": ("Lukas Heumos", "https://github.com/Zethson"),
+    "zimea": ("Lea Zimmermann", "https://github.com/zimea"),
 }
 lndocs.authors = authors
 
