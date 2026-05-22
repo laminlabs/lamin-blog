@@ -1,10 +1,9 @@
 ---
 title: "Querying the 154k artifacts and 600M cells of the Arc Virtual Cell Atlas with a simple API & UI"
 date: 2026-05-20
-author: sunnyosun, ishitajain, fredericenard, chaichontat, Koncopd, falexwolf
+author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
-  ishitajain: Lamin Labs, Munich
   fredericenard: Lamin Labs, Munich
   chaichontat: Lamin Labs, Munich
   Koncopd: Lamin Labs, Munich
