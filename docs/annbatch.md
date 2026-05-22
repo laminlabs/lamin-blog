@@ -1,5 +1,5 @@
 ---
-title: "Beyond MappedCollection: Scaling anndata training to the terra-byte scale with annbatch"
+title: "Scaling anndata training to the terra-byte scale with annbatch"
 date: 2026-05-22
 author: felix-fischer, ilan-gold, fabian-theis, falexwolf
 affiliation:
