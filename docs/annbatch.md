@@ -1,9 +1,12 @@
 ---
 title: "Beyond MappedCollection: Scaling anndata training to the terra-byte scale with annbatch"
 date: 2026-04-25
-author: felix0097
+author: felix-fischer, ilan-gold, fabian-theis, falexwolf
 affiliation:
-  felix0097: Helmholtz Munich
+  felix-fischer: Lamin Labs, Munich
+  ilan-gold: Helmholtz Munich
+  fabian-theis: Helmholtz Munich
+  falexwolf: Helmholtz Munich
 ---
 
 The demand for AI in biology is accelerating at an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. This growth has surfaced a critical bottleneck: disk-backed data loading. While `MappedCollection` was a pioneer in solving this — enabling larger-than-memory training and seamless integration with the `anndata` ecosystem — it hit a ceiling on performance. Its loading speeds often fall significantly short of the throughput required by modern GPUs, leading to extensive resource waste or GPUs that are mostly idle. To bridge this gap, we developed `annbatch`: a high-performance data loader that maintains full `anndata` integration and thereby shifting the bottleneck back to the hardware's actual processing limits.
@@ -18,6 +21,7 @@ Combined with many low-level optimizations, these changes effectively remove the
 But does this theoretical speed translate to the real world? Let's look at the Tahoe-100M atlas. Training an scVI model on a dataset of this magnitude is a high-throughput challenge; if the data loader can't keep up, the hardware sits idle.
 
 ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/cuS0VjLS1upOkfzL0000.png)
+
 **Figure 1**: Wall-clock time per iteration as a function of samples per second for training an scVI model or simple linear model. `MappedCollection` is loading-limited at ~1,195 samples/s, while `annbatch` shifts the regime to compute-limited at ~84,000 samples/s — a ~70x speedup that collapses a 24-hour training epoch to roughly 15 minutes.
 
 Using `MappedCollection`, the bottleneck was so severe that a single training epoch required almost a full day (24 hours). By switching to `annbatch`, we slashed that time to roughly 15 minutes. By shifting the bottleneck back to the hardware's actual processing power, we've made terabyte-scale biological training not just possible, but highly efficient.
