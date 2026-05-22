@@ -4,8 +4,8 @@ date: 2026-05-20
 author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
-  fredericenard: Lamin Labs, Munich
-  chaichontat: Lamin Labs, Munich
+  fredericenard: Lamin Labs, NYC
+  chaichontat: Lamin Labs, NYC
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
