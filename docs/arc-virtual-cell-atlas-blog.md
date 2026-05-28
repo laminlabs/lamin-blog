@@ -1,5 +1,5 @@
 ---
-title: "Querying the 154k artifacts and 600M cells of the Arc Virtual Cell Atlas with a simple API & UI"
+title: "Querying the 300k artifacts and 1.4B cells of the Arc Virtual Cell Atlas with a simple API & UI"
 date: 2026-05-20
 author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
@@ -11,7 +11,7 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) represents a monumental leap in single-cell genomics, offering a massive collection of scRNA-seq datasets encompassing 1.4 billion cells across 300,000 artifacts[^youngblut25][^zhang25]. To make this treasure trove of data seamlessly accessible to the community, we have mirrored the entire atlas on [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas).
+The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) is one of the largest single-cell resources to date: 1.4 billion cells across 300,000 scRNA-seq artifacts[^youngblut25][^zhang25]. To make this data easier to query and explore, we mirrored the atlas on [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas).
 
 ```{note}
 
@@ -19,33 +19,33 @@ This is a post in a series of posts on biological data atlases.
 
 ```
 
-You can jump right in with our [Lamin docs tutorial](https://docs.lamin.ai/arc-virtual-cell-atlas).
+You can jump right in with the [Lamin docs tutorial](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
 ## The Accessibility Challenge
 
-While the original Arc Virtual Cell Atlas is an incredible resource, navigating it can be a daunting task. The primary pain point for many researchers is the lack of a dedicated user interface or a simple query mechanism.
+The original Arc Virtual Cell Atlas is a highly valuable resource, but routine exploration can be difficult without a dedicated user interface and a simple query workflow.
 
-Without a UI, performing basic exploratory tasks—such as filtering datasets by specific organisms, tissues, or cell lines—becomes a challenge. Researchers are often forced to download massive amounts of data just to figure out if it contains the specific subsets they need. This creates significant friction and slows down the pace of discovery.
+Without a UI, even basic tasks such as filtering datasets by organism, tissue, or cell line require extra effort. Researchers often download large files before they can confirm whether the required subsets are present. That slows down project setup and cross-study comparisons.
 
 ## Subsecond Queries at Gigascale
 
-By mirroring the atlas on LaminDB, we've solved the accessibility challenge. LaminDB is built to effortlessly handle gigascale data, and it has no problem managing the scale of 300,000 artifacts holding 1.4 billion cells as observations.
+By mirroring the atlas on LaminDB, you can query metadata first and only load the artifacts you actually need. Here, an artifact means a versioned data file with rich metadata (for example, an `.h5ad` dataset with associated organism and tissue annotations).
 
-What does this mean for you? Lightning-fast, **subsecond queries**. You can instantly query for specific datasets based on rich metadata without downloading a single byte of the actual data matrices.
+LaminDB supports the full scale of this atlas, enabling fast, metadata-driven filtering across 300,000 artifacts and 1.4 billion cells.
 
 Furthermore, LaminHub provides a powerful and intuitive UI that allows users to seamlessly browse, filter, and explore artifacts visually. You can now easily find exactly what you're looking for with just a few clicks.
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/hjNR9gl58w1n8Jb30000.png" width="700" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/9J626hp250m6Bewf0000.png" width="700" style="padding: 0;">
 </div>
 
 ## A Unified Ecosystem for Atlases
 
-This release is part of Lamin's broader ecosystem of accessible biological data. Lamin hosts several such foundational atlases, including CELLxGENE and Hubmap.
+This release is part of Lamin's broader ecosystem of accessible biological data. Lamin hosts several foundational atlases, including CELLxGENE and HuBMAP.
 
-The immense value here lies in standardization: you can access multiple disparate atlases through the exact same Python API (`lamindb`) and rely on similar data conventions across the board.
+The immense value here lies in standardization: you can access multiple disparate atlases through the same Python API (`lamindb`) and rely on similar data conventions across the board.
 
-By utilizing a unified ecosystem, researchers can significantly reduce the time spent on data wrangling and accelerate cross-atlas analysis, enabling more robust and comprehensive biological insights.
+This reduces data wrangling overhead and makes cross-atlas analysis easier to start and easier to reproduce.
 
 ## Getting Started
 
@@ -75,7 +75,9 @@ Once you've identified the artifacts you need, you can seamlessly stream or cach
 
 The `laminlabs/arc-virtual-cell-atlas` mirror brings an intuitive UI, gigascale performance, and a unified API to one of the largest single-cell atlases available today.
 
-We encourage you to explore the atlas on [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), try out the API in your notebooks, and read the full [documentation](https://docs.lamin.ai/arc-virtual-cell-atlas) to see how it can accelerate your research.
+- browse the atlas on [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas)
+- run the API example in your notebook
+- read the full [documentation](https://docs.lamin.ai/arc-virtual-cell-atlas)
 
 ## References
 
