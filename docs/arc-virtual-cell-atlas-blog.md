@@ -36,7 +36,7 @@ LaminDB supports the full scale of this atlas, enabling fast, metadata-driven fi
 Furthermore, LaminHub provides a powerful and intuitive UI that allows users to seamlessly browse, filter, and explore artifacts visually. You can now easily find exactly what you're looking for with just a few clicks.
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/9J626hp250m6Bewf0000.png" width="700" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0000.png" width="700" style="padding: 0;">
 </div>
 
 ## A Unified Ecosystem for Atlases
