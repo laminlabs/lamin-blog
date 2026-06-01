@@ -1,5 +1,5 @@
 ---
-title: "Querying the 300k artifacts and 1.4B cells of the Arc Virtual Cell Atlas with a simple API & UI"
+title: "Simple queries for 2.5B transcriptional profiles in the Arc Virtual Cell Atlas"
 date: 2026-05-20
 author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
@@ -13,7 +13,7 @@ db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 
 The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 1.4 billion cells[^youngblut25][^zhang25]. Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
 
-On [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) we catalog the same objects: we **do not copy or rewrite** upstream `.h5ad` or parquet files. We **register** them as LaminDB **artifacts** (pointers to the original GCS paths) and **annotate** them so you can search and filter before download.
+In the LaminDB instance [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), we register the same objects Arc hosts on GCS: we **do not copy or rewrite** upstream `.h5ad` or parquet files. Each file becomes an **artifact** (a pointer to the original path) with **annotations** for search and filter. [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is the web UI for that instance—you browse artifacts, collections, and schemas there, or query via the `lamindb` Python API.
 
 ```{note}
 
@@ -23,21 +23,21 @@ This is a post in a series of posts on biological data atlases.
 
 The step-by-step tutorial lives in the [Lamin docs](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
-## What the Lamin catalog adds
+## What LaminDB adds
 
 Arc’s tutorials work well when you already know a GCS path—for example an organism folder or a Tahoe plate. Cross-cutting questions (“all human brain scBaseCount files with `GeneFull_Ex50pAS` counts”) are harder without scanning directories or loading metadata yourself.
 
-Lamin adds a query layer on top of the unchanged GCS layout:
+The [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) instance adds a query layer on top of the unchanged GCS layout:
 
-1. **Register** each file as an artifact keyed to its GCS path ([artifacts page](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts)).
-2. **Annotate** each artifact with standardized metadata—and, for h5ads, registered **schemas** for `obs` and `var` columns (see [Annotations we attach](annotations-we-attach)). Filter in the UI or API (for example `organisms=human`, `tissues=brain`) without parsing paths or loading matrices.
-3. **Query** with `db.Artifact.filter(...)` or the LaminHub UI, then `.cache()` or `.open()` the same objects Arc ships.
+1. **Register** each file as an artifact keyed to its GCS path in that instance.
+2. **Annotate** each artifact with standardized metadata—and, for h5ads, registered **schemas** for `obs` and `var` columns (see [Annotations we attach](annotations-we-attach)).
+3. **Query** with `db.Artifact.filter(...)` or [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) (for example filter `organisms=human`, `tissues=brain`), then `.cache()` or `.open()` the same objects Arc ships.
 
 (annotations-we-attach)=
 
 ### Annotations we attach
 
-Catalog annotations follow what Arc publishes in sample sheets, parquet metadata, and cell-level tables. Typical filter dimensions:
+These annotations follow what Arc publishes in sample sheets, parquet metadata, and cell-level tables. Typical filter dimensions:
 
 | Dimension                           | Examples                                  | Source                                                                                                                                      |
 | ----------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -73,15 +73,15 @@ artifact = db.Artifact.get("...")  # uid from a query
 artifact.describe()
 ```
 
-`describe()` prints linked annotations, the schema (`obs` and `var` features), and storage details. Browse schemas on LaminHub: [Schemas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas).
+`describe()` prints linked annotations, the schema (`obs` and `var` features), and storage details. On LaminHub, open [Schemas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas) to browse them in the UI.
 
-## How the instance is organized
+## How `laminlabs/arc-virtual-cell-atlas` is organized
 
-The catalog is organized as **artifacts** and **collections**, grouped under two **projects**: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398) and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).
+The [instance](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is organized in LaminDB as **artifacts** and **collections**, grouped under two **projects**: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398) and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).
 
 ### Artifacts
 
-An **artifact** is a registered object on Arc’s bucket—usually a single file (`.h5ad`, `.parquet`), sometimes a **folder** (for example a STAR reference under `star_references/<organism>/` on the `2026-01-12` release). Lamin stores path, size, and hash; annotated files link to the metadata in the table above.
+An **artifact** is a registered object on Arc’s bucket—usually a single file (`.h5ad`, `.parquet`), sometimes a **folder** (for example a STAR reference under `star_references/<organism>/` on the `2026-01-12` release). LaminDB stores path, size, and hash; annotated files link to the metadata in the table above.
 
 **scBaseCount releases.** Both Arc snapshots are registered:
 
@@ -92,7 +92,7 @@ An **artifact** is a registered object on Arc’s bucket—usually a single file
 
 Use `version_tag` in queries to pick a release, or `is_latest=True` for the current one. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. Tahoe-100M is a single snapshot (`2025-02-25` on GCS) without this versioning.
 
-[Browse artifacts](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts).
+[Browse artifacts](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts) in `laminlabs/arc-virtual-cell-atlas`.
 
 ### Collections
 
@@ -101,11 +101,11 @@ Use `version_tag` in queries to pick a release, or `is_latest=True` for the curr
 - **Tahoe-100M:** [`tahoe100`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collection/BpavRL4ntRTzWEE5) — 14 plate-level `.h5ad` files plus parquet sidecars such as `obs_metadata.parquet`.
 - **scBaseCount (`2026-01-12`):** **135 collections** (27 organisms × 5 STARsolo features), keyed `scBaseCount/<count_feature>/<Organism>` — for example [`scBaseCount/GeneFull_Ex50pAS/Homo_sapiens`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections). Features: `Gene`, `GeneFull`, `GeneFull_Ex50pAS`, `GeneFull_ExonOverIntron`, `Velocyto`. The `2025-02-25` release is still available as artifacts (`version_tag`); collections for that release follow the same key pattern on GCS.
 
-[Browse collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
+[Browse collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections) in `laminlabs/arc-virtual-cell-atlas`.
 
 ## Querying and browsing
 
-Filters run against the LaminDB catalog, so you can list matching artifacts without downloading matrices. On [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), open **Artifacts** and combine metadata filters—organism, tissue, project, count feature, and the rest. The screenshot shows human brain tissue as an example.
+Filters run against the `laminlabs/arc-virtual-cell-atlas` instance in LaminDB, so you can list matching artifacts without downloading matrices. On [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) (the UI for that instance), open **Artifacts** and combine metadata filters—organism, tissue, project, count feature, and the rest. The screenshot shows human brain tissue as an example.
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0000.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
@@ -115,7 +115,7 @@ In Python, use the same filters with `db.Artifact.filter(...)`, or `artifact.des
 
 ## Other atlases on Lamin
 
-This catalog sits alongside CELLxGENE, HuBMAP, and other hosted atlases. The same `lamindb` connection pattern and annotation conventions apply across instances.
+[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) sits alongside CELLxGENE, HuBMAP, and other hosted atlases on Lamin. The same `ln.DB("account/instance")` connection pattern and annotation conventions apply across instances.
 
 ## Getting Started
 
@@ -142,7 +142,7 @@ After you pick artifacts, load them with `.cache()`, `.load()`, or `.open()`—t
 ## Next steps
 
 - Arc upstream: [overview](https://github.com/ArcInstitute/arc-virtual-cell-atlas), [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount), [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M).
-- LaminHub: [Artifacts](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts), [Collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections), [Schemas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas).
+- [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) on LaminHub: [Artifacts](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts), [Collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections), [Schemas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas).
 - Run the example above, then the [Lamin tutorial](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
 ## References
