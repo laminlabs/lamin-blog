@@ -17,12 +17,12 @@ repo: https://github.com/laminlabs/readfcs
 
 ## Filling a gap
 
-`readfcs` fills a gap among existing FCS readers in the Python ecosystem: These are either part of comprehensive analytical packages (e.g., FlowIO by {ct}`White21`, cytopy by {ct}`Burton21`) that operate on data structures tailored to specific downstream analyses or they do not offer support for `AnnData` objects {cp}`Yurtsev22`.
+`readfcs` fills a gap among existing FCS readers in the Python ecosystem: These are either part of comprehensive analytical packages (e.g., FlowIO[^white21], Cytopy[^burton21]) that operate on data structures tailored to specific downstream analyses or they do not offer support for `AnnData` objects[^yurtsev22].
 
-For the main data and metadata functionality, readfcs builds on fcsparser {cp}`Yurtsev22`.
+For the main data and metadata functionality, readfcs builds on `fcsparser`[^yurtsev22].
 In addition to `FCSParser`, readfcs offers compensation, indexing channels by markers, and structuring metadata in `AnnData`.
 
-readfcs is used by pytometry {cp}`Buttner22`.
+`readfcs` is used by `pytometry`[^buttner22].
 
 ## Acknowledgments
 
@@ -43,24 +43,10 @@ Sun S & Wolf A (2022). readfcs: Read FCS files. Lamin Blog. https://doi.org/10.5
 
 ## References
 
-<ol>
+[^yurtsev22]: Yurtsev E (2022). FCSParser - a Python package for reading FCS files. [GitHub](https://github.com/eyurtsev/fcsparser).
 
-<li id="Yurtsev22">
+[^white21]: White S, Quinn J, Enzor J, Staats J, Mosier SM, Almarode J, Denny TN, Weinhold KJ, Ferrari G & Chan C (2021). FlowKit: A Python toolkit for integrated manual and automated cytometry analysis workflows. [Frontiers in Immunology, 12](https://doi.org/10.3389/fimmu.2021.768541). [GitHub](https://github.com/whitews/flowio).
 
-Yurtsev E (2022). FCSParser - a python package for reading fcs files. [GitHub](https://github.com/eyurtsev/fcsparser).
+[^burton21]: Burton R (2021). CytoPy - a cytometry analysis framework for Python. [GitHub](https://github.com/burtonrj/CytoPy).
 
-</li><li id="White21">
-
-White S, Quinn J, Enzor J, Staats J, Mosier S M, Almarode J, Denny T N, Weinhold K J, Ferrari G & Chan C (2021). FlowKit: A Python toolkit for integrated manual and automated cytometry analysis workflows. [Frontiers in Immunology, 12](https://doi.org/10.3389/fimmu.2021.768541). [GitHub](https://github.com/whitews/flowio).
-
-</li><li id="Burton21">
-
-Burton R (2021). CytoPy - a cytometry analysis framework for Python. [GitHub](https://github.com/burtonrj/CytoPy).
-
-</li><li id="Buttner22">
-
-Büttner M, Hempel F, Ryborz T, Theis FJ & Schultze JL (2022). Pytometry: Flow & mass cytometry analytics. [bioRxiv](https://doi.org/10.1101/2022.10.10.511546). [GitHub](https://github.com/buettnerlab/pytometry).
-
-</li>
-
-</ol>
+[^buttner22]: Buttner M, Hempel F, Ryborz T, Theis FJ & Schultze JL (2022). Pytometry: Flow & mass cytometry analytics. [bioRxiv](https://doi.org/10.1101/2022.10.10.511546). [GitHub](https://github.com/buettnerlab/pytometry).
