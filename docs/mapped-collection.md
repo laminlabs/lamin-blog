@@ -34,14 +34,14 @@ In the first setup, you train compute-limited foundation models on harmonized ar
 
 ## From scVI to Transformers
 
-If your scRNA-seq dataset still fits into memory, you can use `scvi-tools` [data loaders](https://docs.scvi-tools.org/en/stable/api/reference/scvi.dataloaders.AnnDataLoader.html) and stop reading this post. But given large-scale public & private data collection efforts like [CELLxGENE](https://cellxgene.cziscience.com/) now enable the training of deep learning models across hundreds of datasets and tens of millions of individual cells, you’re probably tempted to scale beyond data that fits into memory.
+If your scRNA-seq dataset still fits into memory, you can use `scvi-tools` data loaders[^scvi-tools] and stop reading this post. But given large-scale public & private data collection efforts like CELLxGENE[^cellxgene] now enable the training of deep learning models across hundreds of datasets and tens of millions of individual cells, you’re probably tempted to scale beyond data that fits into memory.
 
 When working with large-scale scRNA-seq, you’ll likely attempt to train one of the following model classes:
 
 1. **Multi-layer-perceptron-based models, e.g., scVI:** Models in this class are relatively small. Their training and inference time is usually limited by data loading and not by compute on a modern GPU. The amount spent loading a single batch of data into GPU memory is usually comparable to or greater than the time spent on a model's forward and backward passes.
-2. **Single-cell foundation models, e.g., large-scale transformer models:** Large-scale transformer models are usually compute-limited. The amount spent on the forward and backward passes of the model is far greater than the amount of time it takes to load a single batch into GPU memory. Hence, data-loading speed is less important.
+2. **Single-cell foundation models, e.g., large-scale transformer models or SCimilarity[^scimilarity]:** Large-scale models are usually compute-limited. The amount spent on the forward and backward passes of the model is far greater than the amount of time it takes to load a single batch into GPU memory. Hence, data-loading speed is less important.
 
-The only out-of-the-box data loader that enables to train on out-of-memory-size datasets we’re aware of is available from the `cellxgene_census` and `tiledbsoma` Python packages (see their [docs](https://chanzuckerberg.github.io/cellxgene-census/notebooks/experimental/pytorch.html)). However, it doesn’t allow you to build weighted sampling schemes and forces you to train your model within the `us-west-2` AWS data center; the loading speed is prohibitively slow outside of it.
+The only out-of-the-box data loader that enables to train on out-of-memory-size datasets we’re aware of is available from the `cellxgene_census` and `tiledbsoma` Python packages[^cellxgene-census-pytorch]. However, it doesn’t allow you to build weighted sampling schemes and forces you to train your model within the `us-west-2` AWS data center; the loading speed is prohibitively slow outside of it.
 
 More importantly, it’s not straightforward to train models on a combination of the CELLxGENE data and in-house datasets, typically stored as `.h5ad` files. Concatenating existing `.h5ad` collections into large `tiledbsoma` arrays requires significant data wrangling and compute.
 
@@ -66,7 +66,7 @@ Consider a 10M x 20k array that stores vectors measuring expression of 20k genes
 2. a collection of 311 `.parquet` files, streamed from a local cache with NVIDIA Merlin
 3. a single `tiledbsoma` array, streamed from the cloud with `cellxgene_census`
 
-Here, `MappedCollection` is a [map-style PyTorch data loader](https://lamin.ai/docs/lamindb.core.mappedcollection) resulting in ~1.5k samples/sec, NVIDIA Merlin samples row-groups resulting in ~9k samples/sec, and `cellxgene_census` offers a [high-level PyTorch interface](https://chanzuckerberg.github.io/cellxgene-census/python-api.html) that results in ~1.5k samples/sec (**Figure 1**).
+Here, `MappedCollection` is a map-style PyTorch data loader[^mappedcollection-docs] resulting in ~1.5k samples/sec, NVIDIA Merlin samples row-groups resulting in ~9k samples/sec, and `cellxgene_census` offers a high-level PyTorch interface[^cellxgene-census-api] that results in ~1.5k samples/sec (**Figure 1**).
 
 ![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/n9cf1yZzUpMNiPmZqo3m.svg)
 
@@ -173,6 +173,20 @@ If you use the results of this work in an academic context, we'd be happy if you
 ```
 Rybakov S, Fischer F, Wiatrak M, Gold I, Rosen Y, Sun S, Sriworarat C, Theis F, Kalfon J & Wolf A (2024). MappedCollection: Weighted random sampling from large collections of scRNA-seq datasets. Lamin Blog. https://blog.lamin.ai/mapped-collection
 ```
+
+## References
+
+[^scvi-tools]: Gayoso A, Lopez R, Xing G, Boyeau P, Hong J, Wu K, Jayasuriya M, Mehlman E, Langevin M, Liu Y, Samaran J, Misrachi G, Nazaret A, Clivio O, Xu C, Ashuach T, Lotfollahi M, Svensson V, Beltrame E, Talavera-López C, Pachter L, Theis FJ, Yosef N & Pe'er D (2022). A Python library for probabilistic analysis of single-cell omics data. [Nature Biotechnology](https://www.nature.com/articles/s41587-021-01206-w). See also the [AnnDataLoader docs](https://docs.scvi-tools.org/en/stable/api/reference/scvi.dataloaders.AnnDataLoader.html).
+
+[^cellxgene]: CELLxGENE Discover. [cellxgene.cziscience.com](https://cellxgene.cziscience.com/).
+
+[^scimilarity]: Heimberg G, Kuo T, DePianto DJ, Salem O, Heigl T, Diamant N, Scalia G, Biancalani T, Turley SJ, Rock JR, Corrada Bravo H, Kaminker J, Vander Heiden JA & Regev A (2025). A cell atlas foundation model for scalable search of similar human cells. [Nature](https://www.nature.com/articles/s41586-024-08411-y).
+
+[^cellxgene-census-pytorch]: CELLxGENE Census experimental PyTorch data pipeline docs. [chanzuckerberg.github.io/cellxgene-census/notebooks/experimental/pytorch.html](https://chanzuckerberg.github.io/cellxgene-census/notebooks/experimental/pytorch.html).
+
+[^mappedcollection-docs]: LaminDB documentation for `MappedCollection`. [lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection).
+
+[^cellxgene-census-api]: CELLxGENE Census Python API docs. [chanzuckerberg.github.io/cellxgene-census/python-api.html](https://chanzuckerberg.github.io/cellxgene-census/python-api.html).
 
 ## Appendix
 
