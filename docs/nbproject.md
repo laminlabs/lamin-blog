@@ -23,7 +23,7 @@ A draft-to-publish workflow creates more reproducible notebooks with context.
 There are a number of approaches to address reproducibility & manageability problems of computational R&D projects.
 nbproject complements - and should be combined with - approaches that are based on modularizing notebooks into pipelines, containerizing compute environments, or managing notebooks on centralized platforms.
 
-Over the past 11 years, Jupyter notebooks[^perez07][^kluyver16] have become data scientists' most popular user interface[^perkel18].[^origin]
+Over the past 11 years, Jupyter notebooks[^perez07][^kluyver16] have become data scientists' most popular user interface.[^perkel18][^origin]
 Today, GitHub hosts about 9M publicly accessible notebooks in active repositories at exponential growth (**Figure 1**).
 VS Code made notebooks an integral component of its developer experience[^dias21] and many cloud services offer a workbench built around Jupyter Lab.
 
@@ -38,7 +38,7 @@ VS Code made notebooks an integral component of its developer experience[^dias21
 
 ## Problems of notebooks
 
-Nonetheless, the average notebook-based data science workflow has a severe reproducibility problem[^perkel18][^balogh22].[^famousgrus]
+Nonetheless, the average notebook-based data science workflow has a severe reproducibility problem.[^perkel18][^balogh22][^famousgrus]
 In addition, large notebook-based projects are hard to manage and often develop into an organic collection of notebook files that are hard to navigate.
 The situation seems particularly severe in biology, where even scientific results that are published in high impact journals often come with disorganized, hard-to-reproduce collections of notebooks.
 
@@ -46,12 +46,12 @@ The situation seems particularly severe in biology, where even scientific result
 
 1. The overarching project is an unstructured collection of notebooks, code, and data files.
 2. Notebook cells are non-consecutively executed.[^grusbalogh][^opinionsconsecutivenss]
-3. Package dependencies are missing[^balogh22].
+3. Package dependencies are missing.[^balogh22]
 4. Data dependencies are missing.
 5. Pipeline dependencies (previous data transformations) are missing.
-6. Notebook has low code quality[^grotov22].[^codequality]
+6. Notebook has low code quality.[^grotov22][^codequality]
 
-[^grusbalogh]: "I have seen programmers get frustrated when notebooks don't behave as expected, usually because they inadvertently run code cells out of order."[^grus18], quoted in [^balogh22] and [^perkel18].
+[^grusbalogh]: "I have seen programmers get frustrated when notebooks don't behave as expected, usually because they inadvertently run code cells out of order", quoted in Balogh and Perkel.[^grus18][^balogh22][^perkel18]
 
 [^opinionsconsecutivenss]: Laura Norén: “Restart and run all or it didn’t happen” [[source](https://twitter.com/digitalFlaneuse/status/996481061092806658)]. Kyle Cranmer: "Idea: A 'clean state' badge at top of notebook that is green if notebook was in restart+rerun all state, and red otherwise" [[source](https://twitter.com/KyleCranmer/status/996488486667587584)]. Andreas Mueller: "The badge would be indeed a nicer way to express 'all cells are numbered consecutively starting at 0'" [[source](https://twitter.com/amuellerml/status/996738771642191872)]. Alex remembers bioRxiv-co-founder Richard Sever & CarbonPlan-founder Jeremy Freeman - then Director of Comp Bio at CZI - express similar opinions at the Human Cell Atlas Comp Tools meeting in Aptos in May 2018.
 
@@ -73,16 +73,16 @@ Hence, instead of optimizing a narrow class of computational models, computation
 
 [^cheptsov]: And for prototyping, even critical assessments of notebooks call them out as the "industry standard": "In fairness to Jupyter notebooks, they have become the standard way of prototyping ML models all over the industry. Because the notebooks are interactive and support visual outputs, there is no better way of exploring data and sharing the results."[^cheptsov22]
 
-Notebooks' "computational narrative" offers a format for this type of work: A "document that allows researchers to supplement their code and data with analysis, hypotheses and conjecture", according to Brian Granger[^perkel18].
-"Notebooks are a form of interactive computing, an environment in which users execute code, see what happens, modify and repeat in a kind of iterative conversation between researcher and data. [...] Notebooks allow more powerful connections between topics, theories, data and results", according to Lorena Barba[^perkel18].
+Notebooks' "computational narrative" offers a format for this type of work: A "document that allows researchers to supplement their code and data with analysis, hypotheses and conjecture", according to Brian Granger.[^perkel18]
+"Notebooks are a form of interactive computing, an environment in which users execute code, see what happens, modify and repeat in a kind of iterative conversation between researcher and data. [...] Notebooks allow more powerful connections between topics, theories, data and results", according to Lorena Barba.[^perkel18]
 
 ## Existing solutions to problems
 
 Today, problems 5 & 6 are addressed to varying degrees by notebook platforms that allow using notebooks in ML pipelines and help with decomposing them into smaller code modules.
-Examples for this are Elyra[^resende18] (**Figure 2**), Ploomber[^blancas20][^blancas21a][^blancas21b] and Orchest[^lamers21].
+Examples for this are Elyra[^resende18] (**Figure 2**), Ploomber[^blancas20][^blancas21a][^blancas21b] and Orchest.[^lamers21]
 The latter two and most other notebook platforms ([Appendix](notebook-platforms)) also manage (package) computational environments to execute notebooks, and with that, address problem 3.
 
-An interesting alternative approach to making notebooks more reproducible consists in storing the history of users' actions, as offered by Verdant[^kery19a][^kery19b].
+An interesting alternative approach to making notebooks more reproducible consists in storing the history of users' actions, as offered by Verdant.[^kery19a][^kery19b]
 
 To the authors' knowledge, all other notebook platforms ([Appendix](notebook-platforms)) do not focus on reproducibility and manageability, but on the allocation of compute & storage resources.
 
@@ -90,7 +90,7 @@ To the authors' knowledge, all other notebook platforms ([Appendix](notebook-pla
 
 <img width="600" alt="Elyra pipeline" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/e2G7k9EVul4JbfsEYAy5.png">
 
-**Figure 2: Example for an Elyra notebook pipeline.** From the [Elyra examples repository](https://github.com/elyra-ai/examples/tree/main/pipelines/introduction-to-generic-pipelines), MIT licensed[^resende18].
+**Figure 2: Example for an Elyra notebook pipeline.** From the [Elyra examples repository](https://github.com/elyra-ai/examples/tree/main/pipelines/introduction-to-generic-pipelines), MIT licensed.[^resende18]
 ```
 
 ## Solutions chosen by nbproject
@@ -149,7 +149,7 @@ Hence, if a user receives a published notebook, they know that the latest depend
 The visual display of mismatching package dependencies between compute environments should be seen in the broader context of reproducibility vs. determinism.
 Reproducibility is "the ability of an independent research team to produce the same results using the same method based on the documentation made by the original team" (adapted from [^gunderson18]).
 Computational determinism, in addition, requires the bit-exact same output for the same input.
-Whereas targeted experimentation or the certification of models for sensitive application areas should run in deterministic environments[^heumos22], reproducibility is sufficient for many applications.
+Whereas targeted experimentation or the certification of models for sensitive application areas should run in deterministic environments,[^heumos22] reproducibility is sufficient for many applications.
 
 Highly deterministic environments can be created with Docker & conda and managed on most data platforms.
 However, they don't ensure scientific correctness of results.

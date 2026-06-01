@@ -17,12 +17,12 @@ repo: https://github.com/laminlabs/readfcs
 
 ## Filling a gap
 
-`readfcs` fills a gap among existing FCS readers in the Python ecosystem: These are either part of comprehensive analytical packages (e.g., FlowIO[^white21], Cytopy[^burton21]) that operate on data structures tailored to specific downstream analyses or they do not offer support for `AnnData` objects[^yurtsev22].
+`readfcs` fills a gap among existing FCS readers in the Python ecosystem: These are either part of comprehensive analytical packages (e.g., FlowIO,[^white21] Cytopy[^burton21]) that operate on data structures tailored to specific downstream analyses or they do not offer support for `AnnData` objects.[^yurtsev22]
 
-For the main data and metadata functionality, readfcs builds on `fcsparser`[^yurtsev22].
+For the main data and metadata functionality, readfcs builds on `fcsparser`.[^yurtsev22]
 In addition to `FCSParser`, readfcs offers compensation, indexing channels by markers, and structuring metadata in `AnnData`.
 
-`readfcs` is used by `pytometry`[^buttner22].
+`readfcs` is used by `pytometry`.[^buttner22]
 
 ## Acknowledgments
 
