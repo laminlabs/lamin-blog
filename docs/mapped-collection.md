@@ -166,6 +166,22 @@ All code used in this blog post is free & open-source.
 - `MappedCollection`: [lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection) or [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb)
 - `scdataloader`: [github.com/jkobject/scDataLoader](https://github.com/jkobject/scDataLoader)
 
+## Appendix
+
+### Data access strategies
+
+`MappedCollection` implements a pytorch-compatible map-style dataset, enabling lazy reading from a collection of `.h5ad` files. This implies that during batch preparation, it retrieves individual indices (observations) from a collection of `.h5ad` files and then collates them to form a batch. Although slower compared to the iterable-style approach utilized by `Merlin` and the `cellxgene-census` dataloader, this strategy allows true random sampling and weighted sampling of indices. `MappedCollection` builds a shared index of arrays similar to PyTorch `ConcatDataset`, but specialized for the `AnnData` format.
+
+The `cellxgene-census` loads contiguous chunks of indices beforehand and shuffles indices (of observations) contained in the pre-loaded chunks for subsetting and batch provision.
+
+Merlin similarly loads contiguous chunks from `.parquet` files to supply batches.
+
+### AnnCollection vs. MappedCollection
+
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/xpOplPPUAENNQkxfefYb.svg)
+
+**Figure A1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/qRFAbaUl5bjk65cN))**:** Samples per second to batch-loading data from a 10M x 60k array stored as 138 `.h5ad` files (batch size is 256). `AnnCollection` is slower than `MappedCollection`. `MappedCollection` coupled with PyTorch `DataLoader` scales better than scaling across multiple GPUs, but comes with more constrained indexing compared to `AnnCollection`: it can only select one index at a time and then collate. `AnnCollection` can provide slices of jointly indexed `AnnData` objects as batches that behave more or less like `AnnData` objects but can't stream directly from a disk other than using the restrictive `AnnData`-backed mode.
+
 ## Citation
 
 If you use the results of this work in an academic context, we'd be happy if you cite `MappedCollection` and this report as:
@@ -187,19 +203,3 @@ Rybakov S, Fischer F, Wiatrak M, Gold I, Rosen Y, Sun S, Sriworarat C, Theis F, 
 [^mappedcollection-docs]: LaminDB documentation for `MappedCollection`. [lamin.ai/docs/lamindb.core.mappedcollection](https://lamin.ai/docs/lamindb.core.mappedcollection).
 
 [^cellxgene-census-api]: CELLxGENE Census Python API docs. [chanzuckerberg.github.io/cellxgene-census/python-api.html](https://chanzuckerberg.github.io/cellxgene-census/python-api.html).
-
-## Appendix
-
-### Data access strategies
-
-`MappedCollection` implements a pytorch-compatible map-style dataset, enabling lazy reading from a collection of `.h5ad` files. This implies that during batch preparation, it retrieves individual indices (observations) from a collection of `.h5ad` files and then collates them to form a batch. Although slower compared to the iterable-style approach utilized by `Merlin` and the `cellxgene-census` dataloader, this strategy allows true random sampling and weighted sampling of indices. `MappedCollection` builds a shared index of arrays similar to PyTorch `ConcatDataset`, but specialized for the `AnnData` format.
-
-The `cellxgene-census` loads contiguous chunks of indices beforehand and shuffles indices (of observations) contained in the pre-loaded chunks for subsetting and batch provision.
-
-Merlin similarly loads contiguous chunks from `.parquet` files to supply batches.
-
-### AnnCollection vs. MappedCollection
-
-![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/xpOplPPUAENNQkxfefYb.svg)
-
-**Figure A1** ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/transform/qRFAbaUl5bjk65cN))**:** Samples per second to batch-loading data from a 10M x 60k array stored as 138 `.h5ad` files (batch size is 256). `AnnCollection` is slower than `MappedCollection`. `MappedCollection` coupled with PyTorch `DataLoader` scales better than scaling across multiple GPUs, but comes with more constrained indexing compared to `AnnCollection`: it can only select one index at a time and then collate. `AnnCollection` can provide slices of jointly indexed `AnnData` objects as batches that behave more or less like `AnnData` objects but can't stream directly from a disk other than using the restrictive `AnnData`-backed mode.
