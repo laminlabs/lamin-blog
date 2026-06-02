@@ -1,5 +1,5 @@
 ---
-title: "Simple queries for 2.5B transcriptional profiles in the Arc Virtual Cell Atlas"
+title: "Simple queries for the 2.5B transcriptional profiles of the Arc Virtual Cell Atlas"
 date: 2026-05-20
 author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
@@ -11,15 +11,11 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
+The Arc Virtual Cell Atlas presents the globally largest collection of homogeneously processed scRNA-seq datasets. It's an invaluable asset for training machine learning models at scale without confounding from the alignment processing steps.
+
 The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
 
 In the LaminDB instance [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), we register the same objects Arc hosts on GCS: we **do not copy or rewrite** upstream `.h5ad` or parquet files. Each file becomes an **artifact** (a pointer to the original path) with **annotations** for search and filter. [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is the web UI for that instance—you browse artifacts, collections, and schemas there, or query via the `lamindb` Python API.
-
-```{note}
-
-This is a post in a series of posts on biological data atlases.
-
-```
 
 The step-by-step tutorial lives in the [Lamin docs](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
@@ -113,7 +109,7 @@ Filters run against the `laminlabs/arc-virtual-cell-atlas` instance in LaminDB, 
 
 In Python, use the same filters with `db.Artifact.filter(...)`, or `artifact.describe()` on one result before `.cache()` / `.open()`.
 
-## Other atlases on Lamin
+## Other biological atlases
 
 [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) sits alongside CELLxGENE, HuBMAP, and other hosted atlases on Lamin. The same `ln.DB("account/instance")` connection pattern and annotation conventions apply across instances.
 
