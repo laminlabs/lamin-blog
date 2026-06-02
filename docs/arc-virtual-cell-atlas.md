@@ -12,8 +12,8 @@ db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
 The Arc Virtual Cell Atlas is the globally largest collection of homogeneously processed scRNA-seq datasets, available as a set of parquet and h5ad files on Google Cloud Storage.
-To offer queries by entities, a graphical user interace, and the lineage-aware sharing of datasets, we mirror the 2.5B transcriptional profiles in a LaminDB instance.
-The latency for queries of the 460k datasets is subsecond and data and metadata can easily be cached locally for efficient model training.
+To offer queries by entities, a graphical user interface, and the lineage-aware sharing of datasets, we mirror the 2.5B transcriptional profiles in a LaminDB instance.
+The latency for queries across the 460k datasets is subsecond and data and metadata can easily be cached locally for efficient model training.
 
 The file-based access of the original Virtual Cell Atlas[^youngblut25] works well when you already know a file path, for example, an organism or plate folder. Accessing datasets that match a more complicated query like "Give me all count matrices created for human brain tissue and processed with pipeline X”, however, requires scanning directories and parquet files, as described on [github.com/ArcInstitute/arc-virtual-cell-atlas](https://github.com/ArcInstitute/arc-virtual-cell-atlas). This requires using an API that's not applicable in other settings, has rather high latency, and is not possible through a graphical user interface. LaminDB offers a query layer that can be used across many public and inhouse collections, is anchored in general registries for biological ontologies and operational metadata, and comes with a UI.
 
@@ -23,7 +23,7 @@ Here is an [example](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-An agent prompted with "Give me all count matrices created for human brain tissue, glioblastome multiforme, and processed for feature types GeneFull_Ex50pAS" will provide the analogous query via the open-source `lamindb` or `laminr` libraries.
+An agent prompted with "Give me all count matrices created for human brain tissue, glioblastoma multiforme, and processed for feature types GeneFull_Ex50pAS" will provide the analogous query via the open-source `lamindb` or `laminr` libraries.
 
 ```python
 import lamindb as ln
@@ -49,7 +49,7 @@ datasets = db.Artifact.filter(
 
 Because each dimension of the filter is based on its own registry, typos and other query issues are easy to debug. The query completes in much less than a second. If you then want to access the content of a dataset, you can run one of the following:
 
-```
+```python
 first_dataset = datasets[0]  # get the first dataset
 adata = first_dataset.load()  # cache and load into memory
 local_filepath = first_dataset.cache()  # cache and return file path
@@ -57,16 +57,16 @@ with first_dataset.open() as adata:  # streaming access
     ...
 ```
 
-These commands will trigger a lineage-aware and zero-copy sync of the dataset to your own database, ensuring that you know where the dataset came from. [Here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) is an example where this was used to sync that `Tahoe-100M` datasets to a database that benchmarks different ML data loaders and, e.g., requires processing to a `.zarr` store for some methods.
+These commands will trigger a lineage-aware and zero-copy sync of the dataset to your own database, ensuring that you know where the dataset came from. [Here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) is an example where this was used to sync the `Tahoe-100M` datasets to a database that benchmarks different ML data loaders and, e.g., requires processing to a `.zarr` store for some methods.
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0000.png" width="700" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0000.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
 
 If you're just looking to filter by project: datasets are annotated by the two projects underlying the original atlas: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25] Here is a query for just the Tahoe-100M datasets on the UI:
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/F2BcIAi5eggMVXx40000.png" width="700" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/F2BcIAi5eggMVXx40000.png" width="700" alt="LaminHub artifacts page filtered by Tahoe-100M project" style="padding: 0;">
 </div>
 
 And here is the same query using the API:
@@ -78,6 +78,8 @@ db = ln.DB("laminlabs/arc-virtual-cell-atlas")
 tahoe100M = db.Project.get(name="Tahoe-100M")
 db.Artifact.filter(projects=tahoe100M)
 ```
+
+In total, the Arc Virtual Cell Atlas hosts around 600M cells, which lead to 2.5B transcriptional profiles through the five different ways of processing for all datasets except the 100M cells of the Tahoe-100M dataset.
 
 The LaminDB instance for the Arc Virtual Cell Atlas is organized around the following entities:
 
@@ -96,7 +98,7 @@ Entity (click to explore) | Examples | Source
 
 In addition, each dataset in LaminDB comes with a schema that maps the entities on the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
 
-The database also offers 135 collections that are stratified by 27 organisms and 5 feature types. For example `scBaseCount/GeneFull_Ex50pAS/Homo_sapiens`, browesable here: [arc-virtual-cell-atlas/collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
+The database also offers 135 collections that are stratified by 27 organisms and 5 feature types. For example `scBaseCount/GeneFull_Ex50pAS/Homo_sapiens`, browsable here: [arc-virtual-cell-atlas/collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
 
 [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside CELLxGENE, HuBMAP, and other public atlases mirrored as LaminDB instances, allowing the same query patterns to be broadly re-used.
 
@@ -108,7 +110,7 @@ The database also offers 135 collections that are stratified by 27 organisms and
 
 ## Methods
 
-The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
+The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M) — roughly 460k files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
 
 In the LaminDB instance [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), we register the same objects Arc hosts on GCS: we **do not copy or rewrite** upstream `.h5ad` or parquet files. Each file becomes an **artifact** (a pointer to the original path) with **annotations** for search and filter. [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is the web UI for that instance—you browse artifacts, collections, and schemas there, or query via the `lamindb` Python API.
 
