@@ -36,23 +36,38 @@ You can use these entities to query datasets, for example, with this [filter](ht
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-And here is the same query using the API:
+And here is the same query using the API, which an agent prompted with "Give me all count matrices created for human brain tissue, glioblastome multiforme, and processed for feature types GeneFull_Ex50pAS" will provide.
 
 ```python
 db = ln.DB("laminlabs/arc-virtual-cell-atlas")
 
-human = db.bionty.Organism.get(name="human")
+scbasecount = db.Project.get(name="scBaseCount")
+genefull_ex50pas = db.ULabel.get(name="GeneFull_Ex50pAS")
+gbm = db.bionty.Disease.get(name="glioblastoma multiforme")
+factors = db.bionty.ExperimentalFactor.filter(name__in=["10x_Genomics", "3_prime_gex"]).all()
 brain = db.bionty.Tissue.get(name="brain")
+human = db.bionty.Organism.get(name="human")
 
 datasets = db.Artifact.filter(
+    projects=scbasecount,
+    ulabels=genefull_ex50pas,
+    diseases=gbm,
+    experimental_factors__in=factors,
+    tissues=brain,
     organisms=human,
-    tissues=brain
 )
+
+# exemplary access to the data
+first_dataset = datasets[0]  # get the first dataset
+adata = first_dataset.load()  # cache and load into memory
+local_filepath = first_dataset.cache()  # cache and return file path
+with first_dataset.open() as adata:  # streaming access
+    ...
 ```
 
-Each dataset in LaminDB comes with a schema that maps the entities on the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
+Because each dimension of the filter is based on its own registry, typos and other query issues are easy to debug. The query completes in much less than a second.
 
-The database groups datasets by the two projects underlying the original atlas: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25] Here is a query for just the Tahoe-100M datasets on the UI:
+If this seems complicated and you're just looking to filter by project: datasets are annotated by the two projects underlying the original atlas: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25] Here is a query for just the Tahoe-100M datasets on the UI:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/F2BcIAi5eggMVXx40000.png" width="700" style="padding: 0;">
@@ -68,35 +83,19 @@ tahoe100M = db.Project.get(name="Tahoe-100M")
 db.Artifact.filter(projects=tahoe100M)
 ```
 
+Each dataset in LaminDB comes with a schema that maps the entities on the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
+
 The database also offers 135 collections that are stratified by 27 organisms and 5 feature types. For example `scBaseCount/GeneFull_Ex50pAS/Homo_sapiens`, browesable here: [arc-virtual-cell-atlas/collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
 
-## Other biological atlases
+[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside CELLxGENE, HuBMAP, and other public atlases mirrored as LaminDB instances, allowing the same query patterns to be broadly re-used.
 
-[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) sits alongside CELLxGENE, HuBMAP, and other hosted atlases on Lamin. The same `ln.DB("account/instance")` connection pattern and annotation conventions apply across instances.
+## Code & data availability
 
-## Getting Started
+- Repo: https://github.com/ArcInstitute/arc-virtual-cell-atlas
+- DB: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
+- Tutorial: https://docs.lamin.ai/arc-virtual-cell-atlas
 
-```python
-import lamindb as ln
-
-# Connect to the instance
-db = ln.DB("laminlabs/arc-virtual-cell-atlas")
-
-# Example query for human brain datasets
-organisms = db.bionty.Organism.lookup()
-tissues = db.bionty.Tissue.lookup()
-
-h5ads_brain = db.Artifact.filter(
-    organisms=organisms.human,
-    tissues=tissues.brain
-).distinct()
-
-print(h5ads_brain.to_dataframe())
-```
-
-After you pick artifacts, load them with `.cache()`, `.load()`, or `.open()`—the same AnnData objects as in Arc’s [Python tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas). For Tahoe workflows starting from `obs_metadata.parquet`, see the [Lamin docs tutorial](https://docs.lamin.ai/arc-virtual-cell-atlas).
-
-## Background
+## Methods
 
 The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
 
@@ -136,12 +135,6 @@ An **artifact** is a registered object on Arc’s bucket—usually a single file
 **`2025-02-25`** | [Initial release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2025-02-01-initial-release) | >230M cells, 21 organisms
 
 Use `version_tag` in queries to pick a release, or `is_latest=True` for the current one. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. Tahoe-100M is a single snapshot (`2025-02-25` on GCS) without this versioning.
-
-## Next steps
-
-- Arc upstream: [overview](https://github.com/ArcInstitute/arc-virtual-cell-atlas), [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount), [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M).
-- [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) on LaminHub: [Artifacts](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts), [Collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections), [Schemas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas).
-- Run the example above, then the [Lamin tutorial](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
 ## References
 
