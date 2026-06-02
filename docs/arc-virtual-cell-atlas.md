@@ -1,5 +1,5 @@
 ---
-title: "Simple queries for the 2.5B transcriptional profiles of the Arc Virtual Cell Atlas"
+title: "Simpler queries for the 2.5B transcriptional profiles of the Arc Virtual Cell Atlas"
 date: 2026-05-20
 author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
@@ -11,43 +11,27 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-The Arc Virtual Cell Atlas presents the globally largest collection of homogeneously processed scRNA-seq datasets. It's an invaluable asset for training machine learning models at scale without confounding from the alignment processing steps.
+The Arc Virtual Cell Atlas presents the globally largest collection of homogeneously processed scRNA-seq datasets, available as a set of parquet and h5ad files on Google Cloud Storage.
+We mirror these datasets in a `lamindb` instance to offer dedicated queries & lineage-aware dataset sharing through the open-source libraries `lamindb` & `laminr` and a GitHub-inspired UI.
 
-The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
-
-In the LaminDB instance [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), we register the same objects Arc hosts on GCS: we **do not copy or rewrite** upstream `.h5ad` or parquet files. Each file becomes an **artifact** (a pointer to the original path) with **annotations** for search and filter. [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is the web UI for that instance—you browse artifacts, collections, and schemas there, or query via the `lamindb` Python API.
-
-The step-by-step tutorial lives in the [Lamin docs](https://docs.lamin.ai/arc-virtual-cell-atlas).
-
-## What LaminDB adds
-
-Arc’s tutorials work well when you already know a GCS path—for example an organism folder or a Tahoe plate. Cross-cutting questions (“all human brain scBaseCount files with `GeneFull_Ex50pAS` counts”) are harder without scanning directories or loading metadata yourself.
-
-The [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) instance adds a query layer on top of the unchanged GCS layout:
-
-1. **Register** each file as an artifact keyed to its GCS path in that instance.
-2. **Annotate** each artifact with standardized metadata—and, for h5ads, registered **schemas** for `obs` and `var` columns (see [Annotations we attach](annotations-we-attach)).
-3. **Query** with `db.Artifact.filter(...)` or [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) (for example filter `organisms=human`, `tissues=brain`), then `.cache()` or `.open()` the same objects Arc ships.
-
-(annotations-we-attach)=
-
-### Annotations we attach
+File-based access to datasets works well when you already know a file path, for example, an organism folder or a plate. A query like "Give me all `human` `brain` `scBaseCount` files processed as `GeneFull_Ex50pAS` counts” requires scanning directories or parquet files. LaminDB, by contrast, adds a query layer that is anchored in registries for biological ontologies and operational metadata, where each entity corresponds to a Python class.
 
 These annotations follow what Arc publishes in sample sheets, parquet metadata, and cell-level tables. Typical filter dimensions:
 
-| Dimension                           | Examples                                  | Source                                                                                                                                      |
-| ----------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Project**                         | `scBaseCount`, `Tahoe-100M`               | Dataset program                                                                                                                             |
-| **ULabel** (STARsolo count feature) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features) |
-| **Organism**                        | `Homo sapiens`, `Mus musculus`, …         | Sample / study metadata                                                                                                                     |
-| **Tissue**                          | brain, liver, …                           | Sample metadata                                                                                                                             |
-| **Disease**                         | study-level disease annotations           | Sample metadata (see Arc note on study-level disease)                                                                                       |
-| **Cell line**                       | Cellosaurus IDs, common names             | scBaseCount sample fields; Tahoe `cell_line` / `cell_name`                                                                                  |
-| **Experimental factor**             | single-cell vs nucleus, 10x chemistry, …  | `lib_prep`, `tech_10x`, `cell_prep`, etc.                                                                                                   |
-| **Perturbation / compound** (Tahoe) | drugs, concentrations                     | `drug`, `drugname_drugconc`; curated via `pertdb`                                                                                           |
-| **Release**                         | `version_tag` e.g. `2026-01-12`           | scBaseCount release folder on GCS                                                                                                           |
+<!-- prettier-ignore -->
+| Entity | Examples | Source|
+| --- | --- | --- |
+| `Organism`                        | `Homo sapiens`, `Mus musculus`, …         | Sample / study metadata                                                                                                                     |
+| `Tissue`                          | brain, liver, …                           | Sample metadata                                                                                                                             |
+| `Disease`                         | study-level disease annotations           | Sample metadata (see Arc note on study-level disease)                                                                                       |
+| `CellLine`                       | Cellosaurus IDs, common names             | scBaseCount sample fields; Tahoe `cell_line` / `cell_name`                                                                                  |
+| `ExperimentalFactor`             | single-cell vs nucleus, 10x chemistry, …  | `lib_prep`, `tech_10x`, `cell_prep`, etc.                                                                                                   |
+| `Perturbation` | drugs, concentrations                     | `drug`, `drugname_drugconc` |
+| `Project`                         | `scBaseCount`, `Tahoe-100M`               | Dataset program                                                                                                                             |
+| `ULabel` (STARsolo count feature) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features) |
+| Version                         | `version_tag` e.g. `2026-01-12`           | scBaseCount release folder                                                                                                           |
 
-Tahoe also registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
+Tahoe registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
 
 #### Schemas
 
@@ -134,6 +118,20 @@ print(h5ads_brain.to_dataframe())
 ```
 
 After you pick artifacts, load them with `.cache()`, `.load()`, or `.open()`—the same AnnData objects as in Arc’s [Python tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas). For Tahoe workflows starting from `obs_metadata.parquet`, see the [Lamin docs tutorial](https://docs.lamin.ai/arc-virtual-cell-atlas).
+
+## Background
+
+The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
+
+In the LaminDB instance [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), we register the same objects Arc hosts on GCS: we **do not copy or rewrite** upstream `.h5ad` or parquet files. Each file becomes an **artifact** (a pointer to the original path) with **annotations** for search and filter. [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is the web UI for that instance—you browse artifacts, collections, and schemas there, or query via the `lamindb` Python API.
+
+The step-by-step tutorial lives in the [Lamin docs](https://docs.lamin.ai/arc-virtual-cell-atlas).
+
+The LaminDB mirror was created like this:
+
+1. **Register** each file as an artifact keyed to its GCS path in that instance.
+2. **Annotate** each artifact with standardized metadata—and, for h5ads, registered **schemas** for `obs` and `var` columns.
+3. **Query** with `db.Artifact.filter(...)` or [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) (for example filter `organisms=human`, `tissues=brain`), then `.cache()` or `.open()` the same objects Arc ships.
 
 ## Next steps
 
