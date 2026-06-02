@@ -45,8 +45,11 @@ datasets = db.Artifact.filter(
     tissues=brain,
     organisms=human,
 )
+```
 
-# exemplary access to the data
+Because each dimension of the filter is based on its own registry, typos and other query issues are easy to debug. The query completes in much less than a second. If you then want to access the content of a dataset, you can run one of the following:
+
+```
 first_dataset = datasets[0]  # get the first dataset
 adata = first_dataset.load()  # cache and load into memory
 local_filepath = first_dataset.cache()  # cache and return file path
@@ -54,9 +57,13 @@ with first_dataset.open() as adata:  # streaming access
     ...
 ```
 
-Because each dimension of the filter is based on its own registry, typos and other query issues are easy to debug. The query completes in much less than a second.
+These commands will trigger a lineage-aware and zero-copy sync of the dataset to your own database, ensuring that you know where the dataset came from. [Here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) is an example where this was used to sync that `Tahoe-100M` datasets to a database that benchmarks different ML data loaders and, e.g., requires processing to a `.zarr` store for some methods.
 
-If this seems complicated and you're just looking to filter by project: datasets are annotated by the two projects underlying the original atlas: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25] Here is a query for just the Tahoe-100M datasets on the UI:
+<div style="text-align: center">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0000.png" width="700" style="padding: 0;">
+</div>
+
+If you're just looking to filter by project: datasets are annotated by the two projects underlying the original atlas: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25] Here is a query for just the Tahoe-100M datasets on the UI:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/F2BcIAi5eggMVXx40000.png" width="700" style="padding: 0;">
