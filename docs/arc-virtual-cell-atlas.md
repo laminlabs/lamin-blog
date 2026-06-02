@@ -18,7 +18,7 @@ The latency for queries of the 460k datasets is subsecond and data and metadata 
 The file-based access of the original Virtual Cell Atlas works well when you already know a file path, for example, an organism or plate folder. Accessing datasets that match a more complicated query like "Give me all count matrices created for human brain tissue and processed with pipeline X”, however, requires scanning directories and parquet files. This requires using an API that's not applicable in other settings, has rather high latency, and is not possible through a graphical user interface. LaminDB offers a query layer that can be used across many public and inhouse collections and is anchored in general registries for biological ontologies and operational metadata.
 
 <!-- prettier-ignore -->
-Entity | Examples | Source
+Entity (click to explore) | Examples | Source
 --- | --- | ---
 `Organism` | `Homo sapiens`, `Mus musculus`, … | Sample / study metadata
 `Tissue` | brain, liver, … | Sample metadata
@@ -26,8 +26,8 @@ Entity | Examples | Source
 `CellLine` | Cellosaurus IDs, common names | scBaseCount sample fields; Tahoe `cell_line` / `cell_name`
 `ExperimentalFactor` | single-cell vs nucleus, 10x chemistry, … | `lib_prep`, `tech_10x`, `cell_prep`, etc.
 `Perturbation` | drugs, concentrations | `drug`, `drugname_drugconc`
-`Project` | `scBaseCount`, `Tahoe-100M` | Dataset program
-`ULabel` (STARsolo count feature) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features)
+[`Project`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/projects) | `scBaseCount`, `Tahoe-100M` | Dataset program
+[STARsolo count feature](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/ulabel/f2O4a8gq) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features)
 Version | `version_tag` e.g. `2026-01-12` | scBaseCount release folder
 
 Tahoe registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
