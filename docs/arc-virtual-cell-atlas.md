@@ -17,28 +17,17 @@ The latency for queries of the 460k datasets is subsecond and data and metadata 
 
 The file-based access of the original Virtual Cell Atlas[^youngblut25] works well when you already know a file path, for example, an organism or plate folder. Accessing datasets that match a more complicated query like "Give me all count matrices created for human brain tissue and processed with pipeline X”, however, requires scanning directories and parquet files, as described on [github.com/ArcInstitute/arc-virtual-cell-atlas](https://github.com/ArcInstitute/arc-virtual-cell-atlas). This requires using an API that's not applicable in other settings, has rather high latency, and is not possible through a graphical user interface. LaminDB offers a query layer that can be used across many public and inhouse collections, is anchored in general registries for biological ontologies and operational metadata, and comes with a UI.
 
-<!-- prettier-ignore -->
-Entity (click to explore) | Examples | Source
---- | --- | ---
-[`Organism`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/organism) | `Homo sapiens`, `Mus musculus`, … | Sample / study metadata
-[`Tissue`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/tissue) | `brain`, `liver`, … | Sample metadata
-[`Disease`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/disease) | study-level disease annotations | Sample metadata (see Arc note on study-level disease)
-[`CellLine`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/cellline) | Cellosaurus IDs, common names | scBaseCount sample fields; Tahoe `cell_line` / `cell_name`
-[`ExperimentalFactor`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/experimentalfactor) | single-cell vs nucleus, 10x chemistry, … | `lib_prep`, `tech_10x`, `cell_prep`, etc.
-[`Compound`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/pertdb/compound) | compounds, concentrations | `drug`, `drugname_drugconc`
-[`Project`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/projects) | `scBaseCount`, `Tahoe-100M` | Dataset program
-[STARsolo count feature](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/ulabel/f2O4a8gq) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features)
-[Release](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts?filter[and][0][or][0][branch.name][eq]=main&filter[and][1][or][0][is_latest][eq]=true&filter[and][2][or][0][version_tag][eq]=2026-01-12) | `version_tag` e.g. `2026-01-12` | scBaseCount release folder
-
-You can use these entities to query datasets, for example, with this [filter](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts?filter[and][0][or][0][branch.name][eq]=main&filter[and][1][or][0][is_latest][eq]=true&filter[and][2][or][0][projects.name][eq]=scBaseCount&filter[and][3][or][0][ulabels.name][eq]=GeneFull_Ex50pAS&filter[and][4][or][0][diseases.name][eq]=glioblastoma%20multiforme&filter[and][5][or][0][experimental_factors.name][eq]=10x_Genomics&filter[and][5][or][1][experimental_factors.name][eq]=3_prime_gex&filter[and][6][or][0][tissues.name][eq]=brain&filter[and][7][or][0][organisms.name][eq]=human).
+Here is an [example](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts?filter[and][0][or][0][branch.name][eq]=main&filter[and][1][or][0][is_latest][eq]=true&filter[and][2][or][0][projects.name][eq]=scBaseCount&filter[and][3][or][0][ulabels.name][eq]=GeneFull_Ex50pAS&filter[and][4][or][0][diseases.name][eq]=glioblastoma%20multiforme&filter[and][5][or][0][experimental_factors.name][eq]=10x_Genomics&filter[and][5][or][1][experimental_factors.name][eq]=3_prime_gex&filter[and][6][or][0][tissues.name][eq]=brain&filter[and][7][or][0][organisms.name][eq]=human):
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-And here is the same query using the API, which an agent prompted with "Give me all count matrices created for human brain tissue, glioblastome multiforme, and processed for feature types GeneFull_Ex50pAS" will provide.
+An agent prompted with "Give me all count matrices created for human brain tissue, glioblastome multiforme, and processed for feature types GeneFull_Ex50pAS" will provide the analogous query via the open-source `lamindb` or `laminr` libraries.
 
 ```python
+import lamindb as ln
+
 db = ln.DB("laminlabs/arc-virtual-cell-atlas")
 
 scbasecount = db.Project.get(name="scBaseCount")
@@ -83,7 +72,22 @@ tahoe100M = db.Project.get(name="Tahoe-100M")
 db.Artifact.filter(projects=tahoe100M)
 ```
 
-Each dataset in LaminDB comes with a schema that maps the entities on the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
+The LaminDB instance for the Arc Virtual Cell Atlas is organized around the following entities:
+
+<!-- prettier-ignore -->
+Entity (click to explore) | Examples | Source
+--- | --- | ---
+[`Organism`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/organism) | `Homo sapiens`, `Mus musculus`, … | Sample / study metadata
+[`Tissue`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/tissue) | `brain`, `liver`, … | Sample metadata
+[`Disease`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/disease) | study-level disease annotations | Sample metadata (see Arc note on study-level disease)
+[`CellLine`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/cellline) | Cellosaurus IDs, common names | scBaseCount sample fields; Tahoe `cell_line` / `cell_name`
+[`ExperimentalFactor`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/bionty/experimentalfactor) | single-cell vs nucleus, 10x chemistry, … | `lib_prep`, `tech_10x`, `cell_prep`, etc.
+[`Compound`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/pertdb/compound) | compounds, concentrations | `drug`, `drugname_drugconc`
+[`Project`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/projects) | `scBaseCount`, `Tahoe-100M` | Dataset program
+[STARsolo count feature](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/ulabel/f2O4a8gq) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features)
+[Release](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts?filter[and][0][or][0][branch.name][eq]=main&filter[and][1][or][0][is_latest][eq]=true&filter[and][2][or][0][version_tag][eq]=2026-01-12) | `version_tag` e.g. `2026-01-12` | scBaseCount release folder
+
+In addition, each dataset in LaminDB comes with a schema that maps the entities on the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
 
 The database also offers 135 collections that are stratified by 27 organisms and 5 feature types. For example `scBaseCount/GeneFull_Ex50pAS/Homo_sapiens`, browesable here: [arc-virtual-cell-atlas/collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
 
