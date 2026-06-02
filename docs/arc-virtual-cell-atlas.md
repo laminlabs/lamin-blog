@@ -11,7 +11,7 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 600 million cells[^youngblut25][^zhang25]. Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
+The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M)—roughly 300,000 files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
 
 In the LaminDB instance [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), we register the same objects Arc hosts on GCS: we **do not copy or rewrite** upstream `.h5ad` or parquet files. Each file becomes an **artifact** (a pointer to the original path) with **annotations** for search and filter. [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is the web UI for that instance—you browse artifacts, collections, and schemas there, or query via the `lamindb` Python API.
 
@@ -77,7 +77,7 @@ artifact.describe()
 
 ## How `laminlabs/arc-virtual-cell-atlas` is organized
 
-The [instance](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is organized in LaminDB as **artifacts** and **collections**, grouped under two **projects**: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398) and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).
+The [instance](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is organized in LaminDB as **artifacts** and **collections**, grouped under two **projects**: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25]
 
 ### Artifacts
 
