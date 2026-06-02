@@ -11,12 +11,11 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-The Arc Virtual Cell Atlas presents the globally largest collection of homogeneously processed scRNA-seq datasets, available as a set of parquet and h5ad files on Google Cloud Storage.
-We mirror these datasets in a `lamindb` instance to offer dedicated queries & lineage-aware dataset sharing through the open-source libraries `lamindb` & `laminr` and a GitHub-inspired UI.
+The Arc Virtual Cell Atlas is the globally largest collection of homogeneously processed scRNA-seq datasets.
+It is available as a set of parquet and h5ad files on Google Cloud Storage.
+We mirror these datasets in a LaminDB instance to offer dedicated queries & lineage-aware dataset sharing through the open-source libraries `lamindb` & `laminr` and a GitHub-inspired UI.
 
-File-based access to datasets works well when you already know a file path, for example, an organism folder or a plate. A query like "Give me all `human` `brain` `scBaseCount` files processed as `GeneFull_Ex50pAS` counts” requires scanning directories or parquet files. LaminDB, by contrast, adds a query layer that is anchored in registries for biological ontologies and operational metadata, where each entity corresponds to a Python class.
-
-These annotations follow what Arc publishes in sample sheets, parquet metadata, and cell-level tables. Typical filter dimensions:
+The file-based access of the original Virtual Cell Atlas works well when you already know a file path, for example, an organism or plate folder. Accessing datasets that match a more complicated query like "Give me all count matrices created for human brain tissue and processed with pipeline X”, however, requires scanning directories and parquet files, with rather low latency and without an API that would be applicable in other settings. LaminDB offers a query layer that can be used across many public and inhouse collections and is anchored in general registries for biological ontologies and operational metadata.
 
 <!-- prettier-ignore -->
 Entity | Examples | Source
