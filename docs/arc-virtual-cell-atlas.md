@@ -19,17 +19,17 @@ File-based access to datasets works well when you already know a file path, for 
 These annotations follow what Arc publishes in sample sheets, parquet metadata, and cell-level tables. Typical filter dimensions:
 
 <!-- prettier-ignore -->
-| Entity | Examples | Source|
+| Entity | Examples | Source |
 | --- | --- | --- |
-| `Organism`                        | `Homo sapiens`, `Mus musculus`, …         | Sample / study metadata                                                                                                                     |
-| `Tissue`                          | brain, liver, …                           | Sample metadata                                                                                                                             |
-| `Disease`                         | study-level disease annotations           | Sample metadata (see Arc note on study-level disease)                                                                                       |
-| `CellLine`                       | Cellosaurus IDs, common names             | scBaseCount sample fields; Tahoe `cell_line` / `cell_name`                                                                                  |
-| `ExperimentalFactor`             | single-cell vs nucleus, 10x chemistry, …  | `lib_prep`, `tech_10x`, `cell_prep`, etc.                                                                                                   |
-| `Perturbation` | drugs, concentrations                     | `drug`, `drugname_drugconc` |
-| `Project`                         | `scBaseCount`, `Tahoe-100M`               | Dataset program                                                                                                                             |
+| `Organism` | `Homo sapiens`, `Mus musculus`, … | Sample / study metadata |
+| `Tissue` | brain, liver, … | Sample metadata |
+| `Disease` | study-level disease annotations | Sample metadata (see Arc note on study-level disease) |
+| `CellLine` | Cellosaurus IDs, common names | scBaseCount sample fields; Tahoe `cell_line` / `cell_name` |
+| `ExperimentalFactor` | single-cell vs nucleus, 10x chemistry, … | `lib_prep`, `tech_10x`, `cell_prep`, etc. |
+| `Perturbation` | drugs, concentrations | `drug`, `drugname_drugconc` |
+| `Project` | `scBaseCount`, `Tahoe-100M` | Dataset program |
 | `ULabel` (STARsolo count feature) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features) |
-| Version                         | `version_tag` e.g. `2026-01-12`           | scBaseCount release folder                                                                                                           |
+| Version | `version_tag` e.g. `2026-01-12` | scBaseCount release folder |
 
 Tahoe registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
 
