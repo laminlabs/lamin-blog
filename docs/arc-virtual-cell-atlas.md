@@ -33,8 +33,6 @@ Version | `version_tag` e.g. `2026-01-12` | scBaseCount release folder
 
 Tahoe registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
 
-#### Schemas
-
 Each `.h5ad` can also reference a **schema**: a registered list of **features** (column names) and **data types**, matching `adata.obs` and `adata.var` but stored in LaminDB for inspection without opening the file.
 
 AnnData schemas use two slots:
