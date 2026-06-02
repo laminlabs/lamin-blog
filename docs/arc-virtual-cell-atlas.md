@@ -1,6 +1,6 @@
 ---
 title: "Simpler queries for the 2.5B transcriptional profiles of the Arc Virtual Cell Atlas"
-date: 2026-05-20
+date: 2026-06-02
 author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
@@ -19,17 +19,17 @@ File-based access to datasets works well when you already know a file path, for 
 These annotations follow what Arc publishes in sample sheets, parquet metadata, and cell-level tables. Typical filter dimensions:
 
 <!-- prettier-ignore -->
-| Entity | Examples | Source |
-| --- | --- | --- |
-| `Organism` | `Homo sapiens`, `Mus musculus`, … | Sample / study metadata |
-| `Tissue` | brain, liver, … | Sample metadata |
-| `Disease` | study-level disease annotations | Sample metadata (see Arc note on study-level disease) |
-| `CellLine` | Cellosaurus IDs, common names | scBaseCount sample fields; Tahoe `cell_line` / `cell_name` |
-| `ExperimentalFactor` | single-cell vs nucleus, 10x chemistry, … | `lib_prep`, `tech_10x`, `cell_prep`, etc. |
-| `Perturbation` | drugs, concentrations | `drug`, `drugname_drugconc` |
-| `Project` | `scBaseCount`, `Tahoe-100M` | Dataset program |
-| `ULabel` (STARsolo count feature) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features) |
-| Version | `version_tag` e.g. `2026-01-12` | scBaseCount release folder |
+Entity | Examples | Source
+--- | --- | ---
+`Organism` | `Homo sapiens`, `Mus musculus`, … | Sample / study metadata
+`Tissue` | brain, liver, … | Sample metadata
+`Disease` | study-level disease annotations | Sample metadata (see Arc note on study-level disease)
+`CellLine` | Cellosaurus IDs, common names | scBaseCount sample fields; Tahoe `cell_line` / `cell_name`
+`ExperimentalFactor` | single-cell vs nucleus, 10x chemistry, … | `lib_prep`, `tech_10x`, `cell_prep`, etc.
+`Perturbation` | drugs, concentrations | `drug`, `drugname_drugconc`
+`Project` | `scBaseCount`, `Tahoe-100M` | Dataset program
+`ULabel` (STARsolo count feature) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features)
+Version | `version_tag` e.g. `2026-01-12` | scBaseCount release folder
 
 Tahoe registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
 
@@ -65,10 +65,11 @@ An **artifact** is a registered object on Arc’s bucket—usually a single file
 
 **scBaseCount releases.** Both Arc snapshots are registered:
 
-| `version_tag`    | Arc release                                                                                                                                            | Scale (approx.)                                      |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------- |
-| **`2026-01-12`** | [Publication release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2026-01-12-publication-release) (current) | >502M cells, 27 organisms, 5 STARsolo count features |
-| **`2025-02-25`** | [Initial release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2025-02-01-initial-release)                   | >230M cells, 21 organisms                            |
+<!-- prettier-ignore -->
+`version_tag` | Arc release | Scale
+--- | --- | ---
+**`2026-01-12`** | [Publication release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2026-01-12-publication-release) (current) | >502M cells, 27 organisms, 5 STARsolo count features
+**`2025-02-25`** | [Initial release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2025-02-01-initial-release) | >230M cells, 21 organisms
 
 Use `version_tag` in queries to pick a release, or `is_latest=True` for the current one. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. Tahoe-100M is a single snapshot (`2025-02-25` on GCS) without this versioning.
 
