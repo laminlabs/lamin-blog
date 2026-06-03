@@ -23,7 +23,7 @@ For example, the following [UI query](https://lamin.ai/laminlabs/arc-virtual-cel
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-An agent prompted with "Give me all count matrices created for human brain tissue, glioblastoma multiforme, and processed for feature types GeneFull_Ex50pAS" will provide the analogous query via the open-source `lamindb` or `laminr` libraries.
+The same query can be expressed through the Python/R APIs or via an agent prompted with "Give me all count matrices created for human brain tissue, glioblastome multiforme, and processed for feature types GeneFull_Ex50pAS":
 
 ```python
 import lamindb as ln
