@@ -137,6 +137,8 @@ The database also offers 135 collections that are stratified by 27 organisms and
 
 [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside CELLxGENE, HuBMAP, and other public atlases mirrored as LaminDB instances, allowing the same query patterns to be reused across multiple resources.
 
+Here is a step-by-step tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
+
 ## Code & data availability
 
 - Repo: https://github.com/ArcInstitute/arc-virtual-cell-atlas
@@ -149,13 +151,10 @@ The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) co
 
 In the LaminDB instance [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas), we register the same objects Arc hosts on GCS: we **do not copy or rewrite** upstream `.h5ad` or parquet files. Each file becomes an **artifact** (a pointer to the original path) with **annotations** for search and filter. [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) is the web UI for that instance—you browse artifacts, collections, and schemas there, or query via the `lamindb` Python API.
 
-The step-by-step tutorial lives in the [Lamin docs](https://docs.lamin.ai/arc-virtual-cell-atlas).
+The LaminDB mirror was created in 2 steps:
 
-The LaminDB mirror was created like this:
-
-1. **Register** each file as an artifact keyed to its GCS path in that instance.
-2. **Annotate** each artifact with standardized metadata—and, for h5ads, registered **schemas** for `obs` and `var` columns.
-3. **Query** with `db.Artifact.filter(...)` or [LaminHub](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) (for example filter `organisms=human`, `tissues=brain`), then `.cache()` or `.open()` the same objects Arc ships.
+1. **Register** each file as an artifact keyed to its Google Cloud Storage path.
+2. **Annotate** each artifact with standardized metadata — and, for h5ads, register **schemas** for `obs` and `var` slots.
 
 Tahoe registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
 
