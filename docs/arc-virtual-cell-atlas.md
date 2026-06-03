@@ -81,6 +81,9 @@ datasets <- db$Artifact$filter(
 
 Each part of the filter is anchored to a registry entry. This makes the query easier to inspect and debug: `human` is an organism,`brain` is a tissue, `glioblastoma multiforme` is a disease annotation, and `GeneFull_Ex50pAS` is a `STARsolo count feature`. Selected datasets can then be loaded, cached, or streamed:
 
+::::::{tab-set}
+:::::{tab-item} Python
+
 ```python
 first_dataset = datasets[0]  # get the first dataset
 adata = first_dataset.load()  # cache and load into memory
@@ -88,6 +91,21 @@ local_filepath = first_dataset.cache()  # cache and return file path
 with first_dataset.open() as adata:  # streaming access
     ...
 ```
+
+:::::
+:::::{tab-item} R
+
+```r
+first_dataset <- datasets[[1]]  # get the first dataset
+adata <- first_dataset$load()  # cache and load into memory
+local_filepath <- first_dataset$cache()  # cache and return file path
+with(first_dataset$open(), {  # streaming access
+  ...
+})
+```
+
+:::::
+::::::
 
 These commands retrieve the selected object while preserving a run record that points back to the original dataset in the Arc database.
 This means that downstream processing can be traced back to the source data.
