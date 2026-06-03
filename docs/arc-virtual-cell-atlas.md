@@ -104,7 +104,7 @@ If you're just looking to filter by project: datasets are annotated by the two p
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/F2BcIAi5eggMVXx40000.png" width="700" alt="LaminHub artifacts page filtered by Tahoe-100M project" style="padding: 0;">
 </div>
 
-And here is the same query using the API:
+The same query using the Python API:
 
 ```python
 import lamindb as ln
