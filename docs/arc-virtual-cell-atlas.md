@@ -116,7 +116,7 @@ db.Artifact.filter(projects=tahoe100M)
 
 In total, the Arc Virtual Cell Atlas hosts around 600M cells, which lead to 2.5B transcriptional profiles through the five different ways of processing for all datasets except the 100M cells of the Tahoe-100M dataset.
 
-The LaminDB instance for the Arc Virtual Cell Atlas is organized around the following entities:
+The LaminDB instance for the Arc Virtual Cell Atlas is organized around biological and experimental annotations that are familiar from single-cell analysis workflows:
 
 <!-- prettier-ignore -->
 Entity (click to explore) | Examples | Source
