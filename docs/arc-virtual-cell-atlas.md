@@ -11,13 +11,11 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-The Arc Virtual Cell Atlas is the globally largest collection of uniformly processed scRNA-seq datasets, available as a set of parquet and h5ad files on Google Cloud Storage.
-To offer queries by entities, a graphical user interface, and the lineage-aware sharing of datasets, we mirror the 2.5B transcriptional profiles in a LaminDB instance.
-The latency for queries across the 460k datasets is subsecond and data and metadata can easily be cached locally for efficient model training.
+With 2.5B expression profiles, the Arc Virtual Cell Atlas is the globally largest collection of uniformly processed scRNA-seq datasets.
+Arc distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
+We present a mirror of the atlas in a LaminDB instance to offer additional access patterns: database queries by entities, a graphical user interface, and the lineage-aware sharing of datasets.
 
-The file-based access of the original Virtual Cell Atlas[^youngblut25] works well when you already know a file path, for example, an organism or plate folder. Accessing datasets that match a more complicated query like "Give me all count matrices created for human brain tissue and processed with pipeline X”, however, requires scanning directories and parquet files, as described on [github.com/ArcInstitute/arc-virtual-cell-atlas](https://github.com/ArcInstitute/arc-virtual-cell-atlas). This requires using an API that's not applicable in other settings, has rather high latency, and doesn't offer a graphical user interface. LaminDB offers a query layer that can be used across many public and inhouse collections, is anchored in general registries for biological ontologies and operational metadata, and comes with a UI.
-
-For example, the following UI query selects count matrices from human brain samples annotated with glioblastoma multiforme and processed to `GeneFull_Ex50pAS` STARsolo count features:
+For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. LaminDB makes the access more convenient by mapping the datasets into a general query API that's based on entities, comes with a graphical UI, and is applicable for a wide range of collections of datasets. The following UI query selects the relevant organism, tissue, and disease, along with the processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
