@@ -15,13 +15,13 @@ With 2.5B expression profiles that map on about 600M cells, the Arc Virtual Cell
 Arc distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
 We present a mirror in a LaminDB instance to offer database queries by entities, a graphical user interface, and the lineage-aware sharing of datasets.
 
-For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. LaminDB makes the access more convenient by mapping the datasets into a general query API that's based on entities, comes with a graphical UI, and is applicable for a wide range of collections of datasets. The following UI query selects the relevant organism, tissue, and disease, along with the processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
+For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme and processed with a certain pipeline. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. LaminDB makes the access more convenient by mapping the datasets into a general query API that's based on entities, comes with a graphical UI, and is applicable for a wide range of collections of datasets. The following UI query selects the relevant organism, tissue, disease, and processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-The same query can be expressed through the open-source Python or R libraries, or through an agent prompt. Because LaminDB uses general registries for biological entities and operational metadata, the same query API can also be applied to other public atlases and in-house datasets.
+The same query can be expressed through open-source Python or R libraries, which are easily obtained through an agent prompt.
 
 ::::::{tab-set}
 :::::{tab-item} Python
@@ -77,7 +77,7 @@ datasets <- db$Artifact$filter(
 :::::
 ::::::
 
-Each part of the filter is anchored to a registry entry. This makes the query easier to inspect and debug: `human` is an organism, `brain` is a tissue, `glioblastoma multiforme` is a disease annotation, and `GeneFull_Ex50pAS` is a `STARsolo count feature`. Selected datasets can then be loaded, cached, or streamed:
+Selected datasets can then be loaded, cached, or streamed:
 
 ::::::{tab-set}
 :::::{tab-item} Python
