@@ -171,7 +171,7 @@ artifact.describe()
 
 `describe()` prints linked annotations, the schema (`obs` and `var` features), and storage details. On LaminHub, open [Schemas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas) to browse them in the UI.
 
-An **artifact** is a registered object on Arc’s bucket—usually a single file (`.h5ad`, `.parquet`), sometimes a **folder** (for example a STAR reference under `star_references/<organism>/` on the `2026-01-12` release). LaminDB stores path, size, and hash; annotated files link to the metadata in the table above.
+In this context, an artifact is usually a single registered file such as an `.h5ad` or `.parquet` file. In some cases, an artifact can also be a folder, for example a STAR reference under `star_references/<organism>/` for the `2026-01-12` release. LaminDB stores the path, size, and hash for each artifact, and links annotated files to the metadata entities listed above.
 
 **scBaseCount releases.** Both Arc snapshots are registered:
 
