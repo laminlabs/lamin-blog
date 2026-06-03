@@ -148,6 +148,10 @@ Here is a step-by-step tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://
 - DB: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 - Tutorial: https://docs.lamin.ai/arc-virtual-cell-atlas
 
+## Acknowledgements
+
+We're grateful to the creators of the original resource[^youngblut25][^zhang25] for sharing it publicly on a scalable storage backend. We're particularly grateful to Nicholas Youngblut for helping with questions regarding the structure of the atlas and reviewing the tutorial.
+
 ## Methods
 
 The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M) — roughly 460k files and on the order of 600 million cells.[^youngblut25] Arc hosts the data on Google Cloud ([`gs://arc-institute-virtual-cell-atlas`](https://github.com/ArcInstitute/arc-virtual-cell-atlas)) and documents access in [GitHub tutorials](https://github.com/ArcInstitute/arc-virtual-cell-atlas) under each dataset folder.
@@ -185,6 +189,18 @@ In this context, an artifact is usually a single registered file such as an `.h5
 **`2025-02-25`** | [Initial release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2025-02-01-initial-release) | >230M cells, 21 organisms
 
 You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
+
+## Author contributions
+
+Sunny created the database as a mirror of the Arc Virtual Cell Atlas. Sergei developed the data layer, Fred the backend, and Chaichontat the frontend. Alex supervised the project.
+
+## How to cite
+
+Please cite the original references! If the mirror is useful to you, consider citing:
+
+```
+Sun S, Rybakov S, Enard F, Sriworarat C & Wolf A (2026). Simpler queries for the 2.5B transcriptional profiles of the Arc Virtual Cell Atlas. Lamin Blog. https://blog.lamin.ai/arc-virtual-cell-atlas
+```
 
 ## References
 
