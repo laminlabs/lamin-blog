@@ -59,19 +59,19 @@ ln <- laminr::import_module("lamindb")
 db <- ln$DB("laminlabs/arc-virtual-cell-atlas")
 
 scbase <- db$Project$get(name = "scBaseCount")
-genefull <- db$ULabel$get(name = "GeneFull_Ex50pAS")
 gbm <- db$bionty$Disease$get(name = "glioblastoma multiforme")
 brain <- db$bionty$Tissue$get(name = "brain")
 human <- db$bionty$Organism$get(name = "human")
 factors <- db$bionty$ExperimentalFactor$filter(name__in = c("10x_Genomics", "3_prime_gex"))
+genefull <- db$ULabel$get(name = "GeneFull_Ex50pAS")
 
 datasets <- db$Artifact$filter(
   projects = scbase,
-  ulabels = genefull,
   diseases = gbm,
   tissues = brain,
   organisms = human,
   experimental_factors__in = factors,
+  ulabels = genefull,
   is_latest = TRUE
 )
 ```
