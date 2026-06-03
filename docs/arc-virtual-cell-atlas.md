@@ -89,7 +89,10 @@ with first_dataset.open() as adata:  # streaming access
     ...
 ```
 
-These commands will trigger a lineage-aware and zero-copy sync of the dataset to your own database, ensuring that you know where the dataset came from. [Here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) is an example where this was used to sync the `Tahoe-100M` datasets to a database that benchmarks different ML data loaders and, e.g., requires processing to a `.zarr` store for some methods.
+These commands retrieve the selected object while preserving a run record that points back to the original dataset in the Arc database.
+This means that downstream processing can be traced back to the source data.
+
+In this [example](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU), the same mechanism was used to sync `Tahoe-100M` datasets into a benchmarking database for machine-learning data loaders, including workflows that convert selected inputs to `.zarr` stores for some methods.
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0000.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
