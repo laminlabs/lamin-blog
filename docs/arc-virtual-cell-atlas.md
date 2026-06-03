@@ -169,7 +169,7 @@ artifact = db.Artifact.get("...")  # uid from a query
 artifact.describe()
 ```
 
-`describe()` prints linked annotations, the schema (`obs` and `var` features), and storage details. On LaminHub, open [Schemas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas) to browse them in the UI.
+`describe()` prints linked annotations, the schema, and storage details. You can also browse schemas [on the UI](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas).
 
 In this context, an artifact is usually a single registered file such as an `.h5ad` or `.parquet` file. In some cases, an artifact can also be a folder, for example a STAR reference under `star_references/<organism>/` for the `2026-01-12` release. LaminDB stores the path, size, and hash for each artifact, and links annotated files to the metadata entities listed above.
 
