@@ -99,23 +99,6 @@ In this [example](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDt
 </div>
 
 The original Arc Virtual Cell Atlas combines two major data resources: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25] Datasets in the LaminDB instance are annotated with these project labels.
-
-For example, the following UI query selects Tahoe-100M datasets:
-
-<div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/F2BcIAi5eggMVXx40000.png" width="700" alt="LaminHub artifacts page filtered by Tahoe-100M project" style="padding: 0;">
-</div>
-
-The same query using the Python API:
-
-```python
-import lamindb as ln
-
-db = ln.DB("laminlabs/arc-virtual-cell-atlas")
-tahoe100M = db.Project.get(name="Tahoe-100M")
-db.Artifact.filter(projects=tahoe100M)
-```
-
 In total, the Arc Virtual Cell Atlas hosts around 600M cells, which lead to 2.5B transcriptional profiles through the five different ways of processing for all datasets except the 100M cells of the Tahoe-100M dataset.
 
 The LaminDB instance for the Arc Virtual Cell Atlas is organized around biological and experimental annotations that are familiar from single-cell analysis workflows:
