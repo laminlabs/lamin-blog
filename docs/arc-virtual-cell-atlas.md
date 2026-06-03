@@ -79,7 +79,7 @@ datasets <- db$Artifact$filter(
 :::::
 ::::::
 
-Each part of the filter is anchored to a registry entry. This makes the query easier to inspect and debug: `human` is an organism,`brain` is a tissue, `glioblastoma multiforme` is a disease annotation, and `GeneFull_Ex50pAS` is a `STARsolo count feature`. Selected datasets can then be loaded, cached, or streamed:
+Each part of the filter is anchored to a registry entry. This makes the query easier to inspect and debug: `human` is an organism, `brain` is a tissue, `glioblastoma multiforme` is a disease annotation, and `GeneFull_Ex50pAS` is a `STARsolo count feature`. Selected datasets can then be loaded, cached, or streamed:
 
 ::::::{tab-set}
 :::::{tab-item} Python
