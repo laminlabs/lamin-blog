@@ -25,6 +25,9 @@ For example, the following [UI query](https://lamin.ai/laminlabs/arc-virtual-cel
 
 The same query can be expressed through the Python/R APIs or via an agent prompted with "Give me all count matrices created for human brain tissue, glioblastome multiforme, and processed for feature types GeneFull_Ex50pAS":
 
+::::::{tab-set}
+:::::{tab-item} Python
+
 ```python
 import lamindb as ln
 
@@ -46,6 +49,35 @@ datasets = db.Artifact.filter(
     organisms=human,
 )
 ```
+
+:::::
+:::::{tab-item} R
+
+```r
+library(laminr)
+ln <- laminr::import_module("lamindb")
+
+db <- ln$DB("laminlabs/arc-virtual-cell-atlas")
+
+scbasecount <- db$Project$get(name = "scBaseCount")
+genefull_ex50pas <- db$ULabel$get(name = "GeneFull_Ex50pAS")
+gbm <- db$bionty$Disease$get(name = "glioblastoma multiforme")
+factors <- db$bionty$ExperimentalFactor$filter(name__in = c("10x_Genomics", "3_prime_gex"))$all()
+brain <- db$bionty$Tissue$get(name = "brain")
+human <- db$bionty$Organism$get(name = "human")
+
+datasets <- db$Artifact$filter(
+  projects = scbasecount,
+  ulabels = genefull_ex50pas,
+  diseases = gbm,
+  experimental_factors__in = factors,
+  tissues = brain,
+  organisms = human
+)
+```
+
+:::::
+::::::
 
 Because each dimension of the filter is based on its own registry, typos and other query issues are easy to debug. The query completes in much less than a second. If you then want to access the content of a dataset, you can run one of the following:
 
