@@ -32,19 +32,19 @@ import lamindb as ln
 db = ln.DB("laminlabs/arc-virtual-cell-atlas")
 
 scbase = db.Project.get(name="scBaseCount")
-genefull = db.ULabel.get(name="GeneFull_Ex50pAS")
 gbm = db.bionty.Disease.get(name="glioblastoma multiforme")
 brain = db.bionty.Tissue.get(name="brain")
 human = db.bionty.Organism.get(name="human")
 factors = db.bionty.ExperimentalFactor.filter(name__in=["10x_Genomics", "3_prime_gex"])
+genefull = db.ULabel.get(name="GeneFull_Ex50pAS")
 
 datasets = db.Artifact.filter(
     projects=scbase,
-    ulabels=genefull,
     diseases=gbm,
     tissues=brain,
     organisms=human,
     experimental_factors__in=factors,
+    ulabels=genefull,
     is_latest=True,
 )
 ```
@@ -58,20 +58,21 @@ ln <- laminr::import_module("lamindb")
 
 db <- ln$DB("laminlabs/arc-virtual-cell-atlas")
 
-scbasecount <- db$Project$get(name = "scBaseCount")
-genefull_ex50pas <- db$ULabel$get(name = "GeneFull_Ex50pAS")
+scbase <- db$Project$get(name = "scBaseCount")
+genefull <- db$ULabel$get(name = "GeneFull_Ex50pAS")
 gbm <- db$bionty$Disease$get(name = "glioblastoma multiforme")
-factors <- db$bionty$ExperimentalFactor$filter(name__in = c("10x_Genomics", "3_prime_gex"))$all()
 brain <- db$bionty$Tissue$get(name = "brain")
 human <- db$bionty$Organism$get(name = "human")
+factors <- db$bionty$ExperimentalFactor$filter(name__in = c("10x_Genomics", "3_prime_gex"))
 
 datasets <- db$Artifact$filter(
-  projects = scbasecount,
-  ulabels = genefull_ex50pas,
+  projects = scbase,
+  ulabels = genefull,
   diseases = gbm,
-  experimental_factors__in = factors,
   tissues = brain,
-  organisms = human
+  organisms = human,
+  experimental_factors__in = factors,
+  is_latest = TRUE
 )
 ```
 
