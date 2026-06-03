@@ -21,7 +21,7 @@ For example, we may want to find count matrices from all human brain samples ann
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-The same query can be expressed through the Python/R APIs or via an agent prompted with "Give me all count matrices created for human brain tissue, glioblastome multiforme, and processed for feature types GeneFull_Ex50pAS":
+The same query can be expressed through the open-source Python or R libraries, or through an agent prompt. Because LaminDB uses general registries for biological entities and operational metadata, the same query API can also be applied to other public atlases and in-house datasets.
 
 ::::::{tab-set}
 :::::{tab-item} Python
