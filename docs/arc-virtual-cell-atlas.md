@@ -79,7 +79,7 @@ datasets <- db$Artifact$filter(
 :::::
 ::::::
 
-Because each dimension of the filter is based on its own registry, typos and other query issues are easy to debug. The query completes in much less than a second. If you then want to access the content of a dataset, you can run one of the following:
+Each part of the filter is anchored to a registry entry. This makes the query easier to inspect and debug: `human` is an organism,`brain` is a tissue, `glioblastoma multiforme` is a disease annotation, and `GeneFull_Ex50pAS` is a `STARsolo count feature`. Selected datasets can then be loaded, cached, or streamed:
 
 ```python
 first_dataset = datasets[0]  # get the first dataset
