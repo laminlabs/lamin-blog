@@ -11,7 +11,7 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-The Arc Virtual Cell Atlas is the globally largest collection of homogeneously processed scRNA-seq datasets, available as a set of parquet and h5ad files on Google Cloud Storage.
+The Arc Virtual Cell Atlas is the globally largest collection of uniformly processed scRNA-seq datasets, available as a set of parquet and h5ad files on Google Cloud Storage.
 To offer queries by entities, a graphical user interface, and the lineage-aware sharing of datasets, we mirror the 2.5B transcriptional profiles in a LaminDB instance.
 The latency for queries across the 460k datasets is subsecond and data and metadata can easily be cached locally for efficient model training.
 
