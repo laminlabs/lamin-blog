@@ -135,7 +135,7 @@ In addition, each dataset in LaminDB comes with a schema that maps the entities 
 
 The database also offers 135 collections that are stratified by 27 organisms and 5 feature types. For example `scBaseCount/GeneFull_Ex50pAS/Homo_sapiens`, browsable here: [arc-virtual-cell-atlas/collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
 
-[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside CELLxGENE, HuBMAP, and other public atlases mirrored as LaminDB instances, allowing the same query patterns to be broadly re-used.
+[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside CELLxGENE, HuBMAP, and other public atlases mirrored as LaminDB instances, allowing the same query patterns to be reused across multiple resources.
 
 ## Code & data availability
 
