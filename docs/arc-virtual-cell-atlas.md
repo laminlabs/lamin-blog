@@ -110,16 +110,22 @@ with(first_dataset$open(), {  # streaming access
 :::::
 ::::::
 
-These commands retrieve the selected object while preserving a run record that points back to the original dataset in the Arc database.
-This means that downstream processing can be traced back to the source data.
-
-In this [example](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU), the same mechanism was used to sync `Tahoe-100M` datasets into a benchmarking database for machine-learning data loaders, including workflows that convert selected inputs to `.zarr` stores for some methods.
+Under-the-hood, these commands preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source data.
+This mechanism was used in this [example](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) to sync the `Tahoe-100M` datasets into a benchmarking database for ML data loaders:
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0000.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0001.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
 
-The LaminDB instance for the Arc Virtual Cell Atlas is organized around biological and experimental annotations that are familiar from single-cell analysis workflows:
+## Code & data availability
+
+- Tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas)
+- DB: [lamin.ai/laminlabs/arc-virtual-cell-atlas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas)
+- Repo: https://github.com/ArcInstitute/arc-virtual-cell-atlas
+
+## Entities
+
+The database is organized around biological and experimental entities that are familiar from single-cell analysis workflows:
 
 <!-- prettier-ignore -->
 Entity (click to explore) | Examples | Source
@@ -134,20 +140,6 @@ Entity (click to explore) | Examples | Source
 [STARsolo count feature](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/ulabel/f2O4a8gq) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features)
 [Release](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts?filter[and][0][or][0][branch.name][eq]=main&filter[and][1][or][0][is_latest][eq]=true&filter[and][2][or][0][version_tag][eq]=2026-01-12) | `version_tag` e.g. `2026-01-12` | scBaseCount release folder
 
-Each dataset in LaminDB comes with a schema that maps the entities of the above table to the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
-
-The database also includes 135 collections stratified by organism and STARsolo count feature. For example, the collection `scBaseCount/GeneFull_Ex50pAS/Homo_sapiens` can be browsed at [arc-virtual-cell-atlas/collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
-
-[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside CELLxGENE, HuBMAP, and other public atlases mirrored as LaminDB instances, allowing the same query patterns to be reused across multiple resources.
-
-Here is a step-by-step tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
-
-## Code & data availability
-
-- Repo: https://github.com/ArcInstitute/arc-virtual-cell-atlas
-- DB: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
-- Tutorial: https://docs.lamin.ai/arc-virtual-cell-atlas
-
 ## Releases
 
 We mirror the original releases. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
@@ -157,6 +149,10 @@ We mirror the original releases. You can use the `version_tag` to select a relea
 --- | --- | ---
 **`2026-01-12`** | [Publication release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2026-01-12-publication-release) (current) | >502M cells, 27 organisms, 5 STARsolo count features
 **`2025-02-25`** | [Initial release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2025-02-01-initial-release) | >230M cells, 21 organisms
+
+## Other atlases
+
+[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), [`laminlabs/hubmap`](https://lamin.ai/laminlabs/hubmap), and other public atlases available at [lamin.ai/explore](https://lamin.ai/explore) mirrored as LaminDB instances, allowing the same query patterns to be reused across multiple resources.
 
 ## Acknowledgements
 
