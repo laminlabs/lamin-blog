@@ -88,7 +88,7 @@ Selected datasets can then be loaded, cached, or streamed:
 first_dataset = datasets[0]
 adata = first_dataset.load()  # cache and load into memory
 local_filepath = first_dataset.cache()  # cache and return file path
-with first_dataset.open() as adata:  # streaming access
+with first_dataset.open() as adata:  # stream slices from cloud storage
     ...
 ```
 
@@ -99,7 +99,7 @@ with first_dataset.open() as adata:  # streaming access
 first_dataset <- datasets[[1]]
 adata <- first_dataset$load()  # cache and load into memory
 local_filepath <- first_dataset$cache()  # cache and return file path
-with(first_dataset$open(), {  # streaming access
+with(first_dataset$open(), {  # stream slices from cloud storage
   ...
 })
 ```
