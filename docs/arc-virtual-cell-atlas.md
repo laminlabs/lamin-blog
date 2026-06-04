@@ -21,7 +21,7 @@ For example, we may want to find count matrices from all human brain samples ann
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-The same query can be expressed through open-source Python or R libraries:
+The same query can be expressed in Python or R:
 
 ::::::{tab-set}
 :::::{tab-item} Python
