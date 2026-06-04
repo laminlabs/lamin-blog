@@ -82,13 +82,14 @@ datasets <- db$Artifact$filter(
 :::::
 ::::::
 
-Queried datasets can then be loaded, cached, or streamed for cell-level slicing:
+Queried datasets can then be transfered, loaded, cached, or streamed for cell-level slicing:
 
 ::::::{tab-set}
 :::::{tab-item} Python
 
 ```python
 first_dataset = datasets[0]
+first_dataset.save()  # zero-copy transfer into your own database
 adata = first_dataset.load()  # cache and load into memory
 local_filepath = first_dataset.cache()  # cache and return file path
 with first_dataset.open() as adata:  # stream slices from cloud storage
@@ -100,6 +101,7 @@ with first_dataset.open() as adata:  # stream slices from cloud storage
 
 ```r
 first_dataset <- datasets[[1]]
+first_dataset$save()  # zero-copy transfer into your own database
 adata <- first_dataset$load()  # cache and load into memory
 local_filepath <- first_dataset$cache()  # cache and return file path
 with(first_dataset$open(), {  # stream slices from cloud storage
@@ -110,8 +112,9 @@ with(first_dataset$open(), {  # stream slices from cloud storage
 :::::
 ::::::
 
-Under the hood, these commands preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source.
-For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) we synced the `Tahoe-100M` datasets into a benchmarking database for ML data loaders:
+Under the hood, these methods preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source.
+For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) we used the `.save()` method to sync the `Tahoe-100M` datasets into a benchmarking database for ML data loaders.
+The data lineage graph shows the link to the data source:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0001.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
