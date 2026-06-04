@@ -15,9 +15,6 @@ With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell
 Arc distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
 We present a mirror in a LaminDB instance to offer database queries by entities, a graphical user interface, and lineage-aware sharing of datasets.
 
-The original Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhang25] and `scBaseCount`.[^youngblut25] Datasets in the LaminDB instance are annotated with these project labels.
-In total, the atlas hosts around 600M cells, which yield 2.5B transcriptional profiles due to five different processing pipelines.
-
 For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme and processed with a certain pipeline. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. LaminDB makes the access more convenient by mapping the datasets into a general query API that's based on entities, comes with a graphical UI, and is applicable to a wide range of dataset collections. The following UI query selects the relevant organism, tissue, disease, and processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
 
 <div style="text-align: center">
@@ -142,7 +139,7 @@ Entity (click to explore) | Examples | Source
 
 ## Releases
 
-We mirror the original releases. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
+The Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhang25] and `scBaseCount`.[^youngblut25] The `scBaseCount` comes with two releases, which we mirror. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
 
 <!-- prettier-ignore -->
 `version_tag` | Arc release | Scale
