@@ -85,7 +85,7 @@ Selected datasets can then be loaded, cached, or streamed:
 :::::{tab-item} Python
 
 ```python
-first_dataset = datasets[0]  # get the first dataset
+first_dataset = datasets[0]
 adata = first_dataset.load()  # cache and load into memory
 local_filepath = first_dataset.cache()  # cache and return file path
 with first_dataset.open() as adata:  # streaming access
@@ -96,7 +96,7 @@ with first_dataset.open() as adata:  # streaming access
 :::::{tab-item} R
 
 ```r
-first_dataset <- datasets[[1]]  # get the first dataset
+first_dataset <- datasets[[1]]
 adata <- first_dataset$load()  # cache and load into memory
 local_filepath <- first_dataset$cache()  # cache and return file path
 with(first_dataset$open(), {  # streaming access
