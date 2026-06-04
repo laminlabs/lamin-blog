@@ -11,7 +11,7 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-With 2.5B expression profiles that map on about 600M cells, the Arc Virtual Cell Atlas is the globally largest collection of uniformly processed scRNA-seq datasets.
+With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas is the globally largest collection of uniformly processed scRNA-seq datasets.
 Arc distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
 We present a mirror in a LaminDB instance to offer database queries by entities, a graphical user interface, and the lineage-aware sharing of datasets.
 
@@ -148,25 +148,9 @@ Here is a step-by-step tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://
 - DB: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 - Tutorial: https://docs.lamin.ai/arc-virtual-cell-atlas
 
-## Acknowledgements
+## Releases
 
-We're grateful to the creators of the original resource[^youngblut25][^zhang25] for sharing it publicly on a scalable storage backend. We're particularly grateful to Nicholas Youngblut for helping with questions regarding the structure of the atlas and reviewing the tutorial.
-
-## Methods
-
-The [Arc Virtual Cell Atlas](https://arcinstitute.org/tools/virtualcellatlas) combines [scBaseCount](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/scBaseCount) and [Tahoe-100M](https://github.com/ArcInstitute/arc-virtual-cell-atlas/tree/main/tahoe-100M) — roughly 460k files and on the order of 600 million cells.[^youngblut25] Arc Insitute hosts the data on Google Cloud Storage (GCS) under `gs://arc-institute-virtual-cell-atlas`.
-
-In the LaminDB mirror, we register the same files Arc hosts on GCS: we do not copy the original `.h5ad` or `.parquet` files. In LaminDB, each file maps onto an artifact that points to the original path, and is annotated with metadata to enable queries and search.
-
-**scBaseCount:** `scBaseCount_obs_schema` for [sample-level fields](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#metadata); per-organism AnnData schemas such as `scBaseCount_Homo_sapiens_anndata_schema` for each release’s h5ads.
-
-**Tahoe-100M:** `tahoe100_obs_schema` and `tahoe100_var_schema` for columns in the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md). Tahoe registers `obs_metadata.parquet` for bulk cell-level fields (`plate`, `BARCODE_SUB_LIB_ID`, `drug`, …); see the [Tahoe README](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/tahoe-100M/README.md).
-
-`describe()` prints linked annotations, the schema, and storage details. You can also browse schemas [on the UI](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/schemas).
-
-In this context, an artifact is usually a single registered file such as an `.h5ad` or `.parquet` file. In some cases, an artifact can also be a folder, for example a STAR reference under `star_references/<organism>/` for the `2026-01-12` release. LaminDB stores the path, size, and hash for each artifact, and links annotated files to the metadata entities listed above.
-
-**scBaseCount releases.** Both Arc snapshots are registered:
+We mirror the original releases. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
 
 <!-- prettier-ignore -->
 `version_tag` | Arc release | Scale
@@ -174,7 +158,9 @@ In this context, an artifact is usually a single registered file such as an `.h5
 **`2026-01-12`** | [Publication release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2026-01-12-publication-release) (current) | >502M cells, 27 organisms, 5 STARsolo count features
 **`2025-02-25`** | [Initial release](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#2025-02-01-initial-release) | >230M cells, 21 organisms
 
-You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
+## Acknowledgements
+
+We're grateful to the creators of the original resource[^youngblut25][^zhang25] for sharing it publicly on a scalable storage backend. We're particularly grateful to Nicholas Youngblut for helping with questions regarding the structure of the atlas and reviewing the tutorial.
 
 ## Author contributions
 
