@@ -82,7 +82,7 @@ datasets <- db$Artifact$filter(
 :::::
 ::::::
 
-Queried datasets can then be transfered, loaded, cached, or streamed for cell-level slicing:
+Queried datasets can then be transferred, loaded, cached, or streamed for cell-level slicing:
 
 ::::::{tab-set}
 :::::{tab-item} Python
@@ -141,7 +141,7 @@ Entity (click to explore) | Examples | Source
 
 ## Releases
 
-The Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhang25] and `scBaseCount`.[^youngblut25] `scBaseCount` comes with two releases, which we mirror. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
+The Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhang25] and `scBaseCount`.[^youngblut25] `scBaseCount` comes with two releases, which we mirror. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. For Tahoe-100M, the latest release is `2025-02-25`.
 
 <!-- prettier-ignore -->
 `version_tag` | Arc release | Scale
