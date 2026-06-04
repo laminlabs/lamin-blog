@@ -114,11 +114,7 @@ This mechanism was used in this [example](https://lamin.ai/laminlabs/arrayloader
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0001.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
 
-## Code & data availability
-
-- Tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas)
-- DB: [lamin.ai/laminlabs/arc-virtual-cell-atlas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas)
-- Repo: https://github.com/ArcInstitute/arc-virtual-cell-atlas
+For a detailed walk-through, read the tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
 ## Entities
 
@@ -150,6 +146,12 @@ The Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhan
 ## Other atlases
 
 [`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), [`laminlabs/hubmap`](https://lamin.ai/laminlabs/hubmap), and other public atlases available at [lamin.ai/explore](https://lamin.ai/explore) mirrored as LaminDB instances, allowing the same query patterns to be reused across multiple resources.
+
+## Code & data availability
+
+- Tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas)
+- DB: [lamin.ai/laminlabs/arc-virtual-cell-atlas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas)
+- Repo: https://github.com/ArcInstitute/arc-virtual-cell-atlas
 
 ## Acknowledgements
 
