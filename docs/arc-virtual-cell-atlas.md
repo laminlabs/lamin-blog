@@ -11,15 +11,14 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas is the world's largest collection of uniformly processed scRNA-seq datasets.
+With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas offers the world's largest collection of uniformly processed scRNA-seq datasets.
 Arc Institute distributes the atlas as 460k parquet and h5ad files with 41TB on Google Cloud Storage.
 We present a database mirror that offers queries by entities, a graphical user interface, and zero-copy, lineage-aware sharing of datasets.
 
-For example, one might want to find dataasets for human brain samples linked to glioblastoma that were processed with a certain pipeline.
+For example, you might want to find datasets for human brain samples linked to glioblastoma that were processed with a certain pipeline.
 In the original atlas,[^youngblut25] this requires scanning directories and parquet files.
-In a database, you can directly express queries through the entities you care about.
-Here, these are organisms, tissues, diseases, and processing pipelines.
-The screenshot shows a query via [lamin.ai/laminlabs/arc-virtual-cell-atlas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts):
+In a database, you can express queries through the entities you care about: the organism, tissue, disease, and the processing pipeline.
+The screenshot shows how this works on [lamin.ai/laminlabs/arc-virtual-cell-atlas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts):
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
@@ -83,7 +82,7 @@ datasets <- db$Artifact$filter(
 :::::
 ::::::
 
-Selected datasets can then be loaded, cached, or streamed:
+Queried datasets can then be loaded, cached, or streamed for cell-level slicing:
 
 ::::::{tab-set}
 :::::{tab-item} Python
@@ -111,18 +110,18 @@ with(first_dataset$open(), {  # stream slices from cloud storage
 :::::
 ::::::
 
-Under-the-hood, these commands preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source data.
-This mechanism was used in this [example](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) to sync the `Tahoe-100M` datasets into a benchmarking database for ML data loaders:
+Under-the-hood, these commands preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source.
+For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) we synced the `Tahoe-100M` datasets into a benchmarking database for ML data loaders:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0001.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
 
-For a detailed walk-through and cell-level queries, read the tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
+For a detailed walk-through, read the tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
 ## Entities
 
-The database is organized around biological and experimental entity types that are familiar from single-cell analysis workflows. In LaminDB, these entity types map on biological ontologies and experimental registries through an adaptation of the Django ORM. You can explore them on the UI and in the API reference:
+The database is organized around entity types that are familiar from single-cell analysis workflows. In LaminDB, these entity types map on biological ontologies and experimental registries through an adaptation of the Django ORM. You can explore them on the UI and in the API reference:
 
 <!-- prettier-ignore -->
 Entity (click to explore) | Examples | Source
