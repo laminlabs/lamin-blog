@@ -15,13 +15,17 @@ With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell
 Arc Institute distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
 We present a database mirror that offers queries by entities, a graphical user interface, and lineage-aware sharing of datasets.
 
-For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme and processed with a certain pipeline. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. In LaminDB, you can directly express queries through entities you care about. Here, these are organism, tissue, disease, and a processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
+For example, one might want to find count matrices for human brain samples with glioblastoma that were processed with a certain pipeline.
+In the original atlas,[^youngblut25] this requires scanning directories and parquet files.
+In a database you can directly express queries through the entities you care about.
+Here, these are organisms, tissues, diseases, and processing pipelines.
+The screenshot shows query on [laminlabs/arc-virtual-cell-atlas/artifacts](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts):
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-The same query can be expressed in Python or R:
+The same query can also be expressed in Python or R:
 
 ::::::{tab-set}
 :::::{tab-item} Python
