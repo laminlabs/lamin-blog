@@ -12,7 +12,7 @@ db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
 With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas offers the world's largest collection of uniformly processed scRNA-seq datasets.
-Arc Institute distributes the atlas as 460k parquet and h5ad files with 41TB on Google Cloud Storage.
+Arc Institute distributes the atlas as 460k parquet and h5ad files totaling 41TB on Google Cloud Storage.
 We present a database mirror that offers queries by entities, a graphical user interface, and zero-copy, lineage-aware sharing of datasets.
 
 For example, you might want to find datasets for human brain samples linked to glioblastoma that were processed with a certain pipeline.
@@ -148,7 +148,7 @@ The Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhan
 
 ## Other atlases
 
-[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), [`laminlabs/hubmap`](https://lamin.ai/laminlabs/hubmap), and other public atlases available at [lamin.ai/explore](https://lamin.ai/explore) mirrored as LaminDB instances, allowing the same query patterns to be reused across multiple resources.
+[`laminlabs/arc-virtual-cell-atlas`](https://lamin.ai/laminlabs/arc-virtual-cell-atlas) exists alongside [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), [`laminlabs/hubmap`](https://lamin.ai/laminlabs/hubmap), and other public atlases mirrored as LaminDB instances at [lamin.ai/explore](https://lamin.ai/explore), allowing the same query patterns to be reused across multiple resources.
 
 ## Code & data availability
 
