@@ -110,7 +110,7 @@ with(first_dataset$open(), {  # stream slices from cloud storage
 :::::
 ::::::
 
-Under-the-hood, these commands preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source.
+Under the hood, these commands preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source.
 For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) we synced the `Tahoe-100M` datasets into a benchmarking database for ML data loaders:
 
 <div style="text-align: center">
@@ -121,7 +121,7 @@ For a detailed walk-through, read the tutorial: [docs.lamin.ai/arc-virtual-cell-
 
 ## Entities
 
-The database is organized around entity types that are familiar from single-cell analysis workflows. In LaminDB, these entity types map on biological ontologies and experimental registries through an adaptation of the Django ORM. You can explore them on the UI and in the API reference:
+The database is organized around entity types that are familiar from single-cell analysis workflows. In LaminDB, these entity types map to biological ontologies and experimental registries through an adaptation of the Django ORM. You can explore them on the UI and in the API reference:
 
 <!-- prettier-ignore -->
 Entity (click to explore) | Examples | Source
@@ -138,7 +138,7 @@ Entity (click to explore) | Examples | Source
 
 ## Releases
 
-The Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhang25] and `scBaseCount`.[^youngblut25] The `scBaseCount` comes with two releases, which we mirror. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
+The Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhang25] and `scBaseCount`.[^youngblut25] `scBaseCount` comes with two releases, which we mirror. You can use the `version_tag` to select a release or keep the default of `is_latest=True` to select the latest release. Paths follow `scbasecount/<version>/h5ad/...` on `gs://arc-institute-virtual-cell-atlas`. For Tahoe-100M, the latest release is `2025-02-25`.
 
 <!-- prettier-ignore -->
 `version_tag` | Arc release | Scale
