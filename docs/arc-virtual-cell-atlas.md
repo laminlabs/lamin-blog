@@ -12,8 +12,8 @@ db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
 With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas is the world's largest collection of uniformly processed scRNA-seq datasets.
-Arc distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
-We present a mirror in a LaminDB instance to offer database queries by entities, a graphical user interface, and lineage-aware sharing of datasets.
+Arc Institute distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
+We present a database mirror that offers queries by entities, a graphical user interface, and lineage-aware sharing of datasets.
 
 For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme and processed with a certain pipeline. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. In LaminDB, you can directly express queries through entities you care about. Here, these are organism, tissue, disease, and a processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
 
