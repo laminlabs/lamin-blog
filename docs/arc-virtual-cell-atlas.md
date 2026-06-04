@@ -11,17 +11,20 @@ affiliation:
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
 ---
 
-With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas is the globally largest collection of uniformly processed scRNA-seq datasets.
+With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas is the world's largest collection of uniformly processed scRNA-seq datasets.
 Arc distributes the atlas as 460k parquet and h5ad files on Google Cloud Storage.
-We present a mirror in a LaminDB instance to offer database queries by entities, a graphical user interface, and the lineage-aware sharing of datasets.
+We present a mirror in a LaminDB instance to offer database queries by entities, a graphical user interface, and lineage-aware sharing of datasets.
 
-For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme and processed with a certain pipeline. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. LaminDB makes the access more convenient by mapping the datasets into a general query API that's based on entities, comes with a graphical UI, and is applicable for a wide range of collections of datasets. The following UI query selects the relevant organism, tissue, disease, and processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
+The original Arc Virtual Cell Atlas combines two major data resources: `Tahoe-100M`[^zhang25] and `scBaseCount`.[^youngblut25] Datasets in the LaminDB instance are annotated with these project labels.
+In total, the atlas hosts around 600M cells, which yield 2.5B transcriptional profiles due to five different processing pipelines.
+
+For example, we may want to find count matrices from all human brain samples annotated with glioblastoma multiforme and processed with a certain pipeline. In the original atlas,[^youngblut25] this requires scanning directories and parquet files. LaminDB makes the access more convenient by mapping the datasets into a general query API that's based on entities, comes with a graphical UI, and is applicable to a wide range of dataset collections. The following UI query selects the relevant organism, tissue, disease, and processing pipeline (`GeneFull_Ex50pAS` STARsolo count features):
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
-The same query can be expressed through open-source Python or R libraries, which are easily obtained through an agent prompt.
+The same query can be expressed through open-source Python or R libraries:
 
 ::::::{tab-set}
 :::::{tab-item} Python
@@ -116,9 +119,6 @@ In this [example](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDt
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0000.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
 
-The original Arc Virtual Cell Atlas combines two major data resources: [Tahoe-100M](https://biorxiv.org/10.1101/2025.02.20.639398)[^zhang25] and [scBaseCount](https://arcinstitute.org/manuscripts/scBaseCount).[^youngblut25] Datasets in the LaminDB instance are annotated with these project labels.
-In total, the Arc Virtual Cell Atlas hosts around 600M cells, which lead to 2.5B transcriptional profiles through the five different ways of processing for all datasets except the 100M cells of the Tahoe-100M dataset.
-
 The LaminDB instance for the Arc Virtual Cell Atlas is organized around biological and experimental annotations that are familiar from single-cell analysis workflows:
 
 <!-- prettier-ignore -->
@@ -134,7 +134,7 @@ Entity (click to explore) | Examples | Source
 [STARsolo count feature](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/ulabel/f2O4a8gq) | `Gene`, `GeneFull_Ex50pAS`, `Velocyto`, … | [scBaseCount feature types](https://github.com/ArcInstitute/arc-virtual-cell-atlas/blob/main/scBaseCount/README.md#starsolo-count-features)
 [Release](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts?filter[and][0][or][0][branch.name][eq]=main&filter[and][1][or][0][is_latest][eq]=true&filter[and][2][or][0][version_tag][eq]=2026-01-12) | `version_tag` e.g. `2026-01-12` | scBaseCount release folder
 
-Each dataset in LaminDB comes with a schema that maps the entities of above table on the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
+Each dataset in LaminDB comes with a schema that maps the entities of the above table to the features measured in the dataset, for example, `srx_accession`, `tissue`, `gene_count`, `plate`, `drug`, `cell_line` in addition to the numerical counts. This means you can query datasets by whether they measured a given feature.
 
 The database also includes 135 collections stratified by organism and STARsolo count feature. For example, the collection `scBaseCount/GeneFull_Ex50pAS/Homo_sapiens` can be browsed at [arc-virtual-cell-atlas/collections](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/collections).
 
