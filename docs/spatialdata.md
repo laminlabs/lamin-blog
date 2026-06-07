@@ -29,7 +29,7 @@ This means you can query datasets by any feature and entity you care about witho
 
 :::::{tab-set}
 
-::::{tab-item} By strings
+::::{tab-item} Via strings
 
 ```python
 import lamindb as ln
