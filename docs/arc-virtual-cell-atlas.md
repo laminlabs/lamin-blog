@@ -21,7 +21,7 @@ In a database, you can express queries through the entities you care about: the 
 The screenshot shows how this works on [lamin.ai/laminlabs/arc-virtual-cell-atlas](https://lamin.ai/laminlabs/arc-virtual-cell-atlas/artifacts):
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0001.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zLm6239ndakZStoi0002.png" width="700" alt="LaminHub artifacts page filtered by organism and tissue metadata" style="padding: 0;">
 </div>
 
 The same query can also be expressed in Python or R:
@@ -117,7 +117,7 @@ For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/B
 The data lineage graph shows the link to the data source:
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0001.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0002.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
 
 For a detailed walk-through, read the tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
