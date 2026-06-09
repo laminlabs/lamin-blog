@@ -119,7 +119,7 @@ For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/B
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0002.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
 
-By applying fast data loaders such as `annbatch` or `scdataset` to locally cached arrays, one can achieve loading times of 50k - 80k vectors/second. Here is an example for such a [data loading run](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW).
+By applying fast data loaders such as `annbatch`[^gold26] or `scdataset`[^dascenzo25] to locally cached arrays, one can achieve loading times of 50k - 80k vectors/second. Here is an example for such a [data loading run](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW).
 
 For a detailed walk-through, read the tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
@@ -181,3 +181,7 @@ Sun S, Rybakov S, Enard F, Sriworarat C & Wolf A (2026). Simpler queries for the
 [^youngblut25]: Youngblut ND et al. (2025). scBaseCount: an AI agent-curated, uniformly processed, and continually expanding single cell data repository. [bioRxiv](https://www.biorxiv.org/content/10.1101/2025.02.27.640494).
 
 [^zhang25]: Zhang JQ et al. (2025). Tahoe-100M: A Giga-Scale Single-Cell Perturbation Atlas for Context-Dependent Gene Function and Cellular Modeling. [bioRxiv](https://www.biorxiv.org/content/10.1101/2025.02.20.639398).
+
+[^gold26]: Gold I et al. (2026). MCML - Annbatch Unlocks Terabyte-Scale Training of Biological Data in Anndata. [arXiv](https://arxiv.org/abs/2604.01949).
+
+[^dascenzo25]: D'Ascenzo D & Cultrera di Montesano S (2025). scDataset: Scalable Data Loading for Deep Learning on Large-Scale Single-Cell Omics. [arXiv](https://arxiv.org/abs/2506.01883).
