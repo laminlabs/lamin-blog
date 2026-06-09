@@ -34,10 +34,11 @@ The Lightning integration connects both worlds.
 Before showing the integration, it helps to recall what plain PyTorch Lightning already does.
 
 Checkpointing is handled by the `ModelCheckpoint` callback.
-You tell it where to write files (`dirpath`), how to name them (`filename`), which metric to watch (`monitor`), and how many of the best ones to keep (`save_top_k`).
+You tell it how to name files (`filename`), which metric to watch (`monitor`), and how many of the best ones to keep (`save_top_k`).
+Where the files actually land is usually inherited from the trainer's logger — its `save_dir`, run name, and version together form the checkpoint directory (when several loggers are configured, the first one decides).
 During training it writes `.ckpt` files to disk and keeps the top-k around, deleting the rest as better checkpoints appear.
 
-If you launch training through `LightningCLI`, there is a second callback worth knowing: `SaveConfigCallback`.
+If you launch training through [`LightningCLI`](https://lightning.ai/docs/pytorch/stable/cli/lightning_cli.html), there is a second callback worth knowing: `SaveConfigCallback`.
 It takes the fully resolved configuration of your run — every model, data, and trainer setting merged from your YAML files and command line — and writes it to a `config.yaml` next to your logs.
 That file is what makes a run reproducible: it records exactly how the run was set up.
 
@@ -84,18 +85,18 @@ trainer = pl.Trainer(
 trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
 ```
 
-Every artifact in LaminDB has a **key** — a path-like string that identifies it, much like a filename.
-By default (`run_uid_is_version=True`), the integration weaves the current Lamin run's UID into that key.
-So instead of saving a checkpoint under `checkpoints/epoch=9-step=30.ckpt`, it saves it under a key that includes the run UID, e.g. `checkpoints/<run-uid>/.../epoch=9-step=30.ckpt`.
+By default, a checkpoint's artifact key mirrors the directory layout Lightning uses on disk, for example `lightning_logs/version_0/checkpoints/epoch=9-step=30.ckpt`, except for that the "version_0" part of
+that path is replaced by the globally unique Lamin run UID (`run_uid_is_version=True`, the default).
 
-Why bother? Without it, two different training runs that both produce `epoch=9-step=30.ckpt` would map to the *same* key, and the second run would overwrite the first.
-Folding the run UID into the key gives every run its own namespace, so checkpoints from different runs never collide.
-In most workflows this default is exactly what you want.
+We do this to prevent key clashes. On a single, long-lived machine, Lightning's logger auto-increments the version directory each run — `version_0`, `version_1`, and so on — so runs wouldn't overwrite one another.
+But on a different machine or a fresh container the counter resets to `version_0`, so unrelated runs there produce the same path and the second silently overwrites the first.
+
+The checkpoint then lands under something like `lightning_logs/<run-uid>/checkpoints/epoch=9-step=30.ckpt`, giving every run its own namespace — no collisions, even across machines or containers.
 
 With Lamin features such as `is_last_model` and `model_rank` (described below), you can already query for the latest or best checkpoint directly, so you usually don't need Lightning's separate `save_last` filename convention.
 
 If you launch training through `LightningCLI`, pair the checkpoint callback with `ll.SaveConfigCallback`.
-Where plain Lightning's `SaveConfigCallback` only writes `config.yaml` to disk, the LaminDB version *also* registers that config as an artifact next to the checkpoints, so the run's configuration becomes part of the same queryable lineage:
+Where plain Lightning's `SaveConfigCallback` only writes `config.yaml` to disk, the LaminDB version *also* uploads that config as an artifact next to the checkpoints, so the run's configuration becomes part of the same queryable lineage:
 
 ```python
 from lightning.pytorch.cli import LightningCLI
@@ -134,7 +135,7 @@ Artifact: checkpoints/epoch=9-step=30.ckpt
     └── .projects                  Project      My training project
 ```
 
-## Composing with W&B
+## Composing with metric tracking dashboards
 
 The callback composes naturally with Weights & Biases.
 Pass the W&B run ID as a run-level feature to keep both systems in sync:
@@ -144,8 +145,9 @@ from lightning.pytorch.loggers import WandbLogger
 
 wandb_logger = WandbLogger(project="my-project")
 
+# no dirpath needed: the WandbLogger drives the artifact key and the Lamin run
+# UID keeps runs from colliding. The W&B run is linked as a queryable feature.
 lamindb_callback = ll.Checkpoint(
-    dirpath=f"checkpoints/{wandb_logger.experiment.id}",
     features={
         "run": {
             "wandb_run_id": wandb_logger.experiment.id,
