@@ -9,6 +9,7 @@ affiliation:
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/arc-virtual-cell-atlas
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7470102306735230976/
 ---
 
 With 2.5B expression profiles that map to about 600M cells, the Arc Virtual Cell Atlas offers the world's largest collection of uniformly processed scRNA-seq datasets.
