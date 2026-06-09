@@ -1,6 +1,6 @@
 ---
 title: "Simpler queries for the 2.5B transcriptional profiles of the Arc Virtual Cell Atlas"
-date: 2026-06-02
+date: 2026-06-09
 author: sunnyosun, Koncopd, fredericenard, chaichontat, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
