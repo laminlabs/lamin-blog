@@ -126,7 +126,7 @@ For a detailed walk-through, read the tutorial: [docs.lamin.ai/arc-virtual-cell-
 
 ## Entities
 
-The database is organized around entity types that are familiar from single-cell analysis workflows. In LaminDB, these entity types map to biological ontologies and experimental registries through an adaptation of the Django ORM. You can explore them on the UI and in the API reference:
+The database is organized around entity types that are familiar from single-cell analysis workflows. In LaminDB, these entity types map to biological ontologies and experimental registries through an adaptation of the Django ORM. You can explore them on the UI and in the [API reference](https://docs.lamin.ai/bionty):
 
 <!-- prettier-ignore -->
 Entity (click to explore) | Examples | Source
