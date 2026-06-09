@@ -113,12 +113,13 @@ with(first_dataset$open(), {  # stream slices from cloud storage
 ::::::
 
 Under the hood, these methods preserve a run object that points back to the original dataset in the Arc database so that downstream processing can be traced back to the source.
-For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) we used the `.save()` method to sync the `Tahoe-100M` datasets into a benchmarking database for ML data loaders.
-The data lineage graph shows the link to the data source:
+For example, [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/BDttiuV3Te8VB0dU) we used the `.save()` method to sync the `Tahoe-100M` datasets into a database for benchmarking different ML data loaders:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/D5nJXInD6i3qMItB0002.png" width="700" alt="LaminHub example of lineage-aware syncing of Tahoe-100M datasets" style="padding: 0;">
 </div>
+
+By applying fast data loaders such as `annbatch` or `scdataset` to locally cached arrays, one can achieve loading times of 50k - 80k vectors/second. Here is an example for such a [data loading run](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW).
 
 For a detailed walk-through, read the tutorial: [docs.lamin.ai/arc-virtual-cell-atlas](https://docs.lamin.ai/arc-virtual-cell-atlas).
 
