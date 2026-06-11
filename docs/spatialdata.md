@@ -29,7 +29,7 @@ This means you can query datasets by any feature and entity you care about witho
 
 :::::{tab-set}
 
-::::{tab-item} By strings
+::::{tab-item} Via strings
 
 ```python
 import lamindb as ln
@@ -55,8 +55,8 @@ db = ln.DB("laminlabs/lamindata")
 
 # more explicit: query the feature registry and construct expressions
 xenium_datasets = db.Artifact.filter(
-    ln.Feature.get(name="assay") == "Xenium Spatial Gene Expression",
-    ln.Feature.get(name="disease") == "ductal breast carcinoma in situ",
+    db.Feature.get(name="assay") == "Xenium Spatial Gene Expression",
+    db.Feature.get(name="disease") == "ductal breast carcinoma in situ",
 )
 xenium_datasets.to_dataframe()
 ```
@@ -73,8 +73,8 @@ db = ln.DB("laminlabs/lamindata")
 
 # very explicit: query ontological registries and construct expressions
 xenium_datasets = db.Artifact.filter(
-    ln.Feature.get(name="assay") == bt.ExperimentalFactor.get(name="Xenium Spatial Gene Expression"),
-    ln.Feature.get(name="disease") == bt.Disease.get(name="ductal breast carcinoma in situ"),
+    db.Feature.get(name="assay") == db.bionty.ExperimentalFactor.get(name="Xenium Spatial Gene Expression"),
+    db.Feature.get(name="disease") == db.bionty.Disease.get(name="ductal breast carcinoma in situ"),
 )
 xenium_datasets.to_dataframe()
 ```
