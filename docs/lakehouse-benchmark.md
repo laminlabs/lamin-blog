@@ -2,9 +2,9 @@
 title: "Lakehouse Engineering: Benchmarking Metadata-Driven Query Optimization"
 date: 2026-06-25
 author: 
-  - Raaghav Pillai
+  - Raaghav Pillai, Alex Wolf, Sergei R
 affiliation:
-  Raaghav Pillai: University of Illinois Urbana-Champaign / Lamin Labs Intern
+  Raaghav Pillai: Lamin Labs Intern
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
