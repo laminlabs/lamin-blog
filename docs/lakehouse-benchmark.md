@@ -2,9 +2,11 @@
 title: "Lakehouse Engineering: Benchmarking Metadata-Driven Query Optimization"
 date: 2026-06-25
 author: 
-  - Raaghav Pillai, Alex Wolf, Sergei R
+  - raaghavpillai, Koncopd, falexwolf
 affiliation:
-  Raaghav Pillai: Lamin Labs Intern
+  raaghavpillai: Lamin Labs Intern
+  Koncopd: Lamin Labs, Munich
+  falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
@@ -7382,7 +7384,7 @@ For teams selecting a query engine over a LaminDB collection, the relevant dimen
 
 ## Author contributions
 
-Raaghav Pillai performed the benchmarking work and wrote the pipelines. The original LaminDB ingestion pipeline this work builds on was developed by Sunny Sun. Alex Wolf and Sergei R supervised the project.
+Raaghav Pillai performed the benchmarking work and wrote the pipelines. The original LaminDB ingestion pipeline this work builds on was developed by Sunny Sun. Alex Wolf and Sergei Rybakov supervised the project.
 
 ## Code & data availability
 
@@ -7399,7 +7401,7 @@ The dataset is the 1000 Genomes Project CNV calls (DRAGEN, hg38), collection UID
 ## How to cite
 
 ```
-Pillai R, Sun S, Wolf A & R Sergei(2026). Five ways to query a LaminDB collection:
+Pillai R, Rybakov S & Wolf A(2026). Five ways to query a LaminDB collection:
 a developer-experience comparison of PyArrow, Polars, DuckDB, Iceberg, and LanceDB.
 Lamin Blog.
 ```
