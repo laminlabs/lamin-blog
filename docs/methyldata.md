@@ -1,5 +1,5 @@
 ---
-title: "MethylGPT's DNA methylation data curated: 150k profiles from 5281 datasets"
+title: "methyldata - An atlas for methylation datasets based on MethylGPT"
 date: 2026-06-25
 author: namsaraeva, sheetalgiri, falexwolf, sunnyosun
 affiliation:
