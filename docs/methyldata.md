@@ -1,12 +1,7 @@
 ---
 title: "MethylGPT's DNA methylation data curated: 150k profiles from 5281 datasets"
-date: 2026-03-03
+date: 2026-06-25
 author: namsaraeva, sheetalgiri, falexwolf, sunnyosun
-orcid:
-  namsaraeva: 0000-0001-6071-9410
-  sheetalgiri: 0009-0005-2852-074X
-  falexwolf: 0000-0002-8760-7838  
-  sunnyosun: 0000-0002-2365-0888
 affiliation:
   namsaraeva: Lamin Labs, Munich
   sheetalgiri: Lamin Labs, Munich
