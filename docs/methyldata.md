@@ -1,5 +1,5 @@
 ---
-title: "methyldata - An atlas for methylation datasets based on MethylGPT"
+title: "methyldata - An atlas for methylation datasets based on MethylGPT's training data"
 date: 2026-06-25
 author: namsaraeva, sheetalgiri, falexwolf, sunnyosun
 affiliation:
