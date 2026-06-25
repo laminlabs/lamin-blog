@@ -1,9 +1,8 @@
 ---
 title: "Lakehouse Engineering: Benchmarking Metadata-Driven Query Optimization"
 date: 2026-06-25
-author: raaghavpillai, Koncopd, falexwolf
+author: Koncopd, falexwolf
 affiliation:
-  raaghavpillai: Lamin Labs Intern
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
