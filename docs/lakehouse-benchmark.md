@@ -7374,7 +7374,7 @@ For teams selecting a query engine over a LaminDB collection, the relevant dimen
 
 ## Author contributions
 
-Raaghav Pillai performed the benchmarking work and wrote the pipelines. The original LaminDB ingestion pipeline this work builds on was developed by Sunny Sun. Alex Wolf supervised the project.
+Raaghav Pillai performed the benchmarking work and wrote the pipelines. The original LaminDB ingestion pipeline this work builds on was developed by Sunny Sun. Alex Wolf and Sergei R supervised the project.
 
 ## Code & data availability
 
@@ -7391,7 +7391,7 @@ The dataset is the 1000 Genomes Project CNV calls (DRAGEN, hg38), collection UID
 ## How to cite
 
 ```
-Pillai R, Sun S & Wolf A (2026). Five ways to query a LaminDB collection:
+Pillai R, Sun S, Wolf A & R Sergei(2026). Five ways to query a LaminDB collection:
 a developer-experience comparison of PyArrow, Polars, DuckDB, Iceberg, and LanceDB.
 Lamin Blog.
 ```
