@@ -88,20 +88,14 @@ Setup cost: ~20 lines including imports, ~8.7s total.
 
 Note: a SQLite catalog is used here for portability. Production deployments would use a Glue or REST catalog.
 
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
-  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 720 520" font-family="monospace" font-size="13">
 
-<svg viewBox="0 0 720 520" xmlns="http://www.w3.org/2000/svg" font-family="monospace, ui-monospace, SFMono-Regular" font-size="13">
-
-  <!-- background -->
   <rect width="720" height="520" fill="#fafafa" rx="8"/>
 
-  <!-- title -->
   <text x="360" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a1a1a">Iceberg warehouse — S3 file layout</text>
   <text x="360" y="50" text-anchor="middle" font-size="11" fill="#666">s3://lamin-benchmark-dataloaders/iceberg_warehouse/genomics/cnv_vcf/</text>
 
-  <!-- legend -->
   <rect x="520" y="68" width="12" height="12" rx="2" fill="#4C72B0" opacity="0.85"/>
   <text x="537" y="79" font-size="11" fill="#444">Parquet data file</text>
   <rect x="520" y="88" width="12" height="12" rx="2" fill="#55A868" opacity="0.85"/>
@@ -111,17 +105,12 @@ Note: a SQLite catalog is used here for portability. Production deployments woul
   <rect x="520" y="128" width="12" height="12" rx="2" fill="#C44E52" opacity="0.85"/>
   <text x="537" y="139" font-size="11" fill="#444">Snapshot (.avro)</text>
 
-  <!-- ── ROOT ── -->
   <text x="30" y="85" fill="#1a1a1a" font-weight="bold">cnv_vcf/</text>
 
-  <!-- ── data/ branch ── -->
-  <!-- vertical spine -->
   <line x1="46" y1="90" x2="46" y2="195" stroke="#ccc" stroke-width="1.5"/>
-  <!-- data/ label -->
   <line x1="46" y1="110" x2="62" y2="110" stroke="#ccc" stroke-width="1.5"/>
   <text x="66" y="114" fill="#333" font-weight="bold">data/</text>
 
-  <!-- data files -->
   <line x1="80" y1="116" x2="80" y2="195" stroke="#ccc" stroke-width="1.5"/>
 
   <line x1="80" y1="135" x2="96" y2="135" stroke="#ccc" stroke-width="1.5"/>
@@ -139,13 +128,11 @@ Note: a SQLite catalog is used here for portability. Production deployments woul
   <text x="112" y="185" fill="#444">00001-0-aecb7ab5-80b6-45ce-a569-f358a70335e6.parquet</text>
   <text x="112" y="197" fill="#999" font-size="10">60 KB · append (1,536 rows)</text>
 
-  <!-- ── metadata/ branch ── -->
   <line x1="46" y1="215" x2="62" y2="215" stroke="#ccc" stroke-width="1.5"/>
   <text x="66" y="219" fill="#333" font-weight="bold">metadata/</text>
 
   <line x1="80" y1="222" x2="80" y2="430" stroke="#ccc" stroke-width="1.5"/>
 
-  <!-- metadata JSON files -->
   <line x1="80" y1="238" x2="96" y2="238" stroke="#ccc" stroke-width="1.5"/>
   <rect x="98" y="228" width="10" height="10" rx="2" fill="#55A868" opacity="0.85"/>
   <text x="112" y="238" fill="#444">00000-25139f7c-e6b3-4702-a06f-c988fd3f4802.metadata.json</text>
@@ -166,7 +153,6 @@ Note: a SQLite catalog is used here for portability. Production deployments woul
   <text x="112" y="313" fill="#444">00003-06f6a97c-c6a4-4a20-ae75-cbfa6bc12f9e.metadata.json</text>
   <text x="112" y="325" fill="#999" font-size="10">4.6 KB · after schema change (QC_PASS added)</text>
 
-  <!-- manifest list avro files -->
   <line x1="80" y1="340" x2="96" y2="340" stroke="#ccc" stroke-width="1.5"/>
   <rect x="98" y="330" width="10" height="10" rx="2" fill="#DD8452" opacity="0.85"/>
   <text x="112" y="340" fill="#444">098b4b22-5f1a…-m0.avro</text>
@@ -182,29 +168,26 @@ Note: a SQLite catalog is used here for portability. Production deployments woul
   <text x="112" y="390" fill="#444">aecb7ab5-80b6…-m0.avro</text>
   <text x="112" y="402" fill="#999" font-size="10">5.3 KB · manifest list for snapshot 3</text>
 
-  <!-- snapshot avro files -->
   <line x1="80" y1="415" x2="96" y2="415" stroke="#ccc" stroke-width="1.5"/>
   <rect x="98" y="405" width="10" height="10" rx="2" fill="#C44E52" opacity="0.85"/>
   <text x="112" y="415" fill="#444">snap-2979313690875946643-0-aecb7ab5….avro</text>
   <text x="112" y="427" fill="#999" font-size="10">1.8 KB · snapshot record (time travel target)</text>
 
-  <!-- annotation arrow: time travel -->
   <line x1="500" y1="415" x2="540" y2="385" stroke="#C44E52" stroke-width="1" stroke-dasharray="4,3"/>
   <text x="543" y="382" font-size="10" fill="#C44E52" font-weight="bold">table.scan(snapshot_id=…)</text>
   <text x="543" y="394" font-size="10" fill="#C44E52">reads the state at this snapshot</text>
 
-  <!-- annotation arrow: schema evolution -->
   <line x1="500" y1="313" x2="540" y2="290" stroke="#55A868" stroke-width="1" stroke-dasharray="4,3"/>
   <text x="543" y="287" font-size="10" fill="#55A868" font-weight="bold">update_schema() writes a new</text>
   <text x="543" y="299" font-size="10" fill="#55A868">metadata.json — no Parquet rewrite</text>
 
-  <!-- bottom note -->
   <rect x="30" y="452" width="660" height="52" rx="6" fill="#f0f4ff" stroke="#c8d4f0" stroke-width="1"/>
   <text x="46" y="470" font-size="11" fill="#444">Each write operation (overwrite, append, schema change) produces new files without modifying existing ones.</text>
   <text x="46" y="485" font-size="11" fill="#444">Snapshot records chain backwards through metadata JSON files, enabling time travel to any prior state.</text>
   <text x="46" y="500" font-size="11" fill="#444">Source Parquet files from LaminDB are not used after ingest — Iceberg manages its own data/ directory.</text>
 
 </svg>
+
 
 :::::
 
