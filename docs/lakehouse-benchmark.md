@@ -1,4 +1,12 @@
-# Five ways to query a LaminDB collection: a developer-experience comparison
+---
+title: "Lakehouse Engineering: Benchmarking Metadata-Driven Query Optimization"
+date: 2026-06-25
+author: 
+  - Raaghav Pillai
+affiliation:
+  Raaghav Pillai: University of Illinois Urbana-Champaign / Lamin Labs Intern
+db: https://lamin.ai/laminlabs/lakehouse-benchmarks
+---
 
 Every genomics data scientist eventually hits the same wall. The biology is worked out. The pipeline is written. And then — before a single query can run — comes the decision of how to actually get at the data: which engine to use, whether to ingest or read in place, how to handle six Parquet files that need to behave like one table.
 
