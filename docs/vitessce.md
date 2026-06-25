@@ -84,6 +84,8 @@ Useful starting points for customization include the following example database 
 - The [vitessce-python-tutorial](https://github.com/vitessce/vitessce-python-tutorial/) repository
 - The [paper-figures](https://github.com/vitessce/paper-figures) repository
 
+## References
+
 [^keller25]: Keller, M.S., Gold, I., McCallum, C. et al. Vitessce: integrative visualization of multimodal and spatially resolved single-cell data. Nat Methods 22, 63–67 (2025).
 
 [^marconato25]: Marconato, L., Palla, G., Yamauchi, K.A. et al. SpatialData: an open and universal data framework for spatial omics. Nat Methods 22, 58–62 (2025).
