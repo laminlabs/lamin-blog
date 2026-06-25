@@ -1,12 +1,12 @@
 ---
 title: "Scaling anndata training to the terra-byte scale with annbatch"
-date: 2026-05-22
+date: 2026-06-25
 author: felix-fischer, ilan-gold, fabian-theis, falexwolf
 affiliation:
   felix-fischer: Lamin Labs, Munich
   ilan-gold: Helmholtz Munich
   fabian-theis: Helmholtz Munich
-  falexwolf: Helmholtz Munich
+  falexwolf: Lamin Labs, Munich
 ---
 
 The demand for AI in biology is accelerating at an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. This growth has surfaced a critical bottleneck: disk-backed data loading. While `MappedCollection` was a pioneer in solving this — enabling larger-than-memory training and seamless integration with the `anndata` ecosystem — it hit a ceiling on performance. Its loading speeds often fall significantly short of the throughput required by modern GPUs, leading to extensive resource waste or GPUs that are mostly idle. To bridge this gap, we developed `annbatch`: a high-performance data loader that maintains full `anndata` integration and thereby shifting the bottleneck back to the hardware's actual processing limits.
