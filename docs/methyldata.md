@@ -13,9 +13,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
-DNA methylation patterns vary with age, disease, and tissue type, which makes them useful for both diagnostics and biological age prediction. [MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles. We built the extensible `methyldata` [database](https://lamin.ai/laminlabs/methyldata) that curates the MethylGPT training data with consistent metadata, making it easy to query, subset, and feed into downstream ML workflows.
-
-## Why methylation data needs structure
+[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify API-based queries for machine learning workflows, we created the extensible `methyldata` [database](https://lamin.ai/laminlabs/methyldata) curating the MethylGPT training data with consistent metadata.
 
 MethylGPT was trained on 226,555 DNA methylation profiles (154,063 after QC and deduplication) from 5,281 datasets. The preprocessed default pretraining dataset covers 49,156 CpG sites across diverse tissue types, conditions, and developmental stages. The model learns representations of CpG sites that capture local genomic context and higher-order chromosomal features, achieving a Pearson correlation of 0.929 for methylation value prediction.
 
@@ -113,3 +111,7 @@ https://blog.lamin.ai/methyldata
 [^altumage22]: de Lima Camillo LP, Lapierre LR, Singh R (2022). A pan-tissue DNA-methylation epigenetic clock based on deep learning. [npj Aging](https://doi.org/10.1038/s41514-022-00085-y).
 
 [^trapp21]: Trapp A, Kerepesi C, Gladyshev VN (2021). Profiling epigenetic age in single cells. [Nature Aging](https://doi.org/10.1038/s43587-021-00134-3).
+
+[^ewas26]: Yang F, Xiong Z, Zong W et al. (2026). EWAS Open Platform 2026: a deeply integrated resource for epigenome-wide association studies. [Nucleic Acids Res](https://doi.org/10.1093/nar/gkaf1155).
+
+[^ewas22]: Xiong Z, Yang F, Li M et al. (2022). EWAS Open Platform: integrated data, knowledge and toolkit for epigenome-wide association study. [Nucleic Acids Res](https://doi.org/10.1093/nar/gkab972).
