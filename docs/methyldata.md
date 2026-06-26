@@ -13,7 +13,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
-DNA methylation patterns vary with age, disease, and tissue type, which makes them useful for both diagnostics and biological age prediction. [MethylGPT](https://github.com/albert-ying/MethylGPT) (Ying, Song, Cui et al., bioRxiv 2024) is a transformer-based foundation model trained on over 150,000 human methylation profiles. We built the extensible `methyldata` [database](https://lamin.ai/laminlabs/methyldata) that curates the MethylGPT training data with consistent metadata, making it easy to query, subset, and feed into downstream ML workflows.
+DNA methylation patterns vary with age, disease, and tissue type, which makes them useful for both diagnostics and biological age prediction. [MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles. We built the extensible `methyldata` [database](https://lamin.ai/laminlabs/methyldata) that curates the MethylGPT training data with consistent metadata, making it easy to query, subset, and feed into downstream ML workflows.
 
 ## Why methylation data needs structure
 
@@ -80,23 +80,28 @@ artifacts_A549 = meta_artifacts.filter(cell_lines=cell_lines.a549_cell)
 
 ## Author contributions
 
-Altana curated the metadata, generated wide tables, developed the tutorial notebook and wrote this post.
+Altana curated the metadata, generated the wide tables, and developed the example notebook.
 
-Sheetal reviewed and made adjustments to the tutorial notebook.
+Sheetal reviewed and made adjustments to the example notebook.
 
 Alex helped conceive the project and write the post.
 
-Sunny supervised the work, ingested raw datasets, and reviewed this post.
+Sunny supervised the work and ingested raw datasets.
 
 ## Code & data availability
 
 - Database: [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata)
 - MethylGPT repository: [github.com/albert-ying/MethylGPT](https://github.com/albert-ying/MethylGPT)
-- MethylGPT paper: [Ying et al. (2024)](https://doi.org/10.1101/2024.10.30.621013)
 
-## Citation
+## How to cite
+
+Please cite the original reference! If the database is useful to you, consider citing:
 
 ```
 Namsaraeva A, Giri S, Sun S & Wolf A (2026). methyldata - An atlas for methylation datasets based on MethylGPT's training data. Lamin Blog.
 https://blog.lamin.ai/methyldata
 ```
+
+## References
+
+[^ying24]: Ying A, Song Y, Cui Y et al. (2024). MethylGPT: a Foundation Model for DNA Methylation. [bioRxiv](https://doi.org/10.1101/2024.10.30.621013).
