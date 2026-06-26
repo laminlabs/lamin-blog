@@ -47,9 +47,9 @@ For example, you can now filter for all blood samples from healthy donors over a
 
 ## Use case: age prediction from methylation profiles
 
-One common use case is the prediction of age from profiles, as showcased in this [notebook](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C).
+One common use case is the prediction of biological age from profiles (often called "epigenetic clocks", pioneered by elastic net models[^horvath13][^hannum13], deep learning models[^altumage22], and extended to single-cell resolution[^trapp21]).
 
-The notebook includes querying the database for all blood tissue samples with known age between 18 and 65. The corresponding beta value matrices are then loaded and subset to matching GSM IDs. From there, the notebook merges beta values with metadata, imputes missing CpG values, and trains a small neural network to predict chronological age from methylation profiles. The trained model is saved to the database as an artifact under `methylGPT/models/`.
+In this [exemplary notebook](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C), we query the database for all blood samples with known age between 18 and 65. The corresponding beta value matrices are then loaded and subset to matching GSM IDs, joined with beta values, imputed with missing CpG values. Then a small neural network is trained to predict chronological age from methylation profiles and the trained model is saved as an artifact.
 
 ## Explore the database
 
@@ -105,3 +105,11 @@ https://blog.lamin.ai/methyldata
 ## References
 
 [^ying24]: Ying A, Song Y, Cui Y et al. (2024). MethylGPT: a Foundation Model for DNA Methylation. [bioRxiv](https://doi.org/10.1101/2024.10.30.621013).
+
+[^horvath13]: Horvath S (2013). DNA methylation age of human tissues and cell types. [Genome Biology](https://doi.org/10.1186/gb-2013-14-10-r115).
+
+[^hannum13]: Hannum G, Guinney J, Zhao L et al. (2013). Genome-wide methylation profiles reveal quantitative views of human aging rates. [Molecular Cell](https://doi.org/10.1016/j.molcel.2012.10.016).
+
+[^altumage22]: de Lima Camillo LP, Lapierre LR, Singh R (2022). A pan-tissue DNA-methylation epigenetic clock based on deep learning. [npj Aging](https://doi.org/10.1038/s41514-022-00085-y).
+
+[^trapp21]: Trapp A, Kerepesi C, Gladyshev VN (2021). Profiling epigenetic age in single cells. [Nature Aging](https://doi.org/10.1038/s43587-021-00134-3).
