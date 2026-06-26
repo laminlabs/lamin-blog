@@ -47,7 +47,7 @@ For example, you can now filter for all blood samples from healthy donors over a
 
 ## Use case: age prediction from methylation profiles
 
-One common use case is the prediction of biological age from profiles (often called "epigenetic clocks", pioneered by elastic net models[^horvath13][^hannum13], deep learning models[^altumage22], and extended to single-cell resolution[^trapp21]).
+One common use case is the prediction of biological age from profiles, which is often called "epigenetic clocks"[^horvath13][^hannum13][^altumage22][^trapp21].
 
 In this [exemplary notebook](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C), we query the database for all blood samples with known age between 18 and 65. The corresponding beta value matrices are then loaded and subset to matching GSM IDs, joined with beta values, imputed with missing CpG values. Then a small neural network is trained to predict chronological age from methylation profiles and the trained model is saved as an artifact.
 
