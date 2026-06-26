@@ -1,5 +1,5 @@
 ---
-title: "methyldata - An atlas for methylation datasets based on MethylGPT's training data"
+title: "methyldata: An atlas for methylation datasets based on MethylGPT's training data"
 date: 2026-06-25
 author: namsaraeva, sheetalgiri, falexwolf, sunnyosun
 affiliation:
@@ -98,7 +98,7 @@ Sunny supervised the work and ingested raw datasets.
 Please cite the original reference! If the database is useful to you, consider citing:
 
 ```
-Namsaraeva A, Giri S, Sun S & Wolf A (2026). methyldata - An atlas for methylation datasets based on MethylGPT's training data. Lamin Blog.
+Namsaraeva A, Giri S, Sun S & Wolf A (2026). methyldata: An atlas for methylation datasets based on MethylGPT's training data. Lamin Blog.
 https://blog.lamin.ai/methyldata
 ```
 
