@@ -13,7 +13,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
-[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify API-based queries for machine learning workflows, we created the extensible `methyldata` [database](https://lamin.ai/laminlabs/methyldata) curating the MethylGPT training data with consistent metadata.
+[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify API-based queries for these datasets, we seeded the extensible `methyldata` [database](https://lamin.ai/laminlabs/methyldata) with a curated version of the MethylGPT training data.
 
 MethylGPT was trained on 226,555 DNA methylation profiles (154,063 after QC and deduplication) from 5,281 datasets. The preprocessed default pretraining dataset covers 49,156 CpG sites across diverse tissue types, conditions, and developmental stages. The model learns representations of CpG sites that capture local genomic context and higher-order chromosomal features, achieving a Pearson correlation of 0.929 for methylation value prediction.
 
