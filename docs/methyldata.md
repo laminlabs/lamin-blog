@@ -90,6 +90,7 @@ Sunny supervised the work and ingested raw datasets.
 
 - Database: [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata)
 - MethylGPT repository: [github.com/albert-ying/MethylGPT](https://github.com/albert-ying/MethylGPT)
+- Docs: https://docs.lamin.ai/dna-methylation
 
 ## How to cite
 
