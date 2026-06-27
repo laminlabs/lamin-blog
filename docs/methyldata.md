@@ -13,22 +13,17 @@ tweet: TBD
 linkedin: TBD
 ---
 
-[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles across tissue types, donor ages, and disease conditions — one of the largest curated DNA methylation corpora to date.
+[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify API-based queries for these datasets, we seeded the extensible [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) database with a curated version of the MethylGPT training data.
 
-MethylGPT was trained on 226,555 DNA methylation profiles (154,063 after QC and deduplication) from 5,281 datasets. The preprocessed default pretraining dataset covers 49,156 CpG sites across diverse tissue types, conditions, and developmental stages. The model learns representations of CpG sites that capture local genomic context and higher-order chromosomal features, achieving a Pearson correlation of 0.929 for methylation value prediction.
-
-The project distributes its pretraining data as parquet shards on static storage: compact methylation files (sample `id` plus a `data` column listing ~49k beta values) and matching sample metadata files live in separate directories, with no unified way to query them.
-
-We ingested this corpus into [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata): a public LaminDB instance where you can browse dataset blocks in a graphical interface, query by tissue, disease, cell line, or ethnicity, filter individual samples by age or case/control status, and load matched beta matrices through a single API. We also generated wide beta matrices (one column per CpG site) from the compact files to make downstream analysis easier.
+MethylGPT distributes the pretraining bundle as parquet shards on static storage: compact methylation files and matching sample metadata live in separate directories, with no unified way to query them.
 
 For example, you might want blood samples aged 18–65 to train an epigenetic clock[^horvath13][^hannum13] — a downstream task MethylGPT benchmarks include[^ying24].
 In the original bundle, that means opening metadata and methylation parquet shards one by one, filtering rows by hand, and matching the right files for each dataset block.
-In the database, you express what you care about as entities — tissue, disease, file type — and join metadata with beta values programmatically.
+In the database, you express what you care about as entities — tissue, disease, cell line, or ethnicity — and join metadata with beta values programmatically.
 
-## Query and load training data
-
+The same query can also be expressed in Python.
 Each dataset block pairs sample metadata with a matching beta matrix, linked via artifact features.
-The snippet below narrows to blood at both the artifact and sample level; the [MethylGPT Data Querying and Loading Tutorial](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C) scales this across the full corpus, adds an age filter, caches wide beta parquets (~49k columns) before load, and trains an age-prediction model with lineage.
+The snippet below narrows to blood at both the artifact and sample level:
 
 ```python
 import lamindb as ln
@@ -58,6 +53,8 @@ beta_df = beta_artifact.load()
 df = beta_df.merge(meta_df, left_on="id", right_on="GSM_ID")
 ```
 
+The [MethylGPT Data Querying and Loading Tutorial](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C) scales this across the full corpus, adds an age filter, caches wide beta parquets (~49k columns) before load, and trains an age-prediction model with lineage.
+
 See also [Stream datasets from storage](https://docs.lamin.ai/arrays) and explore the instance on [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata).
 
 ## Sample metadata
@@ -71,16 +68,16 @@ To subset individual samples — by age, case/control status, or treatment — o
 
 ## Methods
 
-We mirrored the MethylGPT type3 pretraining bundle in LaminDB under the `MethylGPT` project.
-Type3 is MethylGPT's default pretraining panel of 49,156 CpG sites; training profiles were sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22].
+We mirrored the MethylGPT pretraining bundle in LaminDB under the `MethylGPT` project.
+The corpus comprises 226,555 profiles (154,063 after QC and deduplication) from 5,281 EWAS hub studies, covering 49,156 CpG sites[^ewas26][^ewas22].
 For each dataset block, three linked artifact types are registered and tagged with [`FileType`](https://lamin.ai/laminlabs/methyldata/ulabels/BWc6wSdK) ULabels (`sample_metadata`, `beta`, `preprocessed`):
 
 - **Sample metadata** (`.parquet`, `methylGPT/sample_metadata/`) — biological and experimental annotations per sample, including GEO metadata sourced via [ClockBase](https://doi.org/10.1101/2023.02.28.530532)[^clockbase23].
 - **Beta values** (`.parquet`, `methylGPT/beta/`) — wide-format methylation matrices with one column per CpG site (~49k probes), generated by us from the compact parquet files.
-- **Preprocessed datasets** (`.parquet`, `methylGPT/processed_dataset/processed_type3_parquet_shuffled/`) — the compact format MethylGPT expects for inference: a sample `id` column and a `data` column with lists of beta values per sample (see the [inference guide](https://github.com/albert-ying/MethylGPT/blob/main/docs/inference_guide.md#data-format)).
+- **Preprocessed datasets** (`.parquet`, `methylGPT/processed_dataset/`) — the compact format MethylGPT expects for inference: a sample `id` column and a `data` column with lists of beta values per sample (see the [inference guide](https://github.com/albert-ying/MethylGPT/blob/main/docs/inference_guide.md#data-format)).
 
 Metadata and beta artifacts within a block are linked bidirectionally via `meta_artifact` and `beta_artifact` artifact features.
-A shared **CpG probe reference** (`methylGPT/probe_ids_type3.csv`) maps column order to Illumina probe IDs for the type3 panel.
+A shared CpG probe reference (`methylGPT/probe_ids_type3.csv`) maps column order to Illumina probe IDs.
 Artifact-level labels (tissues, diseases, cell lines, ethnicities) are computed as SQL aggregates over each block's sample metadata table at ingest time.
 
 ## Author contributions
