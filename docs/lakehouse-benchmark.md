@@ -9,7 +9,7 @@ db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 Every genomics data scientist eventually hits the same wall. The biology is worked out. The pipeline is written. And then — before a single query can run — comes the decision of how to actually get at the data: which engine to use, whether to ingest or read in place, how to handle six Parquet files that need to behave like one table.
 
-This report compares five query approaches over a shared LaminDB collection of 1000 Genomes CNV calls — 8,929 rows across six DRAGEN Parquet shards — running the same six-step user journey in each: access, per-sample statistics, recurrent region detection, filtered query, sample append, and schema change. The five approaches are Vanilla PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB. All timing results are single-run measurements on SageMaker (ml.t3.medium) in store mode unless otherwise stated; they are provided as indicative comparisons on a small dataset, not rigorous benchmarks.
+This report compares five query approaches over a shared LaminDB collection of 1000 Genomes CNV calls — 8,929 rows across six DRAGEN Parquet shards — running the same six-step user journey in each: access, per-sample statistics, recurrent region detection, filtered query, sample append, and schema change. The five approaches are PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB. All timing results are single-run measurements on SageMaker (ml.t3.medium) in store mode unless otherwise stated; they are provided as indicative comparisons on a small dataset, not rigorous benchmarks.
 
 ## Background and motivation
 
@@ -17,30 +17,28 @@ A copy-number variant analysis typically involves per-sample statistics, recurre
 
 This report measures all six operations end-to-end across five engines to make those tradeoffs explicit.
 
-## One collection, five engines
+## One shared dataset
 
-All five approaches read from the same LaminDB collection:
+All five approaches read from the same collection of parquet files:
 
 ```python
 import lamindb as ln
 collection = ln.Collection.get("K6X8Ejk3fjgAZT6h0000")  # 1000 Genomes CNV calls
 ```
 
-Three engines — Vanilla PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
+Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
 
 ---
 
 ## Setup
 
 ::::::{tab-set}
-:::::{tab-item} Vanilla PyArrow
+:::::{tab-item} PyArrow
 `collection.open()` returns a lazy PyArrow dataset backed by S3. No data is read until a query is issued.
 
 ```python
 dataset = collection.open()   # lazy PyArrow dataset over the 6 shards
 ```
-
-Setup cost: 1 line, ~0s.
 :::::
 
 :::::{tab-item} Polars
@@ -50,8 +48,6 @@ Setup cost: 1 line, ~0s.
 with collection.open(engine="polars") as lazy_df:
     ...   # lazy_df is a Polars LazyFrame backed by S3
 ```
-
-Setup cost: 1 line, ~0s.
 :::::
 
 :::::{tab-item} DuckDB
@@ -66,8 +62,6 @@ con.execute("CREATE OR REPLACE SECRET s3 (TYPE s3, PROVIDER credential_chain);")
 s3_paths = [str(a.path) for a in collection.ordered_artifacts.all()]
 con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
 ```
-
-Setup cost: ~5 lines, ~1s (view creation + credential resolution).
 :::::
 
 :::::{tab-item} Iceberg
@@ -84,8 +78,6 @@ table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
 table.overwrite(arrow)   # 1.36s — writes Parquet + metadata to S3
 ```
 
-Setup cost: ~20 lines including imports, ~8.7s total.
-
 :::::
 
 :::::{tab-item} LanceDB
@@ -98,8 +90,6 @@ arrow = collection.open().to_table()   # 7.4s — full S3 read
 db = lancedb.connect(WAREHOUSE)
 table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 ```
-
-Setup cost: 3 lines, ~7.6s total. Data written to Lance format exists outside LaminDB's lineage graph.
 :::::
 ::::::
 
@@ -107,7 +97,7 @@ Setup cost: 3 lines, ~7.6s total. Data written to Lance format exists outside La
 
 | Engine | Lines | Time | Ingest required |
 |---|---|---|---|
-| Vanilla PyArrow | 1 | ~0s | No |
+| PyArrow | 1 | ~0s | No |
 | Polars | 1 | ~0s | No |
 | DuckDB | 5 | ~1s | No |
 | Iceberg | ~20 | ~8.7s | No (wraps source Parquet) |
@@ -246,7 +236,7 @@ L 0 3.5
       </g>
      </g>
      <g id="text_1">
-      <!-- Vanilla PyArrow -->
+      <!-- PyArrow -->
       <g transform="translate(48.440515 342.716406) scale(0.11 -0.11)">
        <defs>
         <path id="DejaVuSans-39" d="M 1831 0 
@@ -2528,7 +2518,7 @@ All timings are single-run measurements on 8,929 rows. At this scale, results ar
 For each sample: total CNV count, deletion count, median deletion size, homozygous count, heterozygous count.
 
 ::::::{tab-set}
-:::::{tab-item} Vanilla PyArrow
+:::::{tab-item} PyArrow
 ```python
 df = dataset.to_table().to_pandas()
 
@@ -2540,7 +2530,6 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
-**Time:** 1.37s
 :::::
 
 :::::{tab-item} Polars
@@ -2555,7 +2544,6 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
-**Time:** 0.35s
 :::::
 
 :::::{tab-item} DuckDB
@@ -2572,7 +2560,6 @@ stats = con.execute("""
     GROUP BY SAMPLE_NAME
 """).df()
 ```
-**Time:** 0.77s
 :::::
 
 :::::{tab-item} Iceberg
@@ -2587,7 +2574,6 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
-**Time:** 0.19s (reads from Iceberg's own S3 store, not source Parquet)
 :::::
 
 :::::{tab-item} LanceDB
@@ -2602,7 +2588,6 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
-**Time:** 0.17s (reads from Lance's own S3 store, not source Parquet)
 :::::
 ::::::
 
@@ -2611,13 +2596,12 @@ stats = df.groupby("SAMPLE_NAME").agg(
 Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. All five engines produced 1,903 recurrent regions.
 
 ::::::{tab-set}
-:::::{tab-item} Vanilla PyArrow
+:::::{tab-item} PyArrow
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
-**Time:** 1.11s
 :::::
 
 :::::{tab-item} Polars
@@ -2626,7 +2610,6 @@ df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
-**Time:** 0.28s
 :::::
 
 :::::{tab-item} DuckDB
@@ -2641,7 +2624,6 @@ recurrent = con.execute("""
     ORDER BY sample_count DESC
 """).df()   # 1,903 recurrent regions
 ```
-**Time:** 0.80s
 :::::
 
 :::::{tab-item} Iceberg
@@ -2650,7 +2632,6 @@ df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
-**Time:** 0.17s
 :::::
 
 :::::{tab-item} LanceDB
@@ -2659,7 +2640,6 @@ df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
-**Time:** 0.06s
 :::::
 ::::::
 
@@ -2668,14 +2648,13 @@ recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 Variants on the most prevalent chromosome within the 10th–90th percentile position band. Each engine pushes the predicate into the storage layer. All five returned 589 variants.
 
 ::::::{tab-set}
-:::::{tab-item} Vanilla PyArrow
+:::::{tab-item} PyArrow
 ```python
 import pyarrow.compute as pc
 expr = ((pc.field("CHROM") == chrom)
         & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
 filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
 ```
-**Time:** 1.05s &nbsp;·&nbsp; **Result:** 589 variants
 :::::
 
 :::::{tab-item} Polars
@@ -2684,7 +2663,6 @@ filtered = lazy_df.filter(
     (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
 ).collect()
 ```
-**Time:** 0.27s &nbsp;·&nbsp; **Result:** 589 variants
 :::::
 
 :::::{tab-item} DuckDB
@@ -2694,7 +2672,6 @@ filtered = con.execute(
     [chrom, lo, hi],
 ).df()
 ```
-**Time:** 0.79s &nbsp;·&nbsp; **Result:** 589 variants
 :::::
 
 :::::{tab-item} Iceberg
@@ -2704,7 +2681,6 @@ row_filter = And(EqualTo("CHROM", chrom),
              And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
 filtered = table.scan(row_filter=row_filter).to_arrow()
 ```
-**Time:** 0.15s &nbsp;·&nbsp; **Result:** 589 variants
 :::::
 
 :::::{tab-item} LanceDB
@@ -2713,7 +2689,6 @@ filtered = table.to_lance().to_table(
     filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
 ).to_pandas()
 ```
-**Time:** 0.33s &nbsp;·&nbsp; **Result:** 589 variants
 :::::
 ::::::
 
@@ -4625,7 +4600,7 @@ z
 " style="fill: #4c72b0; opacity: 0.85"/>
     </g>
     <g id="text_30">
-     <!-- Vanilla PyArrow -->
+     <!-- PyArrow -->
      <g transform="translate(555.867031 43.256719) scale(0.09 -0.09)">
       <defs>
        <path id="DejaVuSans-39" d="M 1831 0 
@@ -4875,7 +4850,7 @@ z
 
 ### Notes on query timing
 
-**Polars vs. Vanilla PyArrow.** Polars is ~4× faster than Vanilla PyArrow across all three queries in store mode. Both engines run equivalent pandas aggregations after materialisation; the timing difference is attributable to the S3 read step. Polars reads the six shards concurrently; PyArrow's dataset API reads them more sequentially. In memory mode (data materialised once and held in RAM), the difference between the two engines is negligible. These results are single-run measurements; the magnitude of the difference may vary with shard count and network conditions.
+**Polars vs. PyArrow.** Polars is ~4× faster than PyArrow across all three queries in store mode. Both engines run equivalent pandas aggregations after materialisation; the timing difference is attributable to the S3 read step. Polars reads the six shards concurrently; PyArrow's dataset API reads them more sequentially. In memory mode (data materialised once and held in RAM), the difference between the two engines is negligible. These results are single-run measurements; the magnitude of the difference may vary with shard count and network conditions.
 
 **Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg (0.15–0.19s) and LanceDB (0.06–0.33s) reflect reads from their own pre-ingested S3 stores, not from the source Parquet files. Their per-query times exclude the one-time setup cost of 8.7s and 7.6s respectively. When amortised across ten queries, the total cost per query for Iceberg is approximately 1.1s and for LanceDB approximately 1.1s — comparable to PyArrow and DuckDB.
 
@@ -4888,7 +4863,7 @@ Three write operations were tested: appending a new sample (1,536 rows), adding 
 ### Append
 
 ::::::{tab-set}
-:::::{tab-item} Vanilla PyArrow
+:::::{tab-item} PyArrow
 The append saves a new artifact to LaminDB with schema validation and creates a new versioned collection. The operation includes an S3 upload, metadata registration, and lineage recording.
 
 ```python
@@ -4903,11 +4878,10 @@ new_collection = ln.Collection(
     key=collection.key, revises=collection,
 ).save()
 ```
-**Time:** 9.4s &nbsp;·&nbsp; **Persisted to S3:** Yes &nbsp;·&nbsp; **Tracked in lineage:** Yes
 :::::
 
 :::::{tab-item} Polars
-Identical to Vanilla PyArrow — the append uses LaminDB's artifact and collection APIs regardless of which query engine opened the data.
+Identical to PyArrow — the append uses LaminDB's artifact and collection APIs regardless of which query engine opened the data.
 
 ```python
 new_art = ln.Artifact.from_dataframe(
@@ -4921,7 +4895,6 @@ new_collection = ln.Collection(
     key=collection.key, revises=collection,
 ).save()
 ```
-**Time:** 9.5s &nbsp;·&nbsp; **Persisted to S3:** Yes &nbsp;·&nbsp; **Tracked in lineage:** Yes
 :::::
 
 :::::{tab-item} DuckDB
@@ -4934,7 +4907,6 @@ con.execute(
     f"{base_select} UNION ALL SELECT * FROM append_batch"
 )
 ```
-**Time:** 0.24s &nbsp;·&nbsp; **Persisted to S3:** No (session only) &nbsp;·&nbsp; **Tracked in lineage:** No
 :::::
 
 :::::{tab-item} Iceberg
@@ -4943,7 +4915,6 @@ The append is atomic and snapshot-isolated. New Parquet files and a snapshot man
 ```python
 table.append(new_sample_arrow)
 ```
-**Time:** 0.88s &nbsp;·&nbsp; **Persisted to S3:** Yes &nbsp;·&nbsp; **Tracked in lineage:** No
 :::::
 
 :::::{tab-item} LanceDB
@@ -4953,14 +4924,13 @@ table.append(new_sample_arrow)
 table.add(new_sample_arrow)
 # table.version == 2, table.count_rows() == 10,465
 ```
-**Time:** 0.11s &nbsp;·&nbsp; **Persisted to S3:** Yes &nbsp;·&nbsp; **Tracked in lineage:** No
 :::::
 ::::::
 
 ### Schema change
 
 ::::::{tab-set}
-:::::{tab-item} Vanilla PyArrow
+:::::{tab-item} PyArrow
 A `QC_PASS` feature is registered in the LaminDB schema registry. All future artifacts saved against this schema — across the entire instance — are validated to include this feature.
 
 ```python
@@ -4968,18 +4938,16 @@ schema = ln.Schema.get(name="1000 Genomes CNV VCF")
 feat = ln.Feature(name="QC_PASS", dtype=bool).save()
 schema.add_optional_features([feat])
 ```
-**Time:** 3.5s &nbsp;·&nbsp; **Scope:** instance-wide schema registry &nbsp;·&nbsp; **Existing data rewritten:** No
 :::::
 
 :::::{tab-item} Polars
-Identical to Vanilla PyArrow.
+Identical to PyArrow.
 
 ```python
 schema = ln.Schema.get(name="1000 Genomes CNV VCF")
 feat = ln.Feature(name="QC_PASS", dtype=bool).save()
 schema.add_optional_features([feat])
 ```
-**Time:** 3.6s &nbsp;·&nbsp; **Scope:** instance-wide schema registry &nbsp;·&nbsp; **Existing data rewritten:** No
 :::::
 
 :::::{tab-item} DuckDB
@@ -4991,7 +4959,6 @@ con.execute(
     f"SELECT *, CAST(NULL AS BOOLEAN) AS QC_PASS FROM ({base_select}) t"
 )
 ```
-**Time:** 0.25s &nbsp;·&nbsp; **Scope:** current session only &nbsp;·&nbsp; **Existing data rewritten:** No
 :::::
 
 :::::{tab-item} Iceberg
@@ -5002,7 +4969,6 @@ from pyiceberg.types import BooleanType
 with table.update_schema() as update:
     update.add_column("QC_PASS", BooleanType())
 ```
-**Time:** 0.31s &nbsp;·&nbsp; **Scope:** this Iceberg table &nbsp;·&nbsp; **Existing data rewritten:** No
 :::::
 
 :::::{tab-item} LanceDB
@@ -5011,14 +4977,13 @@ A new column is added via SQL expression. All existing rows receive `null` for t
 ```python
 table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 ```
-**Time:** 0.06s &nbsp;·&nbsp; **Scope:** this Lance table &nbsp;·&nbsp; **Existing data rewritten:** No
 :::::
 ::::::
 
 ### Time travel
 
 ::::::{tab-set}
-:::::{tab-item} Vanilla PyArrow
+:::::{tab-item} PyArrow
 The pre-append collection version is addressable by UID. LaminDB retains all prior collection versions.
 
 ```python
@@ -5028,7 +4993,7 @@ rows_v1 = original.open().count_rows()   # 8,929
 :::::
 
 :::::{tab-item} Polars
-Same as Vanilla PyArrow — collection versioning via LaminDB.
+Same as PyArrow — collection versioning via LaminDB.
 
 ```python
 original = ln.Collection.get("K6X8Ejk3fjgAZT6h0000")
@@ -5053,7 +5018,6 @@ first_snapshot = table.history()[0].snapshot_id
 historical = table.scan(snapshot_id=first_snapshot).to_arrow()
 historical.num_rows   # 8,929
 ```
-**Time:** 0.14s
 :::::
 
 :::::{tab-item} LanceDB
@@ -5064,7 +5028,6 @@ table.checkout(1)             # version 1 = pre-append state
 table.count_rows()            # 8,929
 table.checkout_latest()       # restore current version
 ```
-**Time:** 0.10s
 :::::
 ::::::
 
@@ -6901,7 +6864,7 @@ z
 " style="fill: #4c72b0; opacity: 0.85"/>
     </g>
     <g id="text_30">
-     <!-- Vanilla PyArrow -->
+     <!-- PyArrow -->
      <g transform="translate(555.867031 43.256719) scale(0.09 -0.09)">
       <defs>
        <path id="DejaVuSans-39" d="M 1831 0 
@@ -7203,7 +7166,7 @@ z
 
 ## Developer experience compared
 
-| | Vanilla PyArrow | Polars | DuckDB | Iceberg | LanceDB |
+| | PyArrow | Polars | DuckDB | Iceberg | LanceDB |
 |---|---|---|---|---|---|
 | **Setup** | 1 line, ~0s | 1 line, ~0s | 5 lines, ~1s | ~20 lines, ~8.7s | 3 lines, ~7.6s |
 | **Data ingestion required** | No | No | No | No (wraps source Parquet) | Yes (copies to Lance format) |
@@ -7272,7 +7235,7 @@ Raaghav Pillai performed the benchmarking work and wrote the pipelines. The orig
 
 The five pipeline notebooks, the shared benchmarking utilities, and the plotting script are tracked in the `laminlabs/lakehouse-benchmarks` instance.
 
-- [Vanilla PyArrow pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/D10UPamv70IP0001)
+- [PyArrow pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/D10UPamv70IP0001)
 - [Polars pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/2Wdo02w0MDgH0000)
 - [DuckDB pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/tQaG9uhSD7BO0000)
 - [Iceberg pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/wnVO8cu0qtOP0001)
