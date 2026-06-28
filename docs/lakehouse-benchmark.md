@@ -79,7 +79,7 @@ table.overwrite(arrow)   # 1.36s — writes Parquet + metadata to S3
 ```
 
 Note: a SQLite catalog is used here for portability. Production deployments would use a Glue or REST catalog.
-![Iceberg Warehouse S3 file layout](https://lamin.ai/laminlabs/lamin-site-assets/artifact/OgVhDACCMhzGKC4t0000/blog/lakehouse-benchmarks/iceberg_file_layout.svg)
+![Iceberg Warehouse S3 file layout](https://lamin-site-assets.s3.amazonaws.com/blog/lakehouse-benchmarks/iceberg_file_layout.svg)
 
 :::::
 
@@ -107,7 +107,7 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 | LanceDB | 3 | ~7.6s | Yes (copies to Lance format) |
 
 <!-- PLOT: setup_cost.svg -->
-![Setup cost](https://lamin.ai/laminlabs/lamin-site-assets/artifact/Lf8f0LJY63quZ3n70000/blog/lakehouse-benchmarks/setup_cost.svg)
+![Setup cost](https://lamin-site-assets.s3.amazonaws.com/blog/lakehouse-benchmarks/setup_cost.svg)
 ---
 
 ## Queries
@@ -298,7 +298,7 @@ filtered = table.to_lance().to_table(
 ::::::
 
 <!-- PLOT: query_times.svg -->
-![Query Times](https://lamin.ai/laminlabs/lamin-site-assets/artifact/d2r3p1yUGrcVTLtw0000/blog/lakehouse-benchmarks/query.svg)
+![Query Times](https://lamin-site-assets.s3.amazonaws.com/blog/lakehouse-benchmarks/query.svg)
 
 ### Notes on query timing
 
@@ -484,7 +484,7 @@ table.checkout_latest()       # restore current version
 ::::::
 
 <!-- PLOT: write_path.svg -->
-![Write Path](https://lamin.ai/laminlabs/lamin-site-assets/artifact/VnVruqKX9KK0uhUw0000/blog/lakehouse-benchmarks/write.svg)
+![Write Path](https://lamin-site-assets.s3.amazonaws.com/blog/lakehouse-benchmarks/write.svg)
 
 ### Notes on write timing
 
@@ -526,7 +526,7 @@ What LaminDB provides:
 
 **Lineage.** Each pipeline notebook in this benchmark is a tracked transform. The timing results are saved as tracked artifacts. A final `plots.py` script reads those five artifacts as registered inputs and writes the comparison figures as registered outputs. The full provenance chain — from the original 1000 Genomes data transfer through to the figures in this report — is recorded in LaminHub:
 
-![Lineage on Lamin Hub](https://lamin.ai/laminlabs/lamin-site-assets/artifact/v7yD8XvBy0eViHGG0000/blog/lakehouse-benchmarks/lineage.png)
+![Lineage on Lamin Hub](https://lamin-site-assets.s3.amazonaws.com/blog/lakehouse-benchmarks/lineage.png)
 
 Note: DuckDB is the one exception in this lineage graph. It reads the collection's Parquet files directly via S3 paths rather than through LaminDB's `collection.open()` API, so the collection node has no incoming arrow from `duckdb_pipeline.ipynb`. The benchmark result artifact (`benchmark_results/duckdb.parquet`) is still tracked as an output of that notebook run — DuckDB participates in lineage as a producer, but not as a registered consumer of the source collection.
 
