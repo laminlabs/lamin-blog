@@ -1,25 +1,76 @@
 ---
 title: "Lakehouse Engineering: Benchmarking Metadata-Driven Query Optimization"
 date: 2026-06-25
-author: Koncopd, falexwolf
+author: Koncopd, falexwolf, AlexR, raaghavpillai
 affiliation:
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
+  AlexR: Lamin Labs
+  raaghavpillai: Lamin Labs
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
+
 Every genomics data scientist eventually hits the same wall. The biology is worked out. The pipeline is written. And then — before a single query can run — comes the decision of how to actually get at the data: which engine to use, whether to ingest or read in place, how to handle six Parquet files that need to behave like one table.
 
-This report compares five query approaches over a shared LaminDB collection of 1000 Genomes CNV calls — 8,929 rows across six DRAGEN Parquet shards — running the same six-step user journey in each: access, per-sample statistics, recurrent region detection, filtered query, sample append, and schema change. The five approaches are PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB. All timing results are single-run measurements on SageMaker (ml.t3.medium) in store mode unless otherwise stated; they are provided as indicative comparisons on a small dataset, not rigorous benchmarks.
+This post has two parts. The first explains where tools like Iceberg, DuckLake, and LaminDB sit in the data lakehouse ecosystem and what problems each solves. The second benchmarks five query approaches over a shared LaminDB collection of 1000 Genomes CNV calls, measuring the same six-step user journey in each.
 
-## Background and motivation
+---
+
+## The lakehouse landscape
+
+The lakehouse architecture promises to combine the flexibility of a data lake with the structure of a data warehouse, allowing teams with multi-modal datasets and different query engines to store their data in a single storage system and manipulate it transactionally. In recent years, lakehouse table formats like Apache Iceberg have emerged to provide transactional semantics on top of tabular data stored in object storage systems like S3.
+
+### How Iceberg works
+
+Under the hood, Iceberg organizes data into *snapshots* — each a collection of data files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
+
+This snapshot-based approach offers several advantages over raw files in S3. Iceberg writes are serializable ACID transactions, enabling time travel (reading previous snapshots), schema evolution without data rewrites, and Write-Audit-Publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
+
+But Iceberg's snapshot model has real costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3 (which lacked atomic compare-and-swap until recently), an external catalog or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. Multi-table transactions are only available with certain catalogs.
+
+### DuckLake and the relational metadata approach
+
+One recent effort to address Iceberg's limitations is [DuckLake](https://ducklake.select), developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database (typically DuckDB itself), leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
+
+### Where LaminDB fits
+
+LaminDB shares DuckLake's key architectural insight: use a relational database (Postgres) for metadata, object storage for data. But it goes further in scope. Where Iceberg and DuckLake are concerned exclusively with tabular data and manage their own data files, LaminDB tracks metadata for heterogeneous files across multiple storage engines simultaneously — Parquet, AnnData, HDF5, zarr, VCF, or any other format — in a single lineage graph.
+
+LaminDB is largely complementary to Iceberg rather than a replacement. It can treat an Iceberg table as a dataset like any other, track which pipeline run produced it, and link it to the AnnData files and VCFs that informed it.
+
+### Capability comparison
+
+| Feature | Raw Files | Iceberg | DuckLake | LaminDB |
+|---|---|---|---|---|
+| ACID transactions | ❌ | ✅ | ✅ | ✅ |
+| Time travel / snapshot isolation | ❌ | ✅ | ✅ | ❌ |
+| Schema evolution without rewriting data | ❌ | ✅ | ✅ | ❌ |
+| Write-Audit-Publish workflow | ❌ | ✅ | ❌ | ❌ |
+| Query engine independence | ✅ | ✅ | ❌ | ❌ |
+| Concurrent writers | ❌ | ❌ | ✅ | ✅ |
+| Automatic maintenance | ❌ | ❌ | ✅ | ✅ |
+| Native multi-table transactions | ❌ | ❌ | ✅ | ✅ |
+| Heterogeneous file support | ✅ | ❌ | ❌ | ✅ |
+| Data lineage & provenance | ❌ | ❌ | ❌ | ✅ |
+| Biological metadata & ontologies | ❌ | ❌ | ❌ | ✅ |
+
+---
+
+## Benchmark: five ways to query a LaminDB collection
+
+The second half of this post measures five query approaches — PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB — over a shared LaminDB collection of 1000 Genomes CNV calls (8,929 rows across six DRAGEN Parquet shards). Each approach runs the same six-step user journey: access, per-sample statistics, recurrent region detection, filtered query, sample append, and schema change.
+
+All timings are single-run measurements on SageMaker (ml.t3.medium) in store mode unless otherwise stated; they are provided as indicative comparisons on a small dataset, not rigorous benchmarks.
+
+### Background
 
 A copy-number variant analysis typically involves per-sample statistics, recurrent region identification across samples, filtered positional queries, incremental sample appends, and schema evolution. These operations are routine in genomics but span the full read-write surface of a query engine. Choosing an engine commits a team to a specific answer for all of them simultaneously: an engine that makes querying concise may make schema changes ephemeral; an engine that provides durable writes may require an upfront ingestion step; an engine that copies data into its own format removes it from the source lineage graph.
 
-This report measures all six operations end-to-end across five engines to make those tradeoffs explicit.
+This benchmark measures all six operations end-to-end across five engines to make those tradeoffs explicit.
 
-## One shared dataset
+### One shared dataset
 
-All five approaches read from the same collection of parquet files:
+All five approaches read from the same LaminDB collection:
 
 ```python
 import lamindb as ln
@@ -108,6 +159,7 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 
 <!-- PLOT: setup_cost.svg -->
 ![Setup cost](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70000.svg)
+
 ---
 
 ## Queries
@@ -302,9 +354,9 @@ filtered = table.to_lance().to_table(
 
 ### Notes on query timing
 
-**Polars vs. PyArrow.** Polars is ~4× faster than PyArrow across all three queries in store mode. Both engines run equivalent pandas aggregations after materialisation; the timing difference is attributable to the S3 read step. Polars reads the six shards concurrently; PyArrow's dataset API reads them more sequentially. In memory mode (data materialised once and held in RAM), the difference between the two engines is negligible. These results are single-run measurements; the magnitude of the difference may vary with shard count and network conditions.
+**Polars vs. PyArrow.** Polars is ~4× faster than PyArrow across all three queries in store mode. Both engines run equivalent pandas aggregations after materialisation; the timing difference is attributable to the S3 read step. Polars reads the six shards concurrently; PyArrow's dataset API reads them more sequentially. In memory mode the difference is negligible. These are single-run measurements; the magnitude may vary with shard count and network conditions.
 
-**Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg (0.15–0.19s) and LanceDB (0.06–0.33s) reflect reads from their own pre-ingested S3 stores, not from the source Parquet files. Their per-query times exclude the one-time setup cost of 8.7s and 7.6s respectively. When amortised across ten queries, the total cost per query for Iceberg is approximately 1.1s and for LanceDB approximately 1.1s — comparable to PyArrow and DuckDB.
+**Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg (0.15–0.19s) and LanceDB (0.06–0.33s) reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 8.7s and 7.6s respectively. When amortised across ten queries, the total cost per query for each is approximately 1.1s — comparable to PyArrow and DuckDB.
 
 ---
 
@@ -490,7 +542,7 @@ table.checkout_latest()       # restore current version
 
 **DuckDB append and schema change.** The 0.24s append and 0.25s schema change for DuckDB are not persisted operations. Both are in-session view redefinitions; no data is written to S3. These timings are not directly comparable to the persisted writes of the other four engines.
 
-**LaminDB append and schema change scope.** The LaminDB append time (9.4s) includes an S3 upload, schema validation against the registered schema, stable UID assignment, lineage graph linking, and creation of a new collection version. The schema change time (3.5s) includes round-trips to a Postgres-backed schema registry that applies instance-wide. These operations have a wider scope than the equivalent operations in Iceberg (table-scoped) and LanceDB (table-scoped), which is reflected in the timing difference.
+**LaminDB append and schema change scope.** The LaminDB append time (9.4s) includes an S3 upload, schema validation, stable UID assignment, lineage graph linking, and creation of a new collection version. The schema change time (3.5s) includes round-trips to a Postgres-backed schema registry that applies instance-wide. These operations have a wider scope than the equivalent operations in Iceberg (table-scoped) and LanceDB (table-scoped), which is reflected in the timing difference.
 
 ---
 
@@ -502,7 +554,7 @@ table.checkout_latest()       # restore current version
 | **Data ingestion required** | No | No | No | No (wraps source Parquet) | Yes (copies to Lance format) |
 | **Query API** | PyArrow / pandas | Polars / pandas | SQL | Iceberg expressions / pandas | PyArrow / pandas / SQL |
 | **Store-mode query time** | ~1.1–1.4s | ~0.27–0.35s | ~0.77–0.87s | ~0.15–0.19s* | ~0.06–0.33s* |
-| **Append** | S3 upload + schema validation + collection version | same as PyArrow | session-only view redefinition | atomic snapshot to S3 | versioned write to S3 |
+| **Append** | S3 upload + schema validation + collection version | same as PyArrow | session-only view | atomic snapshot to S3 | versioned write to S3 |
 | **Append time** | 9.4s | 9.5s | 0.24s† | 0.88s | 0.11s |
 | **Schema change scope** | instance-wide registry | instance-wide registry | session only† | this table | this table |
 | **Schema change time** | 3.5s | 3.6s | 0.25s† | 0.31s | 0.06s |
@@ -518,7 +570,7 @@ table.checkout_latest()       # restore current version
 
 ## LaminDB as a data layer
 
-The five engines above address the question of how to query data. LaminDB addresses a different question: how to manage data across the lifecycle of a project.
+The five engines above address the question of *how* to query data. LaminDB addresses a different question: *how to manage data across the lifecycle of a project.*
 
 In this benchmark, LaminDB serves as the storage layer underneath all five query engines. The same collection is opened by each engine without any data movement or format conversion (with the exception of LanceDB, which copies the data out). LaminDB does not provide a query engine and does not compete with DuckDB, Iceberg, or LanceDB on query performance.
 
@@ -528,7 +580,7 @@ What LaminDB provides:
 
 ![Lineage on Lamin Hub](https://lamin-site-assets.s3.amazonaws.com/.lamindb/v7yD8XvBy0eViHGG0000.png)
 
-Note: DuckDB is the one exception in this lineage graph. It reads the collection's Parquet files directly via S3 paths rather than through LaminDB's `collection.open()` API, so the collection node has no incoming arrow from `duckdb_pipeline.ipynb`. The benchmark result artifact (`benchmark_results/duckdb.parquet`) is still tracked as an output of that notebook run — DuckDB participates in lineage as a producer, but not as a registered consumer of the source collection.
+Note: DuckDB is the one exception in this lineage graph. It reads the collection's Parquet files directly via S3 paths rather than through LaminDB's `collection.open()` API, so the collection node has no incoming arrow from `duckdb_pipeline.ipynb`. The benchmark result artifact (`benchmark_results/duckdb.parquet`) is still tracked as an output of that notebook run.
 
 **Schema validation.** A schema registered against a collection validates new artifacts at write time. In the governance demo included in the PyArrow and Polars pipelines, saving a DataFrame with an unrecognised column against a closed schema raises a `ValidationError` before the data reaches storage.
 
@@ -551,15 +603,15 @@ The primary tradeoffs observed:
 - **Write durability.** DuckDB appends and schema changes are session-scoped and not persisted. All other engines write to S3.
 - **Write scope.** LaminDB write operations (append, schema change) have instance-wide scope and include provenance recording; Iceberg and LanceDB operations are table-scoped.
 - **Lineage.** Only LaminDB and the engines reading from LaminDB in place (PyArrow, Polars, DuckDB) maintain provenance. LanceDB copies data out of LaminDB's lineage graph.
-- **S3 parallelism.** Polars reads the six source shards concurrently; PyArrow's dataset API reads them more sequentially. On this dataset, the observed difference is ~4× in store mode. This is a single-run observation; further investigation is needed to characterise the effect across different shard counts and network conditions.
+- **S3 parallelism.** Polars reads the six source shards concurrently; PyArrow reads them more sequentially. On this dataset, the observed difference is ~4× in store mode.
 
-For teams selecting a query engine over a LaminDB collection, the relevant dimensions are: whether SQL is preferred over expression APIs, whether upfront ingestion cost is acceptable, whether write operations need to be durable and their scope, and whether provenance tracking is required.
+Zooming out: as the capability table in the first section shows, Iceberg, DuckLake, and LaminDB each address different layers of the lakehouse problem. Iceberg provides snapshot-isolated ACID transactions for tabular data with query engine independence. DuckLake adds concurrent writers and automatic maintenance by moving metadata into a relational database. LaminDB adds heterogeneous file support, biological metadata, and lineage tracking — and is largely complementary to both.
 
 ---
 
 ## Author contributions
 
-Raaghav Pillai performed the benchmarking work and wrote the pipelines. The original LaminDB ingestion pipeline this work builds on was developed by Sunny Sun. Alex Wolf and Sergei Rybakov supervised the project.
+Alex Rasmussen wrote the lakehouse ecosystem overview. Raaghav Pillai performed the benchmarking work and wrote the pipelines. The original LaminDB ingestion pipeline was developed by Sunny Sun. Alex Wolf and Sergei Rybakov supervised the project.
 
 ## Code & data availability
 
@@ -576,7 +628,7 @@ The dataset is the 1000 Genomes Project CNV calls (DRAGEN, hg38), collection UID
 ## How to cite
 
 ```
-Pillai R, Rybakov S & Wolf A (2026). Five ways to query a LaminDB collection:
-a developer-experience comparison of PyArrow, Polars, DuckDB, Iceberg, and LanceDB.
+Rasmussen A, Pillai R, Rybakov S & Wolf A (2026). Lakehouse engineering:
+benchmarking metadata-driven query optimization.
 Lamin Blog.
 ```
