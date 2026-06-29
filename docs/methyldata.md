@@ -16,7 +16,7 @@ linkedin: TBD
 [MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150k human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub).[^ewas26][^ewas22]
 To simplify sharing these datasets with their schemas and annotations, we seeded the extensible [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) database with a curated version of the MethylGPT training data.
 
-Say you want to retrieve blood samples from donors between ages 18 to 65, you can query all parquet files annotated by those samples and then trust that there is a validated column `blood`:
+Say you want to retrieve blood samples from donors between ages 18 to 65, you can query all parquet files annotated by those samples and then trust that they have a validated column `blood`:
 
 ```python
 import lamindb as ln
@@ -41,7 +41,7 @@ This query behaves as it should because the `sample_metadata` files were validat
 
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/XChydSOI1H7DVCRB0000.png" width="700">
 
-Here is an exemplary [notebook](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C) that uses the data access to train an epigentic clock, a model that predicts chronological age based on methylation profiles.[^horvath13][^hannum13]
+Here is an exemplary [notebook](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C) that trains an epigentic clock, a model that predicts chronological age based on methylation profiles.[^horvath13][^hannum13]
 
 ## Methods
 
