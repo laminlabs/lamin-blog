@@ -170,7 +170,56 @@ Three queries were run against all five engines. The computation logic is equiva
 
 All timings are single-run measurements on 8,929 rows. At this scale, results are dominated by fixed overheads (connection setup, S3 round-trips) rather than computational throughput. Iceberg and LanceDB query times reflect reads from their own pre-ingested S3 store, not from the source Parquet — their setup time should be amortised across queries when comparing total cost.
 
-### Query 1 — per-sample CNV statistics
+### Query 1 — filtered query
+
+Variants on the most prevalent chromosome within the 10th–90th percentile position band. Each engine pushes the predicate into the storage layer. All five returned 589 variants.
+
+::::::{tab-set}
+:::::{tab-item} PyArrow
+```python
+import pyarrow.compute as pc
+expr = ((pc.field("CHROM") == chrom)
+        & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
+filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
+```
+:::::
+
+:::::{tab-item} Polars
+```python
+filtered = lazy_df.filter(
+    (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
+).collect()
+```
+:::::
+
+:::::{tab-item} DuckDB
+```python
+filtered = con.execute(
+    "SELECT * FROM cnv_vcf WHERE CHROM = ? AND POS BETWEEN ? AND ?",
+    [chrom, lo, hi],
+).df()
+```
+:::::
+
+:::::{tab-item} Iceberg
+```python
+from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
+row_filter = And(EqualTo("CHROM", chrom),
+             And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
+filtered = table.scan(row_filter=row_filter).to_arrow()
+```
+:::::
+
+:::::{tab-item} LanceDB
+```python
+filtered = table.to_lance().to_table(
+    filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
+).to_pandas()
+```
+:::::
+::::::
+
+### Query 2 — per-sample CNV statistics
 
 For each sample: total CNV count, deletion count, median deletion size, homozygous count, heterozygous count.
 
@@ -248,7 +297,7 @@ stats = df.groupby("SAMPLE_NAME").agg(
 :::::
 ::::::
 
-### Query 2 — recurrent region detection
+### Query 3 — recurrent region detection
 
 Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. All five engines produced 1,903 recurrent regions.
 
@@ -296,55 +345,6 @@ recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
-```
-:::::
-::::::
-
-### Query 3 — filtered query
-
-Variants on the most prevalent chromosome within the 10th–90th percentile position band. Each engine pushes the predicate into the storage layer. All five returned 589 variants.
-
-::::::{tab-set}
-:::::{tab-item} PyArrow
-```python
-import pyarrow.compute as pc
-expr = ((pc.field("CHROM") == chrom)
-        & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
-filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
-```
-:::::
-
-:::::{tab-item} Polars
-```python
-filtered = lazy_df.filter(
-    (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
-).collect()
-```
-:::::
-
-:::::{tab-item} DuckDB
-```python
-filtered = con.execute(
-    "SELECT * FROM cnv_vcf WHERE CHROM = ? AND POS BETWEEN ? AND ?",
-    [chrom, lo, hi],
-).df()
-```
-:::::
-
-:::::{tab-item} Iceberg
-```python
-from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
-row_filter = And(EqualTo("CHROM", chrom),
-             And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
-filtered = table.scan(row_filter=row_filter).to_arrow()
-```
-:::::
-
-:::::{tab-item} LanceDB
-```python
-filtered = table.to_lance().to_table(
-    filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
-).to_pandas()
 ```
 :::::
 ::::::
