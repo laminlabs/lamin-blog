@@ -36,24 +36,6 @@ import lamindb as ln
 
 db = ln.DB("laminlabs/lamindata")
 
-# easiest: pass strings to keyword arguments that map on features
-xenium_datasets = db.Artifact.filter(
-    assay="Xenium Spatial Gene Expression",
-    disease="ductal breast carcinoma in situ",
-)
-xenium_datasets.to_dataframe()
-```
-
-::::
-
-::::{tab-item} Via expressions
-
-```python
-import lamindb as ln
-
-db = ln.DB("laminlabs/lamindata")
-
-# more explicit: query the feature registry and construct expressions
 xenium_datasets = db.Artifact.filter(
     db.Feature.get(name="assay") == "Xenium Spatial Gene Expression",
     db.Feature.get(name="disease") == "ductal breast carcinoma in situ",
@@ -71,7 +53,6 @@ import bionty as bt
 
 db = ln.DB("laminlabs/lamindata")
 
-# very explicit: query ontological registries and construct expressions
 xenium_datasets = db.Artifact.filter(
     db.Feature.get(name="assay") == db.bionty.ExperimentalFactor.get(name="Xenium Spatial Gene Expression"),
     db.Feature.get(name="disease") == db.bionty.Disease.get(name="ductal breast carcinoma in situ"),
