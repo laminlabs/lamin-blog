@@ -53,6 +53,10 @@ For each dataset, three `.parquet` artifact types are registered and tagged with
 - **Beta values** — wide-format methylation matrices with one column per CpG site (~49k probes)
 - **Processed values** — long-format methylation matrices with a `data` column with lists of beta values per sample
 
+## Acknowledgements
+
+We thank Albert Ying, the author of MethylGPT, for feedback on this post.
+
 ## Author contributions
 
 Altana harmonized sample metadata for LaminDB, generated the wide beta tables, and developed the example notebook.
