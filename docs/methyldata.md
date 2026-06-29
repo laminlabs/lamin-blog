@@ -13,72 +13,44 @@ tweet: TBD
 linkedin: TBD
 ---
 
-[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150,000 human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify API-based queries for these datasets, we seeded the extensible [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) database with a curated version of the MethylGPT training data.
+[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150k human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify sharing these datasets including their annotations, we seeded the extensible [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) database with a curated version of the MethylGPT training data.
 
-MethylGPT distributes the pretraining bundle as parquet shards on static storage: compact methylation files and matching sample metadata live in separate directories, with no unified way to query them.
-
-For example, you might want blood samples aged 18–65 to train an epigenetic clock[^horvath13][^hannum13] — a downstream task MethylGPT benchmarks include[^ying24].
-In the original bundle, that means opening metadata and methylation parquet shards one by one, filtering rows by hand, and matching the right files for each dataset block.
-In the database, you express what you care about as entities — tissue, disease, cell line, or ethnicity — and join metadata with beta values programmatically.
-
-The same query can also be expressed in Python.
-Each dataset block pairs sample metadata with a matching beta matrix, linked via artifact features.
-The snippet below narrows to blood at both the artifact and sample level:
+Say you want to retrieve blood samples from donors between ages 18 to 65, you can query all parquet files annotated by those samples and then trust that there is a validated column `blood`:
 
 ```python
 import lamindb as ln
 import pyarrow.compute as pc
 
 db = ln.DB("laminlabs/methyldata")
+
+# get a few labels
 project = db.Project.get(name="MethylGPT")
-file_types = db.ULabel.filter(type__name="FileType").lookup()
-
-# all sample-metadata blocks in the project
-meta_artifacts = project.artifacts.filter(ulabels=file_types.sample_metadata)
-
-# artifact-level: SQL labels tag blocks that contain blood (not every row is blood)
+is_metadata = db.ULabel.get(name="sample_metadata")
 blood = db.bionty.Tissue.get(name="blood")
-meta_artifacts_blood = meta_artifacts.filter(tissues=blood)
 
-# sample-level: blood rows in the first block
-meta_blood_ds = meta_artifacts_blood.order_by("key").open().filter(pc.field("tissue") == "blood")
-meta_df = meta_blood_ds.to_table().to_pandas()
+# retrieve all metadata parquet files
+meta_artifacts = db.Artifact.filter(projects=project, ulabels=is_metadata, tissues=blood)
 
-# each metadata block links to its matching beta matrix via an artifact feature
-meta_artifact = meta_artifacts_blood.order_by("key").first()
-beta_artifact = meta_artifact.features["beta_artifact"]
-beta_df = beta_artifact.load()
-
-# beta uses column `id`; metadata uses `GSM_ID`
-df = beta_df.merge(meta_df, left_on="id", right_on="GSM_ID")
+# query those samples in the parquet files that match blood
+with meta_artifacts.open() as meta_datasets:
+    meta_df = meta_datasets.filter(pc.field("tissue") == "blood").to_table().to_pandas()
 ```
 
-The [MethylGPT Data Querying and Loading Tutorial](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C) scales this across the full corpus, adds an age filter, caches wide beta parquets (~49k columns) before load, and trains an age-prediction model with lineage.
-
-See also [Stream datasets from storage](https://docs.lamin.ai/arrays) and explore the instance on [lamin.ai/laminlabs/methyldata](https://lamin.ai/laminlabs/methyldata).
-
-## Sample metadata
-
-Each dataset block includes a sample metadata parquet from the MethylGPT bundle, validated in LaminDB against the [`methylgpt_metadata`](https://lamin.ai/laminlabs/methyldata/schema/5IKjIq3L4vd29c0j) schema.
+This query behaves as it should because the `sample_metadata` files were validated with the [`methylgpt_metadata`](https://lamin.ai/laminlabs/methyldata/schema/5IKjIq3L4vd29c0j) schema:
 
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/XChydSOI1H7DVCRB0000.png" width="700">
 
-In LaminDB, annotations are at the **artifact** level: SQL aggregates over these tables tag each dataset block with the tissues, diseases, cell lines, and ethnicities it contains.
-To subset individual samples — by age, case/control status, or treatment — open metadata parquets as a single [PyArrow dataset](https://docs.lamin.ai/arrays) and filter across shards, as in the snippet above.
+Here is an exemplary [notebook](https://lamin.ai/laminlabs/methyldata/transform/Jxbyx3uaPNcu000C) that uses the data access to train an epigentic clock, a model that predicts chronological age based on methylation profiles.[^horvath13][^hannum13]
 
 ## Methods
 
-We mirrored the MethylGPT pretraining bundle in LaminDB under the `MethylGPT` project.
-The corpus comprises 226,555 profiles (154,063 after QC and deduplication) from 5,281 EWAS hub studies, covering 49,156 CpG sites[^ewas26][^ewas22].
-For each dataset block, three linked artifact types are registered and tagged with [`FileType`](https://lamin.ai/laminlabs/methyldata/ulabels/BWc6wSdK) ULabels (`sample_metadata`, `beta`, `preprocessed`):
+We ingested the MethylGPT pretraining data under the `MethylGPT` project.
+The corpus comprises 226,555 profiles (154,063 after QC and deduplication) from 5,281 EWAS hub studies, covering 49,156 CpG sites.[^ewas26][^ewas22]
+For each dataset, three `.parquet` artifact types are registered and tagged with [`FileType`](https://lamin.ai/laminlabs/methyldata/ulabels/BWc6wSdK) labels:
 
-- **Sample metadata** (`.parquet`, `methylGPT/sample_metadata/`) — biological and experimental annotations per sample, including GEO metadata sourced via [ClockBase](https://doi.org/10.1101/2023.02.28.530532)[^clockbase23].
-- **Beta values** (`.parquet`, `methylGPT/beta/`) — wide-format methylation matrices with one column per CpG site (~49k probes), generated by us from the compact parquet files.
-- **Preprocessed datasets** (`.parquet`, `methylGPT/processed_dataset/`) — the compact format MethylGPT expects for inference: a sample `id` column and a `data` column with lists of beta values per sample (see the [inference guide](https://github.com/albert-ying/MethylGPT/blob/main/docs/inference_guide.md#data-format)).
-
-Metadata and beta artifacts within a block are linked bidirectionally via `meta_artifact` and `beta_artifact` artifact features.
-A shared CpG probe reference (`methylGPT/probe_ids_type3.csv`) maps column order to Illumina probe IDs.
-Artifact-level labels (tissues, diseases, cell lines, ethnicities) are computed as SQL aggregates over each block's sample metadata table at ingest time.
+- **Sample metadata** — biological and experimental annotations per sample, validated with the `methylgpt_metadata` schema
+- **Beta values** — wide-format methylation matrices with one column per CpG site (~49k probes)
+- **Processed values** — long-format methylation matrices with a `data` column with lists of beta values per sample
 
 ## Author contributions
 
