@@ -13,7 +13,7 @@ tweet: TBD
 linkedin: TBD
 ---
 
-[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150k human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify sharing these datasets including their annotations, we seeded the extensible [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) database with a curated version of the MethylGPT training data.
+[MethylGPT](https://github.com/albert-ying/MethylGPT)[^ying24] is a transformer-based foundation model trained on over 150k human methylation profiles across tissue types, donor ages, and disease conditions sourced from the [EWAS data hub](https://ngdc.cncb.ac.cn/ewas/datahub)[^ewas26][^ewas22]. To simplify sharing these datasets with their schemas and annotations, we seeded the extensible [`laminlabs/methyldata`](https://lamin.ai/laminlabs/methyldata) database with a curated version of the MethylGPT training data.
 
 Say you want to retrieve blood samples from donors between ages 18 to 65, you can query all parquet files annotated by those samples and then trust that there is a validated column `blood`:
 
