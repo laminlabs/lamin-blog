@@ -44,7 +44,7 @@ Here is an exemplary [notebook](https://lamin.ai/laminlabs/methyldata/transform/
 
 ## Methods
 
-We ingested the MethylGPT pretraining data under the `MethylGPT` project.
+We ingested the MethylGPT pretraining data[^ying24][^clockbase23] under the `MethylGPT` project.
 The corpus comprises 226,555 profiles (154,063 after QC and deduplication) from 5,281 EWAS hub studies, covering 49,156 CpG sites.[^ewas26][^ewas22]
 For each dataset, three `.parquet` artifact types are registered and tagged with [`FileType`](https://lamin.ai/laminlabs/methyldata/ulabels/BWc6wSdK) labels:
 
