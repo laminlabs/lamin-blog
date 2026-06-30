@@ -673,6 +673,8 @@ benchmarking metadata-driven query optimization.
 Lamin Blog.
 ```
 
+## References
+
 [^iceberg]: Apache Software Foundation. Apache Iceberg: The open table format for analytic datasets. [Apache Iceberg](https://iceberg.apache.org/).
 
 [^ducklake]: Raasveldt M & Holanda P (2026). DuckLake v1.0: The Lakehouse Format Built on SQL Reaches Production-Readiness. [DuckLake Blog](https://ducklake.select/2026/04/13/ducklake-10/).
