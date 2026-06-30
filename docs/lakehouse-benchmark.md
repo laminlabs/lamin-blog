@@ -1,12 +1,12 @@
 ---
-title: "Lakehouse Engineering: Benchmarking Metadata-Driven Query Optimization"
+title: "Lamin Lakehouse Benchmarks v1: Comparing PyArrow, Iceberg, DuckDB, LanceDB & Polors for queries of the 1000 Genome Project"
 date: 2026-06-25
-author: Koncopd, falexwolf
+author: Raaghav-Pillai, alexras, Koncopd, falexwolf
 affiliation:
+  raaghavpillai: Lamin Labs, NYC
+  AlexR: BitsOnDisk
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
-  AlexR: Lamin Labs
-  raaghavpillai: Lamin Labs
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
@@ -22,7 +22,7 @@ The lakehouse architecture promises to combine the flexibility of a data lake wi
 
 ### How Iceberg works
 
-Under the hood, Iceberg organizes data into *snapshots* — each a collection of data files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
+Under the hood, Iceberg organizes data into _snapshots_ — each a collection of data files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
 This snapshot-based approach offers several advantages over raw files in S3. Iceberg writes are serializable ACID transactions, enabling time travel (reading previous snapshots), schema evolution without data rewrites, and Write-Audit-Publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
@@ -40,19 +40,19 @@ LaminDB is largely complementary to Iceberg rather than a replacement. It can tr
 
 ### Capability comparison
 
-| Feature | Raw Files | Iceberg | DuckLake | LaminDB |
-|---|---|---|---|---|
-| ACID transactions | ❌ | ✅ | ✅ | ✅ |
-| Time travel / snapshot isolation | ❌ | ✅ | ✅ | ❌ |
-| Schema evolution without rewriting data | ❌ | ✅ | ✅ | ❌ |
-| Write-Audit-Publish workflow | ❌ | ✅ | ❌ | ❌ |
-| Query engine independence | ✅ | ✅ | ❌ | ❌ |
-| Concurrent writers | ❌ | ❌ | ✅ | ✅ |
-| Automatic maintenance | ❌ | ❌ | ✅ | ✅ |
-| Native multi-table transactions | ❌ | ❌ | ✅ | ✅ |
-| Heterogeneous file support | ✅ | ❌ | ❌ | ✅ |
-| Data lineage & provenance | ❌ | ❌ | ❌ | ✅ |
-| Biological metadata & ontologies | ❌ | ❌ | ❌ | ✅ |
+| Feature                                 | Raw Files | Iceberg | DuckLake | LaminDB |
+| --------------------------------------- | --------- | ------- | -------- | ------- |
+| ACID transactions                       | ❌        | ✅      | ✅       | ✅      |
+| Time travel / snapshot isolation        | ❌        | ✅      | ✅       | ❌      |
+| Schema evolution without rewriting data | ❌        | ✅      | ✅       | ❌      |
+| Write-Audit-Publish workflow            | ❌        | ✅      | ❌       | ❌      |
+| Query engine independence               | ✅        | ✅      | ❌       | ❌      |
+| Concurrent writers                      | ❌        | ❌      | ✅       | ✅      |
+| Automatic maintenance                   | ❌        | ❌      | ✅       | ✅      |
+| Native multi-table transactions         | ❌        | ❌      | ✅       | ✅      |
+| Heterogeneous file support              | ✅        | ❌      | ❌       | ✅      |
+| Data lineage & provenance               | ❌        | ❌      | ❌       | ✅      |
+| Biological metadata & ontologies        | ❌        | ❌      | ❌       | ✅      |
 
 ---
 
@@ -90,6 +90,7 @@ Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files 
 ```python
 dataset = collection.open()   # lazy PyArrow dataset over the 6 shards
 ```
+
 :::::
 
 :::::{tab-item} Polars
@@ -99,6 +100,7 @@ dataset = collection.open()   # lazy PyArrow dataset over the 6 shards
 with collection.open(engine="polars") as lazy_df:
     ...   # lazy_df is a Polars LazyFrame backed by S3
 ```
+
 :::::
 
 :::::{tab-item} DuckDB
@@ -113,6 +115,7 @@ con.execute("CREATE OR REPLACE SECRET s3 (TYPE s3, PROVIDER credential_chain);")
 s3_paths = [str(a.path) for a in collection.ordered_artifacts.all()]
 con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
 ```
+
 :::::
 
 :::::{tab-item} Iceberg
@@ -144,20 +147,22 @@ arrow = collection.open().to_table()   # 7.4s — full S3 read
 db = lancedb.connect(WAREHOUSE)
 table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 ```
+
 :::::
 ::::::
 
 **Setup summary:**
 
-| Engine | Lines | Time | Ingest required |
-|---|---|---|---|
-| PyArrow | 1 | ~0s | No |
-| Polars | 1 | ~0s | No |
-| DuckDB | 5 | ~1s | No |
-| Iceberg | ~20 | ~8.7s | No (wraps source Parquet) |
-| LanceDB | 3 | ~7.6s | Yes (copies to Lance format) |
+| Engine  | Lines | Time  | Ingest required              |
+| ------- | ----- | ----- | ---------------------------- |
+| PyArrow | 1     | ~0s   | No                           |
+| Polars  | 1     | ~0s   | No                           |
+| DuckDB  | 5     | ~1s   | No                           |
+| Iceberg | ~20   | ~8.7s | No (wraps source Parquet)    |
+| LanceDB | 3     | ~7.6s | Yes (copies to Lance format) |
 
 <!-- PLOT: setup_cost.svg -->
+
 ![Setup cost](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70000.svg)
 
 ---
@@ -176,46 +181,56 @@ Variants on the most prevalent chromosome within the 10th–90th percentile posi
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
+
 ```python
 import pyarrow.compute as pc
 expr = ((pc.field("CHROM") == chrom)
         & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
 filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
 ```
+
 :::::
 
 :::::{tab-item} Polars
+
 ```python
 filtered = lazy_df.filter(
     (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
 ).collect()
 ```
+
 :::::
 
 :::::{tab-item} DuckDB
+
 ```python
 filtered = con.execute(
     "SELECT * FROM cnv_vcf WHERE CHROM = ? AND POS BETWEEN ? AND ?",
     [chrom, lo, hi],
 ).df()
 ```
+
 :::::
 
 :::::{tab-item} Iceberg
+
 ```python
 from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
 row_filter = And(EqualTo("CHROM", chrom),
              And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
 filtered = table.scan(row_filter=row_filter).to_arrow()
 ```
+
 :::::
 
 :::::{tab-item} LanceDB
+
 ```python
 filtered = table.to_lance().to_table(
     filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
 ).to_pandas()
 ```
+
 :::::
 ::::::
 
@@ -225,6 +240,7 @@ For each sample: total CNV count, deletion count, median deletion size, homozygo
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
+
 ```python
 df = dataset.to_table().to_pandas()
 
@@ -236,9 +252,11 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
+
 :::::
 
 :::::{tab-item} Polars
+
 ```python
 df = lazy_df.collect().to_pandas()
 
@@ -250,9 +268,11 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
+
 :::::
 
 :::::{tab-item} DuckDB
+
 ```python
 stats = con.execute("""
     SELECT
@@ -266,9 +286,11 @@ stats = con.execute("""
     GROUP BY SAMPLE_NAME
 """).df()
 ```
+
 :::::
 
 :::::{tab-item} Iceberg
+
 ```python
 df = table.scan().to_arrow().to_pandas()
 
@@ -280,9 +302,11 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
+
 :::::
 
 :::::{tab-item} LanceDB
+
 ```python
 df = table.to_arrow().to_pandas()
 
@@ -294,6 +318,7 @@ stats = df.groupby("SAMPLE_NAME").agg(
     Heterozygous_CNVs=("SAMPLE_GT", lambda x: (x == "0/1").sum()),
 ).reset_index()
 ```
+
 :::::
 ::::::
 
@@ -303,22 +328,27 @@ Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two o
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
+
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
+
 :::::
 
 :::::{tab-item} Polars
+
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
+
 :::::
 
 :::::{tab-item} DuckDB
+
 ```python
 recurrent = con.execute("""
     SELECT
@@ -330,26 +360,32 @@ recurrent = con.execute("""
     ORDER BY sample_count DESC
 """).df()   # 1,903 recurrent regions
 ```
+
 :::::
 
 :::::{tab-item} Iceberg
+
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
+
 :::::
 
 :::::{tab-item} LanceDB
+
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
 recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```
+
 :::::
 ::::::
 
 <!-- PLOT: query_times.svg -->
+
 ![Query Times](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0000.svg)
 
 ### Notes on query timing
@@ -382,6 +418,7 @@ new_collection = ln.Collection(
     key=collection.key, revises=collection,
 ).save()
 ```
+
 :::::
 
 :::::{tab-item} Polars
@@ -399,6 +436,7 @@ new_collection = ln.Collection(
     key=collection.key, revises=collection,
 ).save()
 ```
+
 :::::
 
 :::::{tab-item} DuckDB
@@ -411,6 +449,7 @@ con.execute(
     f"{base_select} UNION ALL SELECT * FROM append_batch"
 )
 ```
+
 :::::
 
 :::::{tab-item} Iceberg
@@ -419,6 +458,7 @@ The append is atomic and snapshot-isolated. New Parquet files and a snapshot man
 ```python
 table.append(new_sample_arrow)
 ```
+
 :::::
 
 :::::{tab-item} LanceDB
@@ -428,6 +468,7 @@ table.append(new_sample_arrow)
 table.add(new_sample_arrow)
 # table.version == 2, table.count_rows() == 10,465
 ```
+
 :::::
 ::::::
 
@@ -442,6 +483,7 @@ schema = ln.Schema.get(name="1000 Genomes CNV VCF")
 feat = ln.Feature(name="QC_PASS", dtype=bool).save()
 schema.add_optional_features([feat])
 ```
+
 :::::
 
 :::::{tab-item} Polars
@@ -452,6 +494,7 @@ schema = ln.Schema.get(name="1000 Genomes CNV VCF")
 feat = ln.Feature(name="QC_PASS", dtype=bool).save()
 schema.add_optional_features([feat])
 ```
+
 :::::
 
 :::::{tab-item} DuckDB
@@ -463,6 +506,7 @@ con.execute(
     f"SELECT *, CAST(NULL AS BOOLEAN) AS QC_PASS FROM ({base_select}) t"
 )
 ```
+
 :::::
 
 :::::{tab-item} Iceberg
@@ -473,6 +517,7 @@ from pyiceberg.types import BooleanType
 with table.update_schema() as update:
     update.add_column("QC_PASS", BooleanType())
 ```
+
 :::::
 
 :::::{tab-item} LanceDB
@@ -481,6 +526,7 @@ A new column is added via SQL expression. All existing rows receive `null` for t
 ```python
 table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 ```
+
 :::::
 ::::::
 
@@ -494,6 +540,7 @@ The pre-append collection version is addressable by UID. LaminDB retains all pri
 original = ln.Collection.get("K6X8Ejk3fjgAZT6h0000")
 rows_v1 = original.open().count_rows()   # 8,929
 ```
+
 :::::
 
 :::::{tab-item} Polars
@@ -504,6 +551,7 @@ original = ln.Collection.get("K6X8Ejk3fjgAZT6h0000")
 with original.open(engine="polars") as lazy_v1:
     rows_v1 = lazy_v1.select(pl.len()).collect().item()   # 8,929
 ```
+
 :::::
 
 :::::{tab-item} DuckDB
@@ -512,6 +560,7 @@ Not supported. DuckDB maintains no snapshot history; the view redefinition used 
 ```python
 # not available
 ```
+
 :::::
 
 :::::{tab-item} Iceberg
@@ -522,6 +571,7 @@ first_snapshot = table.history()[0].snapshot_id
 historical = table.scan(snapshot_id=first_snapshot).to_arrow()
 historical.num_rows   # 8,929
 ```
+
 :::::
 
 :::::{tab-item} LanceDB
@@ -532,10 +582,12 @@ table.checkout(1)             # version 1 = pre-append state
 table.count_rows()            # 8,929
 table.checkout_latest()       # restore current version
 ```
+
 :::::
 ::::::
 
 <!-- PLOT: write_path.svg -->
+
 ![Write Path](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0000.svg)
 
 ### Notes on write timing
@@ -548,20 +600,20 @@ table.checkout_latest()       # restore current version
 
 ## Developer experience compared
 
-| | PyArrow | Polars | DuckDB | Iceberg | LanceDB |
-|---|---|---|---|---|---|
-| **Setup** | 1 line, ~0s | 1 line, ~0s | 5 lines, ~1s | ~20 lines, ~8.7s | 3 lines, ~7.6s |
-| **Data ingestion required** | No | No | No | No (wraps source Parquet) | Yes (copies to Lance format) |
-| **Query API** | PyArrow / pandas | Polars / pandas | SQL | Iceberg expressions / pandas | PyArrow / pandas / SQL |
-| **Store-mode query time** | ~1.1–1.4s | ~0.27–0.35s | ~0.77–0.87s | ~0.15–0.19s* | ~0.06–0.33s* |
-| **Append** | S3 upload + schema validation + collection version | same as PyArrow | session-only view | atomic snapshot to S3 | versioned write to S3 |
-| **Append time** | 9.4s | 9.5s | 0.24s† | 0.88s | 0.11s |
-| **Schema change scope** | instance-wide registry | instance-wide registry | session only† | this table | this table |
-| **Schema change time** | 3.5s | 3.6s | 0.25s† | 0.31s | 0.06s |
-| **Time travel** | collection versions | collection versions | not supported | snapshot ID | version number |
-| **ACID** | schema validation + collection versioning | same as PyArrow | none | full snapshot isolation | versioned appends |
-| **Vector search** | no | no | no | no | yes |
-| **Stays in LaminDB lineage** | yes | yes | yes | yes | no |
+|                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                      | LanceDB                      |
+| ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ---------------------------- | ---------------------------- |
+| **Setup**                    | 1 line, ~0s                                        | 1 line, ~0s            | 5 lines, ~1s      | ~20 lines, ~8.7s             | 3 lines, ~7.6s               |
+| **Data ingestion required**  | No                                                 | No                     | No                | No (wraps source Parquet)    | Yes (copies to Lance format) |
+| **Query API**                | PyArrow / pandas                                   | Polars / pandas        | SQL               | Iceberg expressions / pandas | PyArrow / pandas / SQL       |
+| **Store-mode query time**    | ~1.1–1.4s                                          | ~0.27–0.35s            | ~0.77–0.87s       | ~0.15–0.19s\*                | ~0.06–0.33s\*                |
+| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3        | versioned write to S3        |
+| **Append time**              | 9.4s                                               | 9.5s                   | 0.24s†            | 0.88s                        | 0.11s                        |
+| **Schema change scope**      | instance-wide registry                             | instance-wide registry | session only†     | this table                   | this table                   |
+| **Schema change time**       | 3.5s                                               | 3.6s                   | 0.25s†            | 0.31s                        | 0.06s                        |
+| **Time travel**              | collection versions                                | collection versions    | not supported     | snapshot ID                  | version number               |
+| **ACID**                     | schema validation + collection versioning          | same as PyArrow        | none              | full snapshot isolation      | versioned appends            |
+| **Vector search**            | no                                                 | no                     | no                | no                           | yes                          |
+| **Stays in LaminDB lineage** | yes                                                | yes                    | yes               | yes                          | no                           |
 
 \* Post-ingest; excludes one-time setup cost of 8.7s (Iceberg) and 7.6s (LanceDB).
 † Not persisted; session-scoped only.
@@ -570,7 +622,7 @@ table.checkout_latest()       # restore current version
 
 ## LaminDB as a data layer
 
-The five engines above address the question of *how* to query data. LaminDB addresses a different question: *how to manage data across the lifecycle of a project.*
+The five engines above address the question of _how_ to query data. LaminDB addresses a different question: _how to manage data across the lifecycle of a project._
 
 In this benchmark, LaminDB serves as the storage layer underneath all five query engines. The same collection is opened by each engine without any data movement or format conversion (with the exception of LanceDB, which copies the data out). LaminDB does not provide a query engine and does not compete with DuckDB, Iceberg, or LanceDB on query performance.
 
