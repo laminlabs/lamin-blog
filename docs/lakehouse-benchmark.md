@@ -63,12 +63,11 @@ The second half of this post measures five tools — PyArrow, Polars, DuckDB, Ap
 With each tool, we run the same four-step workflow: access, query, append rows, and evolve the schema. In the query step we run typical analytical computations, includin computing per-sample statistics or recurrent region identification.
 These operations are routine in genomics but span the full read-write operations of any tool. We'll try to make trade offs evident: one tool might make querying concise but schema changes ephemeral; another tool that provides durable writes may require an upfront ingestion step; another tool that copies data into its own format removes it from the lineage graph.
 
-### One shared dataset
-
-All five approaches read from the same LaminDB collection:
+All five approaches read from the same collection of parquet files on AWS S3:
 
 ```python
 import lamindb as ln
+
 collection = ln.Collection.get("K6X8Ejk3fjgAZT6h")  # 1000 Genomes CNV calls
 ```
 
