@@ -66,7 +66,8 @@ All five approaches read from the same collection of parquet files on AWS S3:
 ```python
 import lamindb as ln
 
-collection = ln.Collection.get("K6X8Ejk3fjgAZT6h")  # 1000 Genomes CNV calls
+db = ln.DB("laminlabs/lakehouse-benchmarks")
+collection = db.Collection.get("K6X8Ejk3fjgAZT6h")
 ```
 
 Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
