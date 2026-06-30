@@ -10,11 +10,8 @@ affiliation:
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
-Every genomics data scientist eventually hits the same wall. The biology is worked out. The pipeline is written. And then — before a single query can run — comes the decision of how to actually get at the data: which engine to use, whether to ingest or read in place, how to handle six Parquet files that need to behave like one table.
-
-This post has two parts. The first explains where tools like Iceberg, DuckLake, and LaminDB sit in the data lakehouse ecosystem and what problems each solves. The second benchmarks five query approaches over a shared LaminDB collection of 1000 Genomes CNV calls, measuring the same six-step user journey in each.
-
----
+Over the past decade, the data lakehouse has become the dominant data architecture in R&D.
+In this post, we benchmark exemplary queries and review data management for thousands of parquet files from the 1000 Genomes Project across a popular set of open-source libraries: PyArrow, Iceberg, DuckDB, LanceDB & Polars.
 
 ## The lakehouse landscape
 
