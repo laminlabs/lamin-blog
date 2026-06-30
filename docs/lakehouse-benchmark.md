@@ -56,7 +56,7 @@ LaminDB is largely complementary to Iceberg rather than a replacement. It can tr
 
 ## Benchmarks
 
-The second half of this post measures five tools — PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB — over a shared collection of copy number variations (8929 rows across six DRAGEN parquet shards).
+The second half of this post compares five tools — PyArrow, Iceberg, DuckDB, Polars, and LanceDB — for querying a collection of parquet files that store copy number variation data. We're looking at a small dataset (8929 rows across six DRAGEN parquet shards) and a big dataset (100M rows).
 
 With each tool, we run the same four-step workflow: access, query, append rows, and evolve the schema. In the query step we run typical analytical computations, includin computing per-sample statistics or recurrent region identification.
 These operations are routine in genomics but span the full read-write operations of any tool. We'll try to make trade offs evident: one tool might make querying concise but schema changes ephemeral; another tool that provides durable writes may require an upfront ingestion step; another tool that copies data into its own format removes it from the lineage graph.
