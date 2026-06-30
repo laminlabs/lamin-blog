@@ -54,8 +54,6 @@ LaminDB is largely complementary to Iceberg rather than a replacement. It can tr
 | Ontologies                              | ❌        | ❌      | ❌       | ✅      |
 | Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅      |
 
----
-
 ## Benchmarks
 
 The second half of this post measures five tools — PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB — over a shared collection of copy number variations (8929 rows across six DRAGEN parquet shards).
@@ -388,8 +386,6 @@ recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 
 **Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg (0.15–0.19s) and LanceDB (0.06–0.33s) reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 8.7s and 7.6s respectively. When amortised across ten queries, the total cost per query for each is approximately 1.1s — comparable to PyArrow and DuckDB.
 
----
-
 ## Writes
 
 Three write operations were tested: appending a new sample (1,536 rows), adding a `QC_PASS` boolean column, and querying a historical state.
@@ -590,8 +586,6 @@ table.checkout_latest()       # restore current version
 
 **LaminDB append and schema change scope.** The LaminDB append time (9.4s) includes an S3 upload, schema validation, stable UID assignment, lineage graph linking, and creation of a new collection version. The schema change time (3.5s) includes round-trips to a Postgres-backed schema registry that applies instance-wide. These operations have a wider scope than the equivalent operations in Iceberg (table-scoped) and LanceDB (table-scoped), which is reflected in the timing difference.
 
----
-
 ## Developer experience compared
 
 |                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                      | LanceDB                      |
@@ -611,8 +605,6 @@ table.checkout_latest()       # restore current version
 
 \* Post-ingest; excludes one-time setup cost of 8.7s (Iceberg) and 7.6s (LanceDB).
 † Not persisted; session-scoped only.
-
----
 
 ## LaminDB as a data layer
 
@@ -636,8 +628,6 @@ Note: DuckDB is the one exception in this lineage graph. It reads the collection
 
 These capabilities are available regardless of which query engine is used.
 
----
-
 ## Conclusion
 
 The five approaches in this comparison cover the main strategies for querying Parquet-based genomic data from a LaminDB collection: lazy reads without ingestion (PyArrow, Polars, DuckDB), metadata-layer ingestion (Iceberg), and format-conversion ingestion (LanceDB).
@@ -652,8 +642,6 @@ The primary tradeoffs observed:
 - **S3 parallelism.** Polars reads the six source shards concurrently; PyArrow reads them more sequentially. On this dataset, the observed difference is ~4× in store mode.
 
 Zooming out: as the capability table in the first section shows, Iceberg, DuckLake, and LaminDB each address different layers of the lakehouse problem. Iceberg provides snapshot-isolated ACID transactions for tabular data with query engine independence. DuckLake adds concurrent writers and automatic maintenance by moving metadata into a relational database. LaminDB adds heterogeneous file support, biological metadata, and lineage tracking — and is largely complementary to both.
-
----
 
 ## Author contributions
 
