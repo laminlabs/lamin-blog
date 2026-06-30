@@ -4,7 +4,7 @@ date: 2026-06-25
 author: Raaghav-Pillai, alexras, Koncopd, falexwolf
 affiliation:
   Raaghav-Pillai: Lamin Labs, NYC
-  AlexR: BitsOnDisk
+  alexras: BitsOnDisk
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
