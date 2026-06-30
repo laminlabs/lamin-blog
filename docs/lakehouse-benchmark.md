@@ -50,20 +50,18 @@ LaminDB is largely complementary to Iceberg rather than a replacement. It can tr
 | Automatic maintenance                   | ❌        | ❌      | ✅       | ✅      |
 | Native multi-table transactions         | ❌        | ❌      | ✅       | ✅      |
 | Heterogeneous file support              | ✅        | ❌      | ❌       | ✅      |
-| Data lineage & provenance               | ❌        | ❌      | ❌       | ✅      |
-| Biological metadata & ontologies        | ❌        | ❌      | ❌       | ✅      |
+| Data lineage                            | ❌        | ❌      | ❌       | ✅      |
+| Ontologies                              | ❌        | ❌      | ❌       | ✅      |
+| Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅      |
 
 ---
 
 ## Benchmarks
 
-The second half of this post measures five query approaches — PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB — over a shared collection of 1000 Genomes CNV calls (8929 rows across six DRAGEN Parquet shards). Each approach runs the same four-step workflow: access, query, append rows, and evolve the schema.
+The second half of this post measures five tools — PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB — over a shared collection of copy number variations (8929 rows across six DRAGEN parquet shards).
 
-### Background
-
-A copy-number variant analysis typically involves per-sample statistics, recurrent region identification across samples, filtered positional queries, incremental sample appends, and schema evolution. These operations are routine in genomics but span the full read-write surface of a query engine. Choosing an engine commits a team to a specific answer for all of them simultaneously: an engine that makes querying concise may make schema changes ephemeral; an engine that provides durable writes may require an upfront ingestion step; an engine that copies data into its own format removes it from the source lineage graph.
-
-This benchmark measures all six operations end-to-end across five engines to make those tradeoffs explicit.
+With each tool, we run the same four-step workflow: access, query, append rows, and evolve the schema. In the query step we run typical analytical computations, includin computing per-sample statistics or recurrent region identification.
+These operations are routine in genomics but span the full read-write operations of any tool. We'll try to make trade offs evident: one tool might make querying concise but schema changes ephemeral; another tool that provides durable writes may require an upfront ingestion step; another tool that copies data into its own format removes it from the lineage graph.
 
 ### One shared dataset
 
