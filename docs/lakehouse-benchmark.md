@@ -164,8 +164,6 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 
 Three queries were run against all five engines. The computation logic is equivalent across engines; differences in timing reflect S3 read strategy and whether data has been pre-ingested.
 
-### Caveats on timing
-
 All timings are single-run measurements on 8,929 rows. At this scale, results are dominated by fixed overheads (connection setup, S3 round-trips) rather than computational throughput. Iceberg and LanceDB query times reflect reads from their own pre-ingested S3 store, not from the source Parquet — their setup time should be amortised across queries when comparing total cost.
 
 ### Query 1 — filtered query
