@@ -16,7 +16,7 @@ In this post, we benchmark exemplary queries and review data management for thou
 
 ## The lakehouse landscape
 
-The lakehouse architecture promises to combine the flexibility of a data lake with the structure of a data warehouse, allowing teams with multi-modal datasets and different query engines to store their data in a single storage system and manipulate it transactionally. In recent years, lakehouse table formats like Apache Iceberg have emerged to provide transactional semantics on top of tabular data stored in object storage systems like S3.
+The lakehouse architecture promises to combine the flexibility of a data lake with the structure of a data warehouse, allowing teams with multi-modal datasets and different query engines to store their data in a single storage system with control over the dataset schemas. Today's most popular lakehouse table format is Apache Iceberg providing transactions on top of tabular data stored in object storage systems like AWS S3.
 
 ### How Iceberg works
 
