@@ -49,9 +49,9 @@ We ingested the MethylGPT pretraining data[^ying24][^clockbase23] under the `Met
 The corpus comprises 226,555 profiles (154,063 after QC and deduplication) from 5,281 EWAS hub studies, covering 49,156 CpG sites.[^ewas26][^ewas22]
 For each dataset, three `.parquet` artifact types are registered and tagged with [`FileType`](https://lamin.ai/laminlabs/methyldata/ulabels/BWc6wSdK) labels:
 
-- **Sample metadata** — biological and experimental annotations per sample, validated with the `methylgpt_metadata` schema
-- **Beta values** — wide-format methylation matrices with one column per CpG site (~49k probes)
-- **Processed values** — long-format methylation matrices with a `data` column with lists of beta values per sample
+- **sample_metadata** — biological and experimental annotations per sample, validated with the `methylgpt_metadata` schema
+- **beta_wide** — wide-format methylation matrices with one column per CpG site (~49k probes)
+- **beta_long** — long-format methylation matrices with a `data` column with lists of beta values per sample
 
 ## Acknowledgements
 
