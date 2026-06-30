@@ -28,11 +28,12 @@ But Iceberg's snapshot model has real costs. Creating a snapshot is expensive, s
 
 ### DuckLake and the relational metadata approach
 
-One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database (typically DuckDB itself), leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
+One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database, leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
 
 ### Where LaminDB fits
 
-LaminDB shares DuckLake's key architectural insight: use a relational database (Postgres) for metadata, object storage for data. But it goes further in scope. Where Iceberg and DuckLake are concerned exclusively with tabular data and manage their own data files, LaminDB tracks metadata for heterogeneous files across multiple storage engines simultaneously — Parquet, AnnData, HDF5, zarr, VCF, or any other format — in a single lineage graph.
+LaminDB shares DuckLake's key architectural insight: use a relational database for metadata and object storage for data but it goes further in scope.
+While Iceberg and DuckLake are exclusively concerned with tabular data in parquet files, LaminDB manages data in any format — Parquet, AnnData, HDF5, zarr, VCF, ... and provides features like data lineage.
 
 LaminDB is largely complementary to Iceberg rather than a replacement. It can treat an Iceberg table as a dataset like any other, track which pipeline run produced it, and link it to the AnnData files and VCFs that informed it.
 
