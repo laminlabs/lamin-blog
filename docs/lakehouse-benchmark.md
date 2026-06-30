@@ -1,10 +1,11 @@
 ---
 title: "Lamin Lakehouse Benchmarks v1: Comparing PyArrow, Iceberg, DuckDB, LanceDB & Polars in queries of the 1000 Genomes Project"
 date: 2026-06-25
-author: Raaghav-Pillai, alexras, Koncopd, falexwolf
+author: Raaghav-Pillai, alexras, sunnyosun, Koncopd, falexwolf
 affiliation:
   Raaghav-Pillai: Lamin Labs, NYC
   alexras: BitsOnDisk
+  sunnyosun: Lamin Labs, Munich
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
@@ -660,7 +661,10 @@ Zooming out: as the capability table in the first section shows, Iceberg, DuckLa
 
 ## Author contributions
 
-Alex Rasmussen wrote the lakehouse ecosystem overview. Raaghav Pillai performed the benchmarking work and wrote the pipelines. The original LaminDB ingestion pipeline was developed by Sunny Sun. Alex Wolf and Sergei Rybakov supervised the project.
+Raaghav Pillai performed the benchmarking work and wrote the pipelines.
+Alex Rasmussen wrote the lakehouse ecosystem overview.
+The original LaminDB ingestion pipeline was developed by Sunny Sun.
+Alex Wolf and Sergei Rybakov supervised the project.
 
 ## Code & data availability
 
