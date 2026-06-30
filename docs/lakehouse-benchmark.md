@@ -1,9 +1,9 @@
 ---
-title: "Lamin Lakehouse Benchmarks v1: Comparing PyArrow, Iceberg, DuckDB, LanceDB & Polors for queries of the 1000 Genome Project"
+title: "Lamin Lakehouse Benchmarks v1: Comparing PyArrow, Iceberg, DuckDB, LanceDB & Polors in queries of the 1000 Genome Project"
 date: 2026-06-25
 author: Raaghav-Pillai, alexras, Koncopd, falexwolf
 affiliation:
-  raaghavpillai: Lamin Labs, NYC
+  Raaghav-Pillai: Lamin Labs, NYC
   AlexR: BitsOnDisk
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
