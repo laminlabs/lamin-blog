@@ -51,6 +51,7 @@ authors = {
     "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
     "melonora": ("Wouter-Michiel Vierdag", "https://github.com/melonora"),
     "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
+    "sheetalgiri": ("Sheetal Giri", "https://github.com/sheetalgiri"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "timtreis": ("Tim Treis", "https://github.com/timtreis"),
     "tjburns08": ("Tyler Burns", "https://github.com/tjburns08"),
