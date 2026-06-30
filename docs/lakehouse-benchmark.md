@@ -55,11 +55,9 @@ LaminDB is largely complementary to Iceberg rather than a replacement. It can tr
 
 ---
 
-## Benchmark: five ways to query a LaminDB collection
+## Benchmarks
 
-The second half of this post measures five query approaches — PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB — over a shared LaminDB collection of 1000 Genomes CNV calls (8,929 rows across six DRAGEN Parquet shards). Each approach runs the same six-step user journey: access, per-sample statistics, recurrent region detection, filtered query, sample append, and schema change.
-
-All timings are single-run measurements on SageMaker (ml.t3.medium) in store mode unless otherwise stated; they are provided as indicative comparisons on a small dataset, not rigorous benchmarks.
+The second half of this post measures five query approaches — PyArrow, Polars, DuckDB, Apache Iceberg, and LanceDB — over a shared collection of 1000 Genomes CNV calls (8929 rows across six DRAGEN Parquet shards). Each approach runs the same four-step workflow: access, query, append rows, and evolve the schema.
 
 ### Background
 
@@ -73,7 +71,7 @@ All five approaches read from the same LaminDB collection:
 
 ```python
 import lamindb as ln
-collection = ln.Collection.get("K6X8Ejk3fjgAZT6h0000")  # 1000 Genomes CNV calls
+collection = ln.Collection.get("K6X8Ejk3fjgAZT6h")  # 1000 Genomes CNV calls
 ```
 
 Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
@@ -662,7 +660,7 @@ Zooming out: as the capability table in the first section shows, Iceberg, DuckLa
 
 ## Author contributions
 
-Raaghav Pillai performed the benchmarking work and wrote the pipelines.
+Raaghav Pillai performed data engineering and analysis.
 Alex Rasmussen wrote the lakehouse ecosystem overview.
 The original LaminDB ingestion pipeline was developed by Sunny Sun.
 Alex Wolf and Sergei Rybakov supervised the project.
@@ -678,6 +676,10 @@ The five pipeline notebooks, the shared benchmarking utilities, and the plotting
 - [LanceDB pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/WtZF9OX9v3uM0001)
 
 The dataset is the 1000 Genomes Project CNV calls (DRAGEN, hg38), collection UID `K6X8Ejk3fjgAZT6h0000`.
+
+## Methods
+
+All timings are single-run measurements on SageMaker (`ml.t3.medium`) in store mode unless otherwise stated; they are provided as indicative comparisons on a small dataset, not rigorous benchmarks.
 
 ## How to cite
 
