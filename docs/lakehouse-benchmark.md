@@ -16,19 +16,19 @@ In this post, we benchmark exemplary queries and review data management for thou
 
 ## The lakehouse landscape
 
-The lakehouse architecture promises to combine the flexibility of a data lake with the structure of a data warehouse, allowing teams with multi-modal datasets and different query engines to store their data in a single storage system with control over the dataset schemas. Today's most popular lakehouse table format is Apache Iceberg providing transactions on top of tabular data stored in object storage systems like AWS S3.
+The lakehouse architecture promises to combine the flexibility of a data lake with the structure of a data warehouse, allowing teams with multi-modal datasets and different query engines to store their data in a single storage system with control over the dataset schemas. Today's most popular lakehouse table format is Apache Iceberg[^iceberg] providing transactions on top of tabular data stored in object storage systems like AWS S3.
 
-### How Iceberg works
+### Iceberg and manifest-based snapshots
 
 Under the hood, Iceberg organizes data into _snapshots_ — each a collection of data files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
-This snapshot-based approach offers several advantages over raw files in S3. Iceberg writes are serializable ACID transactions, enabling time travel (reading previous snapshots), schema evolution without data rewrites, and Write-Audit-Publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
+This snapshot-based approach offers several advantages over raw files in S3. Iceberg writes are serializable ACID transactions, enabling time travel (reading previous snapshots), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
 But Iceberg's snapshot model has real costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3 (which lacked atomic compare-and-swap until recently), an external catalog or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. Multi-table transactions are only available with certain catalogs.
 
 ### DuckLake and the relational metadata approach
 
-One recent effort to address Iceberg's limitations is [DuckLake](https://ducklake.select), developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database (typically DuckDB itself), leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
+One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database (typically DuckDB itself), leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
 
 ### Where LaminDB fits
 
@@ -685,3 +685,7 @@ Rasmussen A, Pillai R, Rybakov S & Wolf A (2026). Lakehouse engineering:
 benchmarking metadata-driven query optimization.
 Lamin Blog.
 ```
+
+[^iceberg]: Apache Software Foundation. Apache Iceberg: The open table format for analytic datasets. [Apache Iceberg](https://iceberg.apache.org/).
+
+[^ducklake]: Raasveldt M & Holanda P (2026). DuckLake v1.0: The Lakehouse Format Built on SQL Reaches Production-Readiness. [DuckLake Blog](https://ducklake.select/2026/04/13/ducklake-10/).
