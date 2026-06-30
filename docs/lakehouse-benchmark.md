@@ -11,7 +11,7 @@ db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
 Over the past decade, the data lakehouse has become the dominant data architecture in R&D.
-In this post, we benchmark exemplary queries and review data management for thousands of parquet files from the 1000 Genomes Project across a popular set of open-source libraries: PyArrow, Iceberg, DuckDB, LanceDB & Polars.
+In this post, we benchmark exemplary queries and review data management for thousands of parquet files from the 1000 Genomes Project across a popular set of related open-source libraries: PyArrow, Iceberg, DuckDB, LanceDB & Polars.
 
 ## The lakehouse landscape
 
