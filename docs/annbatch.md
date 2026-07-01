@@ -24,6 +24,14 @@ But does this theoretical speed translate to the real world? Let's look at the T
 
 **Figure 1**: Wall-clock time per iteration as a function of samples per second for training an scVI model or simple linear model. `MappedCollection` is loading-limited at ~1,195 samples/s, while `annbatch` shifts the regime to compute-limited at ~84,000 samples/s — a ~70x speedup that collapses a 24-hour training epoch to roughly 15 minutes.
 
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/KfBn3sfRNJLtqMEn0000.png)
+
+**Figure 2**: Raw dataloader throughput on the Tahoe-100M full collection across four configurations. AnnBatch (chunk=512) reaches 63,138 samples/s — a ~61x improvement over `MappedCollection` at 1,033 samples/s.
+
+![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70000.png)
+
+**Figure 3**: Data lineage tracked by LaminDB — from raw h5ads through Zarr conversion to the benchmarking run and plot artifacts. Each arrow represents a registered transform with full input/output linkage.
+
 Using `MappedCollection`, the bottleneck was so severe that a single training epoch required almost a full day (24 hours). By switching to `annbatch`, we slashed that time to roughly 15 minutes. By shifting the bottleneck back to the hardware's actual processing power, we've made terabyte-scale biological training not just possible, but highly efficient.
 
 The transition from `MappedCollection` to `annbatch` represents more than just a performance patch; it is a fundamental shift in how we handle massive biological datasets. By moving to a Zarr-backed architecture and implementing chunked pseudo-random access, we have effectively ended the era of "GPU starvation." When a 24-hour training epoch shrinks to just 15 minutes, the research cycle changes. You no longer wait a week to see if a model converges — you see the results before your next coffee break.
