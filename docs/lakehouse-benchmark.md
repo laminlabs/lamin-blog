@@ -146,14 +146,6 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 
 **Setup summary:**
 
-| Engine  | Lines | Time  | Ingest required              |
-| ------- | ----- | ----- | ---------------------------- |
-| PyArrow | 1     | ~0s   | No                           |
-| Polars  | 1     | ~0s   | No                           |
-| DuckDB  | 5     | ~1s   | No                           |
-| Iceberg | ~20   | ~8.7s | No (wraps source Parquet)    |
-| LanceDB | 3     | ~7.6s | Yes (copies to Lance format) |
-
 <!-- PLOT: setup_cost.svg -->
 
 ![Setup cost](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70000.svg)
