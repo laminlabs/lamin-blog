@@ -24,7 +24,9 @@ But does this theoretical speed translate to the real world? Let's look at the T
 
 **Figure 1**: Wall-clock time per iteration as a function of samples per second for training an scVI model or simple linear model. `MappedCollection` is loading-limited at ~1,195 samples/s, while `annbatch` shifts the regime to compute-limited at ~84,000 samples/s — a ~70x speedup that collapses a 24-hour training epoch to roughly 15 minutes.
 
-![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/KfBn3sfRNJLtqMEn0000.svg)
+<div style="text-align: center">
+<img src="https://lamin.ai/storage/s3/lamin-eu-central-1/LCfy7WeXbvKN%2F/.lamindb/AYfx4Nm2j0lpkkwK0000.svg" width="700" style="padding: 0;">
+</div>
 
 **Figure 2**: Raw dataloader throughput on the Tahoe-100M full collection across four configurations. AnnBatch (chunk=512) reaches 63,138 samples/s — a ~61x improvement over `MappedCollection` at 1,033 samples/s.
 
