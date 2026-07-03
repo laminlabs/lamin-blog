@@ -11,22 +11,22 @@ affiliation:
 
 The demand for AI in omics has grown at an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient, we developed `annbatch`,[^gold26] a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor of 3 higher than the fastest recent alternatives.
 
-While `anndata`[^virshup24] itself came with a disk-backed data loader (`AnnCollection`) already in 2019, the increasing size of training datasets has over the years given rise to better implementations, for instance, as used in SCimilarity[^scimilarity25] or Cellarium[^cellarium22].
-In 2023, some of us helped develop `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. This came, however, at a significant performance cost compared to approaches that load contiguous chunks, such as NVIDIA Merlin[^merlin20] or the `tiledbsoma` loader of CELLxGENE[^cellxgene-census-pytorch]. In 2025, `scDataset`[^dascenzo25] and SLAF[^slaf] have been introduced with significant performance improvements.
+While `anndata`[^virshup24] itself came with a disk-backed data loader (`AnnCollection`) already in 2019, the increasing size of training datasets has over the years given rise to better implementations, for instance, as used in SCimilarity[^scimilarity25] or Cellarium.[^cellarium22]
+In 2023, some of us helped develop `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. This came, however, at a significant performance cost compared to approaches that load contiguous chunks, such as NVIDIA Merlin[^merlin20] or the `tiledbsoma` loader of CELLxGENE.[^cellxgene-census-pytorch] In 2025, `scDataset`[^dascenzo25] and SLAF[^slaf] have been introduced with significant performance improvements.
 
-With `annbatch`,[^gold26] we now developed an `anndata`-based loader that optimizes loading contiguous chunks, assumes pre-shuffling, and uses the popular `.zarr` array format.[^zarr-v2] It reaches 60k samples/second on the Tahoe-100M dataset,[^zhang25] which stores transcriptional profiles of 100M cells (Figure 1). For reproducibility, benchmarks were tracked with data lineage, which makes it possible to trace the processing steps from original files to benchmarking results (Figure 2).
+With `annbatch`,[^gold26] we now developed an `anndata`-based loader that optimizes loading contiguous chunks, assumes pre-shuffling, and uses the popular `.zarr` array format.[^zarr-v2] It reaches 60k samples/second and more[^gold26] on the Tahoe-100M dataset,[^zhang25] which stores transcriptional profiles of 100M cells (**Figure 1**). For reproducibility, benchmarks were tracked with data lineage, which makes it possible to trace the processing steps from original files to benchmarking results (**Figure 2**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KfBn3sfRNJLtqMEn0000.svg" width="700" style="padding: 0;">
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across three loaders, with `scDataset`[^dascenzo25] shown both with a matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run producing the `annbatch` results is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW). It comes with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
+**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across three loaders, with `scDataset`[^dascenzo25] shown both with a matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run producing the `annbatch` results is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW) with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70001.png" width="700" style="padding: 0;">
 </div>
 
-**Figure 2 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Processing pipeline from the originally published Tahoe-100M, over pre-shuffled datasets, to running the data loader, to plotting Figure 1.
+**Figure 2 ([explore](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Processing pipeline from the originally published Tahoe-100M, over pre-shuffled datasets, to running the data loader, to plotting Figure 1.
 
 ## Data & code availability
 
