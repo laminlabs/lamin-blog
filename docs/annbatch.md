@@ -1,5 +1,5 @@
 ---
-title: "Scaling anndata training to the terra-byte scale with annbatch"
+title: "Scaling anndata training to the tera-byte scale with annbatch"
 date: 2026-06-25
 author: felix-fischer, ilan-gold, fabian-theis, falexwolf
 affiliation:
@@ -9,22 +9,19 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-The demand for AI in biology is accelerating at an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. This growth has surfaced a critical bottleneck: disk-backed data loading. While `MappedCollection` was a pioneer in solving this — enabling larger-than-memory training and seamless integration with the `anndata` ecosystem — it hit a ceiling on performance. Its loading speeds often fall significantly short of the throughput required by modern GPUs, leading to extensive resource waste or GPUs that are mostly idle. To bridge this gap, we developed `annbatch`: a high-performance data loader that maintains full `anndata` integration and thereby shifting the bottleneck back to the hardware's actual processing limits.
+The demand for AI for omics data has reached an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient we developed `annbatch`[^gold26], a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor 3 higher than the fastest recent alternatives.
 
-To achieve the performance required for modern models like scVI — which demand a 50–100x speedup over the loading speed obtained by `MappedCollection` — we focused on two fundamental architectural shifts:
+While `anndata`[^virshup24] itself came with an early version of a disk-backed data loader already in 2019 (`AnnCollection`), the advent of larger scale models has given rise to better implementations with improved performance. Particularly early were scimilarity[^scimilarity25] and the cellarium data loader[^cellarium22] around 2023.
 
-- **From Random to Chunked Pseudo-Random Access:** Traditional fully random access is an I/O killer for disk-backed data. By switching to a chunked pseudo-random access pattern, we significantly reduce disk seek time and overhead, allowing for much higher throughput.
-- **From HDF5 to Zarr:** We moved away from the older HDF5-backed `anndata` format in favor of the Zarr backed `anndata` format. Zarr's cloud-native, chunk-based storage is designed for high-concurrency workloads, providing the parallelization needed to keep up with modern GPUs.
+In 2024, we developed `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. However, that came at a big performance penalty compared to approaches that pre-shuffled datasets and would load contiguous chunks like NVIDIA Merlin[^merlin20] or the tiledbsoma loader of CellXGene[^cellxgene-census-pytorch].
 
-Combined with many low-level optimizations, these changes effectively remove the I/O bottleneck, finally allowing the hardware to run at full throttle.
-
-But does this theoretical speed translate to the real world? Let's look at the Tahoe-100M atlas. Training an scVI model on a dataset of this magnitude is a high-throughput challenge; if the data loader can't keep up, the hardware sits idle.
+With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimizes loading contiguous chunks and assumes pre-shuffling and uses the popular `.zarr` array format.[^zarr-v2]
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KfBn3sfRNJLtqMEn0000.svg" width="700" style="padding: 0;">
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across four three loaders where `scDataset` is shown both with matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run that produced the results for `annbatch` is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW). It comes with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
+**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across four three loaders where `scDataset`[^dascenzo25] is shown both with matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run that produced the results for `annbatch` is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW). It comes with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70001.png" width="700" style="padding: 0;">
@@ -48,3 +45,23 @@ Ready to accelerate your training? Explore the code, check out the benchmarks, a
 
 - **GitHub:** [github.com/scverse/annbatch](https://github.com/scverse/annbatch)
 - **Read the Paper:** [arXiv:2604.01949](https://arxiv.org/abs/2604.01949)
+
+## References
+
+[^gold26]: Gold I, Fischer F, Arnoldt L, Wolf FA & Theis FJ (2026). MCML - Annbatch Unlocks Terabyte-Scale Training of Biological Data in Anndata. [arXiv](https://arxiv.org/abs/2604.01949).
+
+[^dascenzo25]: D'Ascenzo D & Cultrera di Montesano S (2025). scDataset: Scalable Data Loading for Deep Learning on Large-Scale Single-Cell Omics. [arXiv](https://arxiv.org/abs/2506.01883).
+
+[^mappedcollection24]: Rybakov S, Fischer F, Wiatrak M, Gold I, Rosen Y, Sun S, Sriworarat C, Theis F, Kalfon J & Wolf A (2024). MappedCollection: Weighted random sampling from large collections of scRNA-seq datasets. Lamin Blog. [blog.lamin.ai/mapped-collection](https://blog.lamin.ai/mapped-collection).
+
+[^scimilarity25]: Heimberg G, Kuo T, DePianto DJ, Salem O, Heigl T, Diamant N, Scalia G, Biancalani T, Turley SJ, Rock JR, Corrada Bravo H, Kaminker J, Vander Heiden JA & Regev A (2025). A cell atlas foundation model for scalable search of similar human cells. [Nature](https://www.nature.com/articles/s41586-024-08411-y).
+
+[^cellarium22]: Cellarium AI (2022). Cellarium-ML: Distributed single-cell data analysis. [GitHub](https://github.com/cellarium-ai/cellarium-ml).
+
+[^merlin20]: Oldridge E, Perez J, Frederickson B, Koumchatzky N, Lee M, Wang Z, Wu L, Yu F, Zamora R, Yilmaz O, Gunny A & Nguyen V (2020). Merlin: A GPU Accelerated Recommendation Framework. [ACM](https://doi.org/10.1145/3292500.3330823).
+
+[^cellxgene-census-pytorch]: CELLxGENE Census experimental PyTorch data pipeline docs. [chanzuckerberg.github.io/cellxgene-census/notebooks/experimental/pytorch.html](https://chanzuckerberg.github.io/cellxgene-census/notebooks/experimental/pytorch.html).
+
+[^virshup24]: Virshup I, Rybakov S, Theis FJ, Angerer P & Wolf FA (2024). anndata: Access and store annotated data matrices. _Journal of Open Source Software_, 9(101), 4371. [doi:10.21105/joss.04371](https://doi.org/10.21105/joss.04371).
+
+[^zarr-v2]: Zarr developers (2024). Zarr storage format specification v2. [zarr-specs.readthedocs.io](https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html).
