@@ -9,13 +9,12 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-The demand for AI for omics data has reached an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient, we developed `annbatch`[^gold26], a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor 3 higher than the fastest recent alternatives.
+The demand for AI for omics data has reached an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient, we developed `annbatch`,[^gold26] a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor 3 higher than the fastest recent alternatives.
 
-While `anndata`[^virshup24] itself came with an early version of a disk-backed data loader already in 2019 (`AnnCollection`), the advent of larger-scale models has given rise to better implementations with improved performance. Particularly early were SCimilarity[^scimilarity25] and the Cellarium data loader[^cellarium22] around 2023.
+While `anndata`[^virshup24] itself came with an early version of a disk-backed data loader already in 2019 (`AnnCollection`), the increasing size of training datasets has given rise to better implementations as used in SCimilarity[^scimilarity25] or Cellarium [^cellarium22] around 2023.
+In 2024, some of us helped developed `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. This came, however, at significant performance cost compared to approaches that load contiguous chunks like NVIDIA Merlin[^merlin20] or the `tiledbsoma` loader of CELLxGENE[^cellxgene-census-pytorch]. In 2025, `scDataset`[^dascenzo25] and SLAF[^slaf] have been introduced with significant performance improvements.
 
-In 2024, we developed `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. However, that came at a big performance penalty compared to approaches that pre-shuffled datasets and would load contiguous chunks like NVIDIA Merlin[^merlin20] or the tiledbsoma loader of CELLxGENE[^cellxgene-census-pytorch]. Very recently, `scDataset`[^dascenzo25] and SLAF[^slaf] have been introduced as much more performant approaches.
-
-With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimizes loading contiguous chunks, assumes pre-shuffling, and uses the popular `.zarr` array format.[^zarr-v2] It reaches 60k samples/second on the Tahoe-100M dataset,[^zhang25] which stores transcriptional profiles of 100M cells (Figure 1). For reproducibility, benchmarks were tracked with data lineage, which allows following the processing steps from original files to benchmarking results (Figure 2).
+With `annbatch`,[^gold26] we now developed an `anndata`-based loader that optimizes loading contiguous chunks, assumes pre-shuffling, and uses the popular `.zarr` array format.[^zarr-v2] It reaches 60k samples/second on the Tahoe-100M dataset,[^zhang25] which stores transcriptional profiles of 100M cells (Figure 1). For reproducibility, benchmarks were tracked with data lineage, which allows following the processing steps from original files to benchmarking results (Figure 2).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KfBn3sfRNJLtqMEn0000.svg" width="700" style="padding: 0;">
