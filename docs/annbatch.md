@@ -24,11 +24,13 @@ But does this theoretical speed translate to the real world? Let's look at the T
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KfBn3sfRNJLtqMEn0000.svg" width="700" style="padding: 0;">
 </div>
 
-**Figure 1 ([lineage](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across four configurations.
+**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across four three loaders where `scDataset` is shown both with matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run that produced the results for `annbatch` is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW). It comes with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
 
-![](https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70001.png)
+<div style="text-align: center">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70001.png" width="700" style="padding: 0;">
+</div>
 
-**Figure 2**: Processing pipeline for an `.h5ad` based data loader.
+**Figure 2 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Processing pipeline from the originally published Tahoe-100M, over pre-shuffled datasets, to running the data loader, to plotting Figure 1.
 
 Using `MappedCollection`, the bottleneck was so severe that a single training epoch required almost a full day (24 hours). By switching to `annbatch`, we slashed that time to roughly 15 minutes. By shifting the bottleneck back to the hardware's actual processing power, we've made terabyte-scale biological training not just possible, but highly efficient.
 
