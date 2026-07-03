@@ -23,7 +23,7 @@ With `annbatch`,[^gold26] we now developed an `anndata`-based loader that optimi
 **Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across three loaders, with `scDataset`[^dascenzo25] shown both with a matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run producing the `annbatch` results is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW) with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70001.png" width="700" style="padding: 0;">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70001.png" width="1000" style="padding: 0;">
 </div>
 
 **Figure 2 ([explore](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Processing pipeline from the originally published Tahoe-100M, over pre-shuffled datasets, to running the data loader, to plotting Figure 1.
@@ -31,7 +31,7 @@ With `annbatch`,[^gold26] we now developed an `anndata`-based loader that optimi
 ## Data & code availability
 
 - Repo: [github.com/scverse/annbatch](https://github.com/scverse/annbatch)
-- Database: [lamin.ai/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
+- DB: [lamin.ai/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
 - Paper: [arXiv:2604.01949](https://arxiv.org/abs/2604.01949)
 
 ## Acknowledgements
