@@ -1,6 +1,6 @@
 ---
-title: "Scaling anndata training to the tera-byte scale with annbatch"
-date: 2026-06-25
+title: "Scaling anndata training to the terabyte scale with annbatch"
+date: 2026-07-03
 author: felix-fischer, ilan-gold, fabian-theis, falexwolf
 affiliation:
   felix-fischer: Lamin Labs, Munich
@@ -9,19 +9,19 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-The demand for AI for omics data has reached an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient we developed `annbatch`[^gold26], a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor 3 higher than the fastest recent alternatives.
+The demand for AI for omics data has reached an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient, we developed `annbatch`[^gold26], a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor 3 higher than the fastest recent alternatives.
 
-While `anndata`[^virshup24] itself came with an early version of a disk-backed data loader already in 2019 (`AnnCollection`), the advent of larger scale models has given rise to better implementations with improved performance. Particularly early were scimilarity[^scimilarity25] and the cellarium data loader[^cellarium22] around 2023.
+While `anndata`[^virshup24] itself came with an early version of a disk-backed data loader already in 2019 (`AnnCollection`), the advent of larger-scale models has given rise to better implementations with improved performance. Particularly early were SCimilarity[^scimilarity25] and the Cellarium data loader[^cellarium22] around 2023.
 
-In 2024, we developed `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. However, that came at a big performance penalty compared to approaches that pre-shuffled datasets and would load contiguous chunks like NVIDIA Merlin[^merlin20] or the tiledbsoma loader of CellXGene[^cellxgene-census-pytorch].
+In 2024, we developed `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. However, that came at a big performance penalty compared to approaches that pre-shuffled datasets and would load contiguous chunks like NVIDIA Merlin[^merlin20] or the tiledbsoma loader of CELLxGENE[^cellxgene-census-pytorch].
 
-With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimizes loading contiguous chunks and assumes pre-shuffling and uses the popular `.zarr` array format.[^zarr-v2]
+With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimizes loading contiguous chunks, assumes pre-shuffling, and uses the popular `.zarr` array format.[^zarr-v2] It reaches 60k samples/second on the Tahoe-100M dataset,[^zhang25] which stores transcriptional profiles of 100M cells (Figure 1). For reproducibility, benchmarks were tracked with data lineage, which allows following the processing steps from original files to benchmarking results (Figure 2).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KfBn3sfRNJLtqMEn0000.svg" width="700" style="padding: 0;">
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across four three loaders where `scDataset`[^dascenzo25] is shown both with matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run that produced the results for `annbatch` is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW). It comes with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
+**Figure 1 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Dataloader throughput on the Tahoe-100M dataset across three loaders where `scDataset`[^dascenzo25] is shown both with matched block/chunk size and with its recommended settings. By clicking on `source`, you can navigate to the runs that produced the results. For example, the run that produced the results for `annbatch` is [here](https://lamin.ai/laminlabs/arrayloader-benchmarks/run/ZSuaqX3BWwLzwduW). It comes with information about parameters, environment, and hardware (`ml.m5.24xlarge` on AWS).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/yoNFOJbnwdn4dNa70001.png" width="700" style="padding: 0;">
@@ -29,22 +29,11 @@ With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimize
 
 **Figure 2 ([source](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Processing pipeline from the originally published Tahoe-100M, over pre-shuffled datasets, to running the data loader, to plotting Figure 1.
 
-Using `MappedCollection`, the bottleneck was so severe that a single training epoch required almost a full day (24 hours). By switching to `annbatch`, we slashed that time to roughly 15 minutes. By shifting the bottleneck back to the hardware's actual processing power, we've made terabyte-scale biological training not just possible, but highly efficient.
+## Data & code availability
 
-The transition from `MappedCollection` to `annbatch` represents more than just a performance patch; it is a fundamental shift in how we handle massive biological datasets. By moving to a Zarr-backed architecture and implementing chunked pseudo-random access, we have effectively ended the era of "GPU starvation." When a 24-hour training epoch shrinks to just 15 minutes, the research cycle changes. You no longer wait a week to see if a model converges — you see the results before your next coffee break.
-
-Because `annbatch` stays native to the `anndata` ecosystem, this efficiency isn't locked into a single niche. It provides a scalable, high-performance foundation across a vast array of biological data types. To give you a sense of the scope, here are just a few examples of what you can now scale:
-
-- 💊 **Large-scale scRNA-seq perturbations:** Model complex cellular responses across millions of cells without I/O lag.
-- 🧬 **Rare-variant WGS data:** Process massive genomic arrays with the same ease as a standard expression matrix.
-- 📷 **Cropped microscopy image tiles:** Train on high-throughput imaging data without abandoning your metadata structures.
-
-These modalities are just the beginning. As biological datasets continue to grow into the tens of terabytes, `annbatch` ensures that your hardware — not your data loader — is the only limit to your discovery.
-
-Ready to accelerate your training? Explore the code, check out the benchmarks, and read the full technical breakdown at the links below:
-
-- **GitHub:** [github.com/scverse/annbatch](https://github.com/scverse/annbatch)
-- **Read the Paper:** [arXiv:2604.01949](https://arxiv.org/abs/2604.01949)
+- Repo: [github.com/scverse/annbatch](https://github.com/scverse/annbatch)
+- Database: [lamin.ai/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
+- Paper: [arXiv:2604.01949](https://arxiv.org/abs/2604.01949)
 
 ## References
 
@@ -65,3 +54,5 @@ Ready to accelerate your training? Explore the code, check out the benchmarks, a
 [^virshup24]: Virshup I, Rybakov S, Theis FJ, Angerer P & Wolf FA (2024). anndata: Access and store annotated data matrices. _Journal of Open Source Software_, 9(101), 4371. [doi:10.21105/joss.04371](https://doi.org/10.21105/joss.04371).
 
 [^zarr-v2]: Zarr developers (2024). Zarr storage format specification v2. [zarr-specs.readthedocs.io](https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html).
+
+[^zhang25]: Zhang JQ et al. (2025). Tahoe-100M: A Giga-Scale Single-Cell Perturbation Atlas for Context-Dependent Gene Function and Cellular Modeling. [bioRxiv](https://www.biorxiv.org/content/10.1101/2025.02.20.639398).
