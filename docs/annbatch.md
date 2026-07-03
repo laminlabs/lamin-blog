@@ -13,7 +13,7 @@ The demand for AI for omics data has reached an unprecedented rate, with state-o
 
 While `anndata`[^virshup24] itself came with an early version of a disk-backed data loader already in 2019 (`AnnCollection`), the advent of larger-scale models has given rise to better implementations with improved performance. Particularly early were SCimilarity[^scimilarity25] and the Cellarium data loader[^cellarium22] around 2023.
 
-In 2024, we developed `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. However, that came at a big performance penalty compared to approaches that pre-shuffled datasets and would load contiguous chunks like NVIDIA Merlin[^merlin20] or the tiledbsoma loader of CELLxGENE[^cellxgene-census-pytorch].
+In 2024, we developed `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling. However, that came at a big performance penalty compared to approaches that pre-shuffled datasets and would load contiguous chunks like NVIDIA Merlin[^merlin20] or the tiledbsoma loader of CELLxGENE[^cellxgene-census-pytorch]. Very recently, `scDataset`[^dascenzo25] and SLAF[^slaf] have been introduced as much more performant approaches.
 
 With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimizes loading contiguous chunks, assumes pre-shuffling, and uses the popular `.zarr` array format.[^zarr-v2] It reaches 60k samples/second on the Tahoe-100M dataset,[^zhang25] which stores transcriptional profiles of 100M cells (Figure 1). For reproducibility, benchmarks were tracked with data lineage, which allows following the processing steps from original files to benchmarking results (Figure 2).
 
@@ -34,6 +34,13 @@ With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimize
 - Repo: [github.com/scverse/annbatch](https://github.com/scverse/annbatch)
 - Database: [lamin.ai/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
 - Paper: [arXiv:2604.01949](https://arxiv.org/abs/2604.01949)
+
+## Acknowledgements
+
+We are grateful to Raaghav Pillai for re-running benchmarks with the latest versions after a long development process.
+We thank Sergei Rybakov for early discussions, right after the `MappedCollection` ended.
+We thank Pavan Ramkumar for feedback and for validating early benchmarks.
+We thank Davide D'Ascenzo and Sebastiano Cultrera di Montesano for discussion related to scDataset.
 
 ## References
 
@@ -56,3 +63,5 @@ With `annbatch`,[^gold26] we now present an `anndata`-based loader that optimize
 [^zarr-v2]: Zarr developers (2024). Zarr storage format specification v2. [zarr-specs.readthedocs.io](https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html).
 
 [^zhang25]: Zhang JQ et al. (2025). Tahoe-100M: A Giga-Scale Single-Cell Perturbation Atlas for Context-Dependent Gene Function and Cellular Modeling. [bioRxiv](https://www.biorxiv.org/content/10.1101/2025.02.20.639398).
+
+[^slaf]: Pavan Ramkumar (2025). SLAF: Sparse Lazy Array Format. [slaf-project.github.io](https://slaf-project.github.io/slaf/).
