@@ -74,7 +74,7 @@ All five approaches read from the same collection of parquet files on AWS S3:
 import lamindb as ln
 
 db = ln.DB("laminlabs/lakehouse-benchmarks")
-collection = db.Collection.get("Lh6IsCOGIl5TOjAj")
+collection = db.Collection.get("Lh6IsCOGIl5TOjAj") #hVu9puwdRGskm1I6 for the 88M dataset
 ```
 
 Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
@@ -119,7 +119,7 @@ con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_p
 :::::
 
 :::::{tab-item} Iceberg
-Iceberg requires a full materialisation of the LaminDB collection before ingestion into a catalog-managed table on S3.
+Iceberg requires a full materialisation of the LaminDB collection before ingestion into a catalog-managed table on S3. On the many-file layout this read dominates setup (~34 min); see the setup plot.
 
 ```python
 from pyiceberg.catalog.sql import SqlCatalog
@@ -319,7 +319,7 @@ stats = df.groupby("SAMPLE_NAME").agg(
 
 ### Query 3 — recurrent region detection
 
-Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. All five engines produced identical recurrant regions.
+Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. all five engines produced identical results.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -391,7 +391,7 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvaj
 
 **Read strategy dominates on the many-file layout.** PyArrow's dataset API fetches the 3,201 footers largely sequentially; Polars and DuckDB parallelise, which is why DuckDB runs the heavy aggregations in ~17s where PyArrow takes ~2,000s. On the few-file layout the gap narrows to single-digit factors. Ratios vary by query, so we report per-query times in the plots rather than a single speedup number.
 
-**Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg and LanceDB reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 2038s/51s and 2035s/152s respectively. When amortised across ten queries, the total cost per query for each is approximately 1.1s — comparable to PyArrow and DuckDB.
+**Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg and LanceDB reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 2038s/51s and 2035s/152s respectively.
 
 ### Why file count dominates
 The two layouts isolate a behaviour worth stating plainly: for the read-bound engines, wall-clock time tracks the number of Parquet files, not the number of rows. Opening a collection reads one footer per file; PyArrow fetches these largely serially, so 3,201 small shards cost far more than 26 large ones even when the large-file layout holds 22× the data.
@@ -513,13 +513,13 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
-Time travel is a LaminDB capability, not a PyArrow one. Collection versions share a stable UID differing only in the suffix — ...AZT6h0000 (pre-append) vs ...AZT6h0001 (post-append) — and every prior version stays addressable.
+Time travel is a LaminDB capability, not a PyArrow one. Collection versions share a stable UID differing only in the suffix — ...0000 (pre-append) vs ...0001 (post-append) — and every prior version stays addressable.
 
 ```python
-original = ln.Collection.get("Lh6IsCOGIl5TOjAj0008")   # 0008 = v1, pre-append
+original = ln.Collection.get("Lh6IsCOGIl5TOjAj0000")   # 0000 = v1, pre-append
 rows_v1 = original.open().count_rows()
 
-current = ln.Collection.get("Lh6IsCOGIl5TOjAj0009")    # 0009 = v2, post-append
+current = ln.Collection.get("Lh6IsCOGIl5TOjAj0001")    # 0001 = v2, post-append
 rows_v2 = current.open().count_rows()
 ```
 
@@ -572,15 +572,15 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz
 
 ### Notes on write timing
 
-**DuckDB append and schema change.** The 0.24s append and 0.25s schema change for DuckDB are not persisted operations. Both are in-session view redefinitions; no data is written to S3. These timings are not directly comparable to the persisted writes of the other four engines.
+**DuckDB append and schema change.** The 0.48s append and 0.54s schema change for DuckDB are not persisted operations. Both are in-session view redefinitions; no data is written to S3. These timings are not directly comparable to the persisted writes of the other four engines.
 
-**LaminDB append and schema change scope.** The LaminDB append time (9.4s) includes an S3 upload, schema validation, stable UID assignment, lineage graph linking, and creation of a new collection version. The schema change time (3.5s) includes round-trips to a Postgres-backed schema registry that applies instance-wide. These operations have a wider scope than the equivalent operations in Iceberg (table-scoped) and LanceDB (table-scoped), which is reflected in the timing difference.
+**LaminDB append and schema change scope.** The LaminDB append time (11.99s) includes an S3 upload, schema validation, stable UID assignment, lineage graph linking, and creation of a new collection version. The schema change time (3.59s) includes round-trips to a Postgres-backed schema registry that applies instance-wide. These operations have a wider scope than the equivalent operations in Iceberg (table-scoped) and LanceDB (table-scoped), which is reflected in the timing difference.
 
 ## Developer experience compared (4M / 3,201-file run — see plots for 88M)
 
 |                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                      | LanceDB                      |
 | ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ---------------------------- | ---------------------------- |
-| **Setup**                    | 1 line, ~0s                                        | 1 line, ~0s            | 5 lines, ~1s      | ~20 lines, ~8.7s             | 3 lines, ~7.6s               |
+| **Setup**                    | 1 line                                             | 1 line                 | 5 lines           | ~20 lines                    | 3 lines                      |
 | **Data ingestion required**  | No                                                 | No                     | No                | No (wraps source Parquet)    | Yes (copies to Lance format) |
 | **Query API**                | PyArrow / pandas                                   | Polars / pandas        | SQL               | Iceberg expressions / pandas | PyArrow / pandas / SQL       |
 | **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3        | versioned write to S3        |                       |
@@ -590,7 +590,6 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz
 | **Vector search**            | no                                                 | no                     | no                | no                           | yes                          |
 | **Stays in LaminDB lineage** | yes                                                | yes                    | yes               | yes                          | no                           |
 
-\* Post-ingest; excludes one-time setup cost of Iceberg and LanceDB.
 † Not persisted; session-scoped only.
 
 What LaminDB provides:
@@ -622,7 +621,6 @@ The primary tradeoffs observed:
 - **Write durability.** DuckDB appends and schema changes are session-scoped and not persisted. All other engines write to S3.
 - **Write scope.** LaminDB write operations (append, schema change) have instance-wide scope and include provenance recording; Iceberg and LanceDB operations are table-scoped.
 - **Lineage.** Only LaminDB and the engines reading from LaminDB in place (PyArrow, Polars, DuckDB) maintain provenance. LanceDB copies data out of LaminDB's lineage graph.
-- **S3 parallelism.** Polars reads the six source shards concurrently; PyArrow reads them more sequentially. On this dataset, the observed difference is ~4× in store mode.
 - **Schema validation.** A schema registered on a collection rejects non-conforming artifacts at write time, before data reaches storage.
 - **Versioning as time travel.** Each append creates a new collection version; prior versions stay addressable by UID.
 
