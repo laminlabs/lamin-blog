@@ -55,10 +55,15 @@ LaminDB is largely complementary to Iceberg rather than a replacement. Iceberg, 
 | Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅    |
 
 ¹ LaminDB guarantees storage↔metadata consistency, not row-level ACID inserts into parquet the way Iceberg and DuckLake do.
+
 ² Prior collection versions are addressable by UID — see the Time travel section.
+
 ³ Partial in all three: adding a nullable/optional column without rewriting existing files. LaminDB does this via an optional feature on the collection's schema.
+
 ⁴ Via LaminDB branches (stage, review, merge). [confirm mechanism in manage-changes.md]
+
 ⁵ Raw files have no commit protocol; concurrent writers risk partial writes / last-writer-wins.
+
 ⁶ Compaction of small files and garbage collection of orphaned data files without a manual step.
 
 ## Benchmarks
@@ -157,9 +162,11 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 Setup cost splits sharply by file count. On the many-file layout the one-time read into Iceberg/LanceDB runs ~34 minutes; on the few-file layout the same step is under three minutes.
 
 ![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)
+
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L
 
 ![Setup cost — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70002.svg)
+
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
 
 ---
@@ -382,9 +389,11 @@ recurrent = recurrent[recurrent >= 2]
 <!-- PLOT: query_times.svg -->
 
 ![Query Times — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg)
+
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L
 
-![Query Times — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg)
+![Query Times — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0003.svg)
+
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
 
 ### Notes on query timing
@@ -565,9 +574,11 @@ table.checkout_latest()       # restore current version
 <!-- PLOT: write_path.svg -->
 
 ![Write Path — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg)
+
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000K
 
 ![Write Path — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0003.svg)
+
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000M
 
 ### Notes on write timing
