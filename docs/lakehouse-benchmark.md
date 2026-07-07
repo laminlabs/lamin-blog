@@ -35,28 +35,35 @@ One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] devel
 LaminDB shares DuckLake's key architectural insight: use a relational database for metadata and object storage for data but it goes further in scope.
 While Iceberg and DuckLake are exclusively concerned with tabular data in parquet files, LaminDB manages data in any format — Parquet, AnnData, HDF5, zarr, VCF, ... and provides features like data lineage.
 
-LaminDB is largely complementary to Iceberg rather than a replacement. It can treat an Iceberg table as a dataset like any other, track which pipeline run produced it, and link it to the AnnData files and VCFs that informed it.
+LaminDB is largely complementary to Iceberg rather than a replacement. Iceberg, like the other engines here, is best seen as a downstream query engine that consumes collections of parquet files managed by LaminDB. LaminDB tracks which pipeline run produced a collection and links it to the AnnData files and VCFs that informed it, while the engine handles querying.
 
 ### Capability comparison
 
 | Feature                                 | Raw Files | Iceberg | DuckLake | LaminDB |
 | --------------------------------------- | --------- | ------- | -------- | ------- |
-| ACID transactions                       | ❌        | ✅      | ✅       | ✅      |
-| Time travel / snapshot isolation        | ❌        | ✅      | ✅       | ❌      |
-| Schema evolution without rewriting data | ❌        | ✅      | ✅       | ❌      |
-| Write-Audit-Publish workflow            | ❌        | ✅      | ❌       | ❌      |
-| Query engine independence               | ✅        | ✅      | ❌       | ❌      |
-| Concurrent writers                      | ❌        | ❌      | ✅       | ✅      |
-| Automatic maintenance                   | ❌        | ❌      | ✅       | ✅      |
-| Native multi-table transactions         | ❌        | ❌      | ✅       | ✅      |
-| Heterogeneous file support              | ✅        | ❌      | ❌       | ✅      |
-| Data lineage                            | ❌        | ❌      | ❌       | ✅      |
-| Ontologies                              | ❌        | ❌      | ❌       | ✅      |
-| Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅      |
+| ACID transactions                       | ❌        | ✅      | ✅       | ✅¹   |
+| Time travel / snapshot isolation        | ❌        | ✅      | ✅       | ✅²   |
+| Schema evolution without rewriting data | ❌        | ✅³     | ✅³      | ✅³   |
+| Write-Audit-Publish workflow            | ❌        | ✅      | ❌       | ✅⁴   |
+| Query engine independence               | ✅        | ✅      | ❌       | ✅    |
+| Concurrent writers                      | ❌⁵       | ❌      | ✅       | ✅    |
+| Automatic maintenance                   | ❌        | ❌      | ✅       | ✅⁶   |
+| Native multi-table transactions         | ❌        | ❌      | ✅       | ❌    |
+| Heterogeneous file support              | ✅        | ❌      | ❌       | ✅    |
+| Data lineage                            | ❌        | ❌      | ❌       | ✅    |
+| Ontologies                              | ❌        | ❌      | ❌       | ✅    |
+| Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅    |
+
+¹ LaminDB guarantees storage↔metadata consistency, not row-level ACID inserts into parquet the way Iceberg and DuckLake do.
+² Prior collection versions are addressable by UID — see the Time travel section.
+³ Partial in all three: adding a nullable/optional column without rewriting existing files. LaminDB does this via an optional feature on the collection's schema.
+⁴ Via LaminDB branches (stage, review, merge). [confirm mechanism in manage-changes.md]
+⁵ Raw files have no commit protocol; concurrent writers risk partial writes / last-writer-wins.
+⁶ Compaction of small files and garbage collection of orphaned data files without a manual step.
 
 ## Benchmarks
 
-The second half of this post compares five tools — PyArrow, Iceberg, DuckDB, Polars, and LanceDB — for querying a collection of parquet files that store copy number variation data. We're looking at a small dataset (8929 rows across six DRAGEN parquet shards) and a big dataset (100M rows).
+The second half of this post compares five tools — PyArrow, Iceberg, DuckDB, Polars, and LanceDB — for querying a collection of parquet files that store copy number variation data. We're looking at a small dataset (4M rows across six DRAGEN parquet shards) and a big dataset (88M rows).
 
 With each tool, we run the same four-step workflow: access, query, append rows, and evolve the schema. In the query step we run typical analytical computations, includin computing per-sample statistics or recurrent region identification.
 These operations are routine in genomics but span the full read-write operations of any tool. We'll try to make trade offs evident: one tool might make querying concise but schema changes ephemeral; another tool that provides durable writes may require an upfront ingestion step; another tool that copies data into its own format removes it from the lineage graph.
@@ -67,7 +74,7 @@ All five approaches read from the same collection of parquet files on AWS S3:
 import lamindb as ln
 
 db = ln.DB("laminlabs/lakehouse-benchmarks")
-collection = db.Collection.get("K6X8Ejk3fjgAZT6h")
+collection = db.Collection.get("Lh6IsCOGIl5TOjAj")
 ```
 
 Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
@@ -148,7 +155,8 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 
 <!-- PLOT: setup_cost.svg -->
 
-![Setup cost](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70000.svg)
+![Setup cost](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)
+Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L
 
 ---
 
@@ -369,7 +377,8 @@ recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 
 <!-- PLOT: query_times.svg -->
 
-![Query Times](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0000.svg)
+![Query Times](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg)
+Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L
 
 ### Notes on query timing
 
@@ -385,7 +394,7 @@ Three write operations were tested: appending a new sample (1,536 rows), adding 
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
-The append saves a new artifact to LaminDB with schema validation and creates a new versioned collection. The operation includes an S3 upload, metadata registration, and lineage recording.
+PyArrow has no append operation for a sharded dataset — appending is a data-layer operation handled by LaminDB. A new artifact is saved with schema validation, then appended to the collection, creating a new version (S3 upload, metadata registration, lineage recording).
 
 ```python
 new_art = ln.Artifact.from_dataframe(
@@ -394,34 +403,18 @@ new_art = ln.Artifact.from_dataframe(
     description="benchmark append batch (new sample)",
 ).save()
 
-new_collection = ln.Collection(
-    [*original_arts, new_art],
-    key=collection.key, revises=collection,
-).save()
+new_collection = collection.append(new_art)   # returns a new collection version
 ```
 
 :::::
 
 :::::{tab-item} Polars
-Identical to PyArrow — the append uses LaminDB's artifact and collection APIs regardless of which query engine opened the data.
-
-```python
-new_art = ln.Artifact.from_dataframe(
-    new_sample_df,
-    key=f"lakehouse-benchmarks/append_batch_{ln.context.run.uid}.parquet",
-    description="benchmark append batch (new sample)",
-).save()
-
-new_collection = ln.Collection(
-    [*original_arts, new_art],
-    key=collection.key, revises=collection,
-).save()
-```
+Polars has no append API either — this is the same LaminDB collection.append() shown in the PyArrow tab. The engine that opened the data doesn't change how appends work.
 
 :::::
 
 :::::{tab-item} DuckDB
-The view is redefined to union in the new rows from an in-memory relation. No data is written to S3.
+The view is redefined to union in the new rows from an in-memory Arrow table (new_sample_arrow — the same 1,536-row batch appended in the other tabs). No data is written to S3; the change lives only in this con session.
 
 ```python
 con.register("append_batch", new_sample_arrow)
@@ -457,7 +450,7 @@ table.add(new_sample_arrow)
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
-A `QC_PASS` feature is registered in the LaminDB schema registry. All future artifacts saved against this schema — across the entire instance — are validated to include this feature.
+This is a LaminDB operation, not a PyArrow one — PyArrow can write new files with a different schema but has no registry-level evolution over an existing dataset. Here a QC_PASS feature is registered in the LaminDB schema registry; all future artifacts saved against this schema — instance-wide — are validated to include it.
 
 ```python
 schema = ln.Schema.get(name="1000 Genomes CNV VCF")
@@ -468,18 +461,12 @@ schema.add_optional_features([feat])
 :::::
 
 :::::{tab-item} Polars
-Identical to PyArrow.
-
-```python
-schema = ln.Schema.get(name="1000 Genomes CNV VCF")
-feat = ln.Feature(name="QC_PASS", dtype=bool).save()
-schema.add_optional_features([feat])
-```
+Same LaminDB operation as the PyArrow tab — Polars has no schema-evolution API of its own.
 
 :::::
 
 :::::{tab-item} DuckDB
-The view is redefined to include a virtual `NULL` column. No data is written to S3; the change exists only in the current session.
+The view is redefined to include a virtual NULL column. Because the view sits over read_parquet, DuckDB can't persist this to the source files — the change exists only in the current session. Persisting it would require writing new Parquet files (or using DuckLake).
 
 ```python
 con.execute(
@@ -515,23 +502,20 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
-The pre-append collection version is addressable by UID. LaminDB retains all prior collection versions.
+Time travel is a LaminDB capability, not a PyArrow one. Collection versions share a stable UID differing only in the suffix — ...AZT6h0000 (pre-append) vs ...AZT6h0001 (post-append) — and every prior version stays addressable.
 
 ```python
-original = ln.Collection.get("K6X8Ejk3fjgAZT6h0000")
-rows_v1 = original.open().count_rows()   # 8,929
+original = ln.Collection.get("Lh6IsCOGIl5TOjAj0000")   # 0000 = v1, pre-append
+rows_v1 = original.open().count_rows()
+
+current = ln.Collection.get("Lh6IsCOGIl5TOjAj0001")    # 0001 = v2, post-append
+rows_v2 = current.open().count_rows()
 ```
 
 :::::
 
 :::::{tab-item} Polars
 Same as PyArrow — collection versioning via LaminDB.
-
-```python
-original = ln.Collection.get("K6X8Ejk3fjgAZT6h0000")
-with original.open(engine="polars") as lazy_v1:
-    rows_v1 = lazy_v1.select(pl.len()).collect().item()   # 8,929
-```
 
 :::::
 
@@ -569,7 +553,8 @@ table.checkout_latest()       # restore current version
 
 <!-- PLOT: write_path.svg -->
 
-![Write Path](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0000.svg)
+![Write Path](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg)
+Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000K
 
 ### Notes on write timing
 
@@ -597,17 +582,12 @@ table.checkout_latest()       # restore current version
 \* Post-ingest; excludes one-time setup cost of 8.7s (Iceberg) and 7.6s (LanceDB).
 † Not persisted; session-scoped only.
 
-## LaminDB as a data layer
-
-The five engines above address the question of _how_ to query data. LaminDB addresses a different question: _how to manage data across the lifecycle of a project._
-
-In this benchmark, LaminDB serves as the storage layer underneath all five query engines. The same collection is opened by each engine without any data movement or format conversion (with the exception of LanceDB, which copies the data out). LaminDB does not provide a query engine and does not compete with DuckDB, Iceberg, or LanceDB on query performance.
-
 What LaminDB provides:
 
 **Lineage.** Each pipeline notebook in this benchmark is a tracked transform. The timing results are saved as tracked artifacts. A final `plots.py` script reads those five artifacts as registered inputs and writes the comparison figures as registered outputs. The full provenance chain — from the original 1000 Genomes data transfer through to the figures in this report — is recorded in LaminHub:
 
 ![Lineage on Lamin Hub](https://lamin-site-assets.s3.amazonaws.com/.lamindb/v7yD8XvBy0eViHGG0000.png)
+Link to view lineage: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L
 
 Note: DuckDB is the one exception in this lineage graph. It reads the collection's Parquet files directly via S3 paths rather than through LaminDB's `collection.open()` API, so the collection node has no incoming arrow from `duckdb_pipeline.ipynb`. The benchmark result artifact (`benchmark_results/duckdb.parquet`) is still tracked as an output of that notebook run.
 
@@ -631,6 +611,8 @@ The primary tradeoffs observed:
 - **Write scope.** LaminDB write operations (append, schema change) have instance-wide scope and include provenance recording; Iceberg and LanceDB operations are table-scoped.
 - **Lineage.** Only LaminDB and the engines reading from LaminDB in place (PyArrow, Polars, DuckDB) maintain provenance. LanceDB copies data out of LaminDB's lineage graph.
 - **S3 parallelism.** Polars reads the six source shards concurrently; PyArrow reads them more sequentially. On this dataset, the observed difference is ~4× in store mode.
+- **Schema validation.** A schema registered on a collection rejects non-conforming artifacts at write time, before data reaches storage.
+- **Versioning as time travel.** Each append creates a new collection version; prior versions stay addressable by UID.
 
 Zooming out: as the capability table in the first section shows, Iceberg, DuckLake, and LaminDB each address different layers of the lakehouse problem. Iceberg provides snapshot-isolated ACID transactions for tabular data with query engine independence. DuckLake adds concurrent writers and automatic maintenance by moving metadata into a relational database. LaminDB adds heterogeneous file support, biological metadata, and lineage tracking — and is largely complementary to both.
 
@@ -651,7 +633,7 @@ The five pipeline notebooks, the shared benchmarking utilities, and the plotting
 - [Iceberg pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/wnVO8cu0qtOP0001)
 - [LanceDB pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/WtZF9OX9v3uM0001)
 
-The dataset is the 1000 Genomes Project CNV calls (DRAGEN, hg38), collection UID `K6X8Ejk3fjgAZT6h0000`.
+The dataset is the 1000 Genomes Project CNV calls (DRAGEN, hg38), collection UID `Lh6IsCOGIl5TOjAj0009`.
 
 ## Methods
 
