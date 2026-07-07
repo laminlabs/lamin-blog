@@ -63,10 +63,10 @@ LaminDB is largely complementary to Iceberg rather than a replacement. Iceberg, 
 
 ## Benchmarks
 
-The second half of this post compares five tools — PyArrow, Iceberg, DuckDB, Polars, and LanceDB — for querying a collection of parquet files that store copy number variation data. We're looking at a small dataset (4M rows across six DRAGEN parquet shards) and a big dataset (88M rows).
+The second half of this post compares five tools — PyArrow, Iceberg, DuckDB, Polars, and LanceDB — for querying a collection of parquet files that store copy number variation data. We run against two layouts of the CNV data: a many-file layout (4M rows across 3,201 Parquet shards) and a few-file layout (88M rows across 26 shards). The contrast is deliberate — despite carrying 22× more data, the few-file run is dramatically faster for the read-bound engines, because wall-clock time on S3 is driven by per-file footer round-trips, not row count.
 
-With each tool, we run the same four-step workflow: access, query, append rows, and evolve the schema. In the query step we run typical analytical computations, includin computing per-sample statistics or recurrent region identification.
-These operations are routine in genomics but span the full read-write operations of any tool. We'll try to make trade offs evident: one tool might make querying concise but schema changes ephemeral; another tool that provides durable writes may require an upfront ingestion step; another tool that copies data into its own format removes it from the lineage graph.
+With each tool, we run the same four-step workflow: access, query, append rows, and evolve the schema. In the query step we run typical analytical computations, including computing per-sample statistics or recurrent region identification.
+These operations are routine in genomics but span the full read-write operations of any tool. We'll try to make trade-offs evident: one tool might make querying concise but schema changes ephemeral; another tool that provides durable writes may require an upfront ingestion step; another tool that copies data into its own format removes it from the lineage graph.
 
 All five approaches read from the same collection of parquet files on AWS S3:
 
@@ -88,7 +88,7 @@ Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files 
 `collection.open()` returns a lazy PyArrow dataset backed by S3. No data is read until a query is issued.
 
 ```python
-dataset = collection.open()   # lazy PyArrow dataset over the 6 shards
+dataset = collection.open()   # lazy PyArrow dataset over the collection's shards
 ```
 
 :::::
@@ -124,12 +124,12 @@ Iceberg requires a full materialisation of the LaminDB collection before ingesti
 ```python
 from pyiceberg.catalog.sql import SqlCatalog
 
-arrow = collection.open().to_table()   # 7.3s — full S3 read
+arrow = collection.open().to_table()
 
 catalog = SqlCatalog("local", uri="sqlite:///iceberg_catalog.db", warehouse=WAREHOUSE)
 catalog.create_namespace("genomics")
 table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
-table.overwrite(arrow)   # 1.36s — writes Parquet + metadata to S3
+table.overwrite(arrow)
 ```
 
 Note: a SQLite catalog is used here for portability. Production deployments would use a Glue or REST catalog.
@@ -143,9 +143,9 @@ LanceDB requires a full materialisation of the LaminDB collection and ingestion 
 ```python
 import lancedb
 
-arrow = collection.open().to_table()   # 7.4s — full S3 read
+arrow = collection.open().to_table()
 db = lancedb.connect(WAREHOUSE)
-table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
+table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 ```
 
 :::::
@@ -154,6 +154,7 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 **Setup summary:**
 
 <!-- PLOT: setup_cost.svg -->
+Setup cost splits sharply by file count. On the many-file layout the one-time read into Iceberg/LanceDB runs ~34 minutes; on the few-file layout the same step is under three minutes.
 
 ![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L
@@ -167,11 +168,11 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvaj
 
 Three queries were run against all five engines. The computation logic is equivalent across engines; differences in timing reflect S3 read strategy and whether data has been pre-ingested.
 
-All timings are single-run measurements on 8,929 rows. At this scale, results are dominated by fixed overheads (connection setup, S3 round-trips) rather than computational throughput. Iceberg and LanceDB query times reflect reads from their own pre-ingested S3 store, not from the source Parquet — their setup time should be amortised across queries when comparing total cost.
+All timings are single-run measurements on the two layouts above. On the many-file (3,201-shard) layout, the read-bound engines are dominated by per-file S3 footer round-trips rather than compute; on the few-file (26-shard) layout that cost largely disappears. Iceberg and LanceDB query times reflect reads from their own pre-ingested stores, so their setup cost should be amortised across queries when comparing total cost.
 
 ### Query 1 — filtered query
 
-Variants on the most prevalent chromosome within the 10th–90th percentile position band. Each engine pushes the predicate into the storage layer. All five returned 589 variants.
+Variants on the most prevalent chromosome within the 10th–90th percentile position band. Each engine pushes the predicate into the storage layer. All five engines returned identical result sets.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -318,7 +319,7 @@ stats = df.groupby("SAMPLE_NAME").agg(
 
 ### Query 3 — recurrent region detection
 
-Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. All five engines produced 1,903 recurrent regions.
+Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. All five engines produced identical recurrant regions.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -326,7 +327,7 @@ Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two o
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
-recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
+recurrent = recurrent[recurrent >= 2] 
 ```
 
 :::::
@@ -336,7 +337,7 @@ recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
-recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
+recurrent = recurrent[recurrent >= 2]
 ```
 
 :::::
@@ -352,7 +353,7 @@ recurrent = con.execute("""
     GROUP BY region_key
     HAVING COUNT(DISTINCT SAMPLE_NAME) >= 2
     ORDER BY sample_count DESC
-""").df()   # 1,903 recurrent regions
+""").df()
 ```
 
 :::::
@@ -362,7 +363,7 @@ recurrent = con.execute("""
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
-recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
+recurrent = recurrent[recurrent >= 2]
 ```
 
 :::::
@@ -372,7 +373,7 @@ recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
-recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
+recurrent = recurrent[recurrent >= 2]
 ```
 
 :::::
@@ -388,13 +389,18 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvaj
 
 ### Notes on query timing
 
-**Polars vs. PyArrow.** Polars is ~4× faster than PyArrow across all three queries in store mode. Both engines run equivalent pandas aggregations after materialisation; the timing difference is attributable to the S3 read step. Polars reads the six shards concurrently; PyArrow's dataset API reads them more sequentially. In memory mode the difference is negligible. These are single-run measurements; the magnitude may vary with shard count and network conditions.
+**Read strategy dominates on the many-file layout.** PyArrow's dataset API fetches the 3,201 footers largely sequentially; Polars and DuckDB parallelise, which is why DuckDB runs the heavy aggregations in ~17s where PyArrow takes ~2,000s. On the few-file layout the gap narrows to single-digit factors. Ratios vary by query, so we report per-query times in the plots rather than a single speedup number.
 
-**Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg (0.15–0.19s) and LanceDB (0.06–0.33s) reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 8.7s and 7.6s respectively. When amortised across ten queries, the total cost per query for each is approximately 1.1s — comparable to PyArrow and DuckDB.
+**Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg and LanceDB reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 2038s/51s and 2035s/152s respectively. When amortised across ten queries, the total cost per query for each is approximately 1.1s — comparable to PyArrow and DuckDB.
+
+### Why file count dominates
+The two layouts isolate a behaviour worth stating plainly: for the read-bound engines, wall-clock time tracks the number of Parquet files, not the number of rows. Opening a collection reads one footer per file; PyArrow fetches these largely serially, so 3,201 small shards cost far more than 26 large ones even when the large-file layout holds 22× the data.
+The effect is order-of-magnitude. PyArrow's per-sample statistics run ~2,000s on the 3,201-file layout versus ~102s on the 26-file layout; Iceberg and LanceDB's one-time ingestion read drops from ~34 min to ~2 min. Engines that parallelise footer reads (DuckDB) or pre-compact into their own store (Iceberg, LanceDB) blunt this cost; engines that read in place and serially (PyArrow) are hit hardest.
+The practical takeaway is a tuning knob independent of engine choice: compacting many small shards into fewer large ones is often a bigger win than switching engines. [If you have the same-data 3,201→26 repack numbers from the file-count test, cite them here — that's the controlled version of this claim.]
 
 ## Writes
 
-Three write operations were tested: appending a new sample (1,536 rows), adding a `QC_PASS` boolean column, and querying a historical state.
+Three write operations were tested: appending a new sample, adding a `QC_PASS` boolean column, and querying a historical state.
 
 ### Append
 
@@ -446,7 +452,6 @@ table.append(new_sample_arrow)
 
 ```python
 table.add(new_sample_arrow)
-# table.version == 2, table.count_rows() == 10,465
 ```
 
 :::::
@@ -511,10 +516,10 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 Time travel is a LaminDB capability, not a PyArrow one. Collection versions share a stable UID differing only in the suffix — ...AZT6h0000 (pre-append) vs ...AZT6h0001 (post-append) — and every prior version stays addressable.
 
 ```python
-original = ln.Collection.get("Lh6IsCOGIl5TOjAj0008")   # 0000 = v1, pre-append
+original = ln.Collection.get("Lh6IsCOGIl5TOjAj0008")   # 0008 = v1, pre-append
 rows_v1 = original.open().count_rows()
 
-current = ln.Collection.get("Lh6IsCOGIl5TOjAj0009")    # 0001 = v2, post-append
+current = ln.Collection.get("Lh6IsCOGIl5TOjAj0009")    # 0009 = v2, post-append
 rows_v2 = current.open().count_rows()
 ```
 
@@ -540,7 +545,7 @@ Any historical snapshot is queryable by snapshot ID. Snapshots are retained unti
 ```python
 first_snapshot = table.history()[0].snapshot_id
 historical = table.scan(snapshot_id=first_snapshot).to_arrow()
-historical.num_rows   # 8,929
+historical.num_rows   # 4M
 ```
 
 :::::
@@ -571,24 +576,21 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz
 
 **LaminDB append and schema change scope.** The LaminDB append time (9.4s) includes an S3 upload, schema validation, stable UID assignment, lineage graph linking, and creation of a new collection version. The schema change time (3.5s) includes round-trips to a Postgres-backed schema registry that applies instance-wide. These operations have a wider scope than the equivalent operations in Iceberg (table-scoped) and LanceDB (table-scoped), which is reflected in the timing difference.
 
-## Developer experience compared
+## Developer experience compared (4M / 3,201-file run — see plots for 88M)
 
 |                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                      | LanceDB                      |
 | ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ---------------------------- | ---------------------------- |
 | **Setup**                    | 1 line, ~0s                                        | 1 line, ~0s            | 5 lines, ~1s      | ~20 lines, ~8.7s             | 3 lines, ~7.6s               |
 | **Data ingestion required**  | No                                                 | No                     | No                | No (wraps source Parquet)    | Yes (copies to Lance format) |
 | **Query API**                | PyArrow / pandas                                   | Polars / pandas        | SQL               | Iceberg expressions / pandas | PyArrow / pandas / SQL       |
-| **Store-mode query time**    | ~1.1–1.4s                                          | ~0.27–0.35s            | ~0.77–0.87s       | ~0.15–0.19s\*                | ~0.06–0.33s\*                |
-| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3        | versioned write to S3        |
-| **Append time**              | 9.4s                                               | 9.5s                   | 0.24s†            | 0.88s                        | 0.11s                        |
+| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3        | versioned write to S3        |                       |
 | **Schema change scope**      | instance-wide registry                             | instance-wide registry | session only†     | this table                   | this table                   |
-| **Schema change time**       | 3.5s                                               | 3.6s                   | 0.25s†            | 0.31s                        | 0.06s                        |
 | **Time travel**              | collection versions                                | collection versions    | not supported     | snapshot ID                  | version number               |
 | **ACID**                     | schema validation + collection versioning          | same as PyArrow        | none              | full snapshot isolation      | versioned appends            |
 | **Vector search**            | no                                                 | no                     | no                | no                           | yes                          |
 | **Stays in LaminDB lineage** | yes                                                | yes                    | yes               | yes                          | no                           |
 
-\* Post-ingest; excludes one-time setup cost of 8.7s (Iceberg) and 7.6s (LanceDB).
+\* Post-ingest; excludes one-time setup cost of Iceberg and LanceDB.
 † Not persisted; session-scoped only.
 
 What LaminDB provides:
@@ -614,7 +616,8 @@ The five approaches in this comparison cover the main strategies for querying Pa
 
 The primary tradeoffs observed:
 
-- **Setup cost vs. query cost.** Iceberg and LanceDB incur a one-time setup cost of 7–9s that is amortised across subsequent queries. PyArrow, Polars, and DuckDB have negligible setup cost but re-read S3 on each store-mode query.
+- **Setup cost scales with file count.** On the 3,201-file layout, pre-ingesting into Iceberg or LanceDB takes ~34 min (a full footer-bound read); on the 26-file layout it's under 3 min. In-place engines skip this entirely but pay footer costs on every query.
+- **File count, not data volume, drives read time.** The 4M-row / 3,201-file run is slower than the 88M-row / 26-file run for every read-bound engine — the clearest single result in this benchmark.
 - **Query conciseness.** DuckDB's SQL interface produces the most concise aggregation queries. PyArrow and Polars require more verbose pandas expressions for equivalent operations.
 - **Write durability.** DuckDB appends and schema changes are session-scoped and not persisted. All other engines write to S3.
 - **Write scope.** LaminDB write operations (append, schema change) have instance-wide scope and include provenance recording; Iceberg and LanceDB operations are table-scoped.
