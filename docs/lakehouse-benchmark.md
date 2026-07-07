@@ -155,8 +155,11 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")   # 0.15s
 
 <!-- PLOT: setup_cost.svg -->
 
-![Setup cost](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)
+![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L
+
+![Setup cost — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70002.svg)
+Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
 
 ---
 
@@ -377,8 +380,11 @@ recurrent = recurrent[recurrent >= 2]   # 1,903 recurrent regions
 
 <!-- PLOT: query_times.svg -->
 
-![Query Times](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg)
+![Query Times — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg)
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L
+
+![Query Times — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg)
+Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
 
 ### Notes on query timing
 
@@ -505,10 +511,10 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 Time travel is a LaminDB capability, not a PyArrow one. Collection versions share a stable UID differing only in the suffix — ...AZT6h0000 (pre-append) vs ...AZT6h0001 (post-append) — and every prior version stays addressable.
 
 ```python
-original = ln.Collection.get("Lh6IsCOGIl5TOjAj0000")   # 0000 = v1, pre-append
+original = ln.Collection.get("Lh6IsCOGIl5TOjAj0008")   # 0000 = v1, pre-append
 rows_v1 = original.open().count_rows()
 
-current = ln.Collection.get("Lh6IsCOGIl5TOjAj0001")    # 0001 = v2, post-append
+current = ln.Collection.get("Lh6IsCOGIl5TOjAj0009")    # 0001 = v2, post-append
 rows_v2 = current.open().count_rows()
 ```
 
@@ -544,7 +550,7 @@ A specific version is checked out by integer version number and restored with `c
 
 ```python
 table.checkout(1)             # version 1 = pre-append state
-table.count_rows()            # 8,929
+table.count_rows()            # 4M
 table.checkout_latest()       # restore current version
 ```
 
@@ -553,8 +559,11 @@ table.checkout_latest()       # restore current version
 
 <!-- PLOT: write_path.svg -->
 
-![Write Path](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg)
+![Write Path — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg)
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000K
+
+![Write Path — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0003.svg)
+Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000M
 
 ### Notes on write timing
 
@@ -637,7 +646,7 @@ The dataset is the 1000 Genomes Project CNV calls (DRAGEN, hg38), collection UID
 
 ## Methods
 
-All timings are single-run measurements on SageMaker (`ml.t3.medium`) in store mode unless otherwise stated; they are provided as indicative comparisons on a small dataset, not rigorous benchmarks.
+All timings are single-run measurements on SageMaker (`ml.m5.24xlarge`) in store mode unless otherwise stated.
 
 ## How to cite
 
