@@ -380,12 +380,12 @@ recurrent = recurrent[recurrent >= 2]
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
-    <img alt="Query Times — 4M rows, 3,201 files" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg" />
-    <p>Link to Plot: <a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L">https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L</a></p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg" />
+    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L">source</a>)</strong>: Dataset 1: 4M rows, 3k files.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img alt="Query Times — 88M rows, 26 files" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0003.svg" />
-    <p>Link to Plot: <a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N">https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N</a></p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0003.svg" />
+    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
   </div>
 </div>
 
