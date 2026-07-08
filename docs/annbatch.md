@@ -32,9 +32,10 @@ With `annbatch`,[^gold26] we developed an `anndata`-based loader that optimizes 
 
 ## Data & code availability
 
-- Repo: [github.com/scverse/annbatch](https://github.com/scverse/annbatch)
-- DB: [lamin.ai/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
 - Paper: [arXiv:2604.01949](https://arxiv.org/abs/2604.01949)
+- Repo: [github.com/scverse/annbatch](https://github.com/scverse/annbatch)
+- Benchmarking database: [lamin.ai/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
+- Benchmarking repo: [github.com/laminlabs/arrayloader-benchmarks](https://github.com/laminlabs/arrayloader-benchmarks)
 
 ## Acknowledgements
 
