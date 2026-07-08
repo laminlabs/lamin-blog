@@ -1,10 +1,11 @@
 ---
 title: "Iceberg, DuckDB, LanceDB, Polars & LaminDB in queries of the 1000 Genomes Project"
 date: 2026-06-25
-author: Raaghav-Pillai, alexras, sunnyosun, Koncopd, falexwolf
+author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
   Raaghav-Pillai: Lamin Labs, NYC
   alexras: BitsOnDisk
+  ishitajain9717: Lamin Labs, Munich
   sunnyosun: Lamin Labs, Munich
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
@@ -72,25 +73,21 @@ LaminDB is largely complementary to Iceberg rather than a replacement. Iceberg, 
 
 ## Benchmarks
 
-The second half of this post compares five tools — PyArrow, Iceberg, DuckDB, Polars, and LanceDB — for querying a collection of parquet files that store copy number variation data. We run against two layouts of the CNV data: a many-file layout (4M rows across 3,201 Parquet shards) and a few-file layout (88M rows across 26 shards). The contrast is deliberate — despite carrying 22× more data, the few-file run is dramatically faster for the read-bound engines, because wall-clock time on S3 is driven by per-file footer round-trips, not row count.
+Let us now compare several tools for querying a collection of parquet files that store genetic data from the 1000 Genome Project. We will also review necessary transformations, dataset extension, and schema evolution.
 
-With each tool, we run the same four-step workflow: access, query, append rows, and evolve the schema. In the query step we run typical analytical computations, including computing per-sample statistics or recurrent region identification.
-These operations are routine in genomics but span the full read-write operations of any tool. We'll try to make trade-offs evident: one tool might make querying concise but schema changes ephemeral; another tool that provides durable writes may require an upfront ingestion step; another tool that copies data into its own format removes it from the lineage graph.
-
-All five approaches read from the same collection of parquet files on AWS S3:
+We run queries against two datasets: a CNV dataset in which each file maps on a human individual (4M rows across 3201 Parquet files) and an SNV/Indel/CNV dataset with 88M rows across 26 Parquet files. You can access a collection of parquet files like this:
 
 ```python
+# pip install lamindb
 import lamindb as ln
 
 db = ln.DB("laminlabs/lakehouse-benchmarks")
-collection = db.Collection.get("Lh6IsCOGIl5TOjAj") #hVu9puwdRGskm1I6 for the 88M dataset
+collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for the 88M dataset
 ```
 
-Three engines — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
+Three tools — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
 
----
-
-## Setup
+### Setup
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -173,10 +170,6 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvaj
 ![Setup cost — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70002.svg)
 
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
-
----
-
-## Queries
 
 Three queries were run against all five engines. The computation logic is equivalent across engines; differences in timing reflect S3 read strategy and whether data has been pre-ingested.
 
@@ -413,7 +406,7 @@ The two layouts isolate a behaviour worth stating plainly: for the read-bound en
 The effect is order-of-magnitude. PyArrow's per-sample statistics run ~2,000s on the 3,201-file layout versus ~102s on the 26-file layout; Iceberg and LanceDB's one-time ingestion read drops from ~34 min to ~2 min. Engines that parallelise footer reads (DuckDB) or pre-compact into their own store (Iceberg, LanceDB) blunt this cost; engines that read in place and serially (PyArrow) are hit hardest.
 The practical takeaway is a tuning knob independent of engine choice: compacting many small shards into fewer large ones is often a bigger win than switching engines. [If you have the same-data 3,201→26 repack numbers from the file-count test, cite them here — that's the controlled version of this claim.]
 
-## Writes
+## Data management
 
 Three write operations were tested: appending a new sample, adding a `QC_PASS` boolean column, and querying a historical state.
 
@@ -587,13 +580,13 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz
 
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000M
 
-### Notes on write timing
+### Notes
 
 **DuckDB append and schema change.** The 0.48s append and 0.54s schema change for DuckDB are not persisted operations. Both are in-session view redefinitions; no data is written to S3. These timings are not directly comparable to the persisted writes of the other four engines.
 
 **LaminDB append and schema change scope.** The LaminDB append time (11.99s) includes an S3 upload, schema validation, stable UID assignment, lineage graph linking, and creation of a new collection version. The schema change time (3.59s) includes round-trips to a Postgres-backed schema registry that applies instance-wide. These operations have a wider scope than the equivalent operations in Iceberg (table-scoped) and LanceDB (table-scoped), which is reflected in the timing difference.
 
-## Developer experience compared (4M / 3,201-file run — see plots for 88M)
+## Developer experience
 
 |                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                      | LanceDB                      |
 | ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ---------------------------- | ---------------------------- | --- |
@@ -645,10 +638,11 @@ Zooming out: as the capability table in the first section shows, Iceberg, DuckLa
 
 ## Author contributions
 
-Raaghav Pillai performed data engineering and analysis.
-Alex Rasmussen wrote the lakehouse ecosystem overview.
-The original LaminDB ingestion pipeline was developed by Sunny Sun.
-Alex Wolf and Sergei Rybakov supervised the project.
+Raaghav performed data engineering and analysis.
+Alex R. wrote the lakehouse ecosystem overview.
+Ishita curated the 88M row SNV & Indel dataset.
+Sunny curated the original CNV datasets.
+Alex W. and Sergei supervised the project.
 
 ## Code & data availability
 
