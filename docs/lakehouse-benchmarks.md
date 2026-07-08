@@ -171,9 +171,9 @@ The numerical results depend on the dataset (**Figure 1**). If many files are in
   </div>
 </div>
 
-### Query 1: A simple filter
+### Queries and query syntax
 
-Consider filtering by chromosome and position.
+**Query 1: A simple filter by chromosome and position.**
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -230,9 +230,7 @@ filtered = table.to_lance().to_table(
 :::::
 ::::::
 
-### Query 2: Per-sample statistics
-
-For each sample: total CNV count, deletion count, median deletion size, homozygous count, heterozygous count.
+**Query 2: Compute per-sample statistics.** For each sample: total CNV count, deletion count, median deletion size, homozygous count, heterozygous count.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -318,9 +316,7 @@ stats = df.groupby("SAMPLE_NAME").agg(
 :::::
 ::::::
 
-### Query 3: Recurrent region detection
-
-Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. all five engines produced identical results.
+**Query 3: Recurrent region detection.** Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. all five engines produced identical results.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -380,17 +376,18 @@ recurrent = recurrent[recurrent >= 2]
 :::::
 ::::::
 
-<!-- PLOT: query_times.svg -->
+### Timing results
 
-![Query Times — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg)
-
-Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L
-
-![Query Times — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0003.svg)
-
-Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
-
-### Notes on query timing
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+  <div style="flex: 1; min-width: 0;">
+    <img alt="Query Times — 4M rows, 3,201 files" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg" />
+    <p>Link to Plot: <a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L">https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L</a></p>
+  </div>
+  <div style="flex: 1; min-width: 0;">
+    <img alt="Query Times — 88M rows, 26 files" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0003.svg" />
+    <p>Link to Plot: <a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N">https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N</a></p>
+  </div>
+</div>
 
 All timings are single-run measurements on the two layouts above. On the many-file (3,201-shard) layout, the read-bound engines are dominated by per-file S3 footer round-trips rather than compute; on the few-file (26-shard) layout that cost largely disappears. Iceberg and LanceDB query times reflect reads from their own pre-ingested stores, so their setup cost should be amortised across queries when comparing total cost.
 
