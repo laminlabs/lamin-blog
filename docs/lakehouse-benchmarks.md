@@ -1,5 +1,5 @@
 ---
-title: "Comparing PyArrow, Iceberg, DuckDB, LanceDB & Polars in queries of the 1000 Genomes Project"
+title: "Iceberg, DuckDB, LanceDB, Polars & LaminDB in queries of the 1000 Genomes Project"
 date: 2026-06-25
 author: Raaghav-Pillai, alexras, sunnyosun, Koncopd, falexwolf
 affiliation:
@@ -12,7 +12,7 @@ db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
 Over the past decade, the lakehouse has become the dominant data architecture in R&D.
-In this post, we benchmark exemplary queries and review managing the life cycle of thousands of parquet files from the 1000 Genomes Project across PyArrow, Iceberg, DuckDB, LanceDB & Polars.
+In this post, we benchmark exemplary queries and review managing the life cycle of thousands of parquet files from the 1000 Genomes Project across Iceberg, DuckDB, LanceDB, Polars & LaminDB.
 
 ## The lakehouse landscape
 
@@ -39,32 +39,36 @@ LaminDB is largely complementary to Iceberg rather than a replacement. Iceberg, 
 
 ### Capability comparison
 
-| Feature                                 | Raw Files | Iceberg | DuckLake | LaminDB |
-| --------------------------------------- | --------- | ------- | -------- | ------- |
-| ACID transactions                       | ❌        | ✅      | ✅       | ✅¹     |
-| Time travel / snapshot isolation        | ❌        | ✅      | ✅       | ✅²     |
-| Schema evolution without rewriting data | ❌        | ✅³     | ✅³      | ✅³     |
-| Write-Audit-Publish workflow            | ❌        | ✅      | ❌       | ✅⁴     |
-| Query engine independence               | ✅        | ✅      | ❌       | ✅      |
-| Concurrent writers                      | ❌⁵       | ❌      | ✅       | ✅      |
-| Automatic maintenance                   | ❌        | ❌      | ✅       | ✅⁶     |
-| Native multi-table transactions         | ❌        | ❌      | ✅       | ❌      |
-| Heterogeneous file support              | ✅        | ❌      | ❌       | ✅      |
-| Data lineage                            | ❌        | ❌      | ❌       | ✅      |
-| Ontologies                              | ❌        | ❌      | ❌       | ✅      |
-| Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅      |
+| Feature                                  | Raw Files | Iceberg | DuckLake | LaminDB |
+| ---------------------------------------- | --------- | ------- | -------- | ------- |
+| ACID transactions                        | ❌        | ✅      | ✅       | ✅ ¹    |
+| Time travel / snapshot version isolation | ❌        | ✅      | ✅       | ✅ ²    |
+| Schema evolution without rewriting data  | ❌        | ✅ ³    | ✅ ³     | ✅ ³    |
+| Write-Audit-Publish workflow             | ❌        | ✅      | ❌       | ✅ ⁴    |
+| Query engine independence                | ✅        | ✅      | ❌       | ✅      |
+| Concurrent writers                       | ❌ ⁵      | ❌      | ✅       | ✅      |
+| Automatic maintenance                    | ❌        | ❌      | ✅       | ✅ ⁶    |
+| Native multi-table transactions          | ❌        | ❌      | ✅       | ❌      |
+| Heterogeneous file support               | ✅        | ❌      | ❌       | ✅      |
+| Data lineage                             | ❌        | ❌      | ❌       | ✅      |
+| Ontologies                               | ❌        | ❌      | ❌       | ✅      |
+| Registries with fine-grained control     | ❌        | ❌      | ❌       | ✅      |
 
-¹ LaminDB guarantees storage↔metadata consistency, not row-level ACID inserts into parquet the way Iceberg and DuckLake do.
+:::{dropdown} Notes
 
-² Prior collection versions are addressable by UID — see the Time travel section.
+¹ LaminDB guarantees storage ↔ metadata consistency, not row-level ACID inserts into parquet the way Iceberg and DuckLake do.
 
-³ Partial in all three: adding a nullable/optional column without rewriting existing files. LaminDB does this via an optional feature on the collection's schema.
+² See the Time travel section.
 
-⁴ Via LaminDB branches (stage, review, merge). [confirm mechanism in manage-changes.md]
+³ Adding a nullable/optional column without rewriting existing files. LaminDB does this via an optional feature on the collection's schema.
+
+⁴ In LaminDB, via branches (stage, review, merge).
 
 ⁵ Raw files have no commit protocol; concurrent writers risk partial writes / last-writer-wins.
 
 ⁶ Compaction of small files and garbage collection of orphaned data files without a manual step.
+
+:::
 
 ## Benchmarks
 
