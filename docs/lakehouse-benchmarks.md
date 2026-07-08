@@ -397,11 +397,13 @@ Variants on the most prevalent chromosome within the 10th–90th percentile posi
 
 **Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg and LanceDB reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 2038s/51s and 2035s/152s respectively.
 
-### Why file count dominates
+:::{dropdown} Why the number of Parquet files is important.
 
 The two layouts isolate a behaviour worth stating plainly: for the read-bound engines, wall-clock time tracks the number of Parquet files, not the number of rows. Opening a collection reads one footer per file; PyArrow fetches these largely serially, so 3,201 small shards cost far more than 26 large ones even when the large-file layout holds 22× the data.
 The effect is order-of-magnitude. PyArrow's per-sample statistics run ~2,000s on the 3,201-file layout versus ~102s on the 26-file layout; Iceberg and LanceDB's one-time ingestion read drops from ~34 min to ~2 min. Engines that parallelise footer reads (DuckDB) or pre-compact into their own store (Iceberg, LanceDB) blunt this cost; engines that read in place and serially (PyArrow) are hit hardest.
 The practical takeaway is a tuning knob independent of engine choice: compacting many small shards into fewer large ones is often a bigger win than switching engines. [If you have the same-data 3,201→26 repack numbers from the file-count test, cite them here — that's the controlled version of this claim.]
+
+:::
 
 ## Data management
 
