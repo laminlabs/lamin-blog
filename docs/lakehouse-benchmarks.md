@@ -409,24 +409,18 @@ Three write operations were tested: appending a new sample, adding a `QC_PASS` b
 
 ### Append
 
+Neither PyArrow nor Polars have an append operation for a sharded dataset — appending is a data-layer operation handled by LaminDB. A new artifact is saved with schema validation, then appended to the collection, creating a new version (S3 upload, metadata registration, lineage recording).
+
 ::::::{tab-set}
-:::::{tab-item} PyArrow
-PyArrow has no append operation for a sharded dataset — appending is a data-layer operation handled by LaminDB. A new artifact is saved with schema validation, then appended to the collection, creating a new version (S3 upload, metadata registration, lineage recording).
+:::::{tab-item} LaminDB
 
 ```python
 new_art = ln.Artifact.from_dataframe(
     new_sample_df,
-    key=f"lakehouse-benchmarks/append_batch_{ln.context.run.uid}.parquet",
-    description="benchmark append batch (new sample)",
+    key="lakehouse-benchmarks/new_batch.parquet",
 ).save()
-
 new_collection = collection.append(new_art)   # returns a new collection version
 ```
-
-:::::
-
-:::::{tab-item} Polars
-Polars has no append API either — this is the same LaminDB collection.append() shown in the PyArrow tab. The engine that opened the data doesn't change how appends work.
 
 :::::
 
@@ -464,20 +458,16 @@ table.add(new_sample_arrow)
 
 ### Schema change
 
+Neither PyArrow nor Polars can write new files with a different schema. Here a `QC_PASS` feature is registered in the LaminDB schema registry; all future artifacts saved against this schema — instance-wide — are validated to include it.
+
 ::::::{tab-set}
-:::::{tab-item} PyArrow
-This is a LaminDB operation, not a PyArrow one — PyArrow can write new files with a different schema but has no registry-level evolution over an existing dataset. Here a QC_PASS feature is registered in the LaminDB schema registry; all future artifacts saved against this schema — instance-wide — are validated to include it.
+:::::{tab-item} LaminDB
 
 ```python
-schema = ln.Schema.get(name="1000 Genomes CNV VCF")
+schema = db.Schema.get(name="1000 Genomes CNV VCF")
 feat = ln.Feature(name="QC_PASS", dtype=bool).save()
 schema.add_optional_features([feat])
 ```
-
-:::::
-
-:::::{tab-item} Polars
-Same LaminDB operation as the PyArrow tab — Polars has no schema-evolution API of its own.
 
 :::::
 
@@ -516,30 +506,17 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 
 ### Time travel
 
+Neither PyArrow nor Polars nor DuckDB have this capability.
+
 ::::::{tab-set}
-:::::{tab-item} PyArrow
-Time travel is a LaminDB capability, not a PyArrow one. Collection versions share a stable UID differing only in the suffix — ...0000 (pre-append) vs ...0001 (post-append) — and every prior version stays addressable.
+:::::{tab-item} LaminDB
 
 ```python
-original = ln.Collection.get("Lh6IsCOGIl5TOjAj0000")   # 0000 = v1, pre-append
+original = db.Collection.get("Lh6IsCOGIl5TOjAj", version="1")   # v1, pre-append
 rows_v1 = original.open().count_rows()
 
-current = ln.Collection.get("Lh6IsCOGIl5TOjAj0001")    # 0001 = v2, post-append
+current = db.Collection.get("Lh6IsCOGIl5TOjAj0001", version="2")    # v2, post-append
 rows_v2 = current.open().count_rows()
-```
-
-:::::
-
-:::::{tab-item} Polars
-Same as PyArrow — collection versioning via LaminDB.
-
-:::::
-
-:::::{tab-item} DuckDB
-Not supported. DuckDB maintains no snapshot history; the view redefinition used for append is also session-scoped.
-
-```python
-# not available
 ```
 
 :::::
@@ -566,8 +543,6 @@ table.checkout_latest()       # restore current version
 
 :::::
 ::::::
-
-<!-- PLOT: write_path.svg -->
 
 ![Write Path — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg)
 
