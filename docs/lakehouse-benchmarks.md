@@ -663,9 +663,7 @@ All timings are single-run measurements on SageMaker (`ml.m5.24xlarge`) in store
 ## How to cite
 
 ```
-Rasmussen A, Pillai R, Rybakov S & Wolf A (2026). Lakehouse engineering:
-benchmarking metadata-driven query optimization.
-Lamin Blog.
+Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026). Iceberg, DuckDB, LanceDB, Polars & LaminDB in queries of the 1000 Genomes Project. Lamin Blog. https://blog.lamin.ai/lakehouse-benchmarks
 ```
 
 ## References
