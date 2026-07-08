@@ -160,10 +160,9 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 
 The numerical results depend on the dataset (**Figure 1**). If many files are involved the ingestion into Iceberg/LanceDB runs ~34 minutes; on the few-file layout the same step is under three minutes.
 
-| Dataset 1: 4M rows, 3k files                                                                                       | Dataset 2: 88M rows, 26 files                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| ![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg) | ![Setup cost — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70002.svg) |
-| Figure 1a ([source](https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L))                | Figure 2a ([source](https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N))              |
+| ![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)                    | ![Setup cost — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70002.svg)                        |
+| ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Figure 1a ([source](https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L))**: Dataset 1: 4M rows, 3k files | **Figure 1b ([source](https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N))**: Dataset 2: 88M rows, 26 files. |
 
 ### Query 1: A simple filter
 
