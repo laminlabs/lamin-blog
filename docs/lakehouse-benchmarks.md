@@ -407,7 +407,7 @@ The practical takeaway is a tuning knob independent of engine choice: compacting
 
 Three write operations were tested: appending a new sample, adding a `QC_PASS` boolean column, and querying a historical state.
 
-### Append
+### Appending data
 
 Neither PyArrow nor Polars have an append operation for a sharded dataset — appending is a data-layer operation handled by LaminDB. A new artifact is saved with schema validation, then appended to the collection, creating a new version (S3 upload, metadata registration, lineage recording).
 
@@ -456,7 +456,7 @@ table.add(new_sample_arrow)
 :::::
 ::::::
 
-### Schema change
+### Schema evolution
 
 Neither PyArrow nor Polars can write new files with a different schema. Here a `QC_PASS` feature is registered in the LaminDB schema registry; all future artifacts saved against this schema — instance-wide — are validated to include it.
 
