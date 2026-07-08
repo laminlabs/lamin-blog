@@ -91,16 +91,17 @@ Three tools — PyArrow, Polars, and DuckDB — read the source Parquet files in
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
-`collection.open()` returns a lazy PyArrow dataset backed by S3. No data is read until a query is issued.
+A lazy PyArrow dataset backed by S3. No data is read until a query is issued.
 
 ```python
-dataset = collection.open()   # lazy PyArrow dataset over the collection's shards
+with collection.open(engine="pyarrow") as lazy_ds:
+    ...   # lazy_ds is a PyArrow dataset backed by S3
 ```
 
 :::::
 
 :::::{tab-item} Polars
-`collection.open(engine="polars")` returns a context manager yielding a Polars LazyFrame backed by S3. No data is read until `.collect()` is called.
+A Polars LazyFrame backed by S3. No data is read until `.collect()` is called.
 
 ```python
 with collection.open(engine="polars") as lazy_df:
@@ -110,7 +111,7 @@ with collection.open(engine="polars") as lazy_df:
 :::::
 
 :::::{tab-item} DuckDB
-DuckDB registers a view over the collection's S3 paths via `httpfs`. The view is lazy — nothing is read until a SQL query is issued.
+DuckDB registers a lazy view over the collection's S3 paths via `httpfs`. No data is read until a query is issued.
 
 ```python
 import duckdb
@@ -144,7 +145,7 @@ Note: a SQLite catalog is used here for portability. Production deployments woul
 :::::
 
 :::::{tab-item} LanceDB
-LanceDB requires a full materialisation of the LaminDB collection and ingestion into Lance columnar format on S3. LanceDB is the only engine in this comparison that copies data out of the source Parquet files.
+LanceDB requires a full materialisation of the LaminDB collection and ingestion into Lance columnar format on S3.
 
 ```python
 import lancedb
@@ -157,27 +158,16 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 :::::
 ::::::
 
-**Setup summary:**
+The numerical results depend on the dataset (**Figure 1**). If many files are involved the ingestion into Iceberg/LanceDB runs ~34 minutes; on the few-file layout the same step is under three minutes.
 
-<!-- PLOT: setup_cost.svg -->
+| Dataset 1: 4M rows, 3k files                                                                                       | Dataset 2: 88M rows, 26 files                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| ![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg) | ![Setup cost — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70002.svg) |
+| Figure 1a ([source](https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L))                | Figure 2a ([source](https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N))              |
 
-Setup cost splits sharply by file count. On the many-file layout the one-time read into Iceberg/LanceDB runs ~34 minutes; on the few-file layout the same step is under three minutes.
+### Query 1: A simple filter
 
-![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)
-
-Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L
-
-![Setup cost — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70002.svg)
-
-Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
-
-Three queries were run against all five engines. The computation logic is equivalent across engines; differences in timing reflect S3 read strategy and whether data has been pre-ingested.
-
-All timings are single-run measurements on the two layouts above. On the many-file (3,201-shard) layout, the read-bound engines are dominated by per-file S3 footer round-trips rather than compute; on the few-file (26-shard) layout that cost largely disappears. Iceberg and LanceDB query times reflect reads from their own pre-ingested stores, so their setup cost should be amortised across queries when comparing total cost.
-
-### Query 1 — filtered query
-
-Variants on the most prevalent chromosome within the 10th–90th percentile position band. Each engine pushes the predicate into the storage layer. All five engines returned identical result sets.
+Let us start by considering a simpler filter.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -234,7 +224,7 @@ filtered = table.to_lance().to_table(
 :::::
 ::::::
 
-### Query 2 — per-sample CNV statistics
+### Query 2: Per-sample statistics
 
 For each sample: total CNV count, deletion count, median deletion size, homozygous count, heterozygous count.
 
@@ -322,7 +312,7 @@ stats = df.groupby("SAMPLE_NAME").agg(
 :::::
 ::::::
 
-### Query 3 — recurrent region detection
+### Query 3: Recurrent region detection
 
 Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two or more distinct samples are identified as recurrent regions. all five engines produced identical results.
 
@@ -395,6 +385,10 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBs
 Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N
 
 ### Notes on query timing
+
+All timings are single-run measurements on the two layouts above. On the many-file (3,201-shard) layout, the read-bound engines are dominated by per-file S3 footer round-trips rather than compute; on the few-file (26-shard) layout that cost largely disappears. Iceberg and LanceDB query times reflect reads from their own pre-ingested stores, so their setup cost should be amortised across queries when comparing total cost.
+
+Variants on the most prevalent chromosome within the 10th–90th percentile position band. Each engine pushes the predicate into the storage layer. All five engines returned identical result sets.
 
 **Read strategy dominates on the many-file layout.** PyArrow's dataset API fetches the 3,201 footers largely sequentially; Polars and DuckDB parallelise, which is why DuckDB runs the heavy aggregations in ~17s where PyArrow takes ~2,000s. On the few-file layout the gap narrows to single-digit factors. Ratios vary by query, so we report per-query times in the plots rather than a single speedup number.
 
