@@ -30,6 +30,8 @@ With `annbatch`,[^gold26] we developed an `anndata`-based loader that optimizes 
 
 **Figure 2 ([explore](https://lamin.ai/laminlabs/arrayloader-benchmarks/artifact/AYfx4Nm2j0lpkkwK0000))**: Processing pipeline from the originally published Tahoe-100M, over pre-shuffled datasets, to running the data loader, to plotting Figure 1.
 
+While the benchmarks here cache arrays from their cloud storage location to local disk, streaming data directly from S3 is a relevant use case, albeit resulting in lower loading speeds. A recent benchmark by Ryan Conrad[^conrad26] found `annbatch` to perform well in this case, too.
+
 ## Data & code availability
 
 - Paper: [arXiv:2604.01949](https://arxiv.org/abs/2604.01949)
@@ -67,3 +69,5 @@ We thank Davide D'Ascenzo and Sebastiano Cultrera di Montesano for discussions r
 [^zhang25]: Zhang JQ et al. (2025). Tahoe-100M: A Giga-Scale Single-Cell Perturbation Atlas for Context-Dependent Gene Function and Cellular Modeling. [bioRxiv](https://www.biorxiv.org/content/10.1101/2025.02.20.639398).
 
 [^slaf]: Pavan Ramkumar (2025). SLAF: Sparse Lazy Array Format. [slaf-project.github.io](https://slaf-project.github.io/slaf/).
+
+[^conrad26]: Ryan Conrad (2026). Re-benchmark `AnnData` for remote stores. [GitHub](https://github.com/epiblastai/homeobox/pull/91).
