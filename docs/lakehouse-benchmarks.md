@@ -544,15 +544,18 @@ table.checkout_latest()       # restore current version
 :::::
 ::::::
 
-![Write Path — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg)
+### Numerical results
 
-Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000K
-
-![Write Path — 88M rows, 26 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0003.svg)
-
-Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000M
-
-### Notes
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg" />
+    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000K">source</a>)</strong>: Dataset 1: 4M rows, 3k files.</p>
+  </div>
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0003.svg" />
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000M">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
+  </div>
+</div>
 
 **DuckDB append and schema change.** The 0.48s append and 0.54s schema change for DuckDB are not persisted operations. Both are in-session view redefinitions; no data is written to S3. These timings are not directly comparable to the persisted writes of the other four engines.
 
