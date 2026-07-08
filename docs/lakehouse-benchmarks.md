@@ -41,18 +41,18 @@ LaminDB is largely complementary to Iceberg rather than a replacement. Iceberg, 
 
 | Feature                                 | Raw Files | Iceberg | DuckLake | LaminDB |
 | --------------------------------------- | --------- | ------- | -------- | ------- |
-| ACID transactions                       | ❌        | ✅      | ✅       | ✅¹   |
-| Time travel / snapshot isolation        | ❌        | ✅      | ✅       | ✅²   |
-| Schema evolution without rewriting data | ❌        | ✅³     | ✅³      | ✅³   |
-| Write-Audit-Publish workflow            | ❌        | ✅      | ❌       | ✅⁴   |
-| Query engine independence               | ✅        | ✅      | ❌       | ✅    |
-| Concurrent writers                      | ❌⁵       | ❌      | ✅       | ✅    |
-| Automatic maintenance                   | ❌        | ❌      | ✅       | ✅⁶   |
-| Native multi-table transactions         | ❌        | ❌      | ✅       | ❌    |
-| Heterogeneous file support              | ✅        | ❌      | ❌       | ✅    |
-| Data lineage                            | ❌        | ❌      | ❌       | ✅    |
-| Ontologies                              | ❌        | ❌      | ❌       | ✅    |
-| Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅    |
+| ACID transactions                       | ❌        | ✅      | ✅       | ✅¹     |
+| Time travel / snapshot isolation        | ❌        | ✅      | ✅       | ✅²     |
+| Schema evolution without rewriting data | ❌        | ✅³     | ✅³      | ✅³     |
+| Write-Audit-Publish workflow            | ❌        | ✅      | ❌       | ✅⁴     |
+| Query engine independence               | ✅        | ✅      | ❌       | ✅      |
+| Concurrent writers                      | ❌⁵       | ❌      | ✅       | ✅      |
+| Automatic maintenance                   | ❌        | ❌      | ✅       | ✅⁶     |
+| Native multi-table transactions         | ❌        | ❌      | ✅       | ❌      |
+| Heterogeneous file support              | ✅        | ❌      | ❌       | ✅      |
+| Data lineage                            | ❌        | ❌      | ❌       | ✅      |
+| Ontologies                              | ❌        | ❌      | ❌       | ✅      |
+| Registries with fine-grained control    | ❌        | ❌      | ❌       | ✅      |
 
 ¹ LaminDB guarantees storage↔metadata consistency, not row-level ACID inserts into parquet the way Iceberg and DuckLake do.
 
@@ -159,6 +159,7 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 **Setup summary:**
 
 <!-- PLOT: setup_cost.svg -->
+
 Setup cost splits sharply by file count. On the many-file layout the one-time read into Iceberg/LanceDB runs ~34 minutes; on the few-file layout the same step is under three minutes.
 
 ![Setup cost — 4M rows, 3,201 files](https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg)
@@ -334,7 +335,7 @@ Genomic positions are binned into 1 kbp windows. Bins containing CNVs from two o
 ```python
 df["region_key"] = df["CHROM"] + ":" + ((df["POS"] // 1000) * 1000).astype(str)
 recurrent = df.groupby("region_key")["SAMPLE_NAME"].nunique()
-recurrent = recurrent[recurrent >= 2] 
+recurrent = recurrent[recurrent >= 2]
 ```
 
 :::::
@@ -403,6 +404,7 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvaj
 **Iceberg and LanceDB post-ingest query times.** The low query times for Iceberg and LanceDB reflect reads from their own pre-ingested S3 stores. Their per-query times exclude the one-time setup cost of 2038s/51s and 2035s/152s respectively.
 
 ### Why file count dominates
+
 The two layouts isolate a behaviour worth stating plainly: for the read-bound engines, wall-clock time tracks the number of Parquet files, not the number of rows. Opening a collection reads one footer per file; PyArrow fetches these largely serially, so 3,201 small shards cost far more than 26 large ones even when the large-file layout holds 22× the data.
 The effect is order-of-magnitude. PyArrow's per-sample statistics run ~2,000s on the 3,201-file layout versus ~102s on the 26-file layout; Iceberg and LanceDB's one-time ingestion read drops from ~34 min to ~2 min. Engines that parallelise footer reads (DuckDB) or pre-compact into their own store (Iceberg, LanceDB) blunt this cost; engines that read in place and serially (PyArrow) are hit hardest.
 The practical takeaway is a tuning knob independent of engine choice: compacting many small shards into fewer large ones is often a bigger win than switching engines. [If you have the same-data 3,201→26 repack numbers from the file-count test, cite them here — that's the controlled version of this claim.]
@@ -590,11 +592,11 @@ Link to Plot: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz
 ## Developer experience compared (4M / 3,201-file run — see plots for 88M)
 
 |                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                      | LanceDB                      |
-| ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ---------------------------- | ---------------------------- |
+| ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ---------------------------- | ---------------------------- | --- |
 | **Setup**                    | 1 line                                             | 1 line                 | 5 lines           | ~20 lines                    | 3 lines                      |
 | **Data ingestion required**  | No                                                 | No                     | No                | No (wraps source Parquet)    | Yes (copies to Lance format) |
 | **Query API**                | PyArrow / pandas                                   | Polars / pandas        | SQL               | Iceberg expressions / pandas | PyArrow / pandas / SQL       |
-| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3        | versioned write to S3        |                       |
+| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3        | versioned write to S3        |     |
 | **Schema change scope**      | instance-wide registry                             | instance-wide registry | session only†     | this table                   | this table                   |
 | **Time travel**              | collection versions                                | collection versions    | not supported     | snapshot ID                  | version number               |
 | **ACID**                     | schema validation + collection versioning          | same as PyArrow        | none              | full snapshot isolation      | versioned appends            |
