@@ -7,6 +7,8 @@ affiliation:
   ilan-gold: Helmholtz Munich
   fabian-theis: Helmholtz Munich
   falexwolf: Lamin Labs, Munich
+linkedin: https://www.linkedin.com/posts/fabian-theis-4b4b10173_annbatch-unlocks-terabyte-scale-training-share-7449504033716899840-oVW8/
+tweet: https://x.com/fabian_theis/status/2043739617787093016
 ---
 
 The demand for AI in omics has grown at an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient, we developed `annbatch`,[^gold26] a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor of 3 higher than the fastest recent alternatives.
