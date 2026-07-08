@@ -173,7 +173,7 @@ The numerical results depend on the dataset (**Figure 1**). If many files are in
 
 ### Query 1: A simple filter
 
-Let us start by considering a simpler filter.
+Consider filtering by chromosome and position.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
