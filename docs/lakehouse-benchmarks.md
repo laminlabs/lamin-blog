@@ -182,7 +182,7 @@ Let us start by considering a simpler filter.
 import pyarrow.compute as pc
 expr = ((pc.field("CHROM") == chrom)
         & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
-filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
+filtered = lazy_ds.to_table(filter=expr)   # predicate pushdown into Parquet row groups
 ```
 
 :::::
@@ -238,7 +238,7 @@ For each sample: total CNV count, deletion count, median deletion size, homozygo
 :::::{tab-item} PyArrow
 
 ```python
-df = dataset.to_table().to_pandas()
+df = lazy_ds.to_table().to_pandas()
 
 stats = df.groupby("SAMPLE_NAME").agg(
     Total_CNVs=("INFO_SVLEN", "count"),
