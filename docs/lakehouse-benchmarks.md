@@ -16,7 +16,7 @@ In this post, we benchmark exemplary queries and review managing the life cycle 
 
 ## The lakehouse landscape
 
-The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse enabling to work with multi-modal datasets with dedicated queries. Today's most popular lakehouse table format is Apache Iceberg[^iceberg], which provides transactions for manipulations of tabular datasets that are stored in of `.parquet` object storage systems like AWS S3.
+The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse so that you can run dedicated queries against multi-modal datasets. Today's most popular lakehouse table format is Apache Iceberg[^iceberg], which provides transactions for manipulations of tabular datasets that are stored in of `.parquet` object storage systems like AWS S3.
 
 ### Iceberg and manifest-based snapshots
 
