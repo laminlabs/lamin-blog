@@ -11,9 +11,10 @@ linkedin: https://www.linkedin.com/posts/fabian-theis-4b4b10173_annbatch-unlocks
 tweet: https://x.com/fabian_theis/status/2043739617787093016
 ---
 
-The demand for AI in omics has grown at an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale. To make that process more efficient, we developed `annbatch`,[^gold26] a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor of 3 higher than the fastest recent alternatives.
+The demand for AI in omics has grown at an unprecedented rate, with state-of-the-art models now routinely trained on datasets exceeding the terabyte scale.
+To make that process more efficient, we developed `annbatch`,[^gold26] a high-performance data loader built on `anndata` that enables loading speeds of 60k samples/second and more, at least a factor of 3 higher than the fastest recent alternatives.
 
-Since `anndata`[^virshup24] released a first disk-backed data loader (`AnnCollection`) in 2019, better implementations have been developed, for instance, as used in SCimilarity[^scimilarity25] or Cellarium around 2022.[^cellarium22]
+Since `anndata`[^virshup24] released a first disk-backed data loader (`AnnCollection`) in 2019, better implementations have been developed, for instance, as used in SCimilarity[^scimilarity25], Cellarium[^cellarium22] or BioNEMO.[^bionemo24]
 Based on these improvements, some of us helped develop `MappedCollection`[^mappedcollection24] to address the need for true weighted random sampling in 2023. This came, however, at a significant performance cost compared to approaches that load contiguous chunks, such as NVIDIA Merlin[^merlin20] or the `tiledbsoma` loader of CELLxGENE.[^cellxgene-census-pytorch] In 2025, `scDataset`[^dascenzo25] and SLAF[^slaf] have been introduced with significant performance improvements.
 
 With `annbatch`,[^gold26] we developed an `anndata`-based loader that optimizes loading contiguous chunks, assumes pre-shuffling, and uses the popular `.zarr` array format.[^zarr-v2] It reaches 60k samples/second and more[^gold26] on the Tahoe-100M dataset,[^zhang25] which stores transcriptional profiles of 100M cells (**Figure 1**). For reproducibility and to showcase the conversion of the original collection of `.h5ad` files to a collection of `.zarr` stores, benchmarks were tracked with data lineage (**Figure 2**).
@@ -71,3 +72,5 @@ We thank Davide D'Ascenzo and Sebastiano Cultrera di Montesano for discussions r
 [^slaf]: Pavan Ramkumar (2025). SLAF: Sparse Lazy Array Format. [slaf-project.github.io](https://slaf-project.github.io/slaf/).
 
 [^conrad26]: Ryan Conrad (2026). Re-benchmark `AnnData` for remote stores. [GitHub](https://github.com/epiblastai/homeobox/pull/91).
+
+[^bionemo24]: St. John P et al. (2024). BioNeMo Framework: a modular, high-performance library for AI model development in drug discovery. [arXiv](https://arxiv.org/abs/2411.10548).
