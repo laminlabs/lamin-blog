@@ -193,12 +193,12 @@ The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70001.svg" />
-    <p><strong>Figure 1a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000L">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Ef1FctliRyb7kw9g0001.svg" />
+    <p><strong>Figure 1a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000Q">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg" />
-    <p><strong>Figure 1b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Ef1FctliRyb7kw9g0000.svg" />
+    <p><strong>Figure 1b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000P">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
   </div>
 </div>
 
@@ -440,12 +440,12 @@ For the table formats, `scan + compute` is shown; the compute segment is a DuckD
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0002.svg" />
-    <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L">source</a>)</strong>: Dataset 1 query times.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0004.svg" />
+    <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000Q">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/d2r3p1yUGrcVTLtw0004.svg" />
-    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000N">source</a>)</strong>: Dataset 2 query times.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0000.svg" />
+    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000P">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
@@ -622,12 +622,12 @@ Two observations. The LaminDB-path append (PyArrow/Polars) is slower on Dataset 
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0002.svg" />
-    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000K">source</a>)</strong>: Dataset 1 write path.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0005.svg" />
+    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000P">source</a>)</strong>: Dataset 1 write path.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0004.svg" />
-    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000M">source</a>)</strong>: Dataset 2 write path.</p>
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000O">source</a>)</strong>: Dataset 2 write path.</p>
   </div>
 </div>
 
@@ -653,7 +653,7 @@ What LaminDB provides:
 **Lineage.** Each pipeline notebook is a tracked transform; the timing results are saved as tracked artifacts; a final `plots.py` reads those five artifacts as registered inputs and writes the comparison figures as registered outputs. The full provenance chain — from the original 1000 Genomes data through to the figures — is recorded in LaminHub.
 
 ![Lineage on Lamin Hub](https://lamin-site-assets.s3.amazonaws.com/.lamindb/v7yD8XvBy0eViHGG0001.png)
-Link to view lineage: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000L
+Link to view lineage: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000Q
 
 Note: DuckDB is one exception in the lineage graph — it reads the collection's Parquet files directly via S3 paths rather than through `collection.open()`, so the collection node has no incoming edge from `duckdb_pipeline.ipynb`. Its result artifact is still tracked as an output.
 
