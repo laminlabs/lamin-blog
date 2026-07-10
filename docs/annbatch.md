@@ -1,6 +1,6 @@
 ---
 title: "Scaling anndata training to the terabyte scale with annbatch"
-date: 2026-07-03
+date: 2026-07-10
 author: felix-fischer, ilan-gold, fabian-theis, falexwolf
 affiliation:
   felix-fischer: Lamin Labs, Munich
