@@ -34,6 +34,8 @@ This snapshot-based approach offers several advantages over raw files in S3. Ice
 
 But Iceberg's snapshot model has real costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3 (which lacked atomic compare-and-swap until recently), an external catalog or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. Multi-table transactions are only available with certain catalogs.
 
+![Iceberg Warehouse S3 file layout](https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg)
+
 ### DuckLake and the relational metadata approach
 
 One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database, leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata. DuckLake is what turns DuckDB's in-place querying into a managed table with persistent appends, schema evolution, and time travel; we return to this in the data-management section.
@@ -156,9 +158,6 @@ catalog.create_namespace("genomics")
 table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
 table.append(arrow)
 ```
-
-Note: a SQLite catalog is used here for portability. Production deployments would use a Glue or REST catalog.
-![Iceberg Warehouse S3 file layout](https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg)
 
 :::::
 
