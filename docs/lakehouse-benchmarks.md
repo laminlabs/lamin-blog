@@ -14,7 +14,6 @@ db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 
 Over the past decade, the lakehouse has become the dominant data architecture in R&D. In this post we benchmark a realistic user journey — read, filter, aggregate, append, evolve schema, time-travel — over Parquet files from the 1000 Genomes Project, across Polars, DuckDB, Iceberg, and LanceDB.
 
-**Headline finding: read cost is dominated by file count, not row count — and which cost you pay depends on whether the engine reads in place or pre-ingests.** A dataset of 4.86M rows spread across 3,201 Parquet files is dramatically slower to read than one of 88M rows in 26 files — 18× more rows, but a fraction of the time. The in-place engines (PyArrow, DuckDB, Polars) pay this on every query; the table formats (Iceberg, LanceDB) pay it once at ingest and then scale with rows. The extreme case: DuckDB's filtered `SELECT *` over `httpfs` runs in 4.8s on 26 files and 2,181s on 3,201 files — a 454× gap driven purely by file count.
 
 ## The lakehouse landscape
 
