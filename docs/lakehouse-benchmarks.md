@@ -94,7 +94,7 @@ import lamindb as ln
 
 db = ln.DB("laminlabs/lakehouse-benchmarks")
 # base version of the collection, addressable by UID (append runs create newer versions)
-collection = db.Collection.get("Lh6IsCOGIl5TOjAj0000", is_latest=False) # hVu9puwdRGskm1I6 for the 88M dataset
+collection = db.Collection.get("Lh6IsCOGIl5TOjAj0000") # hVu9puwdRGskm1I6 for the 88M dataset
 ```
 
 Three tools — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
@@ -107,7 +107,6 @@ A lazy PyArrow dataset backed by S3. No data is read until a query is issued.
 
 ```python
 with collection.open(engine="pyarrow") as lazy_ds:  # lazy PyArrow dataset backed by S3
-# this can also be called using: dataset = collection.open() 
 ```
 
 :::::
