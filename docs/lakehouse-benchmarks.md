@@ -470,32 +470,14 @@ Three write operations were tested: appending a new batch, adding a `QC_PASS` bo
 Neither PyArrow nor Polars has an append operation for a sharded dataset — appending is a data-layer operation handled by LaminDB. A new artifact is saved (with a run-scoped key so its content hash is unique per run), then a new collection version is created that revises the original.
 
 ::::::{tab-set}
-:::::{tab-item} LaminDB (PyArrow / Polars path)
+:::::{tab-item} LaminDB
 
 ```python
 new_art = ln.Artifact.from_dataframe(
-    batch_df, key=f"lakehouse-benchmarks/append_batch_{ln.context.run.uid}.parquet",
+    new_sample_df,
+    key="lakehouse-benchmarks/new_batch.parquet",
 ).save()
-
-original = ln.Collection.get(COLLECTION_UID)
-original_arts = [a for a in original.artifacts.all() if "append_batch" not in (a.key or "")]
-new_collection = ln.Collection(
-    [*original_arts, new_art],
-    key=original.key, description=original.description, revises=original,
-).save()   # returns a new collection version
-```
-
-:::::
-
-:::::{tab-item} DuckDB
-The view is redefined to union in the new rows from an in-memory Arrow table (`append_batch`). No data is written to S3; the change lives only in this `con` session. Each engine derives its own batch via `make_append_batch` (see the notebooks), so batch sizes differ and append times are not directly comparable.
-
-```python
-con.register("append_batch", batch)
-con.execute(
-    "CREATE OR REPLACE VIEW cnv_vcf AS "
-    f"{BASE_SELECT} UNION ALL SELECT * FROM append_batch"
-)
+new_collection = collection.append(new_art)   # returns a new collection version
 ```
 
 :::::
@@ -534,18 +516,6 @@ schema.add_optional_features([feat])
 
 :::::
 
-:::::{tab-item} DuckDB
-Session-only: the view is redefined with a virtual `NULL` column. Because the view sits over `read_parquet`, DuckDB cannot persist this to the source files — that requires writing new Parquet, or moving to DuckLake, which adds durable schema evolution on top of DuckDB.
-
-```python
-con.execute(
-    "CREATE OR REPLACE VIEW cnv_vcf AS "
-    f"SELECT *, CAST(NULL AS BOOLEAN) AS QC_PASS FROM ({BASE_SELECT}) t"
-)
-```
-
-:::::
-
 :::::{tab-item} Iceberg
 A new metadata file records the updated schema. Existing Parquet files are not modified; reads of old files return `null` for the new column.
 
@@ -575,9 +545,11 @@ Neither PyArrow, Polars, nor DuckDB has this capability on its own; DuckLake add
 :::::{tab-item} LaminDB
 
 ```python
-v1 = db.Collection.get("Lh6IsCOGIl5TOjAj0000")   # original version, addressable by UID
-v1.open().count_rows()                            # rows before the append
-v1.versions.to_dataframe()                        # enumerate versions to compare post-append
+original = db.Collection.get("Lh6IsCOGIl5TOjAj", version="1")   # v1, pre-append
+rows_v1 = original.open().count_rows()
+
+current = db.Collection.get("Lh6IsCOGIl5TOjAj0001", version="2")    # v2, post-append
+rows_v2 = current.open().count_rows()
 ```
 
 :::::
