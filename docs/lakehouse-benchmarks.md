@@ -575,18 +575,16 @@ table.checkout_latest()       # restore current version
 
 Write-path times, both datasets:
 
-| Seconds | PyArrow | Polars | DuckDB | Iceberg | LanceDB |
-| --- | --- | --- | --- | --- | --- |
-| Append — Dataset 1 | 11.2 | 11.0 | 0.47 † | 0.85 | 0.11 |
-| Append — Dataset 2 | 4.19 | 4.14 | 0.44 † | 1.10 | 0.32 |
-| Schema change — Dataset 1 | 3.6 | 3.6 | 0.52 † | 0.33 | 0.07 |
-| Schema change — Dataset 2 | 3.52 | 3.53 | 0.45 † | 0.36 | 0.08 |
-| Time travel — Dataset 1 | n/a | n/a | n/a | 0.69 | 0.11 |
-| Time travel — Dataset 2 | n/a | n/a | n/a | 1.64 | 0.11 |
+| Seconds | LaminDb | DuckDB | Iceberg | LanceDB |
+| --- | --- | --- | --- | --- |
+| Append — Dataset 1 | 11.0 | n/a    | 0.85 | 0.11 |
+| Append — Dataset 2 | 4.14 | n/a    | 1.10 | 0.32 |
+| Schema change — Dataset 1 | 3.6 | n/a    | 0.33 | 0.07 |
+| Schema change — Dataset 2 | 3.53 | n/a    | 0.36 | 0.08 |
+| Time travel — Dataset 1 | n/a | n/a | 0.69 | 0.11 |
+| Time travel — Dataset 2 | n/a | n/a | 1.64 | 0.11 |
 
-† DuckDB's append and schema change are in-session view redefinitions; **no data is written to S3**, so they are not comparable to the persisted writes of the other engines.
-
-Two observations. The LaminDB-path append (PyArrow/Polars) is slower on Dataset 1 (~11s) than Dataset 2 (~4s) because creating a new collection version rebuilds the member list — 3,201 artifacts versus 26 — so append cost tracks the number of files in the collection. And the append batch sizes differ by engine (DuckDB +5,000 / +13; Polars +2,000; PyArrow/Iceberg/LanceDB +124,084 / +1,298 via `make_append_batch`), so the append column compares operations, not equal payloads.
+Two observations. The LaminDB-path append is slower on Dataset 1 (~11s) than Dataset 2 (~4s) because creating a new collection version rebuilds the member list — 3,201 artifacts versus 26 — so append cost tracks the number of files in the collection. 
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
