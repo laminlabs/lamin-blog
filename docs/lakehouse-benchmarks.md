@@ -194,8 +194,8 @@ The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 
     <p><strong>Figure 1a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Ef1FctliRyb7kw9g0000.svg" />
-    <p><strong>Figure 1b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000V">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70004.svg" />
+    <p><strong>Figure 1b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
   </div>
 </div>
 
@@ -441,8 +441,8 @@ For the table formats, `scan + compute` is shown; the compute segment is a DuckD
     <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0000.svg" />
-    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000V">source</a>)</strong>: Dataset 2 query times.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0002.svg" />
+    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
@@ -594,8 +594,8 @@ Two observations. The LaminDB-path append (PyArrow/Polars) is slower on Dataset 
     <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000T">source</a>)</strong>: Dataset 1 write path.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0004.svg" />
-    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000U">source</a>)</strong>: Dataset 2 write path.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0007.svg" />
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000V">source</a>)</strong>: Dataset 2 write path.</p>
   </div>
 </div>
 
