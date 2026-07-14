@@ -138,7 +138,7 @@ con.execute(f"""
     )
 """)
 
-s3_paths = [str(a.path) for a in collection.artifacts.all()]
+s3_paths = [a.path.as_posix() for a in collection.artifacts.all()]
 con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
 ```
 
