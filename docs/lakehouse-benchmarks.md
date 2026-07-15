@@ -54,7 +54,7 @@ Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg
 
 :::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
-¹ LaminDB guarantees storage ↔ metadata consistency, not row-level ACID inserts into Parquet the way Iceberg and DuckLake do.
+¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID transactions for tables the way Iceberg and DuckLake do.
 
 ² See the Time travel section.
 
