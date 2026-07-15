@@ -17,14 +17,8 @@ In this post we review how Polars, DuckDB, Iceberg, and LanceDB help to query an
 
 ## The lakehouse landscape
 
-The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can run dedicated queries against multi-modal datasets. Today's most popular lakehouse table format is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3.
-
-Two categories are worth separating up front, because they answer different questions:
-
-- **Query engines** — PyArrow, Polars, DuckDB — read and compute. They own nothing at rest.
-- **Table formats** — Iceberg, LanceDB, DuckLake — _manage_ data: ACID writes, schema evolution, time travel, versioning.
-
-DuckDB is a query engine; DuckLake is the table format from the DuckDB ecosystem. They are not interchangeable, and the distinction matters for the data-management results below.
+The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can use different query engines for multi-modal datasets.
+Today's most popular lakehouse table format is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3.
 
 ### Iceberg and manifest-based snapshots
 
@@ -39,6 +33,15 @@ But Iceberg's snapshot model has real costs. Creating a snapshot is expensive, s
 ### DuckLake and the relational metadata approach
 
 One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database, leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata. DuckLake is what turns DuckDB's in-place querying into a managed table with persistent appends, schema evolution, and time travel; we return to this in the data-management section.
+
+## Query engines vs. data management frameworks
+
+Two types of are worth separating up front, because they answer different questions:
+
+- **Query engines** — PyArrow, Polars, DuckDB — read and compute. They own nothing at rest.
+- **Table formats** — Iceberg, LanceDB, DuckLake — _manage_ data: ACID writes, schema evolution, time travel, versioning.
+
+DuckDB is a query engine; DuckLake is the table format from the DuckDB ecosystem. They are not interchangeable, and the distinction matters for the data-management results below.
 
 ### Where LaminDB fits
 
