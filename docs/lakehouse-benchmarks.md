@@ -12,13 +12,13 @@ affiliation:
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
-Over the past decade, the lakehouse has become the dominant data architecture in R&D.
+Over the past decade, the lakehouse has become the dominant data management architecture in R&D.
 In this post we review how Polars, DuckDB, Iceberg, and LanceDB help to query and manage 100M observations from the 1000 Genomes Project.
 
 ## The lakehouse landscape
 
 The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can use different query engines for multi-modal datasets.
-Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
+So, before reviewing query engines, we review three recent lakehouse frameworks.
 
 ### Iceberg
 
@@ -27,6 +27,7 @@ Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which 
   <strong>Figure 1.</strong> File layout of an Iceberg table.
 </figure>
 
+Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
 Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
