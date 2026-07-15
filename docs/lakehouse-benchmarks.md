@@ -540,6 +540,8 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 :::::
 ::::::
 
+(time-travel)=
+
 ### Time travel
 
 Neither PyArrow, Polars, nor DuckDB has this capability on its own; DuckLake adds it to the DuckDB ecosystem (see the capability table). LaminDB provides it at the collection level via versions.
