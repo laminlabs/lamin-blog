@@ -85,7 +85,7 @@ While lakehouse frameworks help managing large numbers of datasets, query engine
 
 We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
 
-## Benchmarks
+## Queries
 
 We run the same user journey — read, filter, aggregate, append, evolve schema, time-travel — over two layouts that isolate the effect of file count:
 
@@ -205,7 +205,7 @@ The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 
   </div>
 </div>
 
-### Queries
+### Tasks
 
 Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band — identical logic on both datasets (Dataset 1: chr1, 321,894 variants; Dataset 2: chr2, 5,665,280 variants). Queries 2 and 3 aggregate, and because the schemas differ they run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2). Within each dataset, all five engines returned identical results.
 
