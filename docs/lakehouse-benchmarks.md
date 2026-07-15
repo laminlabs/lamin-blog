@@ -38,9 +38,7 @@ One big limitation remains, however: like all other established lakehouse format
 
 ### LaminDB for datasets beyond tables
 
-Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to define composite schemas to ingest to datasets from the blobs of a data lake (`schema = None`) to structured datasets with multiple array components. LaminDB shares DuckLake's key architectural design — use a relational database for metadata and storage for data — and natively provides data lineage.
-
-The table below summarizes.
+Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to define composite schemas to ingest to datasets from the blobs of a data lake (`schema = None`) to structured datasets with multiple array components. LaminDB shares DuckLake's key architectural design — use a relational database for metadata and storage for data — and natively provides data lineage, among other features.
 
 | Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
 | ---------------------------------------- | ------ | ------- | -------- | ------- |
@@ -51,26 +49,26 @@ The table below summarizes.
 | Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
 | Query engine independence                | ✅     | ✅      | ❌       | ✅      |
 | Concurrent writers                       | ❌ ⁵   | ❌      | ✅       | ✅      |
-| Automatic maintenance                    | ❌     | ❌      | ✅       | ✅ ⁶    |
+| Automatic maintenance                    | ❌     | ❌      | ✅ ⁶     | ✅ ⁶    |
 | Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
-| Heterogeneous file support               | ✅     | ❌      | ❌       | ✅      |
+| Dataset formats beyond tables            | ✅     | ❌      | ❌       | ✅      |
 | Data lineage                             | ❌     | ❌      | ❌       | ✅      |
 | Ontologies                               | ❌     | ❌      | ❌       | ✅      |
 | Registries with fine-grained control     | ❌     | ❌      | ❌       | ✅      |
 
-:::{dropdown} Notes
+:::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
 ¹ LaminDB guarantees storage ↔ metadata consistency, not row-level ACID inserts into Parquet the way Iceberg and DuckLake do.
 
 ² See the Time travel section.
 
-³ Adding a nullable/optional column without rewriting existing files. LaminDB does this via an optional feature on the collection's schema.
+³ Adding a nullable/optional column without rewriting existing files.
 
 ⁴ In LaminDB, via branches (stage, review, merge).
 
 ⁵ Raw files have no commit protocol; concurrent writers risk partial writes / last-writer-wins.
 
-⁶ Compaction of small files and garbage collection of orphaned data files without a manual step.
+⁶ No need for cleaning orphaned files like in Iceberg.
 
 :::
 
