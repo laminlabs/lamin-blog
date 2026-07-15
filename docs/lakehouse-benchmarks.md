@@ -81,9 +81,9 @@ While LanceDB fits the lakehouse architecture, non-lakehouse architectures for m
 
 ### Query engines
 
-While lakehouse frameworks help managing large numbers of datasets, query engines enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow, Polars & DuckDB.
+While lakehouse frameworks help managing large numbers of datasets, query engines enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow,[^pyarrow] Polars,[^polars] & DuckDB.[^duckdb]
 
-We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio[^dremio]
+We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
 
 ## Benchmarks
 
@@ -699,3 +699,9 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^trino]: Trino Software Foundation. Trino: Fast distributed SQL query engine for big data analytics. [Trino](https://trino.io/).
 
 [^dremio]: Dremio Corporation. Dremio: The Unified Lakehouse Platform. [Dremio](https://www.dremio.com/).
+
+[^pyarrow]: Apache Software Foundation. Apache Arrow: A cross-language development platform for in-memory analytics. [Apache Arrow](https://arrow.apache.org/).
+
+[^polars]: Polars. Polars: Fast multi-threaded, hybrid-streaming DataFrame library. [Polars](https://pola.rs/).
+
+[^duckdb]: DuckDB Foundation. DuckDB: An in-process SQL OLAP database management system. [DuckDB](https://duckdb.org/).
