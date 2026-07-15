@@ -24,47 +24,39 @@ Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which 
 
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
-![Iceberg Warehouse S3 file layout](https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg)
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" width=400>
 
 Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
-Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
+Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
 
 ### DuckLake and the relational metadata approach
 
-One recent effort gaining popularity in addressing Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it much cheaper writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
+One approach that gains popularity in addressing Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it much cheaper writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
 
-## Query engines vs. data management frameworks
+One big limitation remains, however: like all other established lakehouse formats, DuckLake can only manage tabular data.
 
-Two types of are worth separating up front, because they answer different questions:
+### LaminDB for datasets beyond tables
 
-- **Query engines** — PyArrow, Polars, DuckDB — read and compute. They own nothing at rest.
-- **Table formats** — Iceberg, LanceDB, DuckLake — _manage_ data: ACID writes, schema evolution, time travel, versioning.
+Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to define composite schemas to ingest to datasets from the blobs of a data lake (`schema = None`) to structured datasets with multiple array components. LaminDB shares DuckLake's key architectural design — use a relational database for metadata and storage for data — and natively provides data lineage.
 
-DuckDB is a query engine; DuckLake is the table format from the DuckDB ecosystem. They are not interchangeable, and the distinction matters for the data-management results below.
+The table below summarizes.
 
-### Where LaminDB fits
-
-LaminDB shares DuckLake's key architectural insight — use a relational database for metadata and object storage for data — but it goes further in scope. While Iceberg and DuckLake are exclusively concerned with tabular data in Parquet files, LaminDB manages data in any format — Parquet, AnnData, HDF5, zarr, VCF, … — and provides features like data lineage.
-
-LaminDB is largely complementary to these engines rather than a replacement. Each engine here is best seen as a downstream consumer of collections of Parquet files managed by LaminDB. LaminDB tracks which pipeline run produced a collection and links it to the files that informed it, while the engine handles querying.
-
-### Capability comparison
-
-| Feature                                  | Raw Files | Iceberg | DuckLake | LaminDB |
-| ---------------------------------------- | --------- | ------- | -------- | ------- |
-| ACID transactions                        | ❌        | ✅      | ✅       | ✅ ¹    |
-| Time travel / snapshot version isolation | ❌        | ✅      | ✅       | ✅ ²    |
-| Schema evolution without rewriting data  | ❌        | ✅ ³    | ✅ ³     | ✅ ³    |
-| Write-Audit-Publish workflow             | ❌        | ✅      | ❌       | ✅ ⁴    |
-| Query engine independence                | ✅        | ✅      | ❌       | ✅      |
-| Concurrent writers                       | ❌ ⁵      | ❌      | ✅       | ✅      |
-| Automatic maintenance                    | ❌        | ❌      | ✅       | ✅ ⁶    |
-| Native multi-table transactions          | ❌        | ❌      | ✅       | ❌      |
-| Heterogeneous file support               | ✅        | ❌      | ❌       | ✅      |
-| Data lineage                             | ❌        | ❌      | ❌       | ✅      |
-| Ontologies                               | ❌        | ❌      | ❌       | ✅      |
-| Registries with fine-grained control     | ❌        | ❌      | ❌       | ✅      |
+| Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
+| ---------------------------------------- | ------ | ------- | -------- | ------- |
+| Data lake (file management & annotation) | ✅     | ❌      | ❌       | ✅      |
+| ACID transactions                        | ❌     | ✅      | ✅       | 🟠 ¹    |
+| Time travel / snapshot version isolation | ❌     | ✅      | ✅       | ✅ ²    |
+| Schema evolution without rewriting data  | ❌     | ✅ ³    | ✅ ³     | ✅ ³    |
+| Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
+| Query engine independence                | ✅     | ✅      | ❌       | ✅      |
+| Concurrent writers                       | ❌ ⁵   | ❌      | ✅       | ✅      |
+| Automatic maintenance                    | ❌     | ❌      | ✅       | ✅ ⁶    |
+| Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
+| Heterogeneous file support               | ✅     | ❌      | ❌       | ✅      |
+| Data lineage                             | ❌     | ❌      | ❌       | ✅      |
+| Ontologies                               | ❌     | ❌      | ❌       | ✅      |
+| Registries with fine-grained control     | ❌     | ❌      | ❌       | ✅      |
 
 :::{dropdown} Notes
 
@@ -81,6 +73,15 @@ LaminDB is largely complementary to these engines rather than a replacement. Eac
 ⁶ Compaction of small files and garbage collection of orphaned data files without a manual step.
 
 :::
+
+## Query engines vs. data management frameworks
+
+Two types of are worth separating up front, because they answer different questions:
+
+- **Query engines** — PyArrow, Polars, DuckDB, as well as distributed engines like Apache Spark,[^spark] Trino,[^trino] and Dremio[^dremio] — read and compute. They own nothing at rest.
+- **Table formats** — Iceberg, LanceDB, DuckLake — _manage_ data: ACID writes, schema evolution, time travel, versioning.
+
+DuckDB is a query engine; DuckLake is the table format from the DuckDB ecosystem. They are not interchangeable, and the distinction matters for the data-management results below.
 
 ## Benchmarks
 
@@ -686,3 +687,11 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^delta]: Linux Foundation. Delta Lake: An open-source storage framework that enables building a Lakehouse architecture. [Delta Lake](https://delta.io/).
 
 [^hudi]: Apache Software Foundation. Apache Hudi: Streaming data on data lakes. [Apache Hudi](https://hudi.apache.org/).
+
+[^nessie]: Project Nessie. Nessie: Transactional Catalog for Data Lakes. [Project Nessie](https://projectnessie.org/).
+
+[^spark]: Apache Software Foundation. Apache Spark: Unified engine for large-scale data analytics. [Apache Spark](https://spark.apache.org/).
+
+[^trino]: Trino Software Foundation. Trino: Fast distributed SQL query engine for big data analytics. [Trino](https://trino.io/).
+
+[^dremio]: Dremio Corporation. Dremio: The Unified Lakehouse Platform. [Dremio](https://www.dremio.com/).
