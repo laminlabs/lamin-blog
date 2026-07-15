@@ -579,7 +579,7 @@ table.checkout_latest()       # restore current version
 :::::
 ::::::
 
-### Numerical results
+### Timing results
 
 Write-path times, both datasets:
 
