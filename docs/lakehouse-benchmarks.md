@@ -31,7 +31,7 @@ Iceberg is a table format that organizes datasets into _snapshots_ — each a co
 
 Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
-Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
+Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
 
 ### DuckLake and the relational metadata approach
 
