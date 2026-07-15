@@ -20,14 +20,14 @@ In this post we review how Polars, DuckDB, Iceberg, and LanceDB help to query an
 The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can use different query engines for multi-modal datasets.
 So, before reviewing query engines, we review three recent lakehouse frameworks.
 
-### Iceberg
+### Lakehouse frameworks
 
 <figure style="float: right; width: 400px; margin-left: 0.5rem">
   <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" />
   <strong>Figure 1.</strong> File layout of an Iceberg table.
 </figure>
 
-Today's most popular lakehouse specification is Apache Iceberg,[^apache-iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
+**Iceberg.** Today's most popular lakehouse specification is Apache Iceberg,[^apache-iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
 Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
@@ -68,27 +68,22 @@ Unlike when working with raw parquet files Iceberg writes are [ACID transactions
 
 </div>
 
-Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
-
-### DuckLake
+**DuckLake.** Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
 
 One approach that gains popularity in addressing Iceberg's limitations is DuckLake,[^ducklake-format][^ducklake-v1] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it much cheaper writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
 
 One limitation remains, however: like all other established lakehouse formats, DuckLake can only manage tabular data.
 
-### LaminDB
+**LaminDB.** Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to ingest anything from blobs that are treated as they would in a data lake to defining schemas that dictate the ingestion of structured datasets with multiple array components. LaminDB shares DuckLake's architectural design — a relational database for metadata and storage for data — and natively provides data lineage, among other features (**Table 1**).
 
-Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to ingest anything from blobs that are treated as they would in a data lake to defining schemas that dictate the ingestion of structured datasets with multiple array components. LaminDB shares DuckLake's architectural design — a relational database for metadata and storage for data — and natively provides data lineage, among other features (**Table 1**).
+**LanceDB, `arraylake`, `tensorstore`, `tiledb`.** While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, LanceDB manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
+While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. While we consider `LanceDB` in some of our comparisons, these non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
 
-### Storage formats and query engines
+### Query engines
 
-While lakehouse frameworks deal with managing large numbers of datasets, query engines enable querying those datasets.
+While lakehouse frameworks help managing large numbers of datasets, query engines enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow, Polars & DuckDB.
 
-- **Query engines** like PyArrow, Polars, DuckDB, as well as distributed engines like Apache Spark,[^spark] Trino,[^trino] and Dremio[^dremio] read and compute. They own nothing at rest.
-- **Lakehouse frameworks** like Iceberg, DuckLake, LaminDB manage data: ACID writes, schema evolution, time travel, versioning.
-
-There is another interesting technology, LanceDB, that we want to consider in this post. While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, LanceDB manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to buy into the Lance format.
-While LanceDB fits the lakehouse architecture, other technologies for managing exclusively array-like data exist, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. These technologies are out of scope for this post given the established query engines don't apply to them.
+We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio[^dremio]
 
 ## Benchmarks
 
