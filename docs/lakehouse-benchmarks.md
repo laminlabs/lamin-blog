@@ -18,7 +18,7 @@ In this post we review how Polars, DuckDB, Iceberg, and LanceDB help to query an
 ## The lakehouse landscape
 
 The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can use different query engines for multi-modal datasets.
-Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3.
+Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
 
 ### Iceberg and manifest-based snapshots
 
@@ -28,11 +28,11 @@ Iceberg is a table format that organizes datasets into _snapshots_ — each a co
 
 Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
-But Iceberg's snapshot model has real costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
+Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
 
 ### DuckLake and the relational metadata approach
 
-One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database, leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata. DuckLake is what turns DuckDB's in-place querying into a managed table with persistent appends, schema evolution, and time travel; we return to this in the data-management section.
+One recent effort gaining popularity in addressing Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it much cheaper writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
 
 ## Query engines vs. data management frameworks
 
@@ -682,3 +682,7 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^iceberg]: Apache Software Foundation. Apache Iceberg: The open table format for analytic datasets. [Apache Iceberg](https://iceberg.apache.org/).
 
 [^ducklake]: Raasveldt M & Holanda P (2026). DuckLake v1.0: The Lakehouse Format Built on SQL Reaches Production-Readiness. [DuckLake Blog](https://ducklake.select/2026/04/13/ducklake-10/).
+
+[^delta]: Linux Foundation. Delta Lake: An open-source storage framework that enables building a Lakehouse architecture. [Delta Lake](https://delta.io/).
+
+[^hudi]: Apache Software Foundation. Apache Hudi: Streaming data on data lakes. [Apache Hudi](https://hudi.apache.org/).
