@@ -39,7 +39,7 @@ Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg
 | Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
 | ---------------------------------------- | ------ | ------- | -------- | ------- |
 | Data lake (file management & annotation) | ✅     | ❌      | ❌       | ✅      |
-| ACID transactions                        | ❌     | ✅      | ✅       | 🟠 ¹    |
+| ACID transactions                        | ❌     | ✅      | ✅       | ✅ ¹    |
 | Time travel / snapshot version isolation | ❌     | ✅      | ✅       | ✅ ²    |
 | Schema evolution without rewriting data  | ❌     | ✅ ³    | ✅ ³     | ✅ ³    |
 | Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
@@ -54,7 +54,7 @@ Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg
 
 :::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
-¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID transactions for tables the way Iceberg and DuckLake do.
+¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID operations the way Iceberg and DuckLake do. Because you can map an insert into a collection of parquet files via `collection.append()` in an ACID way, the practical robustness guarantee to the user is similar.
 
 ² See the Time travel section.
 
