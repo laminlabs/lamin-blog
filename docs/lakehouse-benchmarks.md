@@ -22,11 +22,12 @@ Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which 
 
 ### Iceberg and manifest-based snapshots
 
+<figure style="float: right; width: 400px; margin-left: 0.5rem">
+  <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" />
+  <strong>Figure 1.</strong> File layout of an Iceberg table.
+</figure>
+
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
-
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" width=400>
-
-**Figure 1.** File layout of an Iceberg table.
 
 Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
