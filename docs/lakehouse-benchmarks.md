@@ -52,9 +52,9 @@ Unlike when working with raw parquet files Iceberg writes are [ACID transactions
 
 :::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
-¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID operations the way Iceberg and DuckLake do. Because you can map an insert into a collection of parquet files via `collection.append()` in an ACID way, the practical robustness guarantee to the user is similar.
+¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID operations the way Iceberg and DuckLake do. Because you can map an insert into a collection of parquet files via `lamindb.Collection.append()` in an ACID way, the practical robustness guarantee to the user is similar.
 
-² See the Time travel section.
+² See the [Time travel](#time-travel) section.
 
 ³ Adding a nullable/optional column without rewriting existing files.
 
@@ -78,7 +78,7 @@ One limitation remains, however: like all other established lakehouse formats, D
 
 ### LaminDB
 
-Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to define composite schemas to ingest to datasets from the blobs of a data lake (`schema = None`) to structured datasets with multiple array components. LaminDB shares DuckLake's key architectural design — use a relational database for metadata and storage for data — and natively provides data lineage, among other features.
+Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to ingest anything from blobs that are treated as they would in a data lake to defining schemas that dictate the ingestion of structured datasets with multiple array components. LaminDB shares DuckLake's architectural design — a relational database for metadata and storage for data — and natively provides data lineage, among other features (**Table 1**).
 
 ## Query engines vs. data management frameworks
 
