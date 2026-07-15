@@ -84,10 +84,11 @@ Unlike established tabular lakehouses, LaminDB makes data formats beyond tables 
 
 While lakehouse frameworks deal with managing large numbers of datasets, query engines enable querying those datasets.
 
-- **Query engines** — PyArrow, Polars, DuckDB, as well as distributed engines like Apache Spark,[^spark] Trino,[^trino] and Dremio[^dremio] — read and compute. They own nothing at rest.
-- **Lakehouse frameworks** — Iceberg, DuckLake, LaminDB, LanceDB — _manage_ data: ACID writes, schema evolution, time travel, versioning.
+- **Query engines** like PyArrow, Polars, DuckDB, as well as distributed engines like Apache Spark,[^spark] Trino,[^trino] and Dremio[^dremio] read and compute. They own nothing at rest.
+- **Lakehouse frameworks** like Iceberg, DuckLake, LaminDB manage data: ACID writes, schema evolution, time travel, versioning.
 
-There is another interesting technology, LanceDB. While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, LanceDB manages datasets in the Lance format, a columnar format similar to parquet that better supports array-like data.
+There is another interesting technology, LanceDB, that we want to consider in this post. While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, LanceDB manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to buy into the Lance format.
+While LanceDB fits the lakehouse architecture, other technologies for managing exclusively array-like data exist, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. These technologies are out of scope for this post given the established query engines don't apply to them.
 
 ## Benchmarks
 
