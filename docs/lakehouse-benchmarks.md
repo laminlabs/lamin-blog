@@ -26,6 +26,8 @@ Iceberg is a table format that organizes datasets into _snapshots_ — each a co
 
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" width=400>
 
+**Figure 1.** File layout of an Iceberg table.
+
 Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
 Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
@@ -188,16 +190,16 @@ Setup cost, both layouts:
 ⁷ DuckDB's setup number is a `CREATE VIEW` plus a `COUNT(*)`, which reads Parquet metadata only, not data.
 ⁸ LanceDB's ingest tracks row count: writing 88M rows into Lance format takes 109s vs 7s for 4.86M — the one place the few-file dataset is _slower_, because there is simply more data to rewrite.
 
-The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 1**).
+The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 2**).
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg" />
-    <p><strong>Figure 1a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
+    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70004.svg" />
-    <p><strong>Figure 1b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
+    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
   </div>
 </div>
 
@@ -440,11 +442,11 @@ For the table formats, `scan + compute` is shown; the compute segment is a DuckD
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0001.svg" />
-    <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 3a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0002.svg" />
-    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2 query times.</p>
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
@@ -591,11 +593,11 @@ Two observations. The LaminDB-path append is slower on Dataset 1 (~11s) than Dat
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0006.svg" />
-    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000T">source</a>)</strong>: Dataset 1 write path.</p>
+    <p><strong>Figure 4a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000T">source</a>)</strong>: Dataset 1 write path.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0007.svg" />
-    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000V">source</a>)</strong>: Dataset 2 write path.</p>
+    <p><strong>Figure 4b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000V">source</a>)</strong>: Dataset 2 write path.</p>
   </div>
 </div>
 
