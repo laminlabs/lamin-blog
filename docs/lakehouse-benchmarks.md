@@ -20,7 +20,7 @@ In this post we review how Polars, DuckDB, Iceberg, and LanceDB help to query an
 The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can use different query engines for multi-modal datasets.
 Today's most popular lakehouse specification is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
 
-### Iceberg and manifest-based snapshots
+### Iceberg
 
 <figure style="float: right; width: 400px; margin-left: 0.5rem">
   <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" />
@@ -33,15 +33,7 @@ Unlike when working with raw parquet files Iceberg writes are [ACID transactions
 
 Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
 
-### DuckLake and the relational metadata approach
-
-One approach that gains popularity in addressing Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it much cheaper writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
-
-One big limitation remains, however: like all other established lakehouse formats, DuckLake can only manage tabular data.
-
-### LaminDB for datasets beyond tables
-
-Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to define composite schemas to ingest to datasets from the blobs of a data lake (`schema = None`) to structured datasets with multiple array components. LaminDB shares DuckLake's key architectural design — use a relational database for metadata and storage for data — and natively provides data lineage, among other features.
+<div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
 
 | Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
 | ---------------------------------------- | ------ | ------- | -------- | ------- |
@@ -74,6 +66,18 @@ Unlike established tabular lakehouses, LaminDB makes data formats beyond tables 
 ⁶ No need for cleaning orphaned files like in Iceberg.
 
 :::
+
+</div>
+
+### DuckLake
+
+One approach that gains popularity in addressing Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it much cheaper writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
+
+One big limitation remains, however: like all other established lakehouse formats, DuckLake can only manage tabular data.
+
+### LaminDB
+
+Unlike established tabular lakehouses, LaminDB makes data formats beyond tables queryable - parquet, AnnData, HDF5, zarr, VCF, … - leaving it up to the user to define composite schemas to ingest to datasets from the blobs of a data lake (`schema = None`) to structured datasets with multiple array components. LaminDB shares DuckLake's key architectural design — use a relational database for metadata and storage for data — and natively provides data lineage, among other features.
 
 ## Query engines vs. data management frameworks
 
