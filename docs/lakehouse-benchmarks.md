@@ -103,7 +103,7 @@ collection = db.Collection.get("Lh6IsCOGIl5TOjAj0000") # hVu9puwdRGskm1I6 for th
 
 Three tools — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
 
-### Tasks
+### Parquet format
 
 Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band — identical logic on both datasets (Dataset 1: chr1, 321,894 variants; Dataset 2: chr2, 5,665,280 variants). Queries 2 and 3 aggregate, and because the schemas differ they run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2). Within each dataset, all five engines returned identical results.
 
@@ -118,9 +118,11 @@ The code tabs below show Dataset 1's per-sample analysis; Dataset 2 runs the ana
 
 ```python
 import pyarrow.compute as pc
-expr = ((pc.field("CHROM") == chrom)
-        & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
-filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
+
+with colletion.open(engine="parrow") as dataset:
+    expr = ((pc.field("CHROM") == chrom)
+            & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
+    filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
 ```
 
 :::::
@@ -128,14 +130,37 @@ filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row
 :::::{tab-item} Polars
 
 ```python
-filtered = lazy_df.filter(
-    (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
-).collect()
+with colletion.open(engine="parrow") as df:
+    filtered = df.filter(
+        (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
+    ).collect()
 ```
 
 :::::
 
-:::::{tab-item} DuckDB + parquet
+:::::{tab-item} DuckDB
+
+To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here.
+
+```python
+import duckdb
+con = duckdb.connect()
+con.execute("INSTALL httpfs; LOAD httpfs;")
+
+# extract frozen session-token credentials from the artifact's storage session
+# (see duckdb_pipeline.ipynb for the full async extraction)
+con.execute(f"""
+    CREATE OR REPLACE SECRET s3 (
+        TYPE s3, KEY_ID '{access_key}', SECRET '{secret_key}',
+        SESSION_TOKEN '{token}', REGION 'eu-central-1'
+    )
+""")
+
+s3_paths = [a.path.as_posix() for a in collection.artifacts.all()]
+con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
+```
+
+The actual query is then:
 
 ```python
 filtered = con.execute(
@@ -174,7 +199,7 @@ stats = base.join(med, keys="SAMPLE_NAME", join_type="left outer")
 
 ```python
 stats = (
-    lazy_df.group_by("SAMPLE_NAME").agg(
+    df.group_by("SAMPLE_NAME").agg(
         pl.len().alias("Total_CNVs"),
         (pl.col("INFO_SVLEN") < 0).sum().alias("Deletions"),
         pl.col("INFO_SVLEN").filter(pl.col("INFO_SVLEN") < 0).abs().median().alias("Median_Deletion_Size"),
@@ -186,7 +211,7 @@ stats = (
 
 :::::
 
-:::::{tab-item} DuckDB + parquet
+:::::{tab-item} DuckDB
 
 ```python
 stats = con.execute("""
@@ -199,25 +224,6 @@ stats = con.execute("""
     FROM cnv_vcf
     GROUP BY SAMPLE_NAME
 """).df()
-```
-
-:::::
-
-:::::{tab-item} DuckDB + Iceberg
-
-```python
-# Iceberg is a table format, not a compute engine: native scan, then aggregate in DuckDB.
-arrow = table.scan().to_arrow()
-stats = compute_duckdb(arrow, STATS_SQL)
-```
-
-:::::
-
-:::::{tab-item} DuckDB + LanceDB
-
-```python
-arrow = table.to_arrow()
-stats = compute_duckdb(arrow, STATS_SQL)
 ```
 
 :::::
@@ -245,7 +251,7 @@ recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
 
 ```python
 recurrent = (
-    lazy_df.with_columns(
+    df.with_columns(
         (pl.col("CHROM").cast(pl.Utf8) + ":" +
          ((pl.col("POS") // 1000) * 1000).cast(pl.Utf8)).alias("region_key")
     )
@@ -257,7 +263,7 @@ recurrent = (
 
 :::::
 
-:::::{tab-item} DuckDB + parquet
+:::::{tab-item} DuckDB
 
 ```python
 recurrent = con.execute("""
@@ -273,9 +279,7 @@ recurrent = con.execute("""
 :::::
 ::::::
 
-### Timing results
-
-For the table formats, `scan + compute` is shown; the compute segment is a DuckDB aggregation over the native scan.
+**Timing results.** For the table formats, `scan + compute` is shown; the compute segment is a DuckDB aggregation over the native scan.
 
 **Query 1 — filtered query (identical logic on both datasets):**
 
@@ -323,52 +327,9 @@ The practical takeaway is a tuning knob independent of engine choice: **compacti
 
 ### Iceberg & LanceDB
 
-#### Setup
-
 To study Iceberg and LanceDB, we have to convert the original data into the Iceberg and LanceDB table formats.
 
 ::::::{tab-set}
-:::::{tab-item} PyArrow
-A lazy PyArrow dataset backed by S3. No data is read until a query is issued.
-
-```python
-with collection.open(engine="pyarrow") as lazy_ds:  # lazy PyArrow dataset backed by S3
-```
-
-:::::
-
-:::::{tab-item} Polars
-A Polars LazyFrame backed by S3. No data is read until `.collect()` is called.
-
-```python
-with collection.open(engine="polars") as lazy_df:
-    ...   # lazy_df is a Polars LazyFrame backed by S3
-```
-
-:::::
-
-:::::{tab-item} DuckDB
-DuckDB registers a lazy view over the collection's S3 paths via `httpfs`. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here.
-
-```python
-import duckdb
-con = duckdb.connect()
-con.execute("INSTALL httpfs; LOAD httpfs;")
-
-# extract frozen session-token credentials from the artifact's storage session
-# (see duckdb_pipeline.ipynb for the full async extraction)
-con.execute(f"""
-    CREATE OR REPLACE SECRET s3 (
-        TYPE s3, KEY_ID '{access_key}', SECRET '{secret_key}',
-        SESSION_TOKEN '{token}', REGION 'eu-central-1'
-    )
-""")
-
-s3_paths = [a.path.as_posix() for a in collection.artifacts.all()]
-con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
-```
-
-:::::
 
 :::::{tab-item} Iceberg
 Iceberg requires a full materialisation of the LaminDB collection before ingestion. On the many-file layout, that **read** dominates setup (~34 min); the Iceberg write itself is trivial (~6s).
@@ -423,8 +384,6 @@ The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 
   </div>
 </div>
 
-#### Queries
-
 Now that we transformed our datasets to Iceberg and LanceDB format, we can study how queries with DuckDB behave.
 
 **Query 1.**
@@ -433,7 +392,9 @@ Now that we transformed our datasets to Iceberg and LanceDB format, we can study
 
 :::::{tab-item} One single parquet file + DuckDB
 
-# pseudo code
+```python
+# query a single parquet file
+```
 
 :::::
 
@@ -456,6 +417,29 @@ filtered = table.scan(row_filter=row_filter).to_arrow()
 filtered = table.to_lance().to_table(
     filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
 )
+```
+
+:::::
+::::::
+
+**Query 2.**
+
+::::::{tab-set}
+:::::{tab-item} DuckDB + Iceberg
+
+```python
+# Iceberg is a table format, not a compute engine: native scan, then aggregate in DuckDB.
+arrow = table.scan().to_arrow()
+stats = compute_duckdb(arrow, STATS_SQL)
+```
+
+:::::
+
+:::::{tab-item} DuckDB + LanceDB
+
+```python
+arrow = table.to_arrow()
+stats = compute_duckdb(arrow, STATS_SQL)
 ```
 
 :::::
