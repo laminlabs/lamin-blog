@@ -304,11 +304,11 @@ recurrent = con.execute("""
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0001.svg" />
-    <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0001.svg" />
+    <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0002.svg" />
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0000.svg" />
     <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0001">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
@@ -379,7 +379,7 @@ The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 
     <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0000.svg" />
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70004.svg" />
     <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
   </div>
 </div>
@@ -524,8 +524,8 @@ def compute_duckdb(arrow_table, sql):
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0001.svg" />
-    <p><strong>Figure 4a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0001.svg" />
+    <p><strong>Figure 4a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0002">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0000.svg" />
