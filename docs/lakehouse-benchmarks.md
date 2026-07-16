@@ -183,13 +183,11 @@ Setup cost, both layouts:
 
 | Setup step (seconds)                                | PyArrow | Polars | DuckDB | Iceberg  | LanceDB  |
 | --------------------------------------------------- | ------- | ------ | ------ | -------- | -------- |
-| Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy    | lazy   | 23.9 ⁷ | **2043** | **2045** |
-| Read from LaminDB — Dataset 2 (88M / 26 files)      | lazy    | lazy   | 2.7 ⁷  | 43.0     | 45.2     |
+| Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy    | lazy   | 23.9   | **2043** | **2045** |
+| Read from LaminDB — Dataset 2 (88M / 26 files)      | lazy    | lazy   | 2.7    | 43.0     | 45.2     |
 | Ingest — Dataset 1                                  | —       | —      | —      | 6.0      | 7.0      |
-| Ingest — Dataset 2                                  | —       | —      | —      | 5.7      | 109.0 ⁸  |
+| Ingest — Dataset 2                                  | —       | —      | —      | 5.7      | 109.0    |
 
-⁷ DuckDB's setup number is a `CREATE VIEW` plus a `COUNT(*)`, which reads Parquet metadata only, not data.
-⁸ LanceDB's ingest tracks row count: writing 88M rows into Lance format takes 109s vs 7s for 4.86M — the one place the few-file dataset is _slower_, because there is simply more data to rewrite.
 
 The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 2**).
 
