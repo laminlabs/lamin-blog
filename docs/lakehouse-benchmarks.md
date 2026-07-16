@@ -138,7 +138,7 @@ with colletion.open(engine="parrow") as df:
 
 :::::
 
-:::::{tab-item} DuckDB
+:::::{tab-item} DuckDB + parquet
 
 To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here.
 
@@ -211,7 +211,7 @@ stats = (
 
 :::::
 
-:::::{tab-item} DuckDB
+:::::{tab-item} DuckDB + parquet
 
 ```python
 stats = con.execute("""
@@ -263,7 +263,7 @@ recurrent = (
 
 :::::
 
-:::::{tab-item} DuckDB
+:::::{tab-item} DuckDB + parquet
 
 ```python
 recurrent = con.execute("""
@@ -445,6 +445,18 @@ stats = compute_duckdb(arrow, STATS_SQL)
 :::::
 ::::::
 
+:::{dropdown} How is compute_duckdb processing information
+
+```python
+def compute_duckdb(arrow_table, sql):
+    """Format already scanned natively; run the standard aggregation in DuckDB."""
+    con = duckdb.connect()
+    con.register("t", arrow_table)
+    return con.execute(sql.format(src="t")).df()
+```
+
+:::
+
 **Query 3.**
 
 ::::::{tab-set}
@@ -463,6 +475,18 @@ recurrent = compute_duckdb(arrow, RECURRENT_SQL)
 arrow = table.to_arrow()
 recurrent = compute_duckdb(arrow, RECURRENT_SQL)
 ```
+
+:::{dropdown} How is compute_duckdb processing information
+
+```python
+def compute_duckdb(arrow_table, sql):
+    """Format already scanned natively; run the standard aggregation in DuckDB."""
+    con = duckdb.connect()
+    con.register("t", arrow_table)
+    return con.execute(sql.format(src="t")).df()
+```
+
+:::
 
 :::::
 ::::::
