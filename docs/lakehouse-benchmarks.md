@@ -36,19 +36,19 @@ Unlike raw parquet files, Iceberg provides [ACID transactions](https://en.wikipe
 
 | Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
 | ---------------------------------------- | ------ | ------- | -------- | ------- |
-| Data lake (file management & annotation) | ✅     | ❌     | ❌       | ✅     |
-| ACID transactions                        | ❌     | ✅     | ✅       | ✅ ¹   |
-| Time travel / snapshot version isolation | ❌     | ✅     | ✅       | ✅ ²   |
-| Schema evolution without rewriting data  | ❌     | ✅ ³   | ✅ ³     | ✅ ³   |
-| Write-Audit-Publish workflow             | ❌     | ✅     | ❌       | ✅ ⁴   |
-| Query engine independence                | ✅     | ✅     | ❌       | ✅     |
-| Concurrent writers                       | ❌ ⁵   | ❌     | ✅       | ✅     |
-| Automatic maintenance                    | ❌     | ❌     | ✅ ⁶     | ✅ ⁶   |
-| Native multi-table transactions          | ❌     | ❌     | ✅       | ❌     |
-| Dataset formats beyond tables            | ✅     | ❌     | ❌       | ✅     |
-| Data lineage                             | ❌     | ❌     | ❌       | ✅     |
-| Ontologies                               | ❌     | ❌     | ❌       | ✅     |
-| Registries with fine-grained control     | ❌     | ❌     | ❌       | ✅     |
+| Data lake (file management & annotation) | ✅     | ❌      | ❌       | ✅      |
+| ACID transactions                        | ❌     | ✅      | ✅       | ✅ ¹    |
+| Time travel / snapshot version isolation | ❌     | ✅      | ✅       | ✅ ²    |
+| Schema evolution without rewriting data  | ❌     | ✅ ³    | ✅ ³     | ✅ ³    |
+| Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
+| Query engine independence                | ✅     | ✅      | ❌       | ✅      |
+| Concurrent writers                       | ❌ ⁵   | ❌      | ✅       | ✅      |
+| Automatic maintenance                    | ❌     | ❌      | ✅ ⁶     | ✅ ⁶    |
+| Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
+| Dataset formats beyond tables            | ✅     | ❌      | ❌       | ✅      |
+| Data lineage                             | ❌     | ❌      | ❌       | ✅      |
+| Ontologies                               | ❌     | ❌      | ❌       | ✅      |
+| Registries with fine-grained control     | ❌     | ❌      | ❌       | ✅      |
 
 :::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
@@ -103,105 +103,6 @@ collection = db.Collection.get("Lh6IsCOGIl5TOjAj0000") # hVu9puwdRGskm1I6 for th
 
 Three tools — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
 
-### Setup
-
-::::::{tab-set}
-:::::{tab-item} PyArrow
-A lazy PyArrow dataset backed by S3. No data is read until a query is issued.
-
-```python
-with collection.open(engine="pyarrow") as lazy_ds:  # lazy PyArrow dataset backed by S3
-```
-
-:::::
-
-:::::{tab-item} Polars
-A Polars LazyFrame backed by S3. No data is read until `.collect()` is called.
-
-```python
-with collection.open(engine="polars") as lazy_df:
-    ...   # lazy_df is a Polars LazyFrame backed by S3
-```
-
-:::::
-
-:::::{tab-item} DuckDB
-DuckDB registers a lazy view over the collection's S3 paths via `httpfs`. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here.
-
-```python
-import duckdb
-con = duckdb.connect()
-con.execute("INSTALL httpfs; LOAD httpfs;")
-
-# extract frozen session-token credentials from the artifact's storage session
-# (see duckdb_pipeline.ipynb for the full async extraction)
-con.execute(f"""
-    CREATE OR REPLACE SECRET s3 (
-        TYPE s3, KEY_ID '{access_key}', SECRET '{secret_key}',
-        SESSION_TOKEN '{token}', REGION 'eu-central-1'
-    )
-""")
-
-s3_paths = [a.path.as_posix() for a in collection.artifacts.all()]
-con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
-```
-
-:::::
-
-:::::{tab-item} Iceberg
-Iceberg requires a full materialisation of the LaminDB collection before ingestion. On the many-file layout, that **read** dominates setup (~34 min); the Iceberg write itself is trivial (~6s).
-
-```python
-# full materialise — the ~34 min cost on 3,201 files
-from pyiceberg.catalog.sql import SqlCatalog
-
-arrow = collection.open().to_table()
-
-catalog = SqlCatalog("local", uri="sqlite:///iceberg_catalog.db", warehouse=WAREHOUSE)
-catalog.create_namespace("genomics")
-table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
-table.append(arrow)
-```
-
-:::::
-
-:::::{tab-item} LanceDB
-LanceDB also requires a full materialisation, then ingests into Lance columnar format on S3.
-
-```python
-import lancedb
-
-arrow = collection.open().to_table()
-db = lancedb.connect(WAREHOUSE)
-table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
-```
-
-:::::
-::::::
-
-Setup cost, both layouts:
-
-| Setup step (seconds)                                | PyArrow | Polars | DuckDB | Iceberg  | LanceDB  |
-| --------------------------------------------------- | ------- | ------ | ------ | -------- | -------- |
-| Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy    | lazy   | 23.9   | **2043** | **2045** |
-| Read from LaminDB — Dataset 2 (88M / 26 files)      | lazy    | lazy   | 2.7    | 43.0     | 45.2     |
-| Ingest — Dataset 1                                  | —       | —      | —      | 6.0      | 7.0      |
-| Ingest — Dataset 2                                  | —       | —      | —      | 5.7      | 109.0    |
-
-
-The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 2**).
-
-<div style="display: flex; gap: 16px; align-items: flex-start;">
-  <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg" />
-    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
-  </div>
-  <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70004.svg" />
-    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
-  </div>
-</div>
-
 ### Tasks
 
 Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band — identical logic on both datasets (Dataset 1: chr1, 321,894 variants; Dataset 2: chr2, 5,665,280 variants). Queries 2 and 3 aggregate, and because the schemas differ they run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2). Within each dataset, all five engines returned identical results.
@@ -241,29 +142,6 @@ filtered = con.execute(
     "SELECT * FROM cnv_vcf WHERE CHROM = ? AND POS BETWEEN ? AND ?",
     [chrom, lo, hi],
 ).df()
-```
-
-:::::
-
-:::::{tab-item} DuckDB + Iceberg
-
-```python
-from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
-row_filter = And(EqualTo("CHROM", chrom),
-             And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
-filtered = table.scan(row_filter=row_filter).to_arrow()
-```
-
-:::::
-
-:::::{tab-item} DuckDB + LanceDB
-
-```python
-# .to_lance() exposes the underlying Lance dataset so the predicate pushes down
-# at the storage layer; the LanceDB table wrapper doesn't expose that filter directly.
-filtered = table.to_lance().to_table(
-    filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
-)
 ```
 
 :::::
@@ -393,24 +271,6 @@ recurrent = con.execute("""
 ```
 
 :::::
-
-:::::{tab-item} DuckDB + Iceberg
-
-```python
-arrow = table.scan().to_arrow()
-recurrent = compute_duckdb(arrow, RECURRENT_SQL)
-```
-
-:::::
-
-:::::{tab-item} DuckDB + LanceDB
-
-```python
-arrow = table.to_arrow()
-recurrent = compute_duckdb(arrow, RECURRENT_SQL)
-```
-
-:::::
 ::::::
 
 ### Timing results
@@ -419,24 +279,24 @@ For the table formats, `scan + compute` is shown; the compute segment is a DuckD
 
 **Query 1 — filtered query (identical logic on both datasets):**
 
-| Seconds                 | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
-| ----------------------- | ------- | ------ | ------------------ | ---------------- | ---------------- |
-| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181**           | 0.78             | 1.44             |
-| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8                | 1.92             | 8.87             |
+| Seconds                 | PyArrow | Polars | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
+| ----------------------- | ------- | ------ | ---------------- | ---------------- | ---------------- |
+| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181**         | 0.78             | 1.44             |
+| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8              | 1.92             | 8.87             |
 
 **Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
 
-| Seconds   | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ------- | ------ | ------------------ | ---------------- | ---------------- |
-| Dataset 1 | 1022    | 11.6   | 17.2               | 0.07 + 0.82      | 0.53 + 1.79      |
-| Dataset 2 | 64.4    | 2.34   | 2.84               | 0.15 + 2.55      | 6.29 + 22.75     |
+| Seconds   | PyArrow | Polars | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
+| --------- | ------- | ------ | ---------------- | ---------------- | ---------------- |
+| Dataset 1 | 1022    | 11.6   | 17.2             | 0.07 + 0.82      | 0.53 + 1.79      |
+| Dataset 2 | 64.4    | 2.34   | 2.84             | 0.15 + 2.55      | 6.29 + 22.75     |
 
 **Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
 
-| Seconds   | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ------- | ------ | ------------------ | ---------------- | ---------------- |
-| Dataset 1 | 1012    | 11.6   | 19.0               | 0.19 + 0.71      | 0.56 + 1.78      |
-| Dataset 2 | 35.2    | 10.6   | 2.67               | 0.22 + 1.70      | 6.21 + 30.68     |
+| Seconds   | PyArrow | Polars | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
+| --------- | ------- | ------ | ---------------- | ---------------- | ---------------- |
+| Dataset 1 | 1012    | 11.6   | 19.0             | 0.19 + 0.71      | 0.56 + 1.78      |
+| Dataset 2 | 35.2    | 10.6   | 2.67             | 0.22 + 1.70      | 6.21 + 30.68     |
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
@@ -460,6 +320,170 @@ The pre-ingested formats (Iceberg, LanceDB) show the flip side: their query cost
 The practical takeaway is a tuning knob independent of engine choice: **compacting many small shards into fewer large ones is often a bigger win than switching engines.**
 
 :::
+
+### Iceberg & LanceDB
+
+#### Setup
+
+To study Iceberg and LanceDB, we have to convert the original data into the Iceberg and LanceDB table formats.
+
+::::::{tab-set}
+:::::{tab-item} PyArrow
+A lazy PyArrow dataset backed by S3. No data is read until a query is issued.
+
+```python
+with collection.open(engine="pyarrow") as lazy_ds:  # lazy PyArrow dataset backed by S3
+```
+
+:::::
+
+:::::{tab-item} Polars
+A Polars LazyFrame backed by S3. No data is read until `.collect()` is called.
+
+```python
+with collection.open(engine="polars") as lazy_df:
+    ...   # lazy_df is a Polars LazyFrame backed by S3
+```
+
+:::::
+
+:::::{tab-item} DuckDB
+DuckDB registers a lazy view over the collection's S3 paths via `httpfs`. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here.
+
+```python
+import duckdb
+con = duckdb.connect()
+con.execute("INSTALL httpfs; LOAD httpfs;")
+
+# extract frozen session-token credentials from the artifact's storage session
+# (see duckdb_pipeline.ipynb for the full async extraction)
+con.execute(f"""
+    CREATE OR REPLACE SECRET s3 (
+        TYPE s3, KEY_ID '{access_key}', SECRET '{secret_key}',
+        SESSION_TOKEN '{token}', REGION 'eu-central-1'
+    )
+""")
+
+s3_paths = [a.path.as_posix() for a in collection.artifacts.all()]
+con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
+```
+
+:::::
+
+:::::{tab-item} Iceberg
+Iceberg requires a full materialisation of the LaminDB collection before ingestion. On the many-file layout, that **read** dominates setup (~34 min); the Iceberg write itself is trivial (~6s).
+
+```python
+# full materialise — the ~34 min cost on 3,201 files
+from pyiceberg.catalog.sql import SqlCatalog
+
+arrow = collection.open().to_table()
+
+catalog = SqlCatalog("local", uri="sqlite:///iceberg_catalog.db", warehouse=WAREHOUSE)
+catalog.create_namespace("genomics")
+table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
+table.append(arrow)
+```
+
+:::::
+
+:::::{tab-item} LanceDB
+LanceDB also requires a full materialisation, then ingests into Lance columnar format on S3.
+
+```python
+import lancedb
+
+arrow = collection.open().to_table()
+db = lancedb.connect(WAREHOUSE)
+table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
+```
+
+:::::
+::::::
+
+Setup cost, both layouts:
+
+| Setup step (seconds)                                | PyArrow | Polars | DuckDB | Iceberg  | LanceDB  |
+| --------------------------------------------------- | ------- | ------ | ------ | -------- | -------- |
+| Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy    | lazy   | 23.9   | **2043** | **2045** |
+| Read from LaminDB — Dataset 2 (88M / 26 files)      | lazy    | lazy   | 2.7    | 43.0     | 45.2     |
+| Ingest — Dataset 1                                  | —       | —      | —      | 6.0      | 7.0      |
+| Ingest — Dataset 2                                  | —       | —      | —      | 5.7      | 109.0    |
+
+The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 2**).
+
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg" />
+    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
+  </div>
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70004.svg" />
+    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
+  </div>
+</div>
+
+#### Queries
+
+Now that we transformed our datasets to Iceberg and LanceDB format, we can study how queries with DuckDB behave.
+
+**Query 1.**
+
+::::::{tab-set}
+
+:::::{tab-item} One single parquet file + DuckDB
+
+# pseudo code
+
+:::::
+
+:::::{tab-item} Iceberg + DuckDB
+
+```python
+from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
+row_filter = And(EqualTo("CHROM", chrom),
+             And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
+filtered = table.scan(row_filter=row_filter).to_arrow()
+```
+
+:::::
+
+:::::{tab-item} LanceDB + DuckDB
+
+```python
+# .to_lance() exposes the underlying Lance dataset so the predicate pushes down
+# at the storage layer; the LanceDB table wrapper doesn't expose that filter directly.
+filtered = table.to_lance().to_table(
+    filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
+)
+```
+
+:::::
+::::::
+
+**Query 3.**
+
+::::::{tab-set}
+:::::{tab-item} DuckDB + Iceberg
+
+```python
+arrow = table.scan().to_arrow()
+recurrent = compute_duckdb(arrow, RECURRENT_SQL)
+```
+
+:::::
+
+:::::{tab-item} DuckDB + LanceDB
+
+```python
+arrow = table.to_arrow()
+recurrent = compute_duckdb(arrow, RECURRENT_SQL)
+```
+
+:::::
+::::::
+
+In conclusion, we can say queries across formats are similarly fast for any query engine.
 
 ## Data management
 
