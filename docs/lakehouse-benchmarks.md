@@ -1,6 +1,6 @@
 ---
 title: "Polars, DuckDB, Iceberg & LanceDB for the datasets of the 1000 Genomes Project"
-date: 2026-07-10
+date: 2026-07-15
 author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
   Raaghav-Pillai: Lamin Labs, NYC
@@ -12,81 +12,87 @@ affiliation:
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
-Over the past decade, the lakehouse has become the dominant data architecture in R&D. In this post we benchmark a realistic user journey — read, filter, aggregate, append, evolve schema, time-travel — over Parquet files from the 1000 Genomes Project, across Polars, DuckDB, Iceberg, and LanceDB.
-
+Over the past decade, the lakehouse has become the dominant data management architecture in R&D.
+In this post we review how Polars, DuckDB, Iceberg, and LanceDB help to query and manage 100M observations from the 1000 Genomes Project.
 
 ## The lakehouse landscape
 
-The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can run dedicated queries against multi-modal datasets. Today's most popular lakehouse table format is Apache Iceberg,[^iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3.
+The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can use different query engines for multi-modal datasets.
+So, before reviewing query engines, we review three recent lakehouse frameworks.
 
-Two categories are worth separating up front, because they answer different questions:
+### Frameworks
 
-- **Query engines** — PyArrow, Polars, DuckDB — read and compute. They own nothing at rest.
-- **Table formats** — Iceberg, LanceDB, DuckLake — *manage* data: ACID writes, schema evolution, time travel, versioning.
+<figure style="float: right; width: 400px; margin-left: 0.5rem">
+  <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" />
+  <strong>Figure 1.</strong> File layout of an Iceberg table.
+</figure>
 
-DuckDB is a query engine; DuckLake is the table format from the DuckDB ecosystem. They are not interchangeable, and the distinction matters for the data-management results below.
+**Iceberg.** Today's most popular lakehouse specification is Apache Iceberg,[^apache-iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
+Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
-### Iceberg and manifest-based snapshots
+Unlike when working with raw parquet files Iceberg writes are [ACID transactions](https://en.wikipedia.org/wiki/ACID) and enable reading previous snapshots ("time travel"), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
 
-Under the hood, Iceberg organizes data into _snapshots_ — each a collection of data files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
+<div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
 
-This snapshot-based approach offers several advantages over raw files in S3. Iceberg writes are serializable ACID transactions, enabling time travel (reading previous snapshots), certain types of schema evolution without data rewrites, and write-audit-publish workflows where new snapshots can be staged for quality checks before becoming visible to consumers. Any query engine implementing the Iceberg spec supports these operations, providing flexibility in tooling.
+| Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
+| ---------------------------------------- | ------ | ------- | -------- | ------- |
+| Data lake (file management & annotation) | ✅     | ❌      | ❌       | ✅      |
+| ACID transactions                        | ❌     | ✅      | ✅       | ✅ ¹    |
+| Time travel / snapshot version isolation | ❌     | ✅      | ✅       | ✅ ²    |
+| Schema evolution without rewriting data  | ❌     | ✅ ³    | ✅ ³     | ✅ ³    |
+| Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
+| Query engine independence                | ✅     | ✅      | ❌       | ✅      |
+| Concurrent writers                       | ❌ ⁵   | ❌      | ✅       | ✅      |
+| Automatic maintenance                    | ❌     | ❌      | ✅ ⁶     | ✅ ⁶    |
+| Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
+| Dataset formats beyond tables            | ✅     | ❌      | ❌       | ✅      |
+| Data lineage                             | ❌     | ❌      | ❌       | ✅      |
+| Ontologies                               | ❌     | ❌      | ❌       | ✅      |
+| Registries with fine-grained control     | ❌     | ❌      | ❌       | ✅      |
 
-But Iceberg's snapshot model has real costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes — small random writes are impractical. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3 (which lacked atomic compare-and-swap until recently), an external catalog or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. Multi-table transactions are only available with certain catalogs.
+:::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
-![Iceberg Warehouse S3 file layout](https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg)
+¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID operations the way Iceberg and DuckLake do. Because you can map an insert into a collection of parquet files via `lamindb.Collection.append()` in an ACID way, the practical robustness guarantee to the user is similar.
 
-### DuckLake and the relational metadata approach
+² See the [Time travel](#time-travel) section.
 
-One recent effort to address Iceberg's limitations is DuckLake,[^ducklake] developed by the DuckDB team. Rather than storing metadata in object storage files, DuckLake keeps all metadata in a relational database, leaving only the actual data files in S3. This gives it serializable transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata. DuckLake is what turns DuckDB's in-place querying into a managed table with persistent appends, schema evolution, and time travel; we return to this in the data-management section.
-
-### Where LaminDB fits
-
-LaminDB shares DuckLake's key architectural insight — use a relational database for metadata and object storage for data — but it goes further in scope. While Iceberg and DuckLake are exclusively concerned with tabular data in Parquet files, LaminDB manages data in any format — Parquet, AnnData, HDF5, zarr, VCF, … — and provides features like data lineage.
-
-LaminDB is largely complementary to these engines rather than a replacement. Each engine here is best seen as a downstream consumer of collections of Parquet files managed by LaminDB. LaminDB tracks which pipeline run produced a collection and links it to the files that informed it, while the engine handles querying.
-
-### Capability comparison
-
-| Feature                                  | Raw Files | Iceberg | DuckLake | LaminDB |
-| ---------------------------------------- | --------- | ------- | -------- | ------- |
-| ACID transactions                        | ❌        | ✅      | ✅       | ✅ ¹    |
-| Time travel / snapshot version isolation | ❌        | ✅      | ✅       | ✅ ²    |
-| Schema evolution without rewriting data  | ❌        | ✅ ³    | ✅ ³     | ✅ ³    |
-| Write-Audit-Publish workflow             | ❌        | ✅      | ❌       | ✅ ⁴    |
-| Query engine independence                | ✅        | ✅      | ❌       | ✅      |
-| Concurrent writers                       | ❌ ⁵      | ❌      | ✅       | ✅      |
-| Automatic maintenance                    | ❌        | ❌      | ✅       | ✅ ⁶    |
-| Native multi-table transactions          | ❌        | ❌      | ✅       | ❌      |
-| Heterogeneous file support               | ✅        | ❌      | ❌       | ✅      |
-| Data lineage                             | ❌        | ❌      | ❌       | ✅      |
-| Ontologies                               | ❌        | ❌      | ❌       | ✅      |
-| Registries with fine-grained control     | ❌        | ❌      | ❌       | ✅      |
-
-:::{dropdown} Notes
-
-¹ LaminDB guarantees storage ↔ metadata consistency, not row-level ACID inserts into Parquet the way Iceberg and DuckLake do.
-
-² See the Time travel section.
-
-³ Adding a nullable/optional column without rewriting existing files. LaminDB does this via an optional feature on the collection's schema.
+³ Adding a nullable/optional column without rewriting existing files.
 
 ⁴ In LaminDB, via branches (stage, review, merge).
 
 ⁵ Raw files have no commit protocol; concurrent writers risk partial writes / last-writer-wins.
 
-⁶ Compaction of small files and garbage collection of orphaned data files without a manual step.
+⁶ No need for cleaning orphaned files like in Iceberg.
 
 :::
 
-## Benchmarks
+</div>
+
+Iceberg's snapshot model has costs. Creating a snapshot is expensive, so Iceberg assumes large, infrequent writes. Optimistic concurrency control means concurrent writers will collide and all but one will fail. On S3, an external catalog (like Project Nessie,[^nessie] AWS Glue, or Databricks Unity Catalog) or lock is needed to coordinate metadata updates. Garbage collection of orphaned data files requires explicit action and doesn't happen automatically. And multi-table transactions are only available with certain catalogs.
+
+**DuckLake.** One approach that gains popularity in addressing Iceberg's limitations is DuckLake,[^ducklake-format][^ducklake-v1] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it much cheaper writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
+
+One limitation remains, however: like Iceberg, DuckLake can only manage tabular data.
+
+**LaminDB.** Unlike Iceberg and DuckLake, LaminDB goes beyond tables allowing to work with any storage format - parquet, AnnData, HDF5, zarr, VCF, …. The user can manage anything from blobs in a data lake to structured datasets with multiple array components with a single schema abstraction. LaminDB shares DuckLake's architectural design — a relational database for metadata and storage for data — and natively provides data lineage, among other features (**Table 1**).
+
+**LanceDB, `arraylake`, `tensorstore`, `tiledb`.** While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, LanceDB manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
+While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. While we consider `LanceDB` in some of our comparisons, these non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
+
+### Query engines
+
+While lakehouse frameworks help managing large numbers of datasets, query engines enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow,[^pyarrow] Polars,[^polars] & DuckDB.[^duckdb]
+
+We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
+
+## Queries
 
 We run the same user journey — read, filter, aggregate, append, evolve schema, time-travel — over two layouts that isolate the effect of file count:
 
 - **Dataset 1 (many files):** a CNV dataset where each file maps to one human individual — **4.86M rows across 3,201 Parquet files**, with per-sample columns (`SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN`, …). Collection UID `Lh6IsCOGIl5TOjAj`.
 - **Dataset 2 (few files):** an SNV/Indel/CNV dataset — **88M rows across 26 Parquet files**, with per-chromosome columns (`chrom`, `variant_type`, `af`, `eur_af`). Collection UID `hVu9puwdRGskm1I6`.
 
-The two datasets have different schemas, so the *aggregation* queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-layout comparison lives.
+The two datasets have different schemas, so the _aggregation_ queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-layout comparison lives.
 
 ```python
 # pip install lamindb
@@ -138,7 +144,7 @@ con.execute(f"""
     )
 """)
 
-s3_paths = [str(a.path) for a in collection.artifacts.all()]
+s3_paths = [a.path.as_posix() for a in collection.artifacts.all()]
 con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_paths})")
 ```
 
@@ -176,34 +182,34 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 
 Setup cost, both layouts:
 
-| Setup step (seconds) | PyArrow | Polars | DuckDB | Iceberg | LanceDB |
-| --- | --- | --- | --- | --- | --- |
-| Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy | lazy | 23.9 ⁷ | **2043** | **2045** |
-| Read from LaminDB — Dataset 2 (88M / 26 files) | lazy | lazy | 2.7 ⁷ | 43.0 | 45.2 |
-| Ingest — Dataset 1 | — | — | 0 | 6.0 | 7.0 |
-| Ingest — Dataset 2 | — | — | 0 | 5.7 | 109.0 ⁸ |
+| Setup step (seconds)                                | PyArrow | Polars | DuckDB | Iceberg  | LanceDB  |
+| --------------------------------------------------- | ------- | ------ | ------ | -------- | -------- |
+| Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy    | lazy   | 23.9 ⁷ | **2043** | **2045** |
+| Read from LaminDB — Dataset 2 (88M / 26 files)      | lazy    | lazy   | 2.7 ⁷  | 43.0     | 45.2     |
+| Ingest — Dataset 1                                  | —       | —      | 0      | 6.0      | 7.0      |
+| Ingest — Dataset 2                                  | —       | —      | 0      | 5.7      | 109.0 ⁸  |
 
 ⁷ DuckDB's setup number is a `CREATE VIEW` plus a `COUNT(*)`, which reads Parquet metadata only, not data.
-⁸ LanceDB's ingest tracks row count: writing 88M rows into Lance format takes 109s vs 7s for 4.86M — the one place the few-file dataset is *slower*, because there is simply more data to rewrite.
+⁸ LanceDB's ingest tracks row count: writing 88M rows into Lance format takes 109s vs 7s for 4.86M — the one place the few-file dataset is _slower_, because there is simply more data to rewrite.
 
-The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 1**).
+The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 2**).
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg" />
-    <p><strong>Figure 1a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
+    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70004.svg" />
-    <p><strong>Figure 1b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
+    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
   </div>
 </div>
 
-### Queries
+### Tasks
 
 Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band — identical logic on both datasets (Dataset 1: chr1, 321,894 variants; Dataset 2: chr2, 5,665,280 variants). Queries 2 and 3 aggregate, and because the schemas differ they run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2). Within each dataset, all five engines returned identical results.
 
-A note on how compute is measured. Query engines (PyArrow, Polars, DuckDB) compute natively. Table formats (Iceberg, LanceDB) are *not* compute engines — they scan and hand data off — so their aggregations are a native scan plus a standard DuckDB aggregation, timed separately. That is why the format tabs read `scan → compute`.
+A note on how compute is measured. Query engines (PyArrow, Polars, DuckDB) compute natively. Table formats (Iceberg, LanceDB) are _not_ compute engines — they scan and hand data off — so their aggregations are a native scan plus a standard DuckDB aggregation, timed separately. That is why the format tabs read `scan → compute`.
 
 The code tabs below show Dataset 1's per-sample analysis; Dataset 2 runs the analogous per-chromosome version (grouping by `chrom`, over `variant_type` / `af`).
 
@@ -416,37 +422,37 @@ For the table formats, `scan + compute` is shown; the compute segment is a DuckD
 
 **Query 1 — filtered query (identical logic on both datasets):**
 
-| Seconds | PyArrow | Polars | DuckDB | Iceberg | LanceDB |
-| --- | --- | --- | --- | --- | --- |
-| Dataset 1 (3,201 files) | 1012 | 12.1 | **2181** | 0.78 | 1.44 |
-| Dataset 2 (26 files) | 7.4 | 2.1 | 4.8 | 1.92 | 8.87 |
+| Seconds                 | PyArrow | Polars | DuckDB   | Iceberg | LanceDB |
+| ----------------------- | ------- | ------ | -------- | ------- | ------- |
+| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181** | 0.78    | 1.44    |
+| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8      | 1.92    | 8.87    |
 
 **Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
 
-| Seconds | PyArrow | Polars | DuckDB | Iceberg | LanceDB |
-| --- | --- | --- | --- | --- | --- |
-| Dataset 1 | 1022 | 11.6 | 17.2 | 0.82 + 0.07 | 1.79 + 0.53 |
-| Dataset 2 | 64.4 | 2.34 | 2.84 | 2.55 + 0.15 | 22.75 + 6.29 |
+| Seconds   | PyArrow | Polars | DuckDB | Iceberg     | LanceDB      |
+| --------- | ------- | ------ | ------ | ----------- | ------------ |
+| Dataset 1 | 1022    | 11.6   | 17.2   | 0.82 + 0.07 | 1.79 + 0.53  |
+| Dataset 2 | 64.4    | 2.34   | 2.84   | 2.55 + 0.15 | 22.75 + 6.29 |
 
 **Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
 
-| Seconds | PyArrow | Polars | DuckDB | Iceberg | LanceDB |
-| --- | --- | --- | --- | --- | --- |
-| Dataset 1 | 1012 | 11.6 | 19.0 | 0.71 + 0.19 | 1.78 + 0.56 |
-| Dataset 2 | 35.2 | 10.6 | 2.67 | 1.70 + 0.22 | 30.68 + 6.21 |
+| Seconds   | PyArrow | Polars | DuckDB | Iceberg     | LanceDB      |
+| --------- | ------- | ------ | ------ | ----------- | ------------ |
+| Dataset 1 | 1012    | 11.6   | 19.0   | 0.71 + 0.19 | 1.78 + 0.56  |
+| Dataset 2 | 35.2    | 10.6   | 2.67   | 1.70 + 0.22 | 30.68 + 6.21 |
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0001.svg" />
-    <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 3a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0002.svg" />
-    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2 query times.</p>
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
-**Two opposite scaling laws.** For the **in-place** engines, query time tracks the number of files. PyArrow's filtered query runs 1012s on 3,201 files but 7.4s on 26 files (137×), and DuckDB's `SELECT *` over `httpfs` goes from 4.8s to 2,181s (454×) — despite Dataset 1 holding 18× *fewer* rows. The cost is per-file, full-width fetches, not compute. For the **pre-ingested** formats, the opposite holds: Iceberg and LanceDB pay the file-count penalty once at ingest, and their subsequent queries scale with row count — LanceDB's `query_stats` is 1.8s on 4.86M rows (Dataset 1) but 22.8s on 88M rows (Dataset 2). Polars sits apart: its async S3 reader is remarkably resilient to file count (12s vs 2s), the only in-place engine that stays fast on the many-file layout.
+**Two opposite scaling laws.** For the **in-place** engines, query time tracks the number of files. PyArrow's filtered query runs 1012s on 3,201 files but 7.4s on 26 files (137×), and DuckDB's `SELECT *` over `httpfs` goes from 4.8s to 2,181s (454×) — despite Dataset 1 holding 18× _fewer_ rows. The cost is per-file, full-width fetches, not compute. For the **pre-ingested** formats, the opposite holds: Iceberg and LanceDB pay the file-count penalty once at ingest, and their subsequent queries scale with row count — LanceDB's `query_stats` is 1.8s on 4.86M rows (Dataset 1) but 22.8s on 88M rows (Dataset 2). Polars sits apart: its async S3 reader is remarkably resilient to file count (12s vs 2s), the only in-place engine that stays fast on the many-file layout.
 
 :::{dropdown} Why the number of Parquet files matters
 
@@ -534,6 +540,8 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 :::::
 ::::::
 
+(time-travel)=
+
 ### Time travel
 
 Neither PyArrow, Polars, nor DuckDB has this capability on its own; DuckLake adds it to the DuckDB ecosystem (see the capability table). LaminDB provides it at the collection level via versions.
@@ -571,45 +579,45 @@ table.checkout_latest()       # restore current version
 :::::
 ::::::
 
-### Numerical results
+### Timing results
 
 Write-path times, both datasets:
 
-| Seconds | LaminDB | Iceberg | LanceDB |
-| --- | --- | --- | --- |
-| Append — Dataset 1 | 11.0 | 0.85 | 0.11 |
-| Append — Dataset 2 | 4.14 | 1.10 | 0.32 |
-| Schema change — Dataset 1 | 3.6 | 0.33 | 0.07 |
-| Schema change — Dataset 2 | 3.53 | 0.36 | 0.08 |
-| Time travel — Dataset 1 | n/a | 0.69 | 0.11 |
-| Time travel — Dataset 2 | n/a | 1.64 | 0.11 |
+| Seconds                   | LaminDB | Iceberg | LanceDB |
+| ------------------------- | ------- | ------- | ------- |
+| Append — Dataset 1        | 11.0    | 0.85    | 0.11    |
+| Append — Dataset 2        | 4.14    | 1.10    | 0.32    |
+| Schema change — Dataset 1 | 3.6     | 0.33    | 0.07    |
+| Schema change — Dataset 2 | 3.53    | 0.36    | 0.08    |
+| Time travel — Dataset 1   | n/a     | 0.69    | 0.11    |
+| Time travel — Dataset 2   | n/a     | 1.64    | 0.11    |
 
-Two observations. The LaminDB-path append is slower on Dataset 1 (~11s) than Dataset 2 (~4s) because creating a new collection version rebuilds the member list — 3,201 artifacts versus 26 — so append cost tracks the number of files in the collection. 
+Two observations. The LaminDB-path append is slower on Dataset 1 (~11s) than Dataset 2 (~4s) because creating a new collection version rebuilds the member list — 3,201 artifacts versus 26 — so append cost tracks the number of files in the collection.
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0006.svg" />
-    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000T">source</a>)</strong>: Dataset 1 write path.</p>
+    <p><strong>Figure 4a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000T">source</a>)</strong>: Dataset 1 write path.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VnVruqKX9KK0uhUw0007.svg" />
-    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000V">source</a>)</strong>: Dataset 2 write path.</p>
+    <p><strong>Figure 4b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/ZtoBlPvxz9zWcZ0M000V">source</a>)</strong>: Dataset 2 write path.</p>
   </div>
 </div>
 
 ## Developer experience
 
-|                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                      | LanceDB                      |
-| ---------------------------- | ------------------------------------------------- | ---------------------- | ----------------- | ---------------------------- | ---------------------------- |
-| **Setup**                    | 1 line                                            | 1 line                 | ~15 lines ⁹       | ~20 lines                    | 3 lines                      |
-| **Data ingestion required**  | No                                                | No                     | No                | Yes (copies into Iceberg)    | Yes (copies to Lance format) |
-| **Native compute**           | Yes (approx. median)                              | Yes                    | Yes               | No (format)                  | No (format)                  |
-| **Query cost scales with**   | file count                                        | file count (resilient) | file count        | row count (post-ingest)      | row count (post-ingest)      |
-| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow       | session-only view | atomic snapshot to S3        | versioned write to S3        |
-| **Schema change scope**      | instance-wide registry                            | instance-wide registry | session only †    | this table                   | this table                   |
-| **Time travel**              | collection versions                               | collection versions    | not supported     | snapshot ID                  | version number               |
-| **Vector search**            | no                                                | no                     | no                | no                           | yes                          |
-| **Stays in LaminDB lineage** | yes                                               | yes                    | yes               | no (copies out)              | no (copies out)              |
+|                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                   | LanceDB                      |
+| ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ------------------------- | ---------------------------- |
+| **Setup**                    | 1 line                                             | 1 line                 | ~15 lines ⁹       | ~20 lines                 | 3 lines                      |
+| **Data ingestion required**  | No                                                 | No                     | No                | Yes (copies into Iceberg) | Yes (copies to Lance format) |
+| **Native compute**           | Yes (approx. median)                               | Yes                    | Yes               | No (format)               | No (format)                  |
+| **Query cost scales with**   | file count                                         | file count (resilient) | file count        | row count (post-ingest)   | row count (post-ingest)      |
+| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3     | versioned write to S3        |
+| **Schema change scope**      | instance-wide registry                             | instance-wide registry | session only †    | this table                | this table                   |
+| **Time travel**              | collection versions                                | collection versions    | not supported     | snapshot ID               | version number               |
+| **Vector search**            | no                                                 | no                     | no                | no                        | yes                          |
+| **Stays in LaminDB lineage** | yes                                                | yes                    | yes               | no (copies out)           | no (copies out)              |
 
 † Not persisted; session-scoped only.
 ⁹ DuckDB's extra lines are cross-account credential extraction, not query logic.
@@ -676,6 +684,26 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 
 ## References
 
-[^iceberg]: Apache Software Foundation. Apache Iceberg: The open table format for analytic datasets. [Apache Iceberg](https://iceberg.apache.org/).
+[^apache-iceberg]: Apache Software Foundation. Apache Iceberg: The open table format for analytic datasets. [Apache Iceberg](https://iceberg.apache.org/).
 
-[^ducklake]: Raasveldt M & Holanda P (2026). DuckLake v1.0: The Lakehouse Format Built on SQL Reaches Production-Readiness. [DuckLake Blog](https://ducklake.select/2026/04/13/ducklake-10/).
+[^ducklake-format]: Raasveldt M & Mühleisen H (2025). DuckLake: SQL as a Lakehouse Format. [DuckLake Blog](https://ducklake.select/2025/05/27/ducklake-01/).
+
+[^ducklake-v1]: Raasveldt M & Holanda P (2026). DuckLake v1.0: The Lakehouse Format Built on SQL Reaches Production-Readiness. [DuckLake Blog](https://ducklake.select/2026/04/13/ducklake-10/).
+
+[^delta]: Linux Foundation. Delta Lake: An open-source storage framework that enables building a Lakehouse architecture. [Delta Lake](https://delta.io/).
+
+[^hudi]: Apache Software Foundation. Apache Hudi: Streaming data on data lakes. [Apache Hudi](https://hudi.apache.org/).
+
+[^nessie]: Project Nessie. Nessie: Transactional Catalog for Data Lakes. [Project Nessie](https://projectnessie.org/).
+
+[^spark]: Apache Software Foundation. Apache Spark: Unified engine for large-scale data analytics. [Apache Spark](https://spark.apache.org/).
+
+[^trino]: Trino Software Foundation. Trino: Fast distributed SQL query engine for big data analytics. [Trino](https://trino.io/).
+
+[^dremio]: Dremio Corporation. Dremio: The Unified Lakehouse Platform. [Dremio](https://www.dremio.com/).
+
+[^pyarrow]: Apache Software Foundation. Apache Arrow: A cross-language development platform for in-memory analytics. [Apache Arrow](https://arrow.apache.org/).
+
+[^polars]: Polars. Polars: Fast multi-threaded, hybrid-streaming DataFrame library. [Polars](https://pola.rs/).
+
+[^duckdb]: DuckDB Foundation. DuckDB: An in-process SQL OLAP database management system. [DuckDB](https://duckdb.org/).
