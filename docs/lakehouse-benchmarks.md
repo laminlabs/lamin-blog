@@ -584,40 +584,6 @@ table.checkout_latest()       # restore current version
 :::::
 ::::::
 
-## Developer experience
-
-|                              | PyArrow                                            | Polars                 | DuckDB            | Iceberg                   | LanceDB                      |
-| ---------------------------- | -------------------------------------------------- | ---------------------- | ----------------- | ------------------------- | ---------------------------- |
-| **Setup**                    | 1 line                                             | 1 line                 | ~15 lines ⁹       | ~20 lines                 | 3 lines                      |
-| **Data ingestion required**  | No                                                 | No                     | No                | Yes (copies into Iceberg) | Yes (copies to Lance format) |
-| **Native compute**           | Yes (approx. median)                               | Yes                    | Yes               | No (format)               | No (format)                  |
-| **Query cost scales with**   | file count                                         | file count (resilient) | file count        | row count (post-ingest)   | row count (post-ingest)      |
-| **Append**                   | S3 upload + schema validation + collection version | same as PyArrow        | session-only view | atomic snapshot to S3     | versioned write to S3        |
-| **Schema change scope**      | instance-wide registry                             | instance-wide registry | session only †    | this table                | this table                   |
-| **Time travel**              | collection versions                                | collection versions    | not supported     | snapshot ID               | version number               |
-| **Vector search**            | no                                                 | no                     | no                | no                        | yes                          |
-| **Stays in LaminDB lineage** | yes                                                | yes                    | yes               | no (copies out)           | no (copies out)              |
-
-† Not persisted; session-scoped only.
-⁹ DuckDB's extra lines are cross-account credential extraction, not query logic.
-
-What LaminDB provides:
-
-**Lineage.** Each pipeline notebook is a tracked transform; the timing results are saved as tracked artifacts; a final `plots.py` reads those five artifacts as registered inputs and writes the comparison figures as registered outputs. The full provenance chain — from the original 1000 Genomes data through to the figures — is recorded in LaminHub.
-
-![Lineage on Lamin Hub](https://lamin-site-assets.s3.amazonaws.com/.lamindb/v7yD8XvBy0eViHGG0001.png)
-Link to view lineage: https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000Q
-
-Note: DuckDB is one exception in the lineage graph — it reads the collection's Parquet files directly via S3 paths rather than through `collection.open()`, so the collection node has no incoming edge from `duckdb_pipeline.ipynb`. Its result artifact is still tracked as an output.
-
-**Schema validation.** A schema registered against a collection validates new artifacts at write time. In the governance demo (PyArrow and Polars pipelines), saving a DataFrame with an unrecognised column against a closed schema raises a `ValidationError` before the data reaches storage.
-
-**Collection versioning.** Each append creates a new collection version; prior versions remain addressable by UID — time travel at the collection level.
-
-**Metadata-queryable collections.** Artifacts carry biological metadata (organism, tissue, disease, experimental factor); collections can be filtered by these fields before any data is opened.
-
-These capabilities are available regardless of which query engine is used.
-
 ## Conclusion
 
 The five approaches cover the main strategies for querying Parquet-based genomic data from a LaminDB collection: lazy reads without ingestion (PyArrow, Polars, DuckDB), metadata-layer ingestion (Iceberg), and format-conversion ingestion (LanceDB).
