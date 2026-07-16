@@ -584,23 +584,6 @@ table.checkout_latest()       # restore current version
 :::::
 ::::::
 
-## Conclusion
-
-The five approaches cover the main strategies for querying Parquet-based genomic data from a LaminDB collection: lazy reads without ingestion (PyArrow, Polars, DuckDB), metadata-layer ingestion (Iceberg), and format-conversion ingestion (LanceDB).
-
-Primary tradeoffs observed across the two layouts:
-
-- **File count, not row count, drives read time — and reader design decides how much.** On the identical filtered query, the in-place engines are 100–450× slower on 3,201 files than on 26, despite the many-file dataset having 18× fewer rows. DuckDB's `httpfs` `SELECT *` is the extreme (4.8s → 2,181s); Polars' async reader is the exception that stays fast.
-- **Two scaling laws.** In-place engines pay the file-count cost on every query; pre-ingested formats (Iceberg, LanceDB) pay it once at ingest and then scale with row count. LaminDB's collection-version append also scales with file count (member-list rebuild).
-- **Formats aren't compute engines.** Iceberg and LanceDB have no native aggregation; their fast query numbers are a scan of a pre-compacted store plus a DuckDB aggregation.
-- **Query conciseness.** DuckDB's SQL is the most concise; PyArrow requires the most machinery (and only an approximate grouped median).
-- **Write durability.** DuckDB appends and schema changes are session-scoped; DuckLake is what makes them durable. All other engines write to S3.
-- **Lineage.** Only the in-place engines keep the data in LaminDB's lineage graph. Iceberg and LanceDB copy the data into their own store, out of that graph.
-
-Recommendation, conditional: use **Polars** for in-place querying of many-file collections; **DuckDB** for concise SQL on few-file layouts (avoid `httpfs` `SELECT *` on thousands of shards); **Iceberg/LanceDB** when you query the same data repeatedly enough to amortise a one-time ingest; and **compact your shards** before reaching for any of them.
-
-Zooming out: Iceberg, DuckLake, and LaminDB address different layers. Iceberg provides snapshot-isolated ACID transactions with query-engine independence. DuckLake adds concurrent writers and automatic maintenance. LaminDB adds heterogeneous file support, biological metadata, and lineage — and is largely complementary to both.
-
 ## Author contributions
 
 Raaghav performed data engineering and analysis. Alex R. wrote the lakehouse ecosystem overview. Ishita curated the 88M-row SNV & Indel dataset. Sunny curated the original CNV datasets. Alex W. and Sergei supervised the project.
