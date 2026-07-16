@@ -36,19 +36,19 @@ Unlike raw parquet files, Iceberg provides [ACID transactions](https://en.wikipe
 
 | Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
 | ---------------------------------------- | ------ | ------- | -------- | ------- |
-| Data lake (file management & annotation) | ✅     | ❌      | ❌       | ✅      |
-| ACID transactions                        | ❌     | ✅      | ✅       | ✅ ¹    |
-| Time travel / snapshot version isolation | ❌     | ✅      | ✅       | ✅ ²    |
-| Schema evolution without rewriting data  | ❌     | ✅ ³    | ✅ ³     | ✅ ³    |
-| Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
-| Query engine independence                | ✅     | ✅      | ❌       | ✅      |
-| Concurrent writers                       | ❌ ⁵   | ❌      | ✅       | ✅      |
-| Automatic maintenance                    | ❌     | ❌      | ✅ ⁶     | ✅ ⁶    |
-| Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
-| Dataset formats beyond tables            | ✅     | ❌      | ❌       | ✅      |
-| Data lineage                             | ❌     | ❌      | ❌       | ✅      |
-| Ontologies                               | ❌     | ❌      | ❌       | ✅      |
-| Registries with fine-grained control     | ❌     | ❌      | ❌       | ✅      |
+| Data lake (file management & annotation) | ✅     | ❌     | ❌       | ✅     |
+| ACID transactions                        | ❌     | ✅     | ✅       | ✅ ¹   |
+| Time travel / snapshot version isolation | ❌     | ✅     | ✅       | ✅ ²   |
+| Schema evolution without rewriting data  | ❌     | ✅ ³   | ✅ ³     | ✅ ³   |
+| Write-Audit-Publish workflow             | ❌     | ✅     | ❌       | ✅ ⁴   |
+| Query engine independence                | ✅     | ✅     | ❌       | ✅     |
+| Concurrent writers                       | ❌ ⁵   | ❌     | ✅       | ✅     |
+| Automatic maintenance                    | ❌     | ❌     | ✅ ⁶     | ✅ ⁶   |
+| Native multi-table transactions          | ❌     | ❌     | ✅       | ❌     |
+| Dataset formats beyond tables            | ✅     | ❌     | ❌       | ✅     |
+| Data lineage                             | ❌     | ❌     | ❌       | ✅     |
+| Ontologies                               | ❌     | ❌     | ❌       | ✅     |
+| Registries with fine-grained control     | ❌     | ❌     | ❌       | ✅     |
 
 :::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
