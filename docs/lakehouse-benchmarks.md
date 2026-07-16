@@ -420,23 +420,23 @@ For the table formats, `scan + compute` is shown; the compute segment is a DuckD
 **Query 1 — filtered query (identical logic on both datasets):**
 
 | Seconds                 | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
-| ----------------------- | ------- | ------ | -------- | ------- | ------- |
-| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181** | 0.78    | 1.44    |
-| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8      | 1.92    | 8.87    |
+| ----------------------- | ------- | ------ | ------------------ | ---------------- | ---------------- |
+| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181**           | 0.78             | 1.44             |
+| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8                | 1.92             | 8.87             |
 
 **Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
 
 | Seconds   | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ------- | ------ | ------ | ----------- | ------------ |
-| Dataset 1 | 1022    | 11.6   | 17.2   | 0.82 + 0.07 | 1.79 + 0.53  |
-| Dataset 2 | 64.4    | 2.34   | 2.84   | 2.55 + 0.15 | 22.75 + 6.29 |
+| --------- | ------- | ------ | ------------------ | ---------------- | ---------------- |
+| Dataset 1 | 1022    | 11.6   | 17.2               | 0.07 + 0.82      | 0.53 + 1.79      |
+| Dataset 2 | 64.4    | 2.34   | 2.84               | 0.15 + 2.55      | 6.29 + 22.75     |
 
 **Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
 
 | Seconds   | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ------- | ------ | ------ | ----------- | ------------ |
-| Dataset 1 | 1012    | 11.6   | 19.0   | 0.71 + 0.19 | 1.78 + 0.56  |
-| Dataset 2 | 35.2    | 10.6   | 2.67   | 1.70 + 0.22 | 30.68 + 6.21 |
+| --------- | ------- | ------ | ------------------ | ---------------- | ---------------- |
+| Dataset 1 | 1012    | 11.6   | 19.0               | 0.19 + 0.71      | 0.56 + 1.78      |
+| Dataset 2 | 35.2    | 10.6   | 2.67               | 0.22 + 1.70      | 6.21 + 30.68     |
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
