@@ -283,24 +283,24 @@ recurrent = con.execute("""
 
 **Query 1 — filtered query (identical logic on both datasets):**
 
-| Seconds                 | PyArrow | Polars | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
-| ----------------------- | ------- | ------ | ---------------- | ---------------- | ---------------- |
-| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181**         | 0.78             | 1.44             |
-| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8              | 1.92             | 8.87             |
+| Seconds                 | PyArrow | Polars | DuckDB + parquet |
+| ----------------------- | ------- | ------ | ---------------- |
+| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181**         |
+| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8              |
 
 **Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
 
-| Seconds   | PyArrow | Polars | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ------- | ------ | ---------------- | ---------------- | ---------------- |
-| Dataset 1 | 1022    | 11.6   | 17.2             | 0.07 + 0.82      | 0.53 + 1.79      |
-| Dataset 2 | 64.4    | 2.34   | 2.84             | 0.15 + 2.55      | 6.29 + 22.75     |
+| Seconds   | PyArrow | Polars | DuckDB + parquet |
+| --------- | ------- | ------ | ---------------- |
+| Dataset 1 | 1022    | 11.6   | 17.2             |
+| Dataset 2 | 64.4    | 2.34   | 2.84             |
 
 **Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
 
-| Seconds   | PyArrow | Polars | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ------- | ------ | ---------------- | ---------------- | ---------------- |
-| Dataset 1 | 1012    | 11.6   | 19.0             | 0.19 + 0.71      | 0.56 + 1.78      |
-| Dataset 2 | 35.2    | 10.6   | 2.67             | 0.22 + 1.70      | 6.21 + 30.68     |
+| Seconds   | PyArrow | Polars | DuckDB + parquet |
+| --------- | ------- | ------ | ---------------- |
+| Dataset 1 | 1012    | 11.6   | 19.0             |
+| Dataset 2 | 35.2    | 10.6   | 2.67             |
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
@@ -490,6 +490,40 @@ def compute_duckdb(arrow_table, sql):
 
 :::::
 ::::::
+
+**Timing results.** For the table formats, `scan + compute` is shown; the compute segment is a DuckDB aggregation over the native scan.
+
+**Query 1 — filtered query (identical logic on both datasets):**
+
+| Seconds                 | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
+| ----------------------- | ---------------- | ---------------- | ---------------- |
+| Dataset 1 (3,201 files) | **2181**         | 0.78             | 1.44             |
+| Dataset 2 (26 files)    | 4.8              | 1.92             | 8.87             |
+
+**Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
+
+| Seconds   | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
+| --------- | ---------------- | ---------------- | ---------------- |
+| Dataset 1 | 17.2             | 0.07 + 0.82      | 0.53 + 1.79      |
+| Dataset 2 | 2.84             | 0.15 + 2.55      | 6.29 + 22.75     |
+
+**Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
+
+| Seconds   | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
+| --------- | ---------------- | ---------------- | ---------------- |
+| Dataset 1 | 19.0             | 0.19 + 0.71      | 0.56 + 1.78      |
+| Dataset 2 | 2.67             | 0.22 + 1.70      | 6.21 + 30.68     |
+
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0001.svg" />
+    <p><strong>Figure 3a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/0Pzx1HBBsf5YsfvT000U">source</a>)</strong>: Dataset 1 query times.</p>
+  </div>
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ot7DqOb8NMiOyzTA0002.svg" />
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2 query times.</p>
+  </div>
+</div>
 
 In conclusion, we can say queries across formats are similarly fast for any query engine.
 
