@@ -575,14 +575,14 @@ table.checkout_latest()       # restore current version
 
 Write-path times, both datasets:
 
-| Seconds | LaminDb | DuckDB | Iceberg | LanceDB |
-| --- | --- | --- | --- | --- |
-| Append — Dataset 1 | 11.0 | n/a    | 0.85 | 0.11 |
-| Append — Dataset 2 | 4.14 | n/a    | 1.10 | 0.32 |
-| Schema change — Dataset 1 | 3.6 | n/a    | 0.33 | 0.07 |
-| Schema change — Dataset 2 | 3.53 | n/a    | 0.36 | 0.08 |
-| Time travel — Dataset 1 | n/a | n/a | 0.69 | 0.11 |
-| Time travel — Dataset 2 | n/a | n/a | 1.64 | 0.11 |
+| Seconds | LaminDB | Iceberg | LanceDB |
+| --- | --- | --- | --- |
+| Append — Dataset 1 | 11.0 | 0.85 | 0.11 |
+| Append — Dataset 2 | 4.14 | 1.10 | 0.32 |
+| Schema change — Dataset 1 | 3.6 | 0.33 | 0.07 |
+| Schema change — Dataset 2 | 3.53 | 0.36 | 0.08 |
+| Time travel — Dataset 1 | n/a | 0.69 | 0.11 |
+| Time travel — Dataset 2 | n/a | 1.64 | 0.11 |
 
 Two observations. The LaminDB-path append is slower on Dataset 1 (~11s) than Dataset 2 (~4s) because creating a new collection version rebuilds the member list — 3,201 artifacts versus 26 — so append cost tracks the number of files in the collection. 
 
