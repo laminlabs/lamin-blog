@@ -393,7 +393,15 @@ Now that we transformed our datasets to Iceberg and LanceDB format, we can study
 :::::{tab-item} One single parquet file + DuckDB
 
 ```python
-# query a single parquet file
+path = str(ln.Artifact.get(key="benchmark/dragen_cnv.parquet").path)
+
+duckdb.sql(f"""
+    SELECT "Chromosome", count(*) AS n_calls
+    FROM read_parquet('{path}')
+    WHERE "QUAL" >= 30
+    GROUP BY "Chromosome"
+    ORDER BY n_calls DESC
+""").show()
 ```
 
 :::::
