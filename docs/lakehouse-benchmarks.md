@@ -85,7 +85,7 @@ We will not consider distributed query engines like Apache Spark,[^spark] Trino,
 
 ## Queries
 
-We run the same user journey — read, filter, aggregate, append, evolve schema, time-travel — over two layouts that isolate the effect of file count:
+These datasets are part of the 1000 genomes project. We run the same user journey — read, filter, aggregate, append, evolve schema, time-travel — over two layouts that isolate the effect of file count:
 
 - **Dataset 1 (many files):** a CNV dataset where each file maps to one human individual — **4.86M rows across 3,201 Parquet files**, with per-sample columns (`SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN`, …). Collection UID `Lh6IsCOGIl5TOjAj`.
 - **Dataset 2 (few files):** an SNV/Indel/CNV dataset — **88M rows across 26 Parquet files**, with per-chromosome columns (`chrom`, `variant_type`, `af`, `eur_af`). Collection UID `hVu9puwdRGskm1I6`.
