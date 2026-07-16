@@ -234,7 +234,7 @@ filtered = lazy_df.filter(
 
 :::::
 
-:::::{tab-item} DuckDB
+:::::{tab-item} DuckDB + parquet
 
 ```python
 filtered = con.execute(
@@ -245,7 +245,7 @@ filtered = con.execute(
 
 :::::
 
-:::::{tab-item} Iceberg
+:::::{tab-item} DuckDB + Iceberg
 
 ```python
 from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
@@ -256,7 +256,7 @@ filtered = table.scan(row_filter=row_filter).to_arrow()
 
 :::::
 
-:::::{tab-item} LanceDB
+:::::{tab-item} DuckDB + LanceDB
 
 ```python
 # .to_lance() exposes the underlying Lance dataset so the predicate pushes down
@@ -308,7 +308,7 @@ stats = (
 
 :::::
 
-:::::{tab-item} DuckDB
+:::::{tab-item} DuckDB + parquet
 
 ```python
 stats = con.execute("""
@@ -325,7 +325,7 @@ stats = con.execute("""
 
 :::::
 
-:::::{tab-item} Iceberg
+:::::{tab-item} DuckDB + Iceberg
 
 ```python
 # Iceberg is a table format, not a compute engine: native scan, then aggregate in DuckDB.
@@ -335,7 +335,7 @@ stats = compute_duckdb(arrow, STATS_SQL)
 
 :::::
 
-:::::{tab-item} LanceDB
+:::::{tab-item} DuckDB + LanceDB
 
 ```python
 arrow = table.to_arrow()
@@ -379,7 +379,7 @@ recurrent = (
 
 :::::
 
-:::::{tab-item} DuckDB
+:::::{tab-item} DuckDB + parquet
 
 ```python
 recurrent = con.execute("""
@@ -394,7 +394,7 @@ recurrent = con.execute("""
 
 :::::
 
-:::::{tab-item} Iceberg
+:::::{tab-item} DuckDB + Iceberg
 
 ```python
 arrow = table.scan().to_arrow()
@@ -403,7 +403,7 @@ recurrent = compute_duckdb(arrow, RECURRENT_SQL)
 
 :::::
 
-:::::{tab-item} LanceDB
+:::::{tab-item} DuckDB + LanceDB
 
 ```python
 arrow = table.to_arrow()
@@ -419,21 +419,21 @@ For the table formats, `scan + compute` is shown; the compute segment is a DuckD
 
 **Query 1 — filtered query (identical logic on both datasets):**
 
-| Seconds                 | PyArrow | Polars | DuckDB   | Iceberg | LanceDB |
+| Seconds                 | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
 | ----------------------- | ------- | ------ | -------- | ------- | ------- |
 | Dataset 1 (3,201 files) | 1012    | 12.1   | **2181** | 0.78    | 1.44    |
 | Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8      | 1.92    | 8.87    |
 
 **Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
 
-| Seconds   | PyArrow | Polars | DuckDB | Iceberg     | LanceDB      |
+| Seconds   | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
 | --------- | ------- | ------ | ------ | ----------- | ------------ |
 | Dataset 1 | 1022    | 11.6   | 17.2   | 0.82 + 0.07 | 1.79 + 0.53  |
 | Dataset 2 | 64.4    | 2.34   | 2.84   | 2.55 + 0.15 | 22.75 + 6.29 |
 
 **Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
 
-| Seconds   | PyArrow | Polars | DuckDB | Iceberg     | LanceDB      |
+| Seconds   | PyArrow | Polars | DuckDB + parquet   | DuckDB + Iceberg | DuckDB + LanceDB |
 | --------- | ------- | ------ | ------ | ----------- | ------------ |
 | Dataset 1 | 1012    | 11.6   | 19.0   | 0.71 + 0.19 | 1.78 + 0.56  |
 | Dataset 2 | 35.2    | 10.6   | 2.67   | 1.70 + 0.22 | 30.68 + 6.21 |
