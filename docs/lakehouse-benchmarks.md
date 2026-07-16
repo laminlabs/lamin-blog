@@ -152,9 +152,10 @@ con.execute(f"CREATE OR REPLACE VIEW cnv_vcf AS SELECT * FROM read_parquet({s3_p
 Iceberg requires a full materialisation of the LaminDB collection before ingestion. On the many-file layout, that **read** dominates setup (~34 min); the Iceberg write itself is trivial (~6s).
 
 ```python
+# full materialise — the ~34 min cost on 3,201 files
 from pyiceberg.catalog.sql import SqlCatalog
 
-arrow = collection.open().to_table()   # full materialise — the ~34 min cost on 3,201 files
+arrow = collection.open().to_table()
 
 catalog = SqlCatalog("local", uri="sqlite:///iceberg_catalog.db", warehouse=WAREHOUSE)
 catalog.create_namespace("genomics")
@@ -184,8 +185,8 @@ Setup cost, both layouts:
 | --------------------------------------------------- | ------- | ------ | ------ | -------- | -------- |
 | Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy    | lazy   | 23.9 ⁷ | **2043** | **2045** |
 | Read from LaminDB — Dataset 2 (88M / 26 files)      | lazy    | lazy   | 2.7 ⁷  | 43.0     | 45.2     |
-| Ingest — Dataset 1                                  | —       | —      | 0      | 6.0      | 7.0      |
-| Ingest — Dataset 2                                  | —       | —      | 0      | 5.7      | 109.0 ⁸  |
+| Ingest — Dataset 1                                  | —       | —      | —      | 6.0      | 7.0      |
+| Ingest — Dataset 2                                  | —       | —      | —      | 5.7      | 109.0 ⁸  |
 
 ⁷ DuckDB's setup number is a `CREATE VIEW` plus a `COUNT(*)`, which reads Parquet metadata only, not data.
 ⁸ LanceDB's ingest tracks row count: writing 88M rows into Lance format takes 109s vs 7s for 4.86M — the one place the few-file dataset is _slower_, because there is simply more data to rewrite.
