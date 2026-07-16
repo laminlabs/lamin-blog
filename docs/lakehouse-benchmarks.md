@@ -558,7 +558,7 @@ Neither PyArrow, Polars, nor DuckDB has this capability on its own; DuckLake add
 original = db.Collection.get("Lh6IsCOGIl5TOjAj", version="1")   # v1, pre-append
 rows_v1 = original.open().count_rows()
 
-current = db.Collection.get("Lh6IsCOGIl5TOjAj0001", version="2")    # v2, post-append
+current = db.Collection.get("Lh6IsCOGIl5TOjAj", version="2")    # v2, post-append
 rows_v2 = current.open().count_rows()
 ```
 
