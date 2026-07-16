@@ -509,6 +509,29 @@ table.add(batch)
 :::::
 ::::::
 
+:::{dropdown} What is batch for Iceberg and Lancedb and how it is setup
+
+```python
+# code from supporting file
+def make_append_batch(full_table):
+    """Clone one chromosome's worth of variants as a 'new batch'."""
+    if hasattr(full_table, "read_all"):
+        full_table = full_table.read_all()
+    # pick the smallest chrom by row count for a fast, bounded batch
+    chroms = full_table.column("chrom").to_pandas().value_counts()
+    smallest_chrom = chroms.index[-1]
+    return full_table.filter(
+        pc.equal(full_table["chrom"], pa.scalar(smallest_chrom))
+    ).cast(full_table.schema)
+```
+
+```python
+# setup in iceberg and lancedb
+batch = make_append_batch(arrow)
+```
+
+:::
+
 ### Schema evolution
 
 Neither PyArrow nor Polars can write new files with a different schema. For DuckDB the change is session-only — DuckDB is a query engine and cannot persist schema evolution to the source Parquet; making it durable is exactly what DuckLake (or a table format) adds. LaminDB registers the feature in its schema registry, validating all future artifacts instance-wide.
