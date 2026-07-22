@@ -1,5 +1,5 @@
 ---
-title: End-to-end data lineage across metadata entry, Nextflow pipelines, and machine learning with nf-lamin
+title: Tracking data lineage across Nextflow, Python, and R with nf-lamin
 date: 2026-08-01
 author: rcannood, jpfeuffer, Zethson, ap-dash, fredericenard, lazappi, tgelafr-pfzr, SZhengP, sunnyosun, andreassteffen, falexwolf
 affiliation:
