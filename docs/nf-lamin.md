@@ -1,10 +1,10 @@
 ---
 title: End-to-end data lineage across metadata entry, Nextflow pipelines, and machine learning with nf-lamin
 date: 2026-08-01
-author: rcannood, jpfeuffer, Zethson, ap--, fredericenard, lazappi, tgelafr-pfzr, SZhengP, sunnyosun, andreassteffen, falexwolf
+author: rcannood, jpfeuffer, Zethson, ap-dash, fredericenard, lazappi, tgelafr-pfzr, SZhengP, sunnyosun, andreassteffen, falexwolf
 affiliation:
   andreassteffen: Pfizer, Berlin
-  ap--: Pfizer, Berlin
+  ap-dash: Pfizer, Berlin
   falexwolf: Lamin Labs, Munich
   fredericenard: Lamin Labs, Munich
   jpfeuffer: Pfizer, Berlin
@@ -16,7 +16,7 @@ affiliation:
   Zethson: Lamin Labs, Munich
 orcid:
   andreassteffen: 0000-0002-6952-7391
-  ap--: 0000-0002-7342-8636
+  ap-dash: 0000-0002-7342-8636
   falexwolf: 0000-0002-8760-7838
   # fredericenard: ?
   jpfeuffer: 0000-0001-8948-9209
