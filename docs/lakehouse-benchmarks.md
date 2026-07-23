@@ -525,11 +525,11 @@ def compute_duckdb(arrow_table, sql):
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0001.svg" />
-    <p><strong>Figure 4a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0002">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 4a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0000.svg" />
-    <p><strong>Figure 4b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0001">source</a>)</strong>: Dataset 2 query times.</p>
+    <p><strong>Figure 4b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
