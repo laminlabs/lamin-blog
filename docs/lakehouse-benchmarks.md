@@ -579,16 +579,18 @@ table.add(batch)
 
 ```python
 # code from supporting file
-def make_append_batch(full_table):
-    """Clone one chromosome's worth of variants as a 'new batch'."""
-    if hasattr(full_table, "read_all"):
-        full_table = full_table.read_all()
-    # pick the smallest chrom by row count for a fast, bounded batch
-    chroms = full_table.column("chrom").to_pandas().value_counts()
-    smallest_chrom = chroms.index[-1]
-    return full_table.filter(
-        pc.equal(full_table["chrom"], pa.scalar(smallest_chrom))
-    ).cast(full_table.schema)
+import pyarrow as pa
+import pyarrow.compute as pc
+
+def make_append_batch(full_table: pa.Table) -> pa.Table:
+    """One chromosome of variants, reused as the identical append payload for every engine."""
+    # smallest chromosome by row count -> bounded payload, same rows for Iceberg and LanceDB
+    vc = pc.value_counts(full_table.column("chrom"))
+    smallest_chrom = min(
+        zip(vc.field("values").to_pylist(), vc.field("counts").to_pylist()),
+        key=lambda kv: kv[1],
+    )[0]
+    return full_table.filter(pc.equal(full_table.column("chrom"), smallest_chrom))
 ```
 
 ```python
