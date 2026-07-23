@@ -510,17 +510,17 @@ def compute_duckdb(arrow_table, sql):
 
 **Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
 
-| Seconds   | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ---------------- | ---------------- | ---------------- |
-| Dataset 1 | 17.2             | 0.07 + 0.82      | 0.53 + 1.79      |
-| Dataset 2 | 2.84             | 0.15 + 2.55      | 6.29 + 22.75     |
+| Seconds   | DuckDB + Iceberg | DuckDB + LanceDB |
+| --------- | ---------------- | ---------------- |
+| Dataset 1 | 0.07 + 0.82      | 0.53 + 1.79      |
+| Dataset 2 | 0.15 + 2.55      | 6.29 + 22.75     |
 
 **Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
 
-| Seconds   | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ---------------- | ---------------- | ---------------- |
-| Dataset 1 | 19.0             | 0.19 + 0.71      | 0.56 + 1.78      |
-| Dataset 2 | 2.67             | 0.22 + 1.70      | 6.21 + 30.68     |
+| Seconds   | DuckDB + Iceberg | DuckDB + LanceDB |
+| --------- | ---------------- | ---------------- |
+| Dataset 1 | 0.19 + 0.71      | 0.56 + 1.78      |
+| Dataset 2 | 0.22 + 1.70      | 6.21 + 30.68     |
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
