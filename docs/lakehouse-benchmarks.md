@@ -272,15 +272,6 @@ In this section, we're providing side-by-side comparisons that illustrate that a
 ### Appending data
 
 ::::::{tab-set}
-:::::{tab-item} LaminDB
-Atomic and snapshot-isolated. A new parquet file creates a new collection version.
-
-```python
-collection.append(batch)  # batch is an artifact
-```
-
-:::::
-
 :::::{tab-item} Iceberg
 Atomic and snapshot-isolated. New Parquet files and a snapshot manifest are written to S3; concurrent readers see a consistent state throughout.
 
@@ -298,20 +289,20 @@ table.add(batch)  # batch is a pyarrow dataset
 ```
 
 :::::
+
+:::::{tab-item} LaminDB
+Atomic and snapshot-isolated. A new parquet file creates a new collection version.
+
+```python
+collection.append(batch)  # batch is an artifact
+```
+
+:::::
 ::::::
 
 ### Add a column
 
 ::::::{tab-set}
-:::::{tab-item} LaminDB
-LaminDB registers the feature in its schema registry, validating all future artifacts instance-wide.
-
-```python
-feature = ln.Feature(name="QC_PASS", dtype=bool).save()
-collection.schema.add(feature)
-```
-
-:::::
 
 :::::{tab-item} Iceberg
 A new metadata file records the updated schema. Existing Parquet files are not modified; reads of old files return `null` for the new column.
@@ -332,6 +323,16 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 ```
 
 :::::
+
+:::::{tab-item} LaminDB
+LaminDB registers the feature in its schema registry, validating all future artifacts instance-wide.
+
+```python
+feature = ln.Feature(name="QC_PASS", dtype=bool).save()
+collection.schema.add(feature)
+```
+
+:::::
 ::::::
 
 (time-travel)=
@@ -339,13 +340,6 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 ### Time travel
 
 ::::::{tab-set}
-:::::{tab-item} LaminDB
-
-```python
-collection.versions.get(version="1")  # get a previous version
-```
-
-:::::
 
 :::::{tab-item} Iceberg
 
@@ -360,6 +354,14 @@ table.scan(snapshot_id=first_snapshot)
 
 ```python
 table.checkout(1)             # checkout a previous version
+```
+
+:::::
+
+:::::{tab-item} LaminDB
+
+```python
+collection.versions.get(version="1")  # get a previous version
 ```
 
 :::::
