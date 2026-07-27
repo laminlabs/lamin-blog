@@ -64,14 +64,16 @@ Unlike Iceberg and DuckLake, **LaminDB** goes beyond tables and supports dataset
 While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
 While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
 
-While lakehouse frameworks help managing large numbers of datasets, **query engines** enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow,[^pyarrow] Polars,[^polars] & DuckDB.[^duckdb] We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
+Lakehouse frameworks help managing large numbers of datasets and **query engines** enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow,[^pyarrow] Polars,[^polars] & DuckDB.[^duckdb] We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
 
 ## Queries
 
 Let us study two exemplary datasets from the 1000 Genomes Project:[^1000g]
 
-- Dataset 1: a CNV dataset where each file maps to one human individual — **4.86M rows across 3,201 Parquet files**, with per-sample columns (`SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN`, …). Collection UID `Lh6IsCOGIl5TOjAj`.
-- Dataset 2: a SNV/Indel/CNV dataset — **88M rows across 26 Parquet files**, with per-chromosome columns (`chrom`, `variant_type`, `af`, `eur_af`). Collection UID `hVu9puwdRGskm1I6`.
+| #     | Observations       | Layout         | Rows  | Files | Example columns                          | UID                |
+| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------ |
+| **1** | CNVs               | Per-individual | 4.86M | 3,201 | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | `Lh6IsCOGIl5TOjAj` |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | `hVu9puwdRGskm1I6` |
 
 The two datasets have different schemas, so the _aggregation_ queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-layout comparison lives.
 
