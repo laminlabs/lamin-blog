@@ -16,7 +16,7 @@ Over the past decade, the lakehouse has become the dominant data management arch
 In this post, we first review how Polars and DuckDB help to query 93M observations from the 1000 Genomes Project.
 Then, we look at how Iceberg, LanceDB, and LaminDB help manage the underlying tabular datasets.
 
-Today's most popular lakehouse framework is **Iceberg**,[^apache-iceberg], ahead of Delta Lake[^delta] and Apache Hudi[^hudi].
+Today's most popular lakehouse framework is **Iceberg**,[^apache-iceberg] ahead of Delta Lake[^delta] and Apache Hudi[^hudi].
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and atomically updates the root metadata file to point to it.
 
 Unlike raw parquet files, Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID) enabling versioning via "time travel", data-free schema evolution, write-audit-publish workflows, and broad query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
