@@ -16,13 +16,6 @@ Over the past decade, the lakehouse has become the dominant data management arch
 In this post, we first review how Polars and DuckDB help to query 93M observations from the 1000 Genomes Project.
 Then, we look at how Iceberg, LanceDB, and LaminDB help manage the underlying tabular datasets.
 
-## The lakehouse landscape
-
-The lakehouse architecture promises the flexibility of a data lake with the structure of a data warehouse, so you can use different query engines for multi-modal datasets.
-So, before reviewing query engines, we review three recent lakehouse frameworks.
-
-### Frameworks
-
 **Iceberg.** Today's most popular lakehouse specification is Apache Iceberg,[^apache-iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
@@ -73,11 +66,7 @@ One limitation remains, however: like Iceberg, DuckLake can only manage tabular 
 **LanceDB, `arraylake`, `tensorstore`, `tiledb`.** While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, LanceDB manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
 While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. While we consider `LanceDB` in some of our comparisons, these non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
 
-### Query engines
-
-While lakehouse frameworks help managing large numbers of datasets, query engines enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow,[^pyarrow] Polars,[^polars] & DuckDB.[^duckdb]
-
-We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
+**Query engines.** While lakehouse frameworks help managing large numbers of datasets, query engines enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow,[^pyarrow] Polars,[^polars] & DuckDB.[^duckdb] We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
 
 ## Queries
 
