@@ -67,14 +67,16 @@ Lakehouse frameworks help managing large numbers of datasets and **query engines
 
 ## Queries
 
-Let us study two exemplary datasets from the 1000 Genomes Project:[^1000g]
+The 1000 Genomes Project[^1000g] sequenced genomes from thousands of individuals worldwide to build a comprehensive catalog of human genetic variation.
+We will use two datasets, each row represents an observation of a human genetic variant — specifically a Copy Number Variant (CNV), Single Nucleotide Variant (SNV), or insertion/deletion (Indel).
+The data is typically distributed in two ways: either grouped by individual (one file per person) or grouped by chromosome (one file per chromosome across all people).
 
-| #     | Observations       | Layout         | Rows  | Files | Example columns                          | UID                |
+| #     | Observations       | File grouping  | Rows  | Files | Example columns                          | UID                |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------ |
 | **1** | CNVs               | Per-individual | 4.86M | 3,201 | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | `Lh6IsCOGIl5TOjAj` |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | `hVu9puwdRGskm1I6` |
 
-The two datasets have different schemas, so the _aggregation_ queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-layout comparison lives.
+The two datasets have different schemas, so the _aggregation_ queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-grouping comparison lives.
 
 ```python
 # pip install lamindb
