@@ -35,7 +35,9 @@ db = ln.DB("laminlabs/lakehouse-benchmarks")
 collection = db.Collection.get("Lh6IsCOGIl5TOjAj")
 ```
 
-**Query 1: Filter by chromosome and position.** Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and 5,665,280 variants for dataset 2.
+### Query 1: Filter by chromosome and position
+
+Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and 5,665,280 variants for dataset 2.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -96,7 +98,9 @@ filtered = con.execute(
 :::::
 ::::::
 
-**Query 2: Calculate summary statistics.** Calculate the total CNV count, deletions, median deletion size, and homozygous/heterozygous counts.
+### Query 2: Calculate summary statistics
+
+Calculate the total CNV count, deletions, median deletion size, and homozygous/heterozygous counts.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -153,7 +157,9 @@ stats = con.execute("""
 :::::
 ::::::
 
-**Query 3: recurrent region detection.** Dataset 1 bins positions into 1 kbp windows and flags bins with CNVs from ≥2 distinct samples (67,763 regions). Dataset 2 bins into 1 Mbp windows and flags bins with ≥2 variants (2,911 regions).
+### Query 3: recurrent region detection
+
+Dataset 1 bins positions into 1 kbp windows and flags bins with CNVs from ≥2 distinct samples (67,763 regions). Dataset 2 bins into 1 Mbp windows and flags bins with ≥2 variants (2,911 regions).
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -203,6 +209,10 @@ recurrent = con.execute("""
 :::::
 ::::::
 
+### Timing results
+
+Benchmarking the runtime of these queries reveals two main results (**Figure 2**): Polars is the only query engine that's able to efficiently query a large number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
+
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0001.svg" />
@@ -213,8 +223,6 @@ recurrent = con.execute("""
     <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0001">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
-
-Running these queries reveals two main results (**Figure 2**): Polars is the only query engine that's able to efficiently query a large number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
 
 ## Data management
 
