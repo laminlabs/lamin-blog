@@ -35,7 +35,7 @@ db = ln.DB("laminlabs/lakehouse-benchmarks")
 collection = db.Collection.get("Lh6IsCOGIl5TOjAj")
 ```
 
-### Query 1: Filter by chromosome and position
+### Simple filter
 
 Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and 5,665,280 variants for dataset 2.
 
@@ -98,7 +98,7 @@ filtered = con.execute(
 :::::
 ::::::
 
-### Query 2: Calculate summary statistics
+### Summary statistics
 
 Calculate the total CNV count, deletions, median deletion size, and homozygous/heterozygous counts.
 
@@ -157,7 +157,7 @@ stats = con.execute("""
 :::::
 ::::::
 
-### Query 3: recurrent region detection
+### Detect recurrent regions
 
 Dataset 1 bins positions into 1 kbp windows and flags bins with CNVs from ≥2 distinct samples (67,763 regions). Dataset 2 bins into 1 Mbp windows and flags bins with ≥2 variants (2,911 regions).
 
@@ -552,12 +552,6 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^hudi]: Apache Software Foundation. Apache Hudi: Streaming data on data lakes. [Apache Hudi](https://hudi.apache.org/).
 
 [^nessie]: Project Nessie. Nessie: Transactional Catalog for Data Lakes. [Project Nessie](https://projectnessie.org/).
-
-[^spark]: Apache Software Foundation. Apache Spark: Unified engine for large-scale data analytics. [Apache Spark](https://spark.apache.org/).
-
-[^trino]: Trino Software Foundation. Trino: Fast distributed SQL query engine for big data analytics. [Trino](https://trino.io/).
-
-[^dremio]: Dremio Corporation. Dremio: The Unified Lakehouse Platform. [Dremio](https://www.dremio.com/).
 
 [^pyarrow]: Apache Software Foundation. Apache Arrow: A cross-language development platform for in-memory analytics. [Apache Arrow](https://arrow.apache.org/).
 
