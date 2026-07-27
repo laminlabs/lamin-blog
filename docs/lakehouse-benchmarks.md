@@ -22,11 +22,6 @@ So, before reviewing query engines, we review three recent lakehouse frameworks.
 
 ### Frameworks
 
-<figure style="float: right; width: 400px; margin-left: 0.5rem">
-  <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0000.svg" />
-  <strong>Figure 1.</strong> File layout of an Iceberg table.
-</figure>
-
 **Iceberg.** Today's most popular lakehouse specification is Apache Iceberg,[^apache-iceberg] which provides transactions for manipulating tabular datasets in storage locations like AWS S3, alongside Delta Lake[^delta] and Apache Hudi[^hudi].
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When a query engine writes to an Iceberg table, it creates a new snapshot and atomically updates the root metadata file to point to it.
 
