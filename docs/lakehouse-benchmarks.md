@@ -157,7 +157,7 @@ stats = con.execute("""
 :::::
 ::::::
 
-### Detect recurrent regions
+### Recurrent regions
 
 Dataset 1 bins positions into 1 kbp windows and flags bins with CNVs from ≥2 distinct samples (67,763 regions). Dataset 2 bins into 1 Mbp windows and flags bins with ≥2 variants (2,911 regions).
 
