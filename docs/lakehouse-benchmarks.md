@@ -279,7 +279,6 @@ To study Iceberg and LanceDB, we have to convert the parquet files into the Iceb
 from pyiceberg.catalog.sql import SqlCatalog
 
 arrow = collection.open().to_table()
-
 catalog = SqlCatalog("local", uri="sqlite:///iceberg_catalog.db", warehouse=WAREHOUSE)
 catalog.create_namespace("genomics")
 table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
@@ -314,11 +313,10 @@ The timing results for format conversion are dominated by the conversion to a Py
 
 ::::::{tab-set}
 
-:::::{tab-item} One single parquet file + DuckDB
+:::::{tab-item} Parquet + DuckDB
 
 ```python
-path = str(ln.Artifact.get(key="benchmark/dragen_cnv.parquet").path)
-
+path = db.Artifact.get(key="benchmark/dragen_cnv.parquet").path.as_posix()
 duckdb.sql(f"""
     SELECT "Chromosome", count(*) AS n_calls
     FROM read_parquet('{path}')
@@ -423,33 +421,10 @@ def compute_duckdb(arrow_table, sql):
 :::::
 ::::::
 
-**Timing results.** For the table formats, `scan + compute` is shown; the compute segment is a DuckDB aggregation over the native scan.
-
-**Query 1 — filtered query (identical logic on both datasets):**
-
-| Seconds                 | DuckDB + parquet | DuckDB + Iceberg | DuckDB + LanceDB |
-| ----------------------- | ---------------- | ---------------- | ---------------- |
-| Dataset 1 (3,201 files) | 1.05             | 0.78             | 1.44             |
-| Dataset 2 (26 files)    | 1.05             | 1.92             | 8.87             |
-
-**Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
-
-| Seconds   | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ---------------- | ---------------- |
-| Dataset 1 | 0.07 + 0.82      | 0.53 + 1.79      |
-| Dataset 2 | 0.15 + 2.55      | 6.29 + 22.75     |
-
-**Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
-
-| Seconds   | DuckDB + Iceberg | DuckDB + LanceDB |
-| --------- | ---------------- | ---------------- |
-| Dataset 1 | 0.19 + 0.71      | 0.56 + 1.78      |
-| Dataset 2 | 0.22 + 1.70      | 6.21 + 30.68     |
-
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0003.svg" />
-    <p><strong>Figure 4a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 4a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0002.svg" />
