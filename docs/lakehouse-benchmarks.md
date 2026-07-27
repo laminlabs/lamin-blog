@@ -211,7 +211,7 @@ recurrent = con.execute("""
 
 ### Timing results
 
-Benchmarking the runtime of these queries reveals two main results (**Figure 2**): Polars is the only query engine that's able to efficiently query a large number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
+Benchmarking the runtime of these queries reveals two main results (**Figure 2**): Polars is the only query engine that's able to efficiently query the high number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
