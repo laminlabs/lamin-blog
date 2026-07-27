@@ -115,7 +115,7 @@ with colletion.open(engine="polars") as df:
 
 :::::{tab-item} DuckDB
 
-To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here.
+To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for dataset 1 and 3 sec for dataset 2.
 
 ```python
 import duckdb
@@ -269,15 +269,13 @@ Running these queries reveals two main results (**Figure 2**): Polars is the onl
 
 ### Iceberg & LanceDB
 
-To study Iceberg and LanceDB, we have to convert the original parquet files into the Iceberg and LanceDB table formats.
+To study Iceberg and LanceDB, we have to convert the parquet files into the Iceberg and LanceDB table formats.
 
 ::::::{tab-set}
 
 :::::{tab-item} Iceberg
-Iceberg requires a full materialisation of the LaminDB collection before ingestion. On the many-file layout, that **read** dominates setup (~34 min); the Iceberg write itself is trivial (~6s).
 
 ```python
-# full materialise — the ~34 min cost on 3,201 files
 from pyiceberg.catalog.sql import SqlCatalog
 
 arrow = collection.open().to_table()
@@ -291,7 +289,6 @@ table.append(arrow)
 :::::
 
 :::::{tab-item} LanceDB
-LanceDB also requires a full materialisation, then ingests into Lance columnar format on S3.
 
 ```python
 import lancedb
@@ -304,29 +301,14 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 :::::
 ::::::
 
-Setup cost, both layouts:
+The timing results for format conversion are dominated by the conversion to a PyArrow dataset, and take substantially longer for LanceDB than for Iceberg for the larger dataset 2.
 
-| Setup step (seconds)                                | PyArrow | Polars | DuckDB | Iceberg  | LanceDB  |
-| --------------------------------------------------- | ------- | ------ | ------ | -------- | -------- |
-| Read from LaminDB — Dataset 1 (4.86M / 3,201 files) | lazy    | lazy   | 23.9   | **2043** | **2045** |
-| Read from LaminDB — Dataset 2 (88M / 26 files)      | lazy    | lazy   | 2.7    | 43.0     | 45.2     |
-| Ingest — Dataset 1                                  | —       | —      | —      | 6.0      | 7.0      |
-| Ingest — Dataset 2                                  | —       | —      | —      | 5.7      | 109.0    |
-
-The read cost is the story: ~34 minutes on 3,201 files versus under a minute on 26 files, despite Dataset 2 holding 18× the rows (**Figure 2**).
-
-<div style="display: flex; gap: 16px; align-items: flex-start;">
-  <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70003.svg" />
-    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000U">source</a>)</strong>: Dataset 1: 4.86M rows, 3,201 files.</p>
-  </div>
-  <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/Lf8f0LJY63quZ3n70004.svg" />
-    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/kBOCwXvajOXJAniJ000W">source</a>)</strong>: Dataset 2: 88M rows, 26 files.</p>
-  </div>
-</div>
-
-Now that we transformed our datasets to Iceberg and LanceDB format, we can study how queries with DuckDB behave.
+| Operation | Dataset | Iceberg (sec) | LanceDB (sec) |
+| --------- | ------- | ------------- | ------------- |
+| Read      | 1       | 2043          | 2045          |
+| Read      | 2       | 43            | 45.2          |
+| Ingest    | 1       | 6             | 7             |
+| Ingest    | 2       | 5.7           | 109           |
 
 **Query 1.**
 
