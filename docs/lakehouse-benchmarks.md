@@ -12,68 +12,17 @@ affiliation:
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
-Over the past decade, the lakehouse has become the dominant data management architecture in R&D.
-In this post, we first review how Polars and DuckDB help to query 93M observations from the 1000 Genomes Project.
-Then, we look at how Iceberg, LanceDB, and LaminDB help manage the underlying tabular datasets.
+The 1000 Genomes Project sequenced ~3200 individuals worldwide to build a comprehensive atlas of human genetic variation.
+We will show how Polars and DuckDB help to efficiently query the atlas across 93M genomic variants, and how lakehouse frameworks, including Iceberg, LanceDB, and LaminDB, can be used to manage the underlying datasets.
 
-Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg]
-Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
-
-Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID), "time travel" to previous versions, schema evolution, write-audit-publish workflows, and query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
-
-<div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
-
-| Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
-| ---------------------------------------- | ------ | ------- | -------- | ------- |
-| Data lake (file management & annotation) | ✅     | ❌      | ❌       | ✅      |
-| ACID transactions                        | ❌     | ✅      | ✅       | ✅ ¹    |
-| Time travel / snapshot version isolation | ❌     | ✅      | ✅       | ✅ ²    |
-| Schema evolution without rewriting data  | ❌     | ✅ ³    | ✅ ³     | ✅ ³    |
-| Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
-| Query engine independence                | ✅     | ✅      | ❌       | ✅      |
-| Concurrent writers                       | ❌ ⁵   | ❌      | ✅       | ✅      |
-| Automatic maintenance                    | ❌     | ❌      | ✅ ⁶     | ✅ ⁶    |
-| Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
-| Dataset formats beyond tables            | ✅     | ❌      | ❌       | ✅      |
-| Data lineage                             | ❌     | ❌      | ❌       | ✅      |
-| Registries/ontologies                    | ❌     | ❌      | ❌       | ✅      |
-
-:::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
-
-¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID operations the way Iceberg and DuckLake do. Because you can map an insert into a collection of parquet files via `lamindb.Collection.append()` in an ACID way, the practical robustness guarantee to the user is similar.
-
-² See the [Time travel](#time-travel) section.
-
-³ Adding a nullable/optional column without rewriting existing files.
-
-⁴ In LaminDB, via branches (stage, review, merge).
-
-⁵ Raw files have no commit protocol; concurrent writers risk partial writes / last-writer-wins.
-
-⁶ No need for cleaning orphaned files like in Iceberg.
-
-:::
-
-</div>
-
-An approach that gains popularity in addressing Iceberg's limitations is **DuckLake**,[^ducklake-format][^ducklake-v1] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it cheap writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
-
-Unlike Iceberg and DuckLake, **LaminDB** goes beyond tables and supports datasets across any storage format - parquet, AnnData, HDF5, zarr, VCF, …. The user can manage anything from blobs in a data lake to structured datasets with multiple array components using a single composite schema concept. LaminDB shares DuckLake's architectural design — a relational database for metadata and storage for data — and natively provides data lineage (**Table 1**).
-
-While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
-While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
-
-Lakehouse frameworks help managing large numbers of datasets and **query engines** enable querying those datasets. We'll review popular query engines in combination with different storage formats, most importantly, PyArrow,[^pyarrow] Polars,[^polars] & DuckDB.[^duckdb] We will not consider distributed query engines like Apache Spark,[^spark] Trino,[^trino] and Dremio.[^dremio]
-
-## Queries
-
-The 1000 Genomes Project[^1000g] sequenced ~3200 individuals worldwide to build a comprehensive atlas of human genetic variation.
-In this post, we will look at its tabular datasets, which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals just 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — found across the entire project. Grouping this data by chromosome yields 26 parquet files with 88M total rows.
+We want to analyze the tabular datasets of the 1000 Genomes Project,[^1000g] which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals only 4.86M rows across 3201 files (one file per person). In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels. Grouping this data by chromosome yields 26 files with 88M total rows. We transformed raw VCF files to parquet files to make use of popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb]
 
 | #     | Observations       | File grouping  | Rows  | Files | Example columns                          | Explore                                                                                           |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [`Lh6IsCOGIl5TOjAj`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [`hVu9puwdRGskm1I6`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
+
+## Queries
 
 We'll be looking at queries that are part of a typical CNV analysis. You can access the two datasets programmatically as a collection of parquet files:
 
@@ -267,7 +216,52 @@ Running these queries reveals two main results (**Figure 2**): Polars is the onl
 
 ## Data management
 
-In this section, we're providing side-by-side comparisons that illustrate that all of LaminDB, Iceberg, and LanceDB enable typical data management operations.
+Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg]
+Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
+
+Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID), "time travel" to previous versions, schema evolution, write-audit-publish workflows, and query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
+
+<div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
+
+| Feature                                  | Raw S3 | Iceberg | DuckLake | LaminDB |
+| ---------------------------------------- | ------ | ------- | -------- | ------- |
+| Data lake (file management & annotation) | ✅     | ❌      | ❌       | ✅      |
+| ACID transactions                        | ❌     | ✅      | ✅       | ✅ ¹    |
+| Time travel / snapshot version isolation | ❌     | ✅      | ✅       | ✅ ²    |
+| Schema evolution without rewriting data  | ❌     | ✅ ³    | ✅ ³     | ✅ ³    |
+| Write-Audit-Publish workflow             | ❌     | ✅      | ❌       | ✅ ⁴    |
+| Query engine independence                | ✅     | ✅      | ❌       | ✅      |
+| Concurrent writers                       | ❌ ⁵   | ❌      | ✅       | ✅      |
+| Automatic maintenance                    | ❌     | ❌      | ✅ ⁶     | ✅ ⁶    |
+| Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
+| Dataset formats beyond tables            | ✅     | ❌      | ❌       | ✅      |
+| Data lineage                             | ❌     | ❌      | ❌       | ✅      |
+| Registries/ontologies                    | ❌     | ❌      | ❌       | ✅      |
+
+:::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
+
+¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/faq/acid.md), but does not guarantee row-level ACID operations the way Iceberg and DuckLake do. Because you can map an insert into a collection of parquet files via `lamindb.Collection.append()` in an ACID way, the practical robustness guarantee to the user is similar.
+
+² See the [Time travel](#time-travel) section.
+
+³ Adding a nullable/optional column without rewriting existing files.
+
+⁴ In LaminDB, via branches (stage, review, merge).
+
+⁵ Raw files have no commit protocol; concurrent writers risk partial writes / last-writer-wins.
+
+⁶ No need for cleaning orphaned files like in Iceberg.
+
+:::
+
+</div>
+
+An approach that gains popularity in addressing Iceberg's limitations is **DuckLake**,[^ducklake-format][^ducklake-v1] developed by the DuckDB team. Rather than storing metadata in files, DuckLake keeps all metadata in a relational database, leaving only parquet files in storage. This gives it cheap writes that can be more frequent, transactions with true concurrent writer support, automatic maintenance via the database's native mechanisms, and native multi-table transactions — all things that are difficult or impossible with Iceberg's file-based metadata.
+
+Unlike Iceberg and DuckLake, **LaminDB** goes beyond tables and supports datasets across any storage format - parquet, AnnData, HDF5, zarr, VCF, …. The user can manage anything from blobs in a data lake to structured datasets with multiple array components using a single composite schema concept. LaminDB shares DuckLake's architectural design — a relational database for metadata and storage for data — and natively provides data lineage (**Table 1**).
+
+While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
+While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
 
 ### Appending data
 
