@@ -254,17 +254,6 @@ recurrent = con.execute("""
 :::::
 ::::::
 
-**Timing results.**
-
-| Query | Dataset | PyArrow | Polars | DuckDB |
-| ----- | ------- | ------- | ------ | ------ |
-| 1     | 1       | 1012    | 12.1   | 2181   |
-|       | 2       | 7.4     | 2.1    | 4.8    |
-| 2     | 1       | 1022    | 11.6   | 17.2   |
-|       | 2       | 64.4    | 2.34   | 2.84   |
-| 3     | 1       | 1012    | 11.6   | 19.0   |
-|       | 2       | 35.2    | 10.6   | 2.67   |
-
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0001.svg" />
@@ -276,21 +265,11 @@ recurrent = con.execute("""
   </div>
 </div>
 
-**Two opposite scaling laws.** For the **in-place** engines, query time tracks the number of files. PyArrow's filtered query runs 1012s on 3,201 files but 7.4s on 26 files (137×), and DuckDB's `SELECT *` over `httpfs` goes from 4.8s to 2,181s (454×) — despite Dataset 1 holding 18× _fewer_ rows. The cost is per-file, full-width fetches, not compute. For the **pre-ingested** formats, the opposite holds: Iceberg and LanceDB pay the file-count penalty once at ingest, and their subsequent queries scale with row count — LanceDB's `query_stats` is 1.8s on 4.86M rows (Dataset 1) but 22.8s on 88M rows (Dataset 2). Polars sits apart: its async S3 reader is remarkably resilient to file count (12s vs 2s), the only in-place engine that stays fast on the many-file layout.
-
-:::{dropdown} Why the number of Parquet files matters
-
-Opening a collection reads one footer per file, and materialising it fetches each file's data. On 3,201 small shards this per-file overhead dominates. The controlled comparison is the filtered query — identical logic on both datasets — where the in-place engines are 100–450× slower on 3,201 files than on 26, even though the many-file dataset has fewer rows. The mechanism differs by engine: PyArrow fetches files largely serially; DuckDB's `httpfs` pays a full-width network round-trip per file for a `SELECT *`; Polars parallelises aggressively and mostly escapes the penalty.
-
-The pre-ingested formats (Iceberg, LanceDB) show the flip side: their query cost tracks rows, not files, because they read from a compacted store — but they pay the full file-count read once, up front, at ingest (~34 min on 3,201 files).
-
-The practical takeaway is a tuning knob independent of engine choice: **compacting many small shards into fewer large ones is often a bigger win than switching engines.**
-
-:::
+Running these queries reveals two main results (**Figure 2**): Polars is the only query engine that's able to efficiently query a large number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
 
 ### Iceberg & LanceDB
 
-To study Iceberg and LanceDB, we have to convert the original data into the Iceberg and LanceDB table formats.
+To study Iceberg and LanceDB, we have to convert the original parquet files into the Iceberg and LanceDB table formats.
 
 ::::::{tab-set}
 
