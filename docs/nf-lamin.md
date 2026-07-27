@@ -94,13 +94,13 @@ To show this end to end, we ran a small showcase: build a sample sheet in an R s
 
 ```{mermaid}
 flowchart LR
-    rscript[/"1_samplesheet_pbmc8k.R"/]:::transform
+    rscript[/"1_samplesheet.R"/]:::transform
     ref["GRCh38 reference"]:::artifact
-    sheet["pbmc8k_samplesheet.csv"]:::artifact
+    sheet["samplesheet.csv"]:::artifact
     nf[/"nf-core/scrnaseq"/]:::transform
-    h5ad["combined_cellbender_filter_matrix.h5ad"]:::artifact
+    h5ad["raw_data.h5ad"]:::artifact
     nb[/"3_annotate.ipynb"/]:::transform
-    ann["annotated/pbmc8k.h5ad"]:::artifact
+    ann["annotated.h5ad"]:::artifact
 
     rscript --> sheet --> nf --> h5ad --> nb --> ann
     ref --> nf
