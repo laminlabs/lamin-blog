@@ -13,7 +13,8 @@ db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
 Over the past decade, the lakehouse has become the dominant data management architecture in R&D.
-In this post we review how Polars, DuckDB, Iceberg, and LanceDB help to query and manage 93M observations from the 1000 Genomes Project.
+In this post, we first review how Polars and DuckDB help to query 93M observations from the 1000 Genomes Project.
+Then, we look at how Iceberg, LanceDB, and LaminDB help manage the underlying tabular datasets.
 
 ## The lakehouse landscape
 
