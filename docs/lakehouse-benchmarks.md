@@ -68,11 +68,11 @@ Lakehouse frameworks help managing large numbers of datasets and **query engines
 ## Queries
 
 The 1000 Genomes Project[^1000g] recently expanded its high-coverage sequencing cohort to 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
-In this post, we will look at its tabular datasets, which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals just 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — found across the entire project. Grouping this data by chromosome yields 26 parquet files with 88M total rows.
+In this post, we will look at its tabular datasets, which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals just 4.86M rows across 3202 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — found across the entire project. Grouping this data by chromosome yields 26 parquet files with 88M total rows.
 
 | #     | Observations       | File grouping  | Rows  | Files | Example columns                          | UID                |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------ |
-| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | `Lh6IsCOGIl5TOjAj` |
+| **1** | CNVs               | Per-individual | 4.86M | 3202  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | `Lh6IsCOGIl5TOjAj` |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | `hVu9puwdRGskm1I6` |
 
 The two datasets have different schemas, so the _aggregation_ queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-grouping comparison lives.
