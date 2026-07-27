@@ -75,7 +75,7 @@ In this post, we will look at its tabular datasets, which record human genetic v
 | **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [`Lh6IsCOGIl5TOjAj`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [`hVu9puwdRGskm1I6`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
-## Querying parquet files
+### Querying parquet files
 
 We'll be looking at queries that are part of a typical CNV analysis. You can access the two datasets programmatically as a collection of parquet files:
 
@@ -254,33 +254,21 @@ recurrent = con.execute("""
 :::::
 ::::::
 
-**Timing results.** For the table formats, `scan + compute` is shown; the compute segment is a DuckDB aggregation over the native scan.
+**Timing results.**
 
-**Query 1 — filtered query (identical logic on both datasets):**
-
-| Seconds                 | PyArrow | Polars | DuckDB   |
-| ----------------------- | ------- | ------ | -------- |
-| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181** |
-| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8      |
-
-**Query 2 — statistics** (per-sample on dataset 1, per-chromosome on dataset 2):
-
-| Seconds   | PyArrow | Polars | DuckDB |
-| --------- | ------- | ------ | ------ |
-| Dataset 1 | 1022    | 11.6   | 17.2   |
-| Dataset 2 | 64.4    | 2.34   | 2.84   |
-
-**Query 3 — recurrent regions** (1 kbp / distinct samples on dataset 1 → 67,763; 1 Mbp / variants on dataset 2 → 2,911):
-
-| Seconds   | PyArrow | Polars | DuckDB |
-| --------- | ------- | ------ | ------ |
-| Dataset 1 | 1012    | 11.6   | 19.0   |
-| Dataset 2 | 35.2    | 10.6   | 2.67   |
+| Query | Dataset | PyArrow | Polars | DuckDB |
+| ----- | ------- | ------- | ------ | ------ |
+| 1     | 1       | 1012    | 12.1   | 2181   |
+|       | 2       | 7.4     | 2.1    | 4.8    |
+| 2     | 1       | 1022    | 11.6   | 17.2   |
+|       | 2       | 64.4    | 2.34   | 2.84   |
+| 3     | 1       | 1012    | 11.6   | 19.0   |
+|       | 2       | 35.2    | 10.6   | 2.67   |
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0001.svg" />
-    <p><strong>Figure 2a(<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0000.svg" />
