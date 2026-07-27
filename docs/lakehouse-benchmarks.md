@@ -84,7 +84,7 @@ db = ln.DB("laminlabs/lakehouse-benchmarks")
 collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for dataset 2
 ```
 
-**Query 1: Filter by chromosome and position.** Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and and 5,665,280 variants for dataset 2.
+**Query 1: Filter by chromosome and position.** Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and 5,665,280 variants for dataset 2.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
