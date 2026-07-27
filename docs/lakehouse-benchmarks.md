@@ -16,10 +16,10 @@ Over the past decade, the lakehouse has become the dominant data management arch
 In this post, we first review how Polars and DuckDB help to query 93M observations from the 1000 Genomes Project.
 Then, we look at how Iceberg, LanceDB, and LaminDB help manage the underlying tabular datasets.
 
-Today's most popular lakehouse framework is **Iceberg**,[^apache-iceberg] ahead of Delta Lake[^delta] and Apache Hudi[^hudi].
+Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg]
 Iceberg is a table format that organizes datasets into _snapshots_ — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A single root metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and atomically updates the root metadata file to point to it.
 
-Unlike raw parquet files, Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID) enabling versioning via "time travel", data-free schema evolution, write-audit-publish workflows, and broad query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
+Unlike raw parquet files, Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID) enabling versioning via "time travel", data-free schema evolution, write-audit-publish workflows, and broad query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates. It is worth mentioning that Delta Lake[^delta] and Apache Hudi[^hudi] provide frameworks comparable to Iceberg.
 
 <div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
 
@@ -74,8 +74,6 @@ In this post, we will look at its tabular datasets, which record human genetic v
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [`Lh6IsCOGIl5TOjAj`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [`hVu9puwdRGskm1I6`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
-
-### Querying parquet files
 
 We'll be looking at queries that are part of a typical CNV analysis. You can access the two datasets programmatically as a collection of parquet files:
 
@@ -267,139 +265,6 @@ recurrent = con.execute("""
 
 Running these queries reveals two main results (**Figure 2**): Polars is the only query engine that's able to efficiently query a large number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
 
-### Iceberg & LanceDB
-
-To study Iceberg and LanceDB, we have to convert the parquet files into the Iceberg and LanceDB table formats.
-
-::::::{tab-set}
-
-:::::{tab-item} Iceberg
-
-```python
-from pyiceberg.catalog.sql import SqlCatalog
-
-arrow = collection.open().to_table()
-catalog = SqlCatalog("local", uri="sqlite:///iceberg_catalog.db", warehouse=WAREHOUSE)
-catalog.create_namespace("genomics")
-table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
-table.append(arrow)
-```
-
-:::::
-
-:::::{tab-item} LanceDB
-
-```python
-import lancedb
-
-arrow = collection.open().to_table()
-db = lancedb.connect(WAREHOUSE)
-table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
-```
-
-:::::
-::::::
-
-The timing results for format conversion are dominated by the conversion to a PyArrow dataset, and take substantially longer for LanceDB than for Iceberg for the larger dataset 2.
-
-| Operation | Dataset | Iceberg (sec) | LanceDB (sec) |
-| --------- | ------- | ------------- | ------------- |
-| Read      | 1       | 2043          | 2045          |
-| Read      | 2       | 43            | 45.2          |
-| Ingest    | 1       | 6             | 7             |
-| Ingest    | 2       | 5.7           | 109           |
-
-**Query 1.** Because the format conversion implies a much lower number of files for Iceberg and LanceDB, we're also converting the original parquet files to a single parquet file, so that we're not biasing performance of Query 1 due to the high number of files.
-
-::::::{tab-set}
-
-:::::{tab-item} DuckDB
-
-```python
-path = db.Artifact.get(key="benchmark/dragen_cnv.parquet").path.as_posix()
-duckdb.sql(f"""
-    SELECT "Chromosome", count(*) AS n_calls
-    FROM read_parquet('{path}')
-    WHERE "QUAL" >= 30
-    GROUP BY "Chromosome"
-    ORDER BY n_calls DESC
-""").show()
-```
-
-:::::
-
-:::::{tab-item} Iceberg
-
-```python
-from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
-row_filter = And(EqualTo("CHROM", chrom),
-             And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
-filtered = table.scan(row_filter=row_filter).to_arrow()
-```
-
-:::::
-
-:::::{tab-item} LanceDB
-
-```python
-# .to_lance() exposes the underlying Lance dataset so the predicate pushes down
-# at the storage layer; the LanceDB table wrapper doesn't expose that filter directly.
-filtered = table.to_lance().to_table(
-    filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
-)
-```
-
-:::::
-::::::
-
-**Query 2 & 3.** Both of these queries cannot be natively run via `pyiceberg` or `lancedb`. Hence, we're timing results for a DuckDB-based query after converting back from `pyarrow`.
-
-::::::{tab-set}
-:::::{tab-item} DuckDB + Iceberg
-
-```python
-# Iceberg is a table format, not a compute engine: native scan, then aggregate in DuckDB.
-arrow = table.scan().to_arrow()
-stats = compute_duckdb(arrow, SQL_EXPRESSION)
-```
-
-:::::
-
-:::::{tab-item} DuckDB + LanceDB
-
-```python
-arrow = table.to_arrow()
-stats = compute_duckdb(arrow, SQL_EXPRESSION)
-```
-
-:::::
-::::::
-
-:::{dropdown} How is compute_duckdb processing information
-
-```python
-def compute_duckdb(arrow_table, sql):
-    """Format already scanned natively; run the standard aggregation in DuckDB."""
-    con = duckdb.connect()
-    con.register("t", arrow_table)
-    return con.execute(sql.format(src="t")).df()
-```
-
-:::
-
-<div style="display: flex; gap: 16px; align-items: flex-start;">
-  <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0003.svg" />
-    <p><strong>Figure 4a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
-  </div>
-  <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0002.svg" />
-    <p><strong>Figure 4b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
-  </div>
-</div>
-
-In conclusion, we can say queries across formats are similarly fast for any query engine.
-
 ## Data management
 
 Three write operations were tested: appending a new batch, adding a `QC_PASS` boolean column, and querying a historical state. Code blocks are excerpts; each links to its full, runnable notebook under [Code & data availability](#code--data-availability).
@@ -555,6 +420,139 @@ The five pipeline notebooks, the shared benchmarking utilities, and the plotting
 - [LanceDB pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/WtZF9OX9v3uM)
 
 Dataset 1: 1000 Genomes CNV calls (DRAGEN, hg38), UID `Lh6IsCOGIl5TOjAj`. Dataset 2: 1000 Genomes SNV/Indel/CNV, UID `hVu9puwdRGskm1I6`.
+
+## Appendix
+
+### Querying the Iceberg & LanceDB formats
+
+This section demonstrates that there isn't a noteworthy difference in querying parquet files, the Iceberg, or the LanceDB format. To study the latter, we have to convert parquet files into the Iceberg and LanceDB table formats.
+
+::::::{tab-set}
+
+:::::{tab-item} Iceberg
+
+```python
+from pyiceberg.catalog.sql import SqlCatalog
+
+arrow = collection.open().to_table()
+catalog = SqlCatalog("local", uri="sqlite:///iceberg_catalog.db", warehouse=WAREHOUSE)
+catalog.create_namespace("genomics")
+table = catalog.create_table("genomics.cnv_vcf", schema=arrow.schema)
+table.append(arrow)
+```
+
+:::::
+
+:::::{tab-item} LanceDB
+
+```python
+import lancedb
+
+arrow = collection.open().to_table()
+db = lancedb.connect(WAREHOUSE)
+table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
+```
+
+:::::
+::::::
+
+The timing results for format conversion are dominated by the conversion to a PyArrow dataset, and take substantially longer for LanceDB than for Iceberg for the larger dataset 2.
+
+| Operation | Dataset | Iceberg (sec) | LanceDB (sec) |
+| --------- | ------- | ------------- | ------------- |
+| Read      | 1       | 2043          | 2045          |
+| Read      | 2       | 43            | 45.2          |
+| Ingest    | 1       | 6             | 7             |
+| Ingest    | 2       | 5.7           | 109           |
+
+**Query 1.** Because the format conversion implies a much lower number of files for Iceberg and LanceDB, we're also converting the original parquet files to a single parquet file, so that we're not biasing performance of Query 1 due to the high number of files.
+
+::::::{tab-set}
+
+:::::{tab-item} DuckDB
+
+```python
+path = db.Artifact.get(key="benchmark/dragen_cnv.parquet").path.as_posix()
+duckdb.sql(f"""
+    SELECT "Chromosome", count(*) AS n_calls
+    FROM read_parquet('{path}')
+    WHERE "QUAL" >= 30
+    GROUP BY "Chromosome"
+    ORDER BY n_calls DESC
+""").show()
+```
+
+:::::
+
+:::::{tab-item} Iceberg
+
+```python
+from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
+row_filter = And(EqualTo("CHROM", chrom),
+             And(GreaterThanOrEqual("POS", lo), LessThanOrEqual("POS", hi)))
+filtered = table.scan(row_filter=row_filter).to_arrow()
+```
+
+:::::
+
+:::::{tab-item} LanceDB
+
+```python
+# .to_lance() exposes the underlying Lance dataset so the predicate pushes down
+# at the storage layer; the LanceDB table wrapper doesn't expose that filter directly.
+filtered = table.to_lance().to_table(
+    filter=f"CHROM = '{chrom}' AND POS BETWEEN {lo} AND {hi}"
+)
+```
+
+:::::
+::::::
+
+**Query 2 & 3.** Both of these queries cannot be natively run via `pyiceberg` or `lancedb`. Hence, we're timing results for a DuckDB-based query after converting back from `pyarrow`.
+
+::::::{tab-set}
+:::::{tab-item} DuckDB + Iceberg
+
+```python
+# Iceberg is a table format, not a compute engine: native scan, then aggregate in DuckDB.
+arrow = table.scan().to_arrow()
+stats = compute_duckdb(arrow, SQL_EXPRESSION)
+```
+
+:::::
+
+:::::{tab-item} DuckDB + LanceDB
+
+```python
+arrow = table.to_arrow()
+stats = compute_duckdb(arrow, SQL_EXPRESSION)
+```
+
+:::::
+::::::
+
+:::{dropdown} How is compute_duckdb processing information
+
+```python
+def compute_duckdb(arrow_table, sql):
+    """Format already scanned natively; run the standard aggregation in DuckDB."""
+    con = duckdb.connect()
+    con.register("t", arrow_table)
+    return con.execute(sql.format(src="t")).df()
+```
+
+:::
+
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0003.svg" />
+    <p><strong>Figure 4a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
+  </div>
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0002.svg" />
+    <p><strong>Figure 4b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
+  </div>
+</div>
 
 ## Methods
 
