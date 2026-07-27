@@ -12,10 +12,10 @@ affiliation:
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
-The 1000 Genomes Project sequenced ~3200 individuals worldwide to build a comprehensive atlas of human genetic variation.
+The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
 We will show how Polars and DuckDB help to efficiently query the atlas across 93M genomic variants, and how lakehouse frameworks, including Iceberg, LanceDB, and LaminDB, can be used to manage the underlying datasets.
 
-Our goal is compare the queries involved in a typical genomic data analysis across popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] For this, we'll analyze the tabular datasets of the 1000 Genomes Project,[^1000g] which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals only 4.86M rows across 3201 files (one file per person). In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels - totalling 88M rows across 26 files.
+Our goal is compare the queries involved in a typical genomic data analysis across popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] For this, we'll analyze the tabular datasets recording human genetic variants observed in the raw genome sequences.[^1000g] These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual totalling 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels - totalling 88M rows across 26 files.
 
 | #     | Observations       | Grouping       | Rows  | Files | Example columns                          | Explore                                                                                           |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
