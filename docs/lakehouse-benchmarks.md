@@ -68,10 +68,10 @@ While lakehouse frameworks help managing large numbers of datasets, **query engi
 
 ## Queries
 
-These datasets are part of the 1000 genomes project. We run the same user journey — read, filter, aggregate, append, evolve schema, time-travel — over two layouts that isolate the effect of file count:
+Let us study two exemplary datasets from the 1000 Genomes Project:[^1000g]
 
-- **Dataset 1 (many files):** a CNV dataset where each file maps to one human individual — **4.86M rows across 3,201 Parquet files**, with per-sample columns (`SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN`, …). Collection UID `Lh6IsCOGIl5TOjAj`.
-- **Dataset 2 (few files):** an SNV/Indel/CNV dataset — **88M rows across 26 Parquet files**, with per-chromosome columns (`chrom`, `variant_type`, `af`, `eur_af`). Collection UID `hVu9puwdRGskm1I6`.
+- Dataset 1: a CNV dataset where each file maps to one human individual — **4.86M rows across 3,201 Parquet files**, with per-sample columns (`SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN`, …). Collection UID `Lh6IsCOGIl5TOjAj`.
+- Dataset 2: a SNV/Indel/CNV dataset — **88M rows across 26 Parquet files**, with per-chromosome columns (`chrom`, `variant_type`, `af`, `eur_af`). Collection UID `hVu9puwdRGskm1I6`.
 
 The two datasets have different schemas, so the _aggregation_ queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-layout comparison lives.
 
@@ -709,3 +709,5 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^polars]: Polars. Polars: Fast multi-threaded, hybrid-streaming DataFrame library. [Polars](https://pola.rs/).
 
 [^duckdb]: DuckDB Foundation. DuckDB: An in-process SQL OLAP database management system. [DuckDB](https://duckdb.org/).
+
+[^1000g]: 1000 Genomes Project Consortium (2015). A global reference for human genetic variation. Nature, 526(7571), 68-74. [doi:10.1038/nature15393](https://doi.org/10.1038/nature15393).
