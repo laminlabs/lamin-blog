@@ -68,7 +68,7 @@ Lakehouse frameworks help managing large numbers of datasets and **query engines
 ## Queries
 
 The 1000 Genomes Project[^1000g] recently expanded its high-coverage sequencing cohort to 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
-In this post, we will look at its tabular datasets, created by calculating statistical properties of human genetic variants based on the raw genome sequences. In one dataset, we look at specific variants (CNVs) called for each individual. Because CNVs are relatively rare per person, this dataset totals just 4.86M rows. In a second dataset, we look at a population-level catalog of all unique variants (CNVs, SNVs, and Indels) found across the entire project. Grouping this data **by chromosome** yields 26 files parquet files with 88M total rows.
+In this post, we will look at its tabular datasets, which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals just 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — found across the entire project. Grouping this data by chromosome yields 26 parquet files with 88M total rows.
 
 | #     | Observations       | File grouping  | Rows  | Files | Example columns                          | UID                |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------ |
