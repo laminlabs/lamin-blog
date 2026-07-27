@@ -267,21 +267,16 @@ Running these queries reveals two main results (**Figure 2**): Polars is the onl
 
 ## Data management
 
-Three write operations were tested: appending a new batch, adding a `QC_PASS` boolean column, and querying a historical state. Code blocks are excerpts; each links to its full, runnable notebook under [Code & data availability](#code--data-availability).
+In this section, we're providing side-by-side comparisons that illustrate that all of LaminDB, Iceberg, and LanceDB enable typical data management operations.
 
 ### Appending data
 
-Neither PyArrow nor Polars has an append operation for a sharded dataset — appending is a data-layer operation handled by LaminDB. A new artifact is saved (with a run-scoped key so its content hash is unique per run), then a new collection version is created that revises the original.
-
 ::::::{tab-set}
 :::::{tab-item} LaminDB
+Atomic and snapshot-isolated. A new parquet file creates a new collection version.
 
 ```python
-new_art = ln.Artifact.from_dataframe(
-    new_sample_df,
-    key="lakehouse-benchmarks/new_batch.parquet",
-).save()
-new_collection = collection.append(new_art)   # returns a new collection version
+collection.append(batch)  # batch is an artifact
 ```
 
 :::::
@@ -290,7 +285,7 @@ new_collection = collection.append(new_art)   # returns a new collection version
 Atomic and snapshot-isolated. New Parquet files and a snapshot manifest are written to S3; concurrent readers see a consistent state throughout.
 
 ```python
-table.append(batch)
+table.append(batch)  # batch is a pyarrow dataset
 ```
 
 :::::
@@ -299,48 +294,21 @@ table.append(batch)
 `add()` writes new rows to S3 and automatically increments the table version.
 
 ```python
-table.add(batch)
+table.add(batch)  # batch is a pyarrow dataset
 ```
 
 :::::
 ::::::
 
-:::{dropdown} What is batch for Iceberg and Lancedb and how it is setup
-
-```python
-# code from supporting file
-import pyarrow as pa
-import pyarrow.compute as pc
-
-def make_append_batch(full_table: pa.Table) -> pa.Table:
-    """One chromosome of variants, reused as the identical append payload for every engine."""
-    # smallest chromosome by row count -> bounded payload, same rows for Iceberg and LanceDB
-    vc = pc.value_counts(full_table.column("chrom"))
-    smallest_chrom = min(
-        zip(vc.field("values").to_pylist(), vc.field("counts").to_pylist()),
-        key=lambda kv: kv[1],
-    )[0]
-    return full_table.filter(pc.equal(full_table.column("chrom"), smallest_chrom))
-```
-
-```python
-# setup in iceberg and lancedb
-batch = make_append_batch(arrow)
-```
-
-:::
-
-### Schema evolution
-
-Neither PyArrow nor Polars can write new files with a different schema. For DuckDB the change is session-only — DuckDB is a query engine and cannot persist schema evolution to the source Parquet; making it durable is exactly what DuckLake (or a table format) adds. LaminDB registers the feature in its schema registry, validating all future artifacts instance-wide.
+### Add a column
 
 ::::::{tab-set}
 :::::{tab-item} LaminDB
+LaminDB registers the feature in its schema registry, validating all future artifacts instance-wide.
 
 ```python
-schema = ln.Schema.get(name="1000 Genomes CNV VCF")
-feat = ln.Feature(name="QC_PASS", dtype=bool).save()
-schema.add_optional_features([feat])
+feature = ln.Feature(name="QC_PASS", dtype=bool).save()
+collection.schema.add(feature)
 ```
 
 :::::
@@ -370,17 +338,11 @@ table.add_columns({"QC_PASS": "CAST(NULL AS BOOLEAN)"})
 
 ### Time travel
 
-Neither PyArrow, Polars, nor DuckDB has this capability on its own; DuckLake adds it to the DuckDB ecosystem (see the capability table). LaminDB provides it at the collection level via versions.
-
 ::::::{tab-set}
 :::::{tab-item} LaminDB
 
 ```python
-original = db.Collection.get("Lh6IsCOGIl5TOjAj", version="1")   # v1, pre-append
-rows_v1 = original.open().count_rows()
-
-current = db.Collection.get("Lh6IsCOGIl5TOjAj", version="2")    # v2, post-append
-rows_v2 = current.open().count_rows()
+collection.versions.get(version="1")  # get a previous version
 ```
 
 :::::
@@ -388,8 +350,8 @@ rows_v2 = current.open().count_rows()
 :::::{tab-item} Iceberg
 
 ```python
-first_snapshot = table.history()[0].snapshot_id
-historical = table.scan(snapshot_id=first_snapshot).to_arrow()
+first_snapshot = table.history()[0].snapshot_id  # access version 0
+table.scan(snapshot_id=first_snapshot)
 ```
 
 :::::
@@ -397,9 +359,7 @@ historical = table.scan(snapshot_id=first_snapshot).to_arrow()
 :::::{tab-item} LanceDB
 
 ```python
-table.checkout(1)             # version 1 = pre-append state
-table.count_rows()
-table.checkout_latest()       # restore current version
+table.checkout(1)             # checkout a previous version
 ```
 
 :::::
