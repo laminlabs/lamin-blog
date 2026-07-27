@@ -75,24 +75,18 @@ In this post, we will look at its tabular datasets, which record human genetic v
 | **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [`Lh6IsCOGIl5TOjAj`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [`hVu9puwdRGskm1I6`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
-You can access these datasets programmatically as a collection of parquet files:
+## Querying parquet files
+
+We'll be looking at queries that are part of a typical CNV analysis. You can access the two datasets programmatically as a collection of parquet files:
 
 ```python
 import lamindb as ln
 
 db = ln.DB("laminlabs/lakehouse-benchmarks")
-collection = db.Collection.get("Lh6IsCOGIl5TOjAj")
+collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for dataset 2
 ```
 
-### Parquet format
-
-Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band — identical logic on both datasets (Dataset 1: chr1, 321,894 variants; Dataset 2: chr2, 5,665,280 variants). Queries 2 and 3 aggregate, and because the schemas differ they run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2). Within each dataset, all five engines returned identical results.
-
-A note on how compute is measured. Query engines (PyArrow, Polars, DuckDB) compute natively. Table formats (Iceberg, LanceDB) are _not_ compute engines — they scan and hand data off — so their aggregations are a native scan plus a standard DuckDB aggregation, timed separately. That is why the format tabs read `scan → compute`.
-
-The code tabs below show Dataset 1's per-sample analysis; Dataset 2 runs the analogous per-chromosome version (grouping by `chrom`, over `variant_type` / `af`).
-
-**Query 1: filter by chromosome and position.**
+**Query 1: Filter by chromosome and position.** Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and and 5,665,280 variants for dataset 2.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -100,10 +94,10 @@ The code tabs below show Dataset 1's per-sample analysis; Dataset 2 runs the ana
 ```python
 import pyarrow.compute as pc
 
-with colletion.open(engine="parrow") as dataset:
+with colletion.open(engine="pyarrow") as dataset:
     expr = ((pc.field("CHROM") == chrom)
             & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
-    filtered = dataset.to_table(filter=expr)   # predicate pushdown into Parquet row groups
+    filtered = dataset.to_table(filter=expr)
 ```
 
 :::::
@@ -111,7 +105,7 @@ with colletion.open(engine="parrow") as dataset:
 :::::{tab-item} Polars
 
 ```python
-with colletion.open(engine="parrow") as df:
+with colletion.open(engine="polars") as df:
     filtered = df.filter(
         (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
     ).collect()
@@ -119,7 +113,7 @@ with colletion.open(engine="parrow") as df:
 
 :::::
 
-:::::{tab-item} DuckDB + parquet
+:::::{tab-item} DuckDB
 
 To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here.
 
@@ -153,7 +147,7 @@ filtered = con.execute(
 :::::
 ::::::
 
-**Query 2: summary statistics.** Dataset 1 (per sample): total CNV count, deletions, median deletion size, homozygous/heterozygous counts. Query engines compute natively; the two formats scan then aggregate in DuckDB via a shared `STATS_SQL`.
+**Query 2: Calculate summary statistics.** Calculate the total CNV count, deletions, median deletion size, and homozygous/heterozygous counts.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -192,7 +186,7 @@ stats = (
 
 :::::
 
-:::::{tab-item} DuckDB + parquet
+:::::{tab-item} DuckDB
 
 ```python
 stats = con.execute("""
@@ -210,7 +204,7 @@ stats = con.execute("""
 :::::
 ::::::
 
-**Query 3: recurrent region detection.** Dataset 1 bins positions into 1 kbp windows and flags bins with CNVs from ≥2 distinct samples (67,763 regions). Dataset 2 bins into 1 Mbp windows and flags bins with ≥2 variants (2,911 regions) — a different definition, dictated by the schema. Code shown is Dataset 1.
+**Query 3: recurrent region detection.** Dataset 1 bins positions into 1 kbp windows and flags bins with CNVs from ≥2 distinct samples (67,763 regions). Dataset 2 bins into 1 Mbp windows and flags bins with ≥2 variants (2,911 regions).
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -244,7 +238,7 @@ recurrent = (
 
 :::::
 
-:::::{tab-item} DuckDB + parquet
+:::::{tab-item} DuckDB
 
 ```python
 recurrent = con.execute("""
@@ -264,24 +258,24 @@ recurrent = con.execute("""
 
 **Query 1 — filtered query (identical logic on both datasets):**
 
-| Seconds                 | PyArrow | Polars | DuckDB + parquet |
-| ----------------------- | ------- | ------ | ---------------- |
-| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181**         |
-| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8              |
+| Seconds                 | PyArrow | Polars | DuckDB   |
+| ----------------------- | ------- | ------ | -------- |
+| Dataset 1 (3,201 files) | 1012    | 12.1   | **2181** |
+| Dataset 2 (26 files)    | 7.4     | 2.1    | 4.8      |
 
-**Query 2 — statistics** (per-sample on D1, per-chromosome on D2):
+**Query 2 — statistics** (per-sample on dataset 1, per-chromosome on dataset 2):
 
-| Seconds   | PyArrow | Polars | DuckDB + parquet |
-| --------- | ------- | ------ | ---------------- |
-| Dataset 1 | 1022    | 11.6   | 17.2             |
-| Dataset 2 | 64.4    | 2.34   | 2.84             |
+| Seconds   | PyArrow | Polars | DuckDB |
+| --------- | ------- | ------ | ------ |
+| Dataset 1 | 1022    | 11.6   | 17.2   |
+| Dataset 2 | 64.4    | 2.34   | 2.84   |
 
-**Query 3 — recurrent regions** (1 kbp / distinct samples on D1 → 67,763; 1 Mbp / variants on D2 → 2,911):
+**Query 3 — recurrent regions** (1 kbp / distinct samples on dataset 1 → 67,763; 1 Mbp / variants on dataset 2 → 2,911):
 
-| Seconds   | PyArrow | Polars | DuckDB + parquet |
-| --------- | ------- | ------ | ---------------- |
-| Dataset 1 | 1012    | 11.6   | 19.0             |
-| Dataset 2 | 35.2    | 10.6   | 2.67             |
+| Seconds   | PyArrow | Polars | DuckDB |
+| --------- | ------- | ------ | ------ |
+| Dataset 1 | 1012    | 11.6   | 19.0   |
+| Dataset 2 | 35.2    | 10.6   | 2.67   |
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
