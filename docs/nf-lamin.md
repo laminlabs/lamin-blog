@@ -30,17 +30,17 @@ docs: https://docs.lamin.ai/nf-lamin
 repo: https://github.com/laminlabs/nf-lamin
 ---
 
-nf-lamin came out of a practical need at Pfizer: tracking complete data lineage for artifacts produced across the entire stack, from wet lab metadata through Nextflow pipelines to machine learning and data visualization, in Python, Nextflow & R. This was already possible by registering Nextflow outputs with lamindb in a [post-run script](https://docs.lamin.ai/nextflow#post-run-scripts), but it was cumbersome and captured only outputs after the fact -- the lineage of everything upstream was lost. With nf-lamin, the same artifact can be referenced from Nextflow, Python & R, and runs and artifacts are created *during* the execution of any Nextflow workflow. It has since been used extensively at Pfizer to run both nf-core and in-house workflows.
+*nf-lamin came out of a practical need at Pfizer: tracking complete data lineage for artifacts produced across the entire stack, from wet lab metadata through Nextflow pipelines to machine learning and data visualization, in Python, Nextflow & R. This was already possible by registering Nextflow outputs with lamindb in a [post-run script](https://docs.lamin.ai/nextflow#post-run-scripts), but it was cumbersome and captured only outputs after the fact -- the lineage of everything upstream was lost. With nf-lamin, the same artifact can be referenced from Nextflow, Python & R, and runs and artifacts are created *during* the execution of any Nextflow workflow. It has since been used extensively at Pfizer to run both nf-core and in-house workflows.*
 
 ## Imagine opening up your laptop to this
 
 ![A Slack thread: results posted as an S3 path months ago, questions arriving today.](_static/nf-lamin-slack-thread.png)
 
-On a good day, the forensic analysis through output paths and execution logs (if they still exist) costs an afternoon. In practice people just rerun the workflow with known parameters, and *hope* the outputs come close enough to the original outputs.
+On a good day, tracing it back through output paths and execution logs (if they still exist) costs an afternoon. In practice people just rerun the workflow with the parameters they think were used, and *hope* the results come close enough.
 
 For scripts & notebooks, `lamindb` & `laminr` already fix this: one `track()` call records the code, its execution & the data it touched, and every artifact gets a `uid` that identifies it wherever it is stored. `nf-lamin` seamlessly brings the same to Nextflow, *during* the run rather than after it.
 
-Imagine the same run, with `nf-lamin` loaded.
+Now imagine the same run, with `nf-lamin` loaded.
 
 ## Referencing LaminDB artifacts from Nextflow
 
@@ -88,7 +88,7 @@ lamin get artifact --uid rF7oiknTdhpfqU5H
 
 ## Cross-language data lineage
 
-Not only does nf-lamin enable data lineage with Nextflow, it also does so across platforms.
+nf-lamin tracks lineage across languages, not just within Nextflow.
 
 To show this end to end, we ran a small showcase: build a sample sheet in an R script, quantify public 10x PBMC data with `nf-core/scrnaseq`, and annotate the resulting AnnData file with CellTypist in a Jupyter notebook.
 
@@ -155,7 +155,7 @@ nextflow run nf-core/scrnaseq \
 
 Only `--input` is a `lamin://` URI here; the reference is a plain Ensembl URL. `nf-lamin` tracks both as input artifacts, so the FASTQs & reference show up in the lineage even though they never lived in LaminDB.
 
-A `scrnaseq` run writes many files, so `output_artifacts` excludes everything by default and opts back in to the combined count matrix and the MultiQC report:
+A `scrnaseq` run writes many files, so this config excludes everything by default and opts back in to the combined count matrix and the MultiQC report:
 
 :::{dropdown} nextflow.config
 
@@ -278,3 +278,9 @@ lamin {
 ```
 
 See the [`nf-lamin` docs](https://docs.lamin.ai/nf-lamin) for the full configuration reference. If you run into a bug, please file a minimal reproducible example on the [issues page](https://github.com/laminlabs/nf-lamin/issues).
+
+## Acknowledgements
+
+We are grateful to the team at Pfizer, who thought alongside us about the functionality they needed and the behavior they expected, and who put the plugin through both nf-core and in-house workflows.
+
+We are also grateful to the Nextflow team: much of the plugin infrastructure `nf-lamin` builds on -- the extension points, the plugin repository & the plugin template -- took shape over the course of its development.
