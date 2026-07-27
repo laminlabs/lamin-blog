@@ -70,23 +70,19 @@ Lakehouse frameworks help managing large numbers of datasets and **query engines
 The 1000 Genomes Project[^1000g] sequenced ~3200 individuals worldwide to build a comprehensive atlas of human genetic variation.
 In this post, we will look at its tabular datasets, which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals just 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — found across the entire project. Grouping this data by chromosome yields 26 parquet files with 88M total rows.
 
-| #     | Observations       | File grouping  | Rows  | Files | Example columns                          | Explore                                                                                 |
-| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | --------------------------------------------------------------------------------------- |
-| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [here](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj0000) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [here](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6)     |
+| #     | Observations       | File grouping  | Rows  | Files | Example columns                          | Explore                                                                                           |
+| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [`Lh6IsCOGIl5TOjAj`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [`hVu9puwdRGskm1I6`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
-The two datasets have different schemas, so the _aggregation_ queries (Query 2 and Query 3) run analogous but not identical analyses — per-sample on Dataset 1, per-chromosome on Dataset 2. The read and filter operations are identical in logic, which is where the clean cross-grouping comparison lives.
+You can access these datasets programmatically as a collection of parquet files:
 
 ```python
-# pip install lamindb
 import lamindb as ln
 
 db = ln.DB("laminlabs/lakehouse-benchmarks")
-# base version of the collection, addressable by UID (append runs create newer versions)
-collection = db.Collection.get("Lh6IsCOGIl5TOjAj0000") # hVu9puwdRGskm1I6 for the 88M dataset
+collection = db.Collection.get("Lh6IsCOGIl5TOjAj")
 ```
-
-Three tools — PyArrow, Polars, and DuckDB — read the source Parquet files in place. Two — Iceberg and LanceDB — ingest the data into their own format before querying.
 
 ### Parquet format
 
