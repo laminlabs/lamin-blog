@@ -36,8 +36,7 @@ Unlike raw parquet files, Iceberg provides [ACID transactions](https://en.wikipe
 | Native multi-table transactions          | ❌     | ❌      | ✅       | ❌      |
 | Dataset formats beyond tables            | ✅     | ❌      | ❌       | ✅      |
 | Data lineage                             | ❌     | ❌      | ❌       | ✅      |
-| Ontologies                               | ❌     | ❌      | ❌       | ✅      |
-| Registries with fine-grained control     | ❌     | ❌      | ❌       | ✅      |
+| Registries/ontologies                    | ❌     | ❌      | ❌       | ✅      |
 
 :::{dropdown} **Table 1.** A high-level overview of lakehouse technologies.
 
