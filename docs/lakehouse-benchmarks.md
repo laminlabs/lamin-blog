@@ -309,11 +309,11 @@ The timing results for format conversion are dominated by the conversion to a Py
 | Ingest    | 1       | 6             | 7             |
 | Ingest    | 2       | 5.7           | 109           |
 
-**Query 1.**
+**Query 1.** Because the format conversion implies a much lower number of files for Iceberg and LanceDB, we're also converting the original parquet files to a single parquet file, so that we're not biasing performance of Query 1 due to the high number of files.
 
 ::::::{tab-set}
 
-:::::{tab-item} Parquet + DuckDB
+:::::{tab-item} DuckDB
 
 ```python
 path = db.Artifact.get(key="benchmark/dragen_cnv.parquet").path.as_posix()
@@ -328,7 +328,7 @@ duckdb.sql(f"""
 
 :::::
 
-:::::{tab-item} Iceberg + DuckDB
+:::::{tab-item} Iceberg
 
 ```python
 from pyiceberg.expressions import And, EqualTo, GreaterThanOrEqual, LessThanOrEqual
@@ -339,7 +339,7 @@ filtered = table.scan(row_filter=row_filter).to_arrow()
 
 :::::
 
-:::::{tab-item} LanceDB + DuckDB
+:::::{tab-item} LanceDB
 
 ```python
 # .to_lance() exposes the underlying Lance dataset so the predicate pushes down
@@ -352,7 +352,7 @@ filtered = table.to_lance().to_table(
 :::::
 ::::::
 
-**Query 2.**
+**Query 2 & 3.** Both of these queries cannot be natively run via `pyiceberg` or `lancedb`. Hence, we're timing results for a DuckDB-based query after converting back from `pyarrow`.
 
 ::::::{tab-set}
 :::::{tab-item} DuckDB + Iceberg
@@ -360,7 +360,7 @@ filtered = table.to_lance().to_table(
 ```python
 # Iceberg is a table format, not a compute engine: native scan, then aggregate in DuckDB.
 arrow = table.scan().to_arrow()
-stats = compute_duckdb(arrow, STATS_SQL)
+stats = compute_duckdb(arrow, SQL_EXPRESSION)
 ```
 
 :::::
@@ -369,7 +369,7 @@ stats = compute_duckdb(arrow, STATS_SQL)
 
 ```python
 arrow = table.to_arrow()
-stats = compute_duckdb(arrow, STATS_SQL)
+stats = compute_duckdb(arrow, SQL_EXPRESSION)
 ```
 
 :::::
@@ -386,40 +386,6 @@ def compute_duckdb(arrow_table, sql):
 ```
 
 :::
-
-**Query 3.**
-
-::::::{tab-set}
-:::::{tab-item} DuckDB + Iceberg
-
-```python
-arrow = table.scan().to_arrow()
-recurrent = compute_duckdb(arrow, RECURRENT_SQL)
-```
-
-:::::
-
-:::::{tab-item} DuckDB + LanceDB
-
-```python
-arrow = table.to_arrow()
-recurrent = compute_duckdb(arrow, RECURRENT_SQL)
-```
-
-:::{dropdown} How is compute_duckdb processing information
-
-```python
-def compute_duckdb(arrow_table, sql):
-    """Format already scanned natively; run the standard aggregation in DuckDB."""
-    con = duckdb.connect()
-    con.register("t", arrow_table)
-    return con.execute(sql.format(src="t")).df()
-```
-
-:::
-
-:::::
-::::::
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
