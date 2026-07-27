@@ -15,22 +15,24 @@ db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 The 1000 Genomes Project sequenced ~3200 individuals worldwide to build a comprehensive atlas of human genetic variation.
 We will show how Polars and DuckDB help to efficiently query the atlas across 93M genomic variants, and how lakehouse frameworks, including Iceberg, LanceDB, and LaminDB, can be used to manage the underlying datasets.
 
-We want to analyze the tabular datasets of the 1000 Genomes Project,[^1000g] which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals only 4.86M rows across 3201 files (one file per person). In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels. Grouping this data by chromosome yields 26 files with 88M total rows. We transformed raw VCF files to parquet files to make use of popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb]
+Our goal is compare the queries involved in a typical genomic data analysis across popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] For this, we'll analyze the tabular datasets of the 1000 Genomes Project,[^1000g] which record human genetic variants observed in the raw genome sequences. These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual. Because CNVs are relatively rare per person, this dataset totals only 4.86M rows across 3201 files (one file per person). In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels - totalling 88M rows across 26 files.
 
-| #     | Observations       | File grouping  | Rows  | Files | Example columns                          | Explore                                                                                           |
+| #     | Observations       | Grouping       | Rows  | Files | Example columns                          | Explore                                                                                           |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [`Lh6IsCOGIl5TOjAj`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [`hVu9puwdRGskm1I6`](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
+We transformed raw VCF files to parquet files as summarized in the **Methods** section and explorable through the links above.
+
 ## Queries
 
-We'll be looking at queries that are part of a typical CNV analysis. You can access the two datasets programmatically as a collection of parquet files:
+In addition to discussing query performance, we're putting an emphasis on the query experience. Let's start with accessing the collection of parquet files:
 
 ```python
 import lamindb as ln
 
 db = ln.DB("laminlabs/lakehouse-benchmarks")
-collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for dataset 2
+collection = db.Collection.get("Lh6IsCOGIl5TOjAj")
 ```
 
 **Query 1: Filter by chromosome and position.** Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and 5,665,280 variants for dataset 2.
@@ -216,8 +218,7 @@ Running these queries reveals two main results (**Figure 2**): Polars is the onl
 
 ## Data management
 
-Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg]
-Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
+Working with a high number of VCF and parquet files from different sources can easily lead to obscure data organization. Over the past 15 years or so, the lakehouse architecture has emerged as the dominant way to manage tabular data in R&D. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
 
 Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID), "time travel" to previous versions, schema evolution, write-audit-publish workflows, and query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
 
@@ -262,6 +263,8 @@ Unlike Iceberg and DuckLake, **LaminDB** goes beyond tables and supports dataset
 
 While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
 While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
+
+Let us now review the code for different operations.
 
 ### Appending data
 
