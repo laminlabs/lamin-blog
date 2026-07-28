@@ -12,7 +12,8 @@ affiliation:
 db: https://lamin.ai/laminlabs/lakehouse-benchmarks
 ---
 
-The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
+The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
+
 We will show how Polars and DuckDB help to efficiently query the atlas across 93M genomic variants, and how lakehouse frameworks, including Iceberg, LanceDB, and LaminDB, can be used to manage the underlying datasets.
 
 Our goal is compare the queries involved in a typical genomic data analysis across popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] For this, we'll analyze the tabular datasets recording human genetic variants observed in the raw genome sequences.[^1000g] These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual totalling 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M rows across 26 files.
