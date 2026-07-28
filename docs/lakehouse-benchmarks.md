@@ -215,7 +215,7 @@ Benchmarking the runtime of these queries reveals two main results (**Figure 2**
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0001.svg" />
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0002.svg" />
     <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
