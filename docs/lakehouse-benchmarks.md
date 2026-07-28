@@ -228,6 +228,13 @@ Benchmarking the runtime of these queries reveals two main results (**Figure 2**
 
 Working with a high number of VCF and parquet files from different sources can easily lead to obscure data organization. Over the past 15 years or so, the lakehouse architecture has emerged as the dominant way to manage tabular data in R&D. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
 
+### Frameworks
+
+<figure style="float: right; width: 400px; margin-left: 0.5rem">
+  <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0001.svg" />
+  <strong>Figure 1.</strong> File layout of an Iceberg table.
+</figure>
+
 Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID), "time travel" to previous versions, schema evolution, write-audit-publish workflows, and query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
 
 <div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
