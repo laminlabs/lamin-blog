@@ -14,9 +14,11 @@ db: https://lamin.ai/laminlabs/1000genomes
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
 Analyzing the more than 100M genomic variants while managing thousands of files can be a challenge.
-Here, we will show how Polars and DuckDB help to efficiently query these large, distributed datasets. We'll also discuss how lakehouse frameworks including Iceberg, LaminDB, and LanceDB help to manage the underlying datasets.
+Here, we will show how PyArrow, Polars, and DuckDB help to efficiently query these large, distributed datasets. We'll also discuss how lakehouse frameworks including Iceberg, LaminDB, and LanceDB help to manage the underlying datasets.
 
-We will look at a typical analysis of human genetic variants observed in raw genome sequences.[^1000g] Genomic variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual, totalling 4.86M observations across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M observations across 26 files.
+An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and track human evolutionary history.
+However, in this post, we won't be answering biological questions, but rather look at different tools that can be used in a typical analysis of human genetic variants observed in raw genome sequences.
+For this, we curated two datasets from 1000 Genomes. Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
 | #     | Variant types      | Grouping       | Rows  | Files | Example columns                          | Explore                                                                             |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -99,7 +101,7 @@ filtered = con.execute(
 
 ### Summary statistics
 
-Calculate the total CNV count, deletions, median deletion size, and homozygous/heterozygous counts.
+Profiling summary statistics is a standard exploratory step to assess genetic diversity, establish baselines for rare disease studies, and identify severe structural variations before downstream association studies. Here, we calculate the total CNV count, deletions, median deletion size, and homozygous/heterozygous counts:
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
@@ -158,7 +160,7 @@ stats = con.execute("""
 
 ### Recurrent regions
 
-Dataset 1 bins positions into 1 kbp windows and flags bins with CNVs from ≥2 distinct samples (67,763 regions). Dataset 2 bins into 1 Mbp windows and flags bins with ≥2 variants (2,911 regions).
+Finding recurrent mutation hotspots helps pinpoint highly mutable regions, functional genomic elements under evolutionary pressure, and common structural variations across populations. To identify these, we bin positions into genomic windows (1 kbp for dataset 1, 1 Mbp for dataset 2) and flag bins containing variants from multiple samples.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
