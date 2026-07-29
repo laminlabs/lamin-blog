@@ -43,19 +43,6 @@ collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for datas
 Let us first filter variants on the most prevalent chromosome within the 10th–90th percentile position band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. We will be using the popular query engines PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb]
 
 ::::::{tab-set}
-:::::{tab-item} PyArrow
-
-```python
-import pyarrow.compute as pc
-
-with colletion.open(engine="pyarrow") as dataset:
-    expr = ((pc.field("CHROM") == chrom)
-            & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
-    filtered = dataset.to_table(filter=expr)
-```
-
-:::::
-
 :::::{tab-item} Polars
 
 ```python
@@ -99,6 +86,19 @@ filtered = con.execute(
 ```
 
 :::::
+
+:::::{tab-item} PyArrow
+
+```python
+import pyarrow.compute as pc
+
+with colletion.open(engine="pyarrow") as dataset:
+    expr = ((pc.field("CHROM") == chrom)
+            & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
+    filtered = dataset.to_table(filter=expr)
+```
+
+:::::
 ::::::
 
 ### Summary statistics
@@ -106,26 +106,6 @@ filtered = con.execute(
 Profiling summary statistics is a standard exploratory step to assess genetic diversity, establish baselines for rare disease studies, and identify severe structural variations before downstream association studies. Here, we calculate the total CNV count, deletions, median deletion size, and homozygous/heterozygous counts:
 
 ::::::{tab-set}
-:::::{tab-item} PyArrow
-
-```python
-# Native PyArrow aggregation. Note: PyArrow only offers an *approximate* (t-digest)
-# grouped median, so Median_Deletion_Size is approximate for PyArrow; SQL/Polars are exact.
-t = dataset.to_table(columns=["SAMPLE_NAME", "INFO_SVLEN", "SAMPLE_GT"])
-t = t.append_column("is_del", pc.cast(pc.less(t["INFO_SVLEN"], 0), pa.int64()))
-t = t.append_column("is_hom", pc.cast(pc.equal(t["SAMPLE_GT"], "1/1"), pa.int64()))
-t = t.append_column("is_het", pc.cast(pc.equal(t["SAMPLE_GT"], "0/1"), pa.int64()))
-base = t.group_by("SAMPLE_NAME").aggregate([
-    ("SAMPLE_NAME", "count"), ("is_del", "sum"), ("is_hom", "sum"), ("is_het", "sum"),
-])
-dels = t.filter(pc.less(t["INFO_SVLEN"], 0))
-dels = dels.append_column("abs_svlen", pc.abs(dels["INFO_SVLEN"]))
-med = dels.group_by("SAMPLE_NAME").aggregate([("abs_svlen", "approximate_median")])
-stats = base.join(med, keys="SAMPLE_NAME", join_type="left outer")
-```
-
-:::::
-
 :::::{tab-item} Polars
 
 ```python
@@ -158,6 +138,26 @@ stats = con.execute("""
 ```
 
 :::::
+
+:::::{tab-item} PyArrow
+
+```python
+# Native PyArrow aggregation. Note: PyArrow only offers an *approximate* (t-digest)
+# grouped median, so Median_Deletion_Size is approximate for PyArrow; SQL/Polars are exact.
+t = dataset.to_table(columns=["SAMPLE_NAME", "INFO_SVLEN", "SAMPLE_GT"])
+t = t.append_column("is_del", pc.cast(pc.less(t["INFO_SVLEN"], 0), pa.int64()))
+t = t.append_column("is_hom", pc.cast(pc.equal(t["SAMPLE_GT"], "1/1"), pa.int64()))
+t = t.append_column("is_het", pc.cast(pc.equal(t["SAMPLE_GT"], "0/1"), pa.int64()))
+base = t.group_by("SAMPLE_NAME").aggregate([
+    ("SAMPLE_NAME", "count"), ("is_del", "sum"), ("is_hom", "sum"), ("is_het", "sum"),
+])
+dels = t.filter(pc.less(t["INFO_SVLEN"], 0))
+dels = dels.append_column("abs_svlen", pc.abs(dels["INFO_SVLEN"]))
+med = dels.group_by("SAMPLE_NAME").aggregate([("abs_svlen", "approximate_median")])
+stats = base.join(med, keys="SAMPLE_NAME", join_type="left outer")
+```
+
+:::::
 ::::::
 
 ### Recurrent regions
@@ -165,21 +165,6 @@ stats = con.execute("""
 Finding recurrent mutation hotspots helps pinpoint highly mutable regions, functional genomic elements under evolutionary pressure, and common structural variations across populations. To identify these, we bin positions into genomic windows (1 kbp for dataset 1, 1 Mbp for dataset 2) and flag bins containing variants from multiple samples.
 
 ::::::{tab-set}
-:::::{tab-item} PyArrow
-
-```python
-t = dataset.to_table(columns=["CHROM", "POS", "SAMPLE_NAME"])
-bin_start = pc.multiply(pc.cast(pc.divide(t["POS"], 1000), pa.int64()), 1000)
-region_key = pc.binary_join_element_wise(
-    pc.cast(t["CHROM"], pa.string()), pc.cast(bin_start, pa.string()), ":")
-t = t.append_column("region_key", region_key)
-pairs = t.select(["region_key", "SAMPLE_NAME"]).group_by(["region_key", "SAMPLE_NAME"]).aggregate([])
-counts = pairs.group_by("region_key").aggregate([("SAMPLE_NAME", "count")])
-recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
-```
-
-:::::
-
 :::::{tab-item} Polars
 
 ```python
@@ -207,6 +192,21 @@ recurrent = con.execute("""
     HAVING COUNT(DISTINCT SAMPLE_NAME) >= 2
     ORDER BY sample_count DESC
 """).df()
+```
+
+:::::
+
+:::::{tab-item} PyArrow
+
+```python
+t = dataset.to_table(columns=["CHROM", "POS", "SAMPLE_NAME"])
+bin_start = pc.multiply(pc.cast(pc.divide(t["POS"], 1000), pa.int64()), 1000)
+region_key = pc.binary_join_element_wise(
+    pc.cast(t["CHROM"], pa.string()), pc.cast(bin_start, pa.string()), ":")
+t = t.append_column("region_key", region_key)
+pairs = t.select(["region_key", "SAMPLE_NAME"]).group_by(["region_key", "SAMPLE_NAME"]).aggregate([])
+counts = pairs.group_by("region_key").aggregate([("SAMPLE_NAME", "count")])
+recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
 ```
 
 :::::
