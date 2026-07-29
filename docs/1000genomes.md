@@ -311,7 +311,7 @@ collection.append(batch)  # batch is an artifact
 :::::
 ::::::
 
-### Add a column
+### Add columns
 
 ::::::{tab-set}
 
