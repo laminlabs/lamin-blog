@@ -13,8 +13,8 @@ db: https://lamin.ai/laminlabs/1000genomes
 ---
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
-Analyzing the more than 100M genomic variants while managing thousands of files can be a challenge.
-Here, we will show how PyArrow, Polars, and DuckDB help to efficiently query these large, distributed datasets. We'll also discuss how lakehouse frameworks including Iceberg, LaminDB, and LanceDB help to manage the underlying datasets.
+Analyzing more than 100M genomic variants while tracking thousands of underlying files can be a challenge.
+Here, we show how PyArrow, Polars, and DuckDB help to efficiently query these large, distributed datasets, and discuss how lakehouse frameworks including Iceberg, LaminDB, and LanceDB help to manage the underlying datasets.
 
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and track human evolutionary history.
 However, in this post, we won't be answering biological questions, but rather look at different tools that can be used in a typical analysis of human genetic variants observed in raw genome sequences.
