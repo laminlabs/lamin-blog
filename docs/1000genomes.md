@@ -25,6 +25,8 @@ For this, we curated two datasets from 1000 Genomes. Dataset 1 stores Copy Numbe
 | **1** | CNVs               | Per-individual | 4.86M        | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M          | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
+Dataset 1 tracks individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). By contrast, Dataset 2 provides population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
+
 ## Queries
 
 Each dataset consists in a collection of parquet files that we transformed from raw VCF files as summarized in the **Methods** section. The easiest way to access them is:
@@ -227,7 +229,7 @@ Benchmarking the runtime of these queries reveals two main results (**Figure 2**
 
 ## Data management
 
-Working with a high number of VCF and parquet files from different sources can easily lead to obscure data organization. Over the past 15 years or so, the lakehouse architecture has emerged as the dominant way to manage tabular data in R&D. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
+Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization. The lakehouse architecture, the leading data architecture for tabular data in R&D, can bring sanity. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
 
 ### Frameworks
 
