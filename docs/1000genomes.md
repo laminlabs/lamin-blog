@@ -9,35 +9,36 @@ affiliation:
   sunnyosun: Lamin Labs, Munich
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
-db: https://lamin.ai/laminlabs/lakehouse-benchmarks
+db: https://lamin.ai/laminlabs/1000genomes
 ---
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
-We will show how Polars and DuckDB help to efficiently query the atlas across 93M genomic variants, and how lakehouse frameworks, including Iceberg, LanceDB, and LaminDB, can be used to manage the underlying datasets.
+Analyzing the more than 100M genomic variants while managing thousands of files can be a challenge.
+Here, we will show how Polars and DuckDB help to efficiently query large, distributed datasets. We'll also discuss how lakehouse frameworks including Iceberg, LanceDB, and LaminDB help to manage the underlying datasets.
 
-Our goal is compare the queries involved in a typical genomic data analysis across popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] For this, we'll analyze the tabular datasets recording human genetic variants observed in the raw genome sequences.[^1000g] These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual totalling 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M rows across 26 files.
+We will compare queries involved in a typical genomic data analysis using popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] For this, we'll analyze tabular datasets recording human genetic variants observed in the raw genome sequences.[^1000g] These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual totalling 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M rows across 26 files.
 
 | #     | Observations       | Grouping       | Rows  | Files | Example columns                          | Explore                                                                             |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
 | **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
-We transformed raw VCF files to parquet files as summarized in the **Methods** section and explorable through the links above.
+We transformed raw VCF files to parquet files as summarized in the **Methods** section. You can also explore their data lineage through the links above.
 
 ## Queries
 
-In addition to discussing query performance, we're putting an emphasis on the query experience. Let's start with accessing the collection of parquet files:
+Each dataset consists in a collection of parquet files. The easiest way to access them is:
 
 ```python
 import lamindb as ln
 
-db = ln.DB("laminlabs/lakehouse-benchmarks")
+db = ln.DB("laminlabs/1000genomes")
 collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for dataset 2
 ```
 
 ### Simple filter
 
-Query 1 filters variants on the most prevalent chromosome within the 10th–90th percentile position band, returning 321,894 variants for dataset 1 and 5,665,280 variants for dataset 2.
+Let us first filter variants on the most prevalent chromosome within the 10th–90th percentile position band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region.
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
