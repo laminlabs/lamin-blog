@@ -20,10 +20,10 @@ An atlas like 1000 Genomes[^1000g] serves as a foundational reference for resear
 However, in this post, we won't be answering biological questions, but rather look at different tools that can be used in a typical analysis of human genetic variants observed in raw genome sequences.
 For this, we curated two datasets from 1000 Genomes. Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
-| #     | Variant types      | Grouping       | Rows  | Files | Example columns                          | Explore                                                                             |
-| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
-| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
+| #     | Variant types      | Grouping       | Observations | Files | Examplary features                       | Explore                                                                             |
+| ----- | ------------------ | -------------- | ------------ | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
+| **1** | CNVs               | Per-individual | 4.86M        | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M          | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
 ## Queries
 
