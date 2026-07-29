@@ -14,9 +14,9 @@ db: https://lamin.ai/laminlabs/1000genomes
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
 Analyzing the more than 100M genomic variants while managing thousands of files can be a challenge.
-Here, we will show how Polars and DuckDB help to efficiently query large, distributed datasets. We'll also discuss how lakehouse frameworks including Iceberg, LanceDB, and LaminDB help to manage the underlying datasets.
+Here, we will show how Polars and DuckDB help to efficiently query these large, distributed datasets. We'll also discuss how lakehouse frameworks including Iceberg, LaminDB, and LanceDB help to manage the underlying datasets.
 
-We will compare queries involved in a typical analysis of human genetic variants observed in raw genome sequences,[^1000g] using popular engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] Genomic variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual, totalling 4.86M observations across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M observations across 26 files.
+We will look at a typical analysis of human genetic variants observed in raw genome sequences.,[^1000g] Genomic variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual, totalling 4.86M observations across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M observations across 26 files.
 
 | #     | Variant types      | Grouping       | Rows  | Files | Example columns                          | Explore                                                                             |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -36,7 +36,7 @@ collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for datas
 
 ### Simple filter
 
-Let us first filter variants on the most prevalent chromosome within the 10th–90th percentile position band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region.
+Let us first filter variants on the most prevalent chromosome within the 10th–90th percentile position band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. We will be using the popular query engines PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb]
 
 ::::::{tab-set}
 :::::{tab-item} PyArrow
