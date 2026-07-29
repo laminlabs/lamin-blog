@@ -16,18 +16,16 @@ The 1000 Genomes Project sequenced 3202 individuals worldwide to build a compreh
 Analyzing the more than 100M genomic variants while managing thousands of files can be a challenge.
 Here, we will show how Polars and DuckDB help to efficiently query large, distributed datasets. We'll also discuss how lakehouse frameworks including Iceberg, LanceDB, and LaminDB help to manage the underlying datasets.
 
-We will compare queries involved in a typical genomic data analysis using popular query engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] For this, we'll analyze tabular datasets recording human genetic variants observed in the raw genome sequences.[^1000g] These variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual totalling 4.86M rows across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M rows across 26 files.
+We will compare queries involved in a typical analysis of human genetic variants observed in raw genome sequences,[^1000g] using popular engines like PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb] Genomic variants include Copy Number Variants (CNVs), Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels). In one dataset, we look at CNVs called for each individual, totalling 4.86M observations across 3201 files. In a second dataset, we look at a population-level catalog of all unique variants — CNVs, SNVs, and Indels — totalling 88M observations across 26 files.
 
-| #     | Observations       | Grouping       | Rows  | Files | Example columns                          | Explore                                                                             |
+| #     | Variant types      | Grouping       | Rows  | Files | Example columns                          | Explore                                                                             |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
 | **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
-We transformed raw VCF files to parquet files as summarized in the **Methods** section. You can also explore their data lineage through the links above.
-
 ## Queries
 
-Each dataset consists in a collection of parquet files. The easiest way to access them is:
+Each dataset consists in a collection of parquet files that we transformed from raw VCF files as summarized in the **Methods** section. The easiest way to access them is:
 
 ```python
 import lamindb as ln
@@ -398,7 +396,7 @@ Dataset 1: 1000 Genomes CNV calls (DRAGEN, hg38), UID `Lh6IsCOGIl5TOjAj`. Datase
 
 ## Appendix
 
-### Querying the Iceberg & LanceDB formats
+### Querying Iceberg & LanceDB
 
 This section demonstrates that there isn't a noteworthy difference in querying parquet files, the Iceberg, or the LanceDB format. To study the latter, we have to convert parquet files into the Iceberg and LanceDB table formats.
 
@@ -533,11 +531,11 @@ def compute_duckdb(arrow_table, sql):
 
 ### Dataset curation
 
-**Dataset 1.** The 1000 Genomes Project datasets were sourced from the Registry of Open Data on AWS, specifically the DRAGEN v3.7.6 reanalysis (`s3://1000genomes-dragen`). For Dataset 1, we read the `.cnv.vcf.gz` files directly from the S3 bucket into memory using `pysam`, flattened the VCF records (including nested `INFO` and `FORMAT` fields) into a tabular structure, and saved them to LaminDB as partitioned Parquet files (`.cnv.parquet`). You can trace the run [here](https://lamin.ai/laminlabs/lakehouse-benchmarks/run/e1XtEb7mHnh8MoVj).
+**Dataset 1 ([lineage](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj)):** The 1000 Genomes Project datasets were sourced from the Registry of Open Data on AWS, specifically the DRAGEN v3.7.6 reanalysis (`s3://1000genomes-dragen`). For Dataset 1, we read the `.cnv.vcf.gz` files directly from the S3 bucket into memory using `pysam`, flattened the VCF records (including nested `INFO` and `FORMAT` fields) into a tabular structure, and saved them to LaminDB as partitioned Parquet files (`.cnv.parquet`). You can trace the run [here](https://lamin.ai/laminlabs/lakehouse-benchmarks/run/e1XtEb7mHnh8MoVj).
 
 Note that while the full high-coverage expanded cohort of the 1000 Genomes Project contains 3,202 individuals, the DRAGEN `hg38` reanalysis we pulled from contains exactly 3,201 files. This is because one sample (NA18498) from the original Phase 3 release was excluded during the re-alignment to the GRCh38 reference genome, a common occurrence in genomics due to relatedness discoveries or quality control thresholds.
 
-**Dataset 2.** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
+**Dataset 2 ([lineage](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6)):** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
 
 ### Benchmarks
 
