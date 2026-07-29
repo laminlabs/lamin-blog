@@ -20,10 +20,10 @@ An atlas like 1000 Genomes[^1000g] serves as a foundational reference for resear
 However, in this post, we won't be answering biological questions, but rather look at different tools that can be used in a typical analysis of human genetic variants observed in raw genome sequences.
 For this, we curated two datasets from 1000 Genomes. Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
-| #     | Variant types      | Grouping       | Observations | Files | Examplary features                       | Explore                                                                             |
-| ----- | ------------------ | -------------- | ------------ | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
-| **1** | CNVs               | Per-individual | 4.86M        | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M          | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
+| #     | Variant types      | Grouping       | N     | Files | Exemplary features                       | Explore                                                                             |
+| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
+| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
 The first dataset stores individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). The second dataset stores population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
 
@@ -40,7 +40,7 @@ collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for datas
 
 ### Simple filter
 
-Let us first filter variants on the most prevalent chromosome within the 10th–90th percentile position band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. We will be using the popular query engines PyArrow,[^pyarrow] Polars,[^polars], and DuckDB.[^duckdb]
+Let us first filter variants on the most prevalent chromosome within the 10th–90th percentile position band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. We will be using the popular query engines PyArrow,[^pyarrow] Polars,[^polars], and DuckDB,[^duckdb] all of which can handle datasets that don't fit into memory, by streaming data directly from storage. Pandas cannot achieve this, which is why we exclude from the examples.
 
 ::::::{tab-set}
 :::::{tab-item} Polars
