@@ -25,11 +25,11 @@ For this, we curated two datasets from 1000 Genomes. Dataset 1 stores Copy Numbe
 | **1** | CNVs               | Per-individual | 4.86M        | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M          | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
 
-Dataset 1 tracks individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). By contrast, Dataset 2 provides population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
+The first dataset stores individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). The second dataset stores population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
 
 ## Queries
 
-Each dataset consists in a collection of parquet files that we transformed from raw VCF files as summarized in the **Methods** section. The easiest way to access them is:
+Each dataset consists in a collection of parquet files that we transformed from raw VCF files to parquet files (see **Methods**). The easiest way to access a collection is:
 
 ```python
 import lamindb as ln
