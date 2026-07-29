@@ -1,6 +1,6 @@
 ---
 title: "Polars, DuckDB, Iceberg & LanceDB for the datasets of the 1000 Genomes Project"
-date: 2026-07-15
+date: 2026-07-29
 author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
   Raaghav-Pillai: Lamin Labs, NYC
