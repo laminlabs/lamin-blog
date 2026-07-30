@@ -56,7 +56,7 @@ with colletion.open(engine="polars") as df:
 
 :::::{tab-item} DuckDB
 
-To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for dataset 1 and 3 sec for dataset 2.
+To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for dataset 1 and 3 sec for dataset 2. As DuckDB cold reads all 3,201 Parquet files over `httpfs` the query is bottlenecked on 3,201 sequential S3 footer round-trips to locate row groups because of which the filter query is so high.
 
 ```python
 import duckdb
