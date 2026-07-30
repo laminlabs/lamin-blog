@@ -19,11 +19,11 @@ Here, we show how PyArrow, Polars, and DuckDB help to efficiently query these la
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and track human evolutionary history.
 However, in this post, we won't be answering biological questions, but rather look at different tools that can be used in a typical analysis of human genetic variants observed in raw genome sequences.
 For this, we curated two datasets from 1000 Genomes. Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
-
-| #     | Variant types      | Grouping       | N     | Files | Exemplary features                       | Explore                                                                             |
+manr
+| # | Variant types | Grouping | N | Files | Exemplary features | Explore |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
-| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6) |
+| **1** | CNVs | Per-individual | 4.86M | 3201 | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M | 26 | `chrom`, `variant_type`, `af`, `eur_af` | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
 
 The first dataset stores individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). The second dataset stores population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
 
@@ -219,11 +219,11 @@ Benchmarking the runtime of these queries reveals two main results (**Figure 2**
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0002.svg" />
-    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0000.svg" />
-    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/OT9cCtNhFmUFiyBm0001">source</a>)</strong>: Dataset 2 query times.</p>
+    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/OT9cCtNhFmUFiyBm0001">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
@@ -388,13 +388,13 @@ Raaghav performed data engineering and analysis. Alex R. wrote the lakehouse eco
 
 ## Code & data availability
 
-The five pipeline notebooks, the shared benchmarking utilities, and the plotting script are tracked in the `laminlabs/lakehouse-benchmarks` instance.
+The five pipeline notebooks, the shared benchmarking utilities, and the plotting script are tracked in the `laminlabs/1000genomes` instance.
 
-- [PyArrow pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/D10UPamv70IP)
-- [Polars pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/2Wdo02w0MDgH)
-- [DuckDB pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/tQaG9uhSD7BO)
-- [Iceberg pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/wnVO8cu0qtOP)
-- [LanceDB pipeline](https://lamin.ai/laminlabs/lakehouse-benchmarks/transform/WtZF9OX9v3uM)
+- [PyArrow pipeline](https://lamin.ai/laminlabs/1000genomes/transform/D10UPamv70IP)
+- [Polars pipeline](https://lamin.ai/laminlabs/1000genomes/transform/2Wdo02w0MDgH)
+- [DuckDB pipeline](https://lamin.ai/laminlabs/1000genomes/transform/tQaG9uhSD7BO)
+- [Iceberg pipeline](https://lamin.ai/laminlabs/1000genomes/transform/wnVO8cu0qtOP)
+- [LanceDB pipeline](https://lamin.ai/laminlabs/1000genomes/transform/WtZF9OX9v3uM)
 
 Dataset 1: 1000 Genomes CNV calls (DRAGEN, hg38), UID `Lh6IsCOGIl5TOjAj`. Dataset 2: 1000 Genomes SNV/Indel/CNV, UID `hVu9puwdRGskm1I6`.
 
@@ -523,11 +523,11 @@ def compute_duckdb(arrow_table, sql):
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0004.svg" />
-    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0002.svg" />
-    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/lakehouse-benchmarks/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
@@ -535,11 +535,11 @@ def compute_duckdb(arrow_table, sql):
 
 ### Dataset curation
 
-**Dataset 1 ([lineage](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/Lh6IsCOGIl5TOjAj)):** The 1000 Genomes Project datasets were sourced from the Registry of Open Data on AWS, specifically the DRAGEN v3.7.6 reanalysis (`s3://1000genomes-dragen`). For Dataset 1, we read the `.cnv.vcf.gz` files directly from the S3 bucket into memory using `pysam`, flattened the VCF records (including nested `INFO` and `FORMAT` fields) into a tabular structure, and saved them to LaminDB as partitioned Parquet files (`.cnv.parquet`). You can trace the run [here](https://lamin.ai/laminlabs/lakehouse-benchmarks/run/e1XtEb7mHnh8MoVj).
+**Dataset 1 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj)):** The 1000 Genomes Project datasets were sourced from the Registry of Open Data on AWS, specifically the DRAGEN v3.7.6 reanalysis (`s3://1000genomes-dragen`). For Dataset 1, we read the `.cnv.vcf.gz` files directly from the S3 bucket into memory using `pysam`, flattened the VCF records (including nested `INFO` and `FORMAT` fields) into a tabular structure, and saved them to LaminDB as partitioned Parquet files (`.cnv.parquet`). You can trace the run [here](https://lamin.ai/laminlabs/1000genomes/run/e1XtEb7mHnh8MoVj).
 
 Note that while the full high-coverage expanded cohort of the 1000 Genomes Project contains 3,202 individuals, the DRAGEN `hg38` reanalysis we pulled from contains exactly 3,201 files. This is because one sample (NA18498) from the original Phase 3 release was excluded during the re-alignment to the GRCh38 reference genome, a common occurrence in genomics due to relatedness discoveries or quality control thresholds.
 
-**Dataset 2 ([lineage](https://lamin.ai/laminlabs/lakehouse-benchmarks/collection/hVu9puwdRGskm1I6)):** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
+**Dataset 2 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6)):** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
 
 ### Benchmarks
 
@@ -548,7 +548,7 @@ All timings are single-run measurements on SageMaker (`ml.m5.24xlarge`) in `stor
 ## How to cite
 
 ```
-Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, Iceberg, LanceDB & LaminDB in queries of the 1000 Genomes Project. Lamin Blog. https://blog.lamin.ai/lakehouse-benchmarks
+Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, Iceberg, LanceDB & LaminDB in queries of the 1000 Genomes Project. Lamin Blog. https://blog.lamin.ai/1000genomes
 ```
 
 ## References
