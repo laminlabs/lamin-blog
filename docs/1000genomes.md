@@ -17,19 +17,21 @@ Analyzing more than 100M genomic variants while tracking thousands of underlying
 Here, we show how PyArrow, Polars, and DuckDB help to efficiently query these large, distributed datasets, and discuss how lakehouse frameworks including Iceberg, LaminDB, and LanceDB help to manage the underlying datasets.
 
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and track human evolutionary history.
-However, in this post, we won't be answering biological questions, but rather look at different tools that can be used in a typical analysis of human genetic variants observed in raw genome sequences.
-For this, we curated two datasets from 1000 Genomes. Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
-manr
-| # | Variant types | Grouping | N | Files | Exemplary features | Explore |
-| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | ----------------------------------------------------------------------------------- |
-| **1** | CNVs | Per-individual | 4.86M | 3201 | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M | 26 | `chrom`, `variant_type`, `af`, `eur_af` | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
+These tasks often require querying large amounts of data for which a popular new avenue for this are modern OLAP engines and single-node, out-of-core DataFrame libraries.[^biodatageeks]
+By contrast, previous work on scaling the 1000 Genomes datasets has largely focused on distributed compute engines, such as through Delta Lake and Spark.[^databricks]
+
+To evaluate how engines like Polars and DuckDB perform on these datasets, we transform the raw VCF files into parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
+
+| #     | Variant types      | Grouping       | N     | Files | Exemplary features                       | Explore                                                                    |
+| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | -------------------------------------------------------------------------- |
+| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
 
 The first dataset stores individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). The second dataset stores population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
 
 ## Queries
 
-Each dataset consists in a collection of parquet files that we transformed from raw VCF files to parquet files (see **Methods**). The easiest way to access a collection is:
+Each dataset consists of a collection of parquet files (see **Methods**). The easiest way to access a collection is:
 
 ```python
 import lamindb as ln
@@ -279,8 +281,8 @@ An approach that gains popularity in addressing Iceberg's limitations is **DuckL
 
 Unlike Iceberg and DuckLake, **LaminDB** goes beyond tables and supports datasets across any storage format - parquet, AnnData, HDF5, zarr, VCF, …. The user can manage anything from blobs in a data lake to structured datasets with multiple array components using a single composite schema concept. LaminDB shares DuckLake's architectural design — a relational database for metadata and storage for data — and natively provides data lineage (**Table 1**).
 
-While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays. To use LanceDB, you need to convert your data into the Lance format.
-While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particulary, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays. These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
+While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays.[^lancedb-format] To use LanceDB, you need to convert your data into the Lance format.
+While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particular, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays.[^tiledb] These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
 
 Let us now review the code for different operations.
 
@@ -572,3 +574,11 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^duckdb]: DuckDB Foundation. DuckDB: An in-process SQL OLAP database management system. [DuckDB](https://duckdb.org/).
 
 [^1000g]: 1000 Genomes Project Consortium (2015). A global reference for human genetic variation. Nature, 526(7571), 68-74. [doi:10.1038/nature15393](https://doi.org/10.1038/nature15393).
+
+[^databricks]: Databricks (2020). Accurately Building Genomic Cohorts at Scale with Delta Lake and Spark. [Databricks Blog](https://www.databricks.com/blog/2020/09/22/accurately-building-genomic-cohorts-at-scale-with-delta-lake-and-spark.html).
+
+[^biodatageeks]: BioDataGeeks (2025). Benchmarking genomic format readers in Python with Polars. [BioDataGeeks Blog](https://biodatageeks.org/polars-bio/posts/benchmarking-genomic-format-readers-in-python-with-polars/).
+
+[^lancedb-format]: LanceDB (2024). Lance Format v2.2 Benchmarks: Half the storage, none of the slowdown. [LanceDB Blog](https://lancedb.com/blog/lance-format-v2-2-benchmarks-half-the-storage-none-of-the-slowdown).
+
+[^tiledb]: TileDB (2020). Population Genomics Data with TileDB. [TileDB Blog](https://tiledb.com/blog/population-genomics-data-with-tiledb).
