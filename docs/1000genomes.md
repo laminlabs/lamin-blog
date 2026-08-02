@@ -60,7 +60,7 @@ by_type = (
 print(by_type)
 ```
 
-But it's not. Hence, an agent first needs to find the files, and once it finds them, it needs to investigate whether they have the same schema so that they can be efficiently queried. So, it will end up running something like this:
+But it's not. Hence, an agent first needs to find the files, and once it finds them, it needs to investigate whether they have the same schema so that they can be efficiently queried. So, it runs something like this:
 
 ```python
 # find files with a consistent schema
@@ -76,7 +76,8 @@ df = pl.scan_parquet(valid_filepaths)
 ```
 
 To make it easy for the agent, let's take dataset 2, which is distributed across only 26 files, and not 3200.
-Even then, we find that the agent spends many tokens and much time navigating the files, even though the prompt directly points the agent to the 26 files to avoid spending tokens on finding the filepaths (**Figure 1**).
+Even then, we find that the agent spends many tokens and much time navigating the files.
+And this happens despite [the prompt](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) pointing the agent directly to the 26 files to avoid spending tokens on finding those files in the first place (**Figure 1**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
