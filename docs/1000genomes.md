@@ -675,5 +675,3 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^boufea2017]: Boufea K & Athanasiadis IN (2017). Managing Variant Calling Files the Big Data Way. [doi:10.1145/3148055.3148060](https://doi.org/10.1145/3148055.3148060).
 
 [^dragen]: Illumina (2021). 1000 Genomes Phase 3 Reanalysis with DRAGEN. [Registry of Open Data on AWS](https://registry.opendata.aws/ilmn-dragen-1kgp/).
-
-[^shapeit]: Delaneau O et al. (2014). Integrating sequence and array data to create an improved 1000 Genomes Project haplotype reference panel. Nature Communications, 5(1), 3934. [doi:10.1038/ncomms4934](https://doi.org/10.1038/ncomms4934).
