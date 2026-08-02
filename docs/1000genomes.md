@@ -83,7 +83,7 @@ And this happens despite [the prompt](https://lamin.ai/laminlabs/1000genomes/run
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Benchmarking the time for running the simple analysis of determining the number and types of variants in a certain genomic band with polars and the 26 files dataset.
+**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Benchmarking the time for running the simple analysis of determining the number and types of variants in a certain genomic band with polars and the 26 files dataset. Here is an [agent run](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) for raw files, and here is an [agent run](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) that leverages the schema contract of the collection.
 
 ### A schema contract
 
@@ -113,7 +113,7 @@ The schema contract for the 26 parquet files can also be visualized, showing the
 
 **Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6).
 
-The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (**Figure 1**). While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
+The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (**Figure 1**), with [a comparable prompt](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) and the same context. While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
 
 ## Queries
 
