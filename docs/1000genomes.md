@@ -32,8 +32,9 @@ The first dataset stores individual-level information, with features such as the
 ## Data access
 
 While the past years made abundantly clear that query engines like Polars and DuckDB vastly outperform classical ways of data access, they're typically applied, and in particular in biology, in the context of data in file storage systems or data lakes. Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
-
 While agents are able to navigate such storage systems, they, just like humans, spend a lot of energy to find files and verify that they are amenable to a certain analysis.
+
+### A simple agentic analysis
 
 Here, we illustrate this phenomenon by letting an agent run a simple analysis in which they determine the number and types of variants in a certain genomic band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. If the data was in a single DataFrame `df`, the analysis would look like this in Polars:
 
@@ -75,6 +76,8 @@ Even if we take the dataset that's distributed across just 26 files, we find tha
 </div>
 
 **Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Benchmarking the time for running the simple analysis of determining the number and types of variants in a certain genomic band with polars and the 26 files dataset.
+
+### A schema contract
 
 How can a lakehouse help? In the context of this problem, a lakehouse does nothing more than ensuring that the 26 files fulfill a schema contract and form one dataset together. In many lakehouse frameworks, this is called a "table", backed by parquet files. In LaminDB, we call it a "Collection". If parquet files are part of a schema-validated collection, an agent can trust that they all have a consistent schema, and it doesn't even need to navigate filepaths. The access pattern looks like this:
 
