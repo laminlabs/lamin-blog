@@ -477,7 +477,19 @@ The five central notebooks, the shared benchmarking utilities, and the plotting 
 
 Dataset 1: 1000 Genomes CNV calls (DRAGEN, hg38), UID `Lh6IsCOGIl5TOjAj`. Dataset 2: 1000 Genomes SNV/Indel/CNV, UID `hVu9puwdRGskm1I6`.
 
-## Appendix
+## Methods
+
+### Dataset curation
+
+**Dataset 1 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj)):** The 1000 Genomes Project datasets were sourced from the Registry of Open Data on AWS, specifically the DRAGEN v3.7.6 reanalysis (`s3://1000genomes-dragen`). For Dataset 1, we read the `.cnv.vcf.gz` files directly from the S3 bucket into memory using `pysam`, flattened the VCF records (including nested `INFO` and `FORMAT` fields) into a tabular structure, and saved them to LaminDB as partitioned Parquet files (`.cnv.parquet`). You can trace the run [here](https://lamin.ai/laminlabs/1000genomes/run/e1XtEb7mHnh8MoVj).
+
+Note that while the full high-coverage expanded cohort of the 1000 Genomes Project contains 3,202 individuals, the DRAGEN `hg38` reanalysis we pulled from contains exactly 3,201 files. This is because one sample (NA18498) from the original Phase 3 release was excluded during the re-alignment to the GRCh38 reference genome, a common occurrence in genomics due to relatedness discoveries or quality control thresholds.
+
+**Dataset 2 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6)):** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
+
+### Benchmarks
+
+All timings are single-run measurements on SageMaker (`ml.m5.24xlarge`) in `store` mode. Versions: `lamindb-core==2.7.0`, `duckdb==1.5.3`, `polars==1.42.0`, `pyiceberg==0.11.1`, `lancedb==0.33.0`, `pandas==2.3.3`, Python 3.12. Query engines (PyArrow, Polars, DuckDB) compute natively; table formats (Iceberg, LanceDB) scan natively and aggregate in DuckDB. PyArrow's grouped median is approximate (t-digest); the others are exact. Because the two datasets differ in schema, Queries 2 and 3 run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2); the read and filter operations are identical in logic across datasets and carry the file-count comparison. Single-run numbers are point measurements, not distributions.
 
 ### Querying Iceberg & LanceDB
 
@@ -609,20 +621,6 @@ def compute_duckdb(arrow_table, sql):
     <p><strong>Figure 5b (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
-
-## Methods
-
-### Dataset curation
-
-**Dataset 1 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj)):** The 1000 Genomes Project datasets were sourced from the Registry of Open Data on AWS, specifically the DRAGEN v3.7.6 reanalysis (`s3://1000genomes-dragen`). For Dataset 1, we read the `.cnv.vcf.gz` files directly from the S3 bucket into memory using `pysam`, flattened the VCF records (including nested `INFO` and `FORMAT` fields) into a tabular structure, and saved them to LaminDB as partitioned Parquet files (`.cnv.parquet`). You can trace the run [here](https://lamin.ai/laminlabs/1000genomes/run/e1XtEb7mHnh8MoVj).
-
-Note that while the full high-coverage expanded cohort of the 1000 Genomes Project contains 3,202 individuals, the DRAGEN `hg38` reanalysis we pulled from contains exactly 3,201 files. This is because one sample (NA18498) from the original Phase 3 release was excluded during the re-alignment to the GRCh38 reference genome, a common occurrence in genomics due to relatedness discoveries or quality control thresholds.
-
-**Dataset 2 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6)):** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
-
-### Benchmarks
-
-All timings are single-run measurements on SageMaker (`ml.m5.24xlarge`) in `store` mode. Versions: `lamindb-core==2.7.0`, `duckdb==1.5.3`, `polars==1.42.0`, `pyiceberg==0.11.1`, `lancedb==0.33.0`, `pandas==2.3.3`, Python 3.12. Query engines (PyArrow, Polars, DuckDB) compute natively; table formats (Iceberg, LanceDB) scan natively and aggregate in DuckDB. PyArrow's grouped median is approximate (t-digest); the others are exact. Because the two datasets differ in schema, Queries 2 and 3 run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2); the read and filter operations are identical in logic across datasets and carry the file-count comparison. Single-run numbers are point measurements, not distributions.
 
 ## How to cite
 
