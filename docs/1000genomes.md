@@ -111,7 +111,7 @@ The schema contract for the 26 parquet files can also be visualized, showing the
 
 **Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6).
 
-The result is an agentic analysis that costs 3x less tokens and is 4x faster. While ensuring efficient data access has a big impact on agentic efficiency and is often termed "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
+The result is an agentic analysis that costs 3x less tokens and is 4x faster (**Figure 1**). While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
 
 ## Queries
 
