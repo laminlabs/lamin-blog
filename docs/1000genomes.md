@@ -31,7 +31,8 @@ The first dataset stores individual-level information, with features such as the
 
 ## Data access
 
-While the past years made abundantly clear that query engines like Polars and DuckDB vastly outperform classical ways of data access, they're typically applied, and in particular in biology, in the context of data in file storage systems or data lakes. Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
+While the past years made abundantly clear that query engines like Polars and DuckDB outperform classical ways of data access, in particular in biology, they are applied to data in file storage systems or data lakes.
+Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
 While agents are able to navigate such storage systems, they, just like humans, spend a lot of energy to find files and verify that they are amenable to a certain analysis.
 
 ### A simple agentic analysis
