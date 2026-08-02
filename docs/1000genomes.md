@@ -465,10 +465,6 @@ collection.versions.get(version="1")  # get a previous version
 :::::
 ::::::
 
-## Author contributions
-
-Raaghav performed data engineering and analysis. Alex Rasmussen wrote the lakehouse ecosystem overview. Ishita curated the 88M-row SNV & Indel dataset. Sunny created the original CNV dataset based on `DRAGEN` and the basic CNV analysis flow. Sergei helped supervise the project and created the `polars` and `pyarrow` integrations in `lamindb`. Alex Wolf supervised the project.
-
 ## Code & data availability
 
 The five central notebooks, the shared benchmarking utilities, and the plotting script are available in the `laminlabs/1000genomes` database.
@@ -631,8 +627,12 @@ All timings are single-run measurements on SageMaker (`ml.m5.24xlarge`) in `stor
 ## How to cite
 
 ```
-Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, Iceberg, LanceDB & LaminDB in queries of the 1000 Genomes Project. Lamin Blog. https://blog.lamin.ai/1000genomes
+Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026). Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses. Lamin Blog. https://blog.lamin.ai/1000genomes
 ```
+
+## Author contributions
+
+Raaghav performed data engineering and analysis. Alex Rasmussen wrote the lakehouse ecosystem overview. Ishita curated the 88M-row SNV & Indel dataset. Sunny created the original CNV dataset based on `DRAGEN` and the basic CNV analysis flow. Sergei helped supervise the project and created the `polars` and `pyarrow` integrations in `lamindb`. Alex Wolf supervised the project.
 
 ## References
 
