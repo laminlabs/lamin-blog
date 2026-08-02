@@ -20,7 +20,6 @@ And we discuss how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and evolutionary history.
 Such studies often require querying large amounts of data and are today often performed agentically and based on big data formats, most notably, Parquet files.
 Several benchmarks exist that show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, leaving alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
-While new readers can also efficiently access the raw biological formats,[^biodatageeks] in this post, we embrace the Parquet standard together with modern query engines like Polars and DuckDB.
 
 To evaluate how engines like Polars and DuckDB perform on these datasets, we transform the raw VCF files into parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
@@ -285,6 +284,8 @@ Unlike Iceberg and DuckLake, **LaminDB** goes beyond tables and supports dataset
 
 While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays.[^lancedb-format] To use LanceDB, you need to convert your data into the Lance format.
 While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particular, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays.[^tiledb] These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
+
+Today a new generation of readers can even efficiently query raw `.vcf` files directly,[^biodatageeks] albeit without the advantages of cloud nativeness and a much broader big data ecosystem.
 
 Let us now review the code for different operations.
 
