@@ -97,7 +97,7 @@ collection.schema.describe()
 df = collection.open(engine="polars")
 ```
 
-The result is an agentic analysis that costs 3x less tokens and is 4x faster. While ensuring efficient data access has a big impact on agentic efficiency, it's little help if the actual data queries are inefficient. Let's study them!
+The result is an agentic analysis that costs 3x less tokens and is 4x faster. While ensuring efficient data access has a big impact on agentic efficiency and is often termed "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
 
 ## Queries
 
