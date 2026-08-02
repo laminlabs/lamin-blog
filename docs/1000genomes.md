@@ -70,7 +70,9 @@ df = pl.scan_parquet([filepath in filepaths]
 
 Even if we take the dataset that's distributed across just 26 files, we find that the whole agent spends many tokens and much time on navigating these files despite the simplicity of the task and a prompt that directly points the agent to the 26 files (**Figure 1**).
 
+<div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
+</div>
 
 **Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Benchmarking the time for running the simple analysis of determining the number and types of variants in a certain genomic band with polars and the 26 files dataset.
 
