@@ -467,7 +467,7 @@ collection.versions.get(version="1")  # get a previous version
 
 ## Author contributions
 
-Raaghav performed data engineering and analysis. Alex R. wrote the lakehouse ecosystem overview. Ishita curated the 88M-row SNV & Indel dataset. Sunny curated the original CNV datasets. Alex W. and Sergei supervised the project.
+Raaghav performed data engineering and analysis. Alex Rasmussen wrote the lakehouse ecosystem overview. Ishita curated the 88M-row SNV & Indel dataset. Sunny curated the original CNV datasets. Sergei helped supervise the project and created the `polars` and `pyarrow` integrations in `lamindb`. Alex Wolf supervised the project.
 
 ## Code & data availability
 
