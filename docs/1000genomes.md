@@ -37,7 +37,7 @@ While agents are able to navigate such storage systems, they, just like humans, 
 
 ### A simple agentic analysis
 
-Here, we illustrate this phenomenon by letting an agent run a simple analysis in which they determine the number and types of variants in a certain genomic band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. If the data was in a single DataFrame `df`, the analysis would look like this in Polars:
+Here, we illustrate this phenomenon by letting an agent run a simple analysis in which they determine the number and types of variants in a certain genomic band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. If the data was in a single DataFrame `df`, the analysis would look like this using the `polars` Python package:
 
 ```python
 import polars as pl
@@ -59,14 +59,16 @@ by_type = (
 print(by_type)
 ```
 
-But it's not, and hence, once an agent managed to find filepaths for a collection of files, it doesn't know whether it can trust the schemas in these files, and so it needs to run somewthing like this:
+But it's not, and hence, an agent first needs to find the files and once it found them, it needs to investigate whether they have the same schema so that they can be efficiently queried. So, it will end up running somewthing like this:
 
 ```python
+# throw out files that don't have a consistent schema
 schemas = []
 for filepath in filepaths:
     schemas.append(pl.scan_parquet(filepath).collect_schema())
-
 assert len(set(schemas)) == 1
+
+# try to create a dataframe from files with a consistent
 df = pl.scan_parquet([filepath in filepaths]
 ```
 
