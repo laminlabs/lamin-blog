@@ -294,7 +294,9 @@ Benchmarking the runtime of these queries reveals two main results (**Figure 2**
 
 ## Data management
 
-Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization, in particular given agents who almost always just focus on solving the task at hand, rather than optimizing for longterm maintainability. The lakehouse architecture, the leading data architecture for tabular data in R&D, can bring sanity. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
+Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization, in particular given agents who almost always just focus on solving the task at hand, rather than optimizing for longterm maintainability. Concurrent and frequent access and write patterns make a purely file-based architecture brittle, too
+
+The lakehouse has been the leading data architecture for tabular data in R&D solves these problems. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
 
 ### Frameworks
 
