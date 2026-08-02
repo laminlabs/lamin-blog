@@ -1,6 +1,6 @@
 ---
-title: "The 1000 Genomes datasets in a lakehouse for agents"
-date: 2026-07-29
+title: "Efficient agentic variant analyses of 1000 Genomes using Polars, DuckDB and a lakehouse"
+date: 2026-08-02
 author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
   Raaghav-Pillai: Lamin Labs, NYC
