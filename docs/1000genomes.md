@@ -34,6 +34,7 @@ The first collection stores individual-level information, with features such as 
 While the past years have made it abundantly clear that query engines like Polars and DuckDB outperform classical ways of data access, in biology they are typically applied to data in file storage systems or data lakes.
 Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
 While agents are able to navigate such storage systems, they, just like humans, spend a lot of energy to find files and verify that they are amenable to a certain analysis.
+A widely received study recently showed how agents can even fail entirely if they need to access data across heterogeneous sources, and how they can be enabled with a unified schema or API layer.[^anthropic-agents]
 
 ### A simple agentic analysis
 
@@ -655,6 +656,8 @@ Raaghav performed data engineering and analysis. Alex Rasmussen wrote the lakeho
 [^1000g]: 1000 Genomes Project Consortium (2015). A global reference for human genetic variation. Nature, 526(7571), 68-74. [doi:10.1038/nature15393](https://doi.org/10.1038/nature15393).
 
 [^shapeit]: Delaneau O et al. (2014). Integrating sequence and array data to create an improved 1000 Genomes Project haplotype reference panel. Nature Communications, 5(1), 3934. [doi:10.1038/ncomms4934](https://doi.org/10.1038/ncomms4934).
+
+[^anthropic-agents]: Luebbert L et al. (2026). Paving the way for agents in biology. [Anthropic Research](https://www.anthropic.com/research/agents-in-biology).
 
 [^databricks]: Databricks (2020). Accurately Building Genomic Cohorts at Scale with Delta Lake and Spark. [Databricks Blog](https://www.databricks.com/blog/2020/09/22/accurately-building-genomic-cohorts-at-scale-with-delta-lake-and-spark.html).
 
