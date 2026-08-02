@@ -1,5 +1,5 @@
 ---
-title: "The datasets of the 1000 Genomes Project in a lakehouse for agents"
+title: "The 1000 Genomes datasets in a lakehouse for agents"
 date: 2026-07-29
 author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
