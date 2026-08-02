@@ -62,17 +62,20 @@ print(by_type)
 But it's not, and hence, an agent first needs to find the files and once it found them, it needs to investigate whether they have the same schema so that they can be efficiently queried. So, it will end up running somewthing like this:
 
 ```python
-# throw out files that don't have a consistent schema
-schemas = []
+# find files with a consistent schema
+schemas, valid_filepaths = [], []
 for filepath in filepaths:
-    schemas.append(pl.scan_parquet(filepath).collect_schema())
-assert len(set(schemas)) == 1
+    schema = pl.scan_parquet(filepath).collect_schema()
+    if not schemas or schema == schemas[0]:
+        schemas.append(schema)
+        valid_filepaths.append(filepath)
 
-# try to create a dataframe from files with a consistent
-df = pl.scan_parquet([filepath in filepaths]
+# create a dataframe from files with a consistent schema
+df = pl.scan_parquet(valid_filepaths)
 ```
 
-Even if we take the dataset that's distributed across just 26 files, we find that the whole agent spends many tokens and much time on navigating these files despite the simplicity of the task and a prompt that directly points the agent to the 26 files (**Figure 1**).
+To make it easy for the agent, let's take dataset 2, which is distributed across only 26 files, and not across 3200.
+Even then we find that the agent spends many tokens and much time on navigating the files even though the prompt directly points the agent to the 26 files avoiding to spend tokens finding the filepaths (**Figure 1**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
