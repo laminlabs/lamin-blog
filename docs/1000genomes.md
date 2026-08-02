@@ -22,10 +22,10 @@ Such studies often require querying large amounts of data and are today often pe
 Several benchmarks exist that show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, leaving alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
 Hence, we transform VCF files from two collections into Parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
-| #     | Variant types      | Grouping       | N     | Files | Exemplary features                       | Explore                                                                    |
-| ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | -------------------------------------------------------------------------- |
-| **1** | CNVs               | Per-individual | 4.86M | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M   | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
+| #     | Variant types      | Grouping       | Variants | Files | Exemplary features                       | Explore                                                                    |
+| ----- | ------------------ | -------------- | -------- | ----- | ---------------------------------------- | -------------------------------------------------------------------------- |
+| **1** | CNVs               | Per-individual | 4.86M    | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M      | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
 
 The first dataset stores individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). The second dataset stores population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
 
