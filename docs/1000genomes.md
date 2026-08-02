@@ -20,12 +20,12 @@ And we discuss how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to understand disease-associated mutations and evolutionary history.
 Such studies often require querying large amounts of data and are today often performed agentically based on big data formats, most notably Parquet files.
 Several benchmarks show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, let alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
-Hence, we transform VCF files from two collections into Parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
+Hence, we transform VCF files from two collections into Parquet files: Dataset 1 was created in the DRAGEN pipeline[^dragen] and stores Copy Number Variants (CNVs) called for each individual, totaling 4.86M observations across 3201 files. Dataset 2 was created in a SHAPEIT2 pipeline by EMBL[^shapeit] and is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totaling 88M observations across 26 files.
 
-| #     | Variant types      | Grouping       | Variants | Files | Exemplary features                       | Explore                                                                    |
-| ----- | ------------------ | -------------- | -------- | ----- | ---------------------------------------- | -------------------------------------------------------------------------- |
-| **1** | CNVs               | Per-individual | 4.86M    | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M      | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
+| #     | Variant types      | Grouping       | Variants | Files | Exemplary features                       | Source                                                                       | Explore                                                                    |
+| ----- | ------------------ | -------------- | -------- | ----- | ---------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **1** | CNVs               | Per-individual | 4.86M    | 3201  | `SAMPLE_NAME`, `SAMPLE_GT`, `INFO_SVLEN` | [`s3://1000genomes-dragen`](https://registry.opendata.aws/ilmn-dragen-1kgp/) | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M      | 26    | `chrom`, `variant_type`, `af`, `eur_af`  | [`ftp`](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/)        | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
 
 The first dataset stores individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). The second dataset stores population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
 
@@ -656,6 +656,8 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 
 [^1000g]: 1000 Genomes Project Consortium (2015). A global reference for human genetic variation. Nature, 526(7571), 68-74. [doi:10.1038/nature15393](https://doi.org/10.1038/nature15393).
 
+[^shapeit]: Delaneau O et al. (2014). Integrating sequence and array data to create an improved 1000 Genomes Project haplotype reference panel. Nature Communications, 5(1), 3934. [doi:10.1038/ncomms4934](https://doi.org/10.1038/ncomms4934).
+
 [^databricks]: Databricks (2020). Accurately Building Genomic Cohorts at Scale with Delta Lake and Spark. [Databricks Blog](https://www.databricks.com/blog/2020/09/22/accurately-building-genomic-cohorts-at-scale-with-delta-lake-and-spark.html).
 
 [^biodatageeks]: BioDataGeeks (2025). Benchmarking genomic format readers in Python with Polars. [BioDataGeeks Blog](https://biodatageeks.org/polars-bio/blog/2026/02/14/benchmarking-genomic-format-readers-in-python-with-polars/).
@@ -671,3 +673,7 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 [^aws-emr]: AWS (2020). Build a genomics data lake on AWS using Amazon EMR. [AWS Blog](https://aws.amazon.com/blogs/industries/build-a-genomics-data-lake-on-aws-using-amazon-emr-part-1/).
 
 [^boufea2017]: Boufea K & Athanasiadis IN (2017). Managing Variant Calling Files the Big Data Way. [doi:10.1145/3148055.3148060](https://doi.org/10.1145/3148055.3148060).
+
+[^dragen]: Illumina (2021). 1000 Genomes Phase 3 Reanalysis with DRAGEN. [Registry of Open Data on AWS](https://registry.opendata.aws/ilmn-dragen-1kgp/).
+
+[^shapeit]: Delaneau O et al. (2014). Integrating sequence and array data to create an improved 1000 Genomes Project haplotype reference panel. Nature Communications, 5(1), 3934. [doi:10.1038/ncomms4934](https://doi.org/10.1038/ncomms4934).
