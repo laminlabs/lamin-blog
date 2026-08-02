@@ -1,5 +1,5 @@
 ---
-title: "Efficient agentic variant analyses of 1000 Genomes using Polars, DuckDB and a lakehouse"
+title: "Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses"
 date: 2026-08-02
 author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
