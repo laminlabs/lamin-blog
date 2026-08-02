@@ -17,9 +17,9 @@ Efficiently analyzing the more than 100M genomic variants across thousands of fi
 Here, we show how modern query engines like Polars and DuckDB can perform the core computational work to efficiently access these large, distributed datasets.
 And we discuss how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB, avoid problems that arise from agents directly working with raw files.
 
-An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and evolutionary history.
-Such studies often require querying large amounts of data and are today often performed agentically and based on big data formats, most notably, Parquet files.
-Several benchmarks exist that show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, leaving alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
+An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to understand disease-associated mutations and evolutionary history.
+Such studies often require querying large amounts of data and are today often performed agentically and based on big data formats, most notably Parquet files.
+Several benchmarks exist that show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, let alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
 Hence, we transform VCF files from two collections into Parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
 | #     | Variant types      | Grouping       | Variants | Files | Exemplary features                       | Explore                                                                    |
@@ -31,7 +31,7 @@ The first dataset stores individual-level information, with features such as the
 
 ## Data access
 
-While the past years made abundantly clear that query engines like Polars and DuckDB outperform classical ways of data access, in particular in biology, they are applied to data in file storage systems or data lakes.
+While the past years have made it abundantly clear that query engines like Polars and DuckDB outperform classical ways of data access, in biology they are typically applied to data in file storage systems or data lakes.
 Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
 While agents are able to navigate such storage systems, they, just like humans, spend a lot of energy to find files and verify that they are amenable to a certain analysis.
 
@@ -59,7 +59,7 @@ by_type = (
 print(by_type)
 ```
 
-But it's not, and hence, an agent first needs to find the files and once it found them, it needs to investigate whether they have the same schema so that they can be efficiently queried. So, it will end up running somewthing like this:
+But it's not. Hence, an agent first needs to find the files, and once it finds them, it needs to investigate whether they have the same schema so that they can be efficiently queried. So, it will end up running something like this:
 
 ```python
 # find files with a consistent schema
@@ -74,8 +74,8 @@ for filepath in filepaths:
 df = pl.scan_parquet(valid_filepaths)
 ```
 
-To make it easy for the agent, let's take dataset 2, which is distributed across only 26 files, and not across 3200.
-Even then we find that the agent spends many tokens and much time on navigating the files even though the prompt directly points the agent to the 26 files avoiding to spend tokens finding the filepaths (**Figure 1**).
+To make it easy for the agent, let's take dataset 2, which is distributed across only 26 files, and not 3200.
+Even then, we find that the agent spends many tokens and much time navigating the files, even though the prompt directly points the agent to the 26 files to avoid spending tokens on finding the filepaths (**Figure 1**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
@@ -111,7 +111,7 @@ The schema contract for the 26 parquet files can also be visualized, showing the
 
 **Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6).
 
-The result is an agentic analysis that costs 3x less tokens and is 4x faster (**Figure 1**). While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
+The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (**Figure 1**). While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
 
 ## Queries
 
@@ -293,30 +293,30 @@ recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
 
 ### Timing results
 
-Benchmarking the runtime of these queries reveals two main results (**Figure 2**): Polars is the only query engine that's able to efficiently query the high number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
+Benchmarking the runtime of these queries reveals two main results (**Figure 3**): Polars is the only query engine that's able to efficiently query the high number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0002.svg" />
-    <p><strong>Figure 2a (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/OT9cCtNhFmUFiyBm0002">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/P7AElQmpeMjSMtvG0000.svg" />
-    <p><strong>Figure 2b (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/OT9cCtNhFmUFiyBm0001">source</a>)</strong>: Dataset 2 query times.</p>
+    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/OT9cCtNhFmUFiyBm0001">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
 ## Data management
 
-Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization, in particular given agents who almost always just focus on solving the task at hand, rather than optimizing for longterm maintainability. Concurrent and frequent access and write patterns make a purely file-based architecture brittle, too
+Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization, in particular given agents who almost always just focus on solving the task at hand, rather than optimizing for long-term maintainability. Concurrent and frequent access and write patterns make a purely file-based architecture brittle, too.
 
-The lakehouse has been the leading data architecture for tabular data in R&D solves these problems. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
+The lakehouse, which has been the leading data architecture for tabular data in R&D, solves these problems. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
 
 ### Frameworks
 
 <figure style="float: right; width: 400px; margin-left: 0.5rem">
   <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/OgVhDACCMhzGKC4t0001.svg" />
-  <strong>Figure 1.</strong> File layout of an Iceberg table.
+  <strong>Figure 4.</strong> File layout of an Iceberg table.
 </figure>
 
 Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID), "time travel" to previous versions, schema evolution, write-audit-publish workflows, and query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency causes simultaneous writers to collide, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
@@ -606,11 +606,11 @@ def compute_duckdb(arrow_table, sql):
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0004.svg" />
-    <p><strong>Figure 3a (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
+    <p><strong>Figure 5a (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/T2hvcgmzjlMPFNCQ0003">source</a>)</strong>: Dataset 1 query times.</p>
   </div>
   <div style="flex: 1; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/l0Fq8SDUjudi7SCz0002.svg" />
-    <p><strong>Figure 3b (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
+    <p><strong>Figure 5b (<a href="https://lamin.ai/laminlabs/1000genomes/artifact/T2hvcgmzjlMPFNCQ0004">source</a>)</strong>: Dataset 2 query times.</p>
   </div>
 </div>
 
