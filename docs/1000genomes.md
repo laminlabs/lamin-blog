@@ -20,8 +20,7 @@ And we discuss how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and evolutionary history.
 Such studies often require querying large amounts of data and are today often performed agentically and based on big data formats, most notably, Parquet files.
 Several benchmarks exist that show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, leaving alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
-
-To evaluate how engines like Polars and DuckDB perform on these datasets, we transform the raw VCF files into parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
+Hence, we transform VCF files from two collections into Parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
 | #     | Variant types      | Grouping       | N     | Files | Exemplary features                       | Explore                                                                    |
 | ----- | ------------------ | -------------- | ----- | ----- | ---------------------------------------- | -------------------------------------------------------------------------- |
@@ -30,20 +29,78 @@ To evaluate how engines like Polars and DuckDB perform on these datasets, we tra
 
 The first dataset stores individual-level information, with features such as the individual's identifier (`SAMPLE_NAME`), their specific genotype call (`SAMPLE_GT`), and the length of the structural variant (`INFO_SVLEN`). The second dataset stores population-level features, recording the location (`chrom`), type (`variant_type`), and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
 
-## Queries
+## Data access
 
-Each dataset consists of a collection of parquet files (see **Methods**). The easiest way to access a collection is:
+While the past years made abundantly clear that query engines like Polars and DuckDB vastly outperform classical ways of data access, they're typically applied, and in particular in biology, in the context of data in file storage systems or data lakes. Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
+
+While agents are able to navigate such storage systems, they, just like humans, spend a lot of energy to find files and verify that they are amenable to a certain analysis.
+
+Here, we illustrate this phenomenon by letting an agent run a simple analysis in which they determine the number and types of variants in a certain genomic band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. If the data was in a single DataFrame `df`, the analysis would look like this in Polars:
+
+```python
+import polars as pl
+
+# filter variants
+chrom = "1"
+lo, hi = 150_000_000, 200_000_000
+filtered = df.filter(
+    (pl.col("chrom") == chrom) & (pl.col("pos") >= lo) & (pl.col("pos") <= hi)
+).collect()
+
+# breakdown by variant type, for context
+by_type = (
+    filtered.group_by("variant_type")
+    .agg(pl.len().alias("n"))
+    .sort("n", descending=True)
+    .collect()
+)
+print(by_type)
+```
+
+But it's not, and hence, once an agent managed to find filepaths for a collection of files, it doesn't know whether it can trust the schemas in these files, and so it needs to run somewthing like this:
+
+```python
+schemas = []
+for filepath in filepaths:
+    schemas.append(pl.scan_parquet(filepath).collect_schema())
+
+assert len(set(schemas)) == 1
+df = pl.scan_parquet([filepath in filepaths]
+```
+
+Even if we take the dataset that's distributed across just 26 files, we find that the whole agent spends many tokens and much time on navigating these files despite the simplicity of the task and a prompt that directly points the agent to the 26 files (**Figure 1**).
+
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
+
+**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Benchmarking the time for running the simple analysis of determining the number and types of variants in a certain genomic band with polars and the 26 files dataset.
+
+How can a lakehouse help? In the context of this problem, a lakehouse does nothing more than ensuring that the 26 files fulfill a schema contract and form one dataset together. In many lakehouse frameworks, this is called a "table", backed by parquet files. In LaminDB, we call it a "Collection". If parquet files are part of a schema-validated collection, an agent can trust that they all have a consistent schema, and it doesn't even need to navigate filepaths. The access pattern looks like this:
 
 ```python
 import lamindb as ln
 
+# Connect to the database
 db = ln.DB("laminlabs/1000genomes")
-collection = db.Collection.get("Lh6IsCOGIl5TOjAj")  # hVu9puwdRGskm1I6 for dataset 2
+
+# Retrieve the collection
+collection = db.Collection.get("hVu9puwdRGskm1I6")
+
+# Confirm the schema contract for these files
+collection.schema.describe()
+
+# Open the collection as a lazy Polars dataframe
+df = collection.open(engine="polars")
 ```
+
+The result is an agentic analysis that costs 3x less tokens and is 4x faster. While ensuring efficient data access has a big impact on agentic efficiency, it's little help if the actual data queries are inefficient. Let's study them!
+
+## Queries
+
+We will be using the popular query engines Polars,[^polars], DuckDB,[^duckdb] and PyArrow,[^pyarrow] all of which handle datasets that don't fit into memory by streaming them directly from storage.
 
 ### Simple filter
 
-Let us first filter variants on the most prevalent chromosome within the 10th–90th percentile position band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. We will be using the popular query engines PyArrow,[^pyarrow] Polars,[^polars], and DuckDB,[^duckdb] all of which can handle datasets that don't fit into memory, by streaming data directly from storage. Pandas cannot achieve this, which is why we exclude from the examples.
+Let us first look at the simple filter from the analysis above across all three query engines:
 
 ::::::{tab-set}
 :::::{tab-item} Polars
