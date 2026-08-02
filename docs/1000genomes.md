@@ -1,5 +1,5 @@
 ---
-title: "Polars, DuckDB, Iceberg & LanceDB for the datasets of the 1000 Genomes Project"
+title: "The datasets of the 1000 Genomes Project in a lakehouse for agents"
 date: 2026-07-29
 author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
@@ -13,12 +13,14 @@ db: https://lamin.ai/laminlabs/1000genomes
 ---
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
-Analyzing more than 100M genomic variants while tracking thousands of underlying files can be a challenge.
-Here, we show how PyArrow, Polars, and DuckDB help to efficiently query these large, distributed datasets, and discuss how lakehouse frameworks including Iceberg, LaminDB, and LanceDB help to manage the underlying datasets.
+Efficiently analyzing the more than 100M genomic variants across thousands of files is still a challenge in the age of agents.
+Here, we show how modern query engines like Polars and DuckDB can perform the core computational work to efficiently access these large, distributed datasets.
+And we discuss how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB, avoid problems that arise from agents directly working with raw files.
 
-An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and track human evolutionary history.
-These tasks often require querying large amounts of data for which a popular new avenue for this are modern OLAP engines and single-node, out-of-core DataFrame libraries.[^biodatageeks]
-By contrast, previous work on scaling the 1000 Genomes datasets has largely focused on distributed compute engines, such as through Delta Lake and Spark.[^databricks]
+An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to discover disease-associated mutations, understand population genetics, and evolutionary history.
+Such studies often require querying large amounts of data and are today often performed agentically and based on big data formats, most notably, Parquet files.
+Several benchmarks exist that show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, leaving alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
+While new readers can also efficiently access the raw biological formats,[^biodatageeks] in this post, we embrace the Parquet standard together with modern query engines like Polars and DuckDB.
 
 To evaluate how engines like Polars and DuckDB perform on these datasets, we transform the raw VCF files into parquet files: Dataset 1 stores Copy Number Variants (CNVs) called for each individual, totalling 4.86M observations across 3201 files. Dataset 2 is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totalling 88M observations across 26 files.
 
@@ -231,7 +233,7 @@ Benchmarking the runtime of these queries reveals two main results (**Figure 2**
 
 ## Data management
 
-Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization. The lakehouse architecture, the leading data architecture for tabular data in R&D, can bring sanity. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
+Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization. The lakehouse architecture, the leading data architecture for tabular data in R&D, can bring sanity. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
 
 ### Frameworks
 
@@ -577,8 +579,16 @@ Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026).Polars, DuckDB, 
 
 [^databricks]: Databricks (2020). Accurately Building Genomic Cohorts at Scale with Delta Lake and Spark. [Databricks Blog](https://www.databricks.com/blog/2020/09/22/accurately-building-genomic-cohorts-at-scale-with-delta-lake-and-spark.html).
 
-[^biodatageeks]: BioDataGeeks (2025). Benchmarking genomic format readers in Python with Polars. [BioDataGeeks Blog](https://biodatageeks.org/polars-bio/posts/benchmarking-genomic-format-readers-in-python-with-polars/).
+[^biodatageeks]: BioDataGeeks (2025). Benchmarking genomic format readers in Python with Polars. [BioDataGeeks Blog](https://biodatageeks.org/polars-bio/blog/2026/02/14/benchmarking-genomic-format-readers-in-python-with-polars/).
 
 [^lancedb-format]: LanceDB (2024). Lance Format v2.2 Benchmarks: Half the storage, none of the slowdown. [LanceDB Blog](https://lancedb.com/blog/lance-format-v2-2-benchmarks-half-the-storage-none-of-the-slowdown).
 
 [^tiledb]: TileDB (2020). Population Genomics Data with TileDB. [TileDB Blog](https://tiledb.com/blog/population-genomics-data-with-tiledb).
+
+[^23andme]: 23andMe Engineering (2018). Genetic datastore using AWS S3, Parquet, Arrow. [Medium](https://medium.com/23andme-engineering/genetic-datastore-4b213256db31).
+
+[^azure-genomics]: Microsoft (2021). Genomic data in Parquet format on Azure. [Azure Blog](https://techcommunity.microsoft.com/blog/healthcareandlifesciencesblog/genomic-data-in-parquet-format-on-azure/3150554).
+
+[^aws-emr]: AWS (2020). Build a genomics data lake on AWS using Amazon EMR. [AWS Blog](https://aws.amazon.com/blogs/industries/build-a-genomics-data-lake-on-aws-using-amazon-emr-part-1/).
+
+[^boufea2017]: Boufea K & Athanasiadis IN (2017). Managing Variant Calling Files the Big Data Way. [doi:10.1145/3148055.3148060](https://doi.org/10.1145/3148055.3148060).
