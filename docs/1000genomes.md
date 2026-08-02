@@ -27,7 +27,7 @@ Hence, we transform VCF files to Parquet files: Collection 1 was created in the 
 | **1** | CNVs               | Per-individual | 4.86M    | 3201  | [link](https://registry.opendata.aws/ilmn-dragen-1kgp/)              | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
 | **2** | CNVs, SNVs, Indels | Per-chromosome | 88M      | 26    | [link](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/) | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
 
-The first collection stores individual-level information, with features such as the individual's identifier, their specific genotype call, and the length of the structural variant. The second dataset stores population-level features, recording the location, type, and global as well as population-specific allele frequencies (e.g., `af`, `eur_af`) of each variant.
+The first collection stores individual-level information, with features such as the individual's identifier, their specific genotype call, and the length of the structural variant. The second dataset stores population-level features, recording the location, type, and global as well as population-specific allele frequencies of each variant.
 
 ## Data access
 
