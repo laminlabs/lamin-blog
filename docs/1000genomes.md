@@ -471,13 +471,13 @@ Raaghav performed data engineering and analysis. Alex Rasmussen wrote the lakeho
 
 ## Code & data availability
 
-The five pipeline notebooks, the shared benchmarking utilities, and the plotting script are tracked in the `laminlabs/1000genomes` instance.
+The five central notebooks, the shared benchmarking utilities, and the plotting script are available in the `laminlabs/1000genomes` database.
 
-- [PyArrow pipeline](https://lamin.ai/laminlabs/1000genomes/transform/D10UPamv70IP)
-- [Polars pipeline](https://lamin.ai/laminlabs/1000genomes/transform/2Wdo02w0MDgH)
-- [DuckDB pipeline](https://lamin.ai/laminlabs/1000genomes/transform/tQaG9uhSD7BO)
-- [Iceberg pipeline](https://lamin.ai/laminlabs/1000genomes/transform/wnVO8cu0qtOP)
-- [LanceDB pipeline](https://lamin.ai/laminlabs/1000genomes/transform/WtZF9OX9v3uM)
+- [PyArrow](https://lamin.ai/laminlabs/1000genomes/transform/D10UPamv70IP)
+- [Polars](https://lamin.ai/laminlabs/1000genomes/transform/2Wdo02w0MDgH)
+- [DuckDB](https://lamin.ai/laminlabs/1000genomes/transform/tQaG9uhSD7BO)
+- [Iceberg](https://lamin.ai/laminlabs/1000genomes/transform/wnVO8cu0qtOP)
+- [LanceDB](https://lamin.ai/laminlabs/1000genomes/transform/WtZF9OX9v3uM)
 
 Dataset 1: 1000 Genomes CNV calls (DRAGEN, hg38), UID `Lh6IsCOGIl5TOjAj`. Dataset 2: 1000 Genomes SNV/Indel/CNV, UID `hVu9puwdRGskm1I6`.
 
