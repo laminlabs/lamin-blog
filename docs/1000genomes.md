@@ -98,6 +98,14 @@ collection.schema.describe()
 df = collection.open(engine="polars")
 ```
 
+The schema contract for the 26 parquet files can also be visualized, showing the 12 features computed in the EMBL ShapeIt analysis (**Figure 2**).
+
+<div style="text-align: center">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/5wVVtCfTQ80ObXEL0000.png" width="1000" style="padding: 0;">
+</div>
+
+**Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6).
+
 The result is an agentic analysis that costs 3x less tokens and is 4x faster. While ensuring efficient data access has a big impact on agentic efficiency and is often termed "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
 
 ## Queries
