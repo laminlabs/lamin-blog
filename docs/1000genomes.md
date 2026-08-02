@@ -103,7 +103,7 @@ collection.schema.describe()
 df = collection.open(engine="polars")
 ```
 
-The schema contract for the 26 parquet files can also be visualized, showing the 12 features computed in the EMBL ShapeIt analysis (**Figure 2**).
+The schema contract for the 26 parquet files can also be visualized, showing the 12 features computed in the EMBL SHAPEIT2 pipeline[^shapeit] (**Figure 2**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/5wVVtCfTQ80ObXEL0000.png" width="1000" style="padding: 0;">
