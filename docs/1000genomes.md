@@ -12,7 +12,7 @@ affiliation:
 db: https://lamin.ai/laminlabs/1000genomes
 ---
 
-The 1000 Genomes Project sequenced 3201 individuals worldwide to build a comprehensive atlas of human genetic variation.
+The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
 Here, we discuss how to efficiently analyze 100M+ genomic variants in the age of agents.
 We evaluate modern query engines like Polars and DuckDB for streaming these large, distributed datasets, and show how lakehouse frameworks (Iceberg, LanceDB, LaminDB) address the efficiency and integrity problems of letting agents interact directly with raw files.
 
