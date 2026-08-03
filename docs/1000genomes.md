@@ -315,9 +315,8 @@ Second, while Polars delivers the fastest query times overall, DuckDB pulls ahea
 
 ## Data management
 
-Working with a high number of VCF and parquet files from different sources can easily lead to non-robust and obscure data organization, in particular given agents who almost always just focus on solving the task at hand, rather than optimizing for long-term maintainability. Concurrent and frequent access and write patterns make a purely file-based architecture brittle, too.
-
-The lakehouse, which has been the leading data architecture for tabular data in R&D, solves these problems. Today's most popular lakehouse framework is **Iceberg**.[^apache-iceberg] Like the comparable Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg is a table format that organizes datasets into snapshots — each a collection of parquet files plus manifest files that track which files belong to which snapshot. A metadata file describes the table's schema and points to the current snapshot. When writing to an Iceberg table, a new snapshot is created and the metadata updated to point to that new snapshot.
+Working with a high number of raw files across different sources almost inevitably leads to fragile data organization. This brittleness is amplified when working with agents: they prioritize solving the immediate task over long-term maintainability, they make frequent mistakes, and their concurrent read/write patterns can quickly corrupt a purely file-based architecture. Lakehouse frameworks solve these problems with [ACID transactions](https://en.wikipedia.org/wiki/ACID) to prevent partial writes, with schema enforcement to prevent inconsistent datasets, and with time travel to easily restore erroneous written datasets.
+And, as discussed, earlier they also make agents more effiecient. So, let's briefly review available options.
 
 ### Frameworks
 
@@ -326,7 +325,7 @@ The lakehouse, which has been the leading data architecture for tabular data in 
   <strong>Figure 4.</strong> File layout of an Iceberg table.
 </figure>
 
-Iceberg provides [ACID transactions](https://en.wikipedia.org/wiki/ACID), "time travel" to previous versions, schema evolution, write-audit-publish workflows, and query engine flexibility. However, its snapshot model introduces costs: expensive creation dictates large, infrequent writes, optimistic concurrency leads to conflicts between simultaneous writers, and orphaned files require manual garbage collection. Additionally, S3 requires an external catalog (like Nessie,[^nessie] AWS Glue, or Unity Catalog) or an external lock to coordinate metadata updates.
+Today's most popular framework is **Iceberg**.[^apache-iceberg] Like Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg provides ACID transactions and "time travel" by organizing parquet files into snapshots, managed by manifest and metadata files (**Figure 4**). However, this file-based metadata introduces costs: snapshot creation is expensive (dictating large, infrequent writes), optimistic concurrency leads to conflicts between simultaneous writers, and coordinating updates on S3 requires an external catalog like AWS Glue or Nessie.[^nessie]
 
 <div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
 
@@ -372,7 +371,7 @@ While LanceDB fits the lakehouse architecture, non-lakehouse architectures for m
 
 Today a new generation of readers can even efficiently query raw `.vcf` files directly,[^biodatageeks] albeit without the advantages of cloud nativeness and a much broader big data ecosystem.
 
-Let us now review the code for different operations.
+Let us now review how write operations and time travel work in practice.
 
 ### Append rows
 
