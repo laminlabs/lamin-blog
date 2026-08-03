@@ -81,7 +81,7 @@ Even with this head start, the agent still burns significant time and tokens jus
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Tokens and time required for an agent to analyze variants across a genomic region using Polars on dataset 2 (26 files). Compare an exemplary [agent run on raw files](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) against [a run that leveraging the schema contract of a collection](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC).
+**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Tokens and time required for an agent (Claude Code with `claude-opus-5[1m]`) to analyze variants across a genomic region using Polars on dataset 2 (26 files). Compare an exemplary [agent run on raw files](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) against [a run that leverages the schema contract of a collection](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC).
 
 ### A schema contract
 
