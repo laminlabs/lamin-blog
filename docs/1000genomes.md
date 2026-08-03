@@ -316,7 +316,7 @@ Second, while Polars delivers the fastest query times overall, DuckDB pulls ahea
 ## Data management
 
 Working with a high number of raw files across different sources almost inevitably leads to fragile data organization. This brittleness is amplified when working with agents: they prioritize solving the immediate task over long-term maintainability, they make frequent mistakes, and their concurrent read/write patterns can quickly corrupt a purely file-based architecture. Lakehouse frameworks solve these problems with [ACID transactions](https://en.wikipedia.org/wiki/ACID) to prevent partial writes, with schema enforcement to prevent inconsistent datasets, and with time travel to easily restore erroneous written datasets.
-And, as discussed, earlier they also make agents more effiecient. So, let's briefly review available options.
+And, as discussed earlier, they also make agents more efficient. So, let's briefly review available options.
 
 ### Frameworks
 
@@ -371,9 +371,13 @@ While LanceDB fits the lakehouse architecture, non-lakehouse architectures for m
 
 Today a new generation of readers can even efficiently query raw `.vcf` files directly,[^biodatageeks] albeit without the advantages of cloud nativeness and a much broader big data ecosystem.
 
-Let us now review how write operations and time travel work in practice.
+(time-travel)=
 
-### Append rows
+### Developer experience
+
+To see how these concepts translate into developer experience, let's compare the code required to perform these essential agentic operations—appending data, evolving schemas, and time-traveling.
+
+The first type of write operation we need to perform is adding new data to the system. This means appending a batch of rows.
 
 ::::::{tab-set}
 :::::{tab-item} Iceberg
@@ -404,7 +408,7 @@ collection.append(batch)  # batch is an artifact
 :::::
 ::::::
 
-### Add columns
+The second type of write operation is to append columns.
 
 ::::::{tab-set}
 
@@ -439,9 +443,7 @@ collection.schema.add(feature)
 :::::
 ::::::
 
-(time-travel)=
-
-### Time travel
+Finally, we look at how one retrieves a previous version of a dataset via "time travel".
 
 ::::::{tab-set}
 
@@ -470,6 +472,9 @@ collection.versions.get(version="1")  # get a previous version
 
 :::::
 ::::::
+
+The age of agents is transforming how we interact with large biological datasets like the 1000 Genomes Project. However, as our benchmarks show, pairing highly capable query engines (like Polars and DuckDB) with disorganized data lakes creates an immediate bottleneck: agents waste compute finding files and guessing schemas, and they corrupt data with concurrent writes and poor choices.
+By evolving the underlying data architecture from mere storage systems to lakehouse frameworks, one can provide agents with the ACID guarantees, schema enforcement, and unified access they need to operate safely and efficiently at scale.
 
 ## Code & data availability
 
