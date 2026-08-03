@@ -136,6 +136,19 @@ with collection.open(engine="polars") as df:
 
 :::::
 
+:::::{tab-item} PyArrow
+
+```python
+import pyarrow.compute as pc
+
+with collection.open(engine="pyarrow") as dataset:
+    expr = ((pc.field("CHROM") == chrom)
+            & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
+    filtered = dataset.to_table(filter=expr)
+```
+
+:::::
+
 :::::{tab-item} DuckDB
 
 To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for Dataset 1 and 3 sec for dataset 2.
@@ -168,19 +181,6 @@ filtered = con.execute(
 ```
 
 :::::
-
-:::::{tab-item} PyArrow
-
-```python
-import pyarrow.compute as pc
-
-with collection.open(engine="pyarrow") as dataset:
-    expr = ((pc.field("CHROM") == chrom)
-            & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
-    filtered = dataset.to_table(filter=expr)
-```
-
-:::::
 ::::::
 
 ### Summary statistics
@@ -204,23 +204,6 @@ stats = (
 
 :::::
 
-:::::{tab-item} DuckDB
-
-```python
-stats = con.execute("""
-    SELECT SAMPLE_NAME,
-           COUNT(*)                                              AS Total_CNVs,
-           COUNT(*) FILTER (WHERE INFO_SVLEN < 0)                AS Deletions,
-           MEDIAN(ABS(INFO_SVLEN)) FILTER (WHERE INFO_SVLEN < 0) AS Median_Deletion_Size,
-           COUNT(*) FILTER (WHERE SAMPLE_GT = '1/1')             AS Homozygous_CNVs,
-           COUNT(*) FILTER (WHERE SAMPLE_GT = '0/1')             AS Heterozygous_CNVs
-    FROM cnv_vcf
-    GROUP BY SAMPLE_NAME
-""").df()
-```
-
-:::::
-
 :::::{tab-item} PyArrow
 
 ```python
@@ -237,6 +220,23 @@ dels = t.filter(pc.less(t["INFO_SVLEN"], 0))
 dels = dels.append_column("abs_svlen", pc.abs(dels["INFO_SVLEN"]))
 med = dels.group_by("SAMPLE_NAME").aggregate([("abs_svlen", "approximate_median")])
 stats = base.join(med, keys="SAMPLE_NAME", join_type="left outer")
+```
+
+:::::
+
+:::::{tab-item} DuckDB
+
+```python
+stats = con.execute("""
+    SELECT SAMPLE_NAME,
+           COUNT(*)                                              AS Total_CNVs,
+           COUNT(*) FILTER (WHERE INFO_SVLEN < 0)                AS Deletions,
+           MEDIAN(ABS(INFO_SVLEN)) FILTER (WHERE INFO_SVLEN < 0) AS Median_Deletion_Size,
+           COUNT(*) FILTER (WHERE SAMPLE_GT = '1/1')             AS Homozygous_CNVs,
+           COUNT(*) FILTER (WHERE SAMPLE_GT = '0/1')             AS Heterozygous_CNVs
+    FROM cnv_vcf
+    GROUP BY SAMPLE_NAME
+""").df()
 ```
 
 :::::
@@ -263,21 +263,6 @@ recurrent = (
 
 :::::
 
-:::::{tab-item} DuckDB
-
-```python
-recurrent = con.execute("""
-    SELECT CHROM || ':' || CAST((POS // 1000) * 1000 AS VARCHAR) AS region_key,
-           COUNT(DISTINCT SAMPLE_NAME) AS sample_count
-    FROM cnv_vcf
-    GROUP BY region_key
-    HAVING COUNT(DISTINCT SAMPLE_NAME) >= 2
-    ORDER BY sample_count DESC
-""").df()
-```
-
-:::::
-
 :::::{tab-item} PyArrow
 
 ```python
@@ -289,6 +274,21 @@ t = t.append_column("region_key", region_key)
 pairs = t.select(["region_key", "SAMPLE_NAME"]).group_by(["region_key", "SAMPLE_NAME"]).aggregate([])
 counts = pairs.group_by("region_key").aggregate([("SAMPLE_NAME", "count")])
 recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
+```
+
+:::::
+
+:::::{tab-item} DuckDB
+
+```python
+recurrent = con.execute("""
+    SELECT CHROM || ':' || CAST((POS // 1000) * 1000 AS VARCHAR) AS region_key,
+           COUNT(DISTINCT SAMPLE_NAME) AS sample_count
+    FROM cnv_vcf
+    GROUP BY region_key
+    HAVING COUNT(DISTINCT SAMPLE_NAME) >= 2
+    ORDER BY sample_count DESC
+""").df()
 ```
 
 :::::
