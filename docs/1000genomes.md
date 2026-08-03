@@ -37,7 +37,7 @@ A recent study[^anthropic-agents] demonstrated that agents can fail entirely whe
 
 ### A simple agentic analysis
 
-Here, we illustrate this phenomenon by letting an agent run a simple analysis in which they determine the number and types of variants in a certain genomic band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. If the data was in a single DataFrame `df`, the analysis would look like this using the `polars` Python package:
+To illustrate this, we tasked an agent with a simple analysis: determine the number and types of variants in a specific genomic band. This mimics a typical workflow where researchers zoom into a specific genomic region or locus to study local variants, for instance, to identify mutations linked to a specific disease gene or to prepare data for a genome-wide association study (GWAS) focused on a candidate region. If the data was in a single DataFrame `df`, the analysis would look like this using the `polars` Python package:
 
 ```python
 import polars as pl
