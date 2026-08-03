@@ -73,15 +73,15 @@ for filepath in filepaths:
 df = pl.scan_parquet(valid_filepaths)
 ```
 
-To make it easy for the agent, let's take dataset 2, which is distributed across only 26 files, and not 3200.
-Even then, we find that the agent spends many tokens and much time navigating the files.
-And this happens despite [the prompt](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) pointing the agent directly to the 26 files to avoid spending tokens on finding those files in the first place (**Figure 1**).
+To make things easy for the agent, let's test it on dataset 2 -- which is distributed across just 26 files rather than 3200.
+We also [prompt](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) the agent with the exact file paths to spare it the trouble of finding them.
+Even with this head start, the agent still burns significant time and tokens just navigating files and checking schemas (**Figure 1**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Tokens and time required for an agent to analyze variants across a genomic region using Polars on Dataset 2 (26 files). Here is an exemplary [agent run](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) for raw files, and here [is one](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) that leverages the schema contract of the collection.
+**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Tokens and time required for an agent to analyze variants across a genomic region using Polars on dataset 2 (26 files). Compare an exemplary [agent run on raw files](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) against [a run that leveraging the schema contract of a collection](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC).
 
 ### A schema contract
 
