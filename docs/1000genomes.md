@@ -476,15 +476,7 @@ By evolving the underlying data architecture from mere storage systems to lakeho
 
 ## Code & data availability
 
-The five central notebooks, the shared benchmarking utilities, and the plotting script are available in the `laminlabs/1000genomes` database.
-
-- [PyArrow](https://lamin.ai/laminlabs/1000genomes/transform/D10UPamv70IP)
-- [Polars](https://lamin.ai/laminlabs/1000genomes/transform/2Wdo02w0MDgH)
-- [DuckDB](https://lamin.ai/laminlabs/1000genomes/transform/tQaG9uhSD7BO)
-- [Iceberg](https://lamin.ai/laminlabs/1000genomes/transform/wnVO8cu0qtOP)
-- [LanceDB](https://lamin.ai/laminlabs/1000genomes/transform/WtZF9OX9v3uM)
-
-Dataset 1: 1000 Genomes CNV calls (DRAGEN, hg38), UID `Lh6IsCOGIl5TOjAj`. Dataset 2: 1000 Genomes SNV/Indel/CNV, UID `hVu9puwdRGskm1I6`.
+The datasets, the agentic analyses, the queries, the shared benchmarking utilities, and the plotting script are available in the public [laminlabs/1000genomes](https://lamin.ai/laminlabs/1000genomes) database. They can be browsed through data lineage by clicking on the "source" link in every figure caption.
 
 ## Methods
 
