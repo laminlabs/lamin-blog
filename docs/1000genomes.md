@@ -1,6 +1,6 @@
 ---
 title: "Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses"
-date: 2026-08-02
+date: 2026-08-03
 author: Raaghav-Pillai, alexras, ishitajain9717, sunnyosun, Koncopd, falexwolf
 affiliation:
   Raaghav-Pillai: Lamin Labs, NYC
