@@ -118,7 +118,7 @@ The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (*
 
 ## Queries
 
-We will be using the popular query engines Polars,[^polars] DuckDB[^duckdb], and PyArrow[^pyarrow], all of which handle datasets that don't fit into memory by streaming them directly from storage.
+We will be using the popular query engines Polars,[^polars] DuckDB[^duckdb], and PyArrow[^pyarrow], all of which handle datasets that don't fit into memory by streaming them directly from storage. It is worth noting that a new generation of readers can also efficiently query raw `.vcf` files directly.[^biodatageeks] However, they lack the advantages of cloud nativeness and a much broader big data ecosystem, and hence we'll not study them in this post.
 
 ### Simple filter
 
@@ -367,8 +367,6 @@ Unlike Iceberg and DuckLake, **LaminDB** goes beyond tables, supporting datasets
 
 While Iceberg & DuckLake are based on the parquet format, and LaminDB is format-agnostic, **LanceDB** manages datasets in the Lance format, a columnar format inspired by parquet that's optimized for arrays.[^lancedb-format] To use LanceDB, you need to convert your data into the Lance format.
 While LanceDB fits the lakehouse architecture, non-lakehouse architectures for managing array-like data exist, too, in particular, `arraylake` & `tensorstore` for `.zarr` arrays, and `tiledb` for `.tiledb` arrays.[^tiledb] These non-lakehouse technologies are out of scope for this post given the established query engines don't apply to them.
-
-Today a new generation of readers can even efficiently query raw `.vcf` files directly,[^biodatageeks] albeit without the advantages of cloud nativeness and a much broader big data ecosystem.
 
 (time-travel)=
 
