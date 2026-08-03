@@ -112,13 +112,13 @@ The schema contract for the 26 parquet files can also be visualized, showing the
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/5wVVtCfTQ80ObXEL0000.png" width="1000" style="padding: 0;">
 </div>
 
-**Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) with descriptions of the features it measures.
+**Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) with descriptions of its features.
 
 The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (**Figure 1**), with [a comparable prompt](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) and the same context. While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's put them to the test!
 
 ## Queries
 
-We will be using the popular query engines Polars[^polars], DuckDB[^duckdb], and PyArrow[^pyarrow], all of which handle datasets that don't fit into memory by streaming them directly from storage.
+We will be using the popular query engines Polars,[^polars] DuckDB[^duckdb], and PyArrow[^pyarrow], all of which handle datasets that don't fit into memory by streaming them directly from storage.
 
 ### Simple filter
 
