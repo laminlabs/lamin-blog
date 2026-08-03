@@ -73,7 +73,7 @@ for filepath in filepaths:
 df = pl.scan_parquet(valid_filepaths)
 ```
 
-To make things easy for the agent, let's test it on dataset 2 -- which is distributed across just 26 files rather than 3200.
+To make things easy for the agent, let's test it on Dataset 2 -- which is distributed across just 26 files rather than 3200.
 We also [prompt](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) the agent with the exact file paths to spare it the trouble of finding them.
 Even with this head start, the agent still burns significant time and tokens just navigating files and checking schemas (**Figure 1**).
 
@@ -138,7 +138,7 @@ with collection.open(engine="polars") as df:
 
 :::::{tab-item} DuckDB
 
-To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for dataset 1 and 3 sec for dataset 2.
+To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for Dataset 1 and 3 sec for dataset 2.
 
 ```python
 import duckdb
@@ -244,7 +244,7 @@ stats = base.join(med, keys="SAMPLE_NAME", join_type="left outer")
 
 ### Recurrent regions
 
-Finding recurrent mutation hotspots helps pinpoint highly mutable regions, functional genomic elements under evolutionary pressure, and common structural variations across populations. To identify these, we bin positions into genomic windows (1 kbp for dataset 1, 1 Mbp for dataset 2) and flag bins containing variants from multiple samples.
+Finding recurrent mutation hotspots helps pinpoint highly mutable regions, functional genomic elements under evolutionary pressure, and common structural variations across populations. To identify these, we bin positions into genomic windows (1 kbp for Dataset 1, 1 Mbp for dataset 2) and flag bins containing variants from multiple samples.
 
 ::::::{tab-set}
 :::::{tab-item} Polars
