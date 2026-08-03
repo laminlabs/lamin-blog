@@ -373,6 +373,7 @@ While LanceDB fits the lakehouse architecture, non-lakehouse architectures for m
 ### Developer experience
 
 To see how these concepts translate into developer experience, let's compare the code required to perform these essential agentic operations—appending data, evolving schemas, and time-traveling.
+In the queries themselves, there is no noteworthy difference to what we've discussed above (see **Methods**).
 
 The first type of write operation we need to perform is adding new data to the system. This means appending a batch of rows.
 
