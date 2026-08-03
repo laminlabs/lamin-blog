@@ -56,7 +56,6 @@ by_type = (
     .sort("n", descending=True)
     .collect()
 )
-print(by_type)
 ```
 
 But it's not. Hence, an agent first needs to find the files, and once it finds them, it needs to investigate whether they have the same schema so that they can be efficiently queried. So, it runs something like this:
