@@ -299,7 +299,6 @@ recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
 Benchmarking these queries reveals two major takeaways (**Figure 3**):
 
 First, Polars is the only query engine that efficiently handles the massive file count (3,201 files) of Dataset 1. Because DuckDB cold-reads Parquet files over `httpfs`, it is bottlenecked by 3,201 sequential S3 footer round-trips just to locate row groups. This explains why DuckDB is dramatically slower here, despite Dataset 1 having 20x fewer rows than Dataset 2.
-
 Second, while Polars delivers the fastest query times overall, DuckDB pulls ahead on complex relational logic—specifically, the recurrent region detection in Dataset 2.
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
