@@ -13,9 +13,9 @@ db: https://lamin.ai/laminlabs/1000genomes
 ---
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
-Efficiently analyzing the more than 100M genomic variants across thousands of files is still a challenge in the age of agents.
-Here, we show how modern query engines like Polars and DuckDB can perform the core computational work to efficiently access these large, distributed datasets.
-And we discuss how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB, avoid problems that arise from letting agents directly work on raw files.
+Here, we discuss how to go about efficiently analyzing the more than 100M genomic variants in the age of agents.
+We compare modern query engines like Polars and DuckDB in performing the core computational work to query these large, distributed datasets.
+And we show how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB, avoid efficiency and integrity problems that arise from letting agents directly work on raw files.
 
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to understand disease-associated mutations and evolutionary history.
 Such studies often require querying large amounts of data and are today often performed agentically based on big data formats, most notably Parquet files.
