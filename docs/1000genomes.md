@@ -324,7 +324,7 @@ And, as discussed earlier, they also make agents more efficient. So, let's brief
   <strong>Figure 4.</strong> File layout of an Iceberg table.
 </figure>
 
-Today's most popular framework is **Iceberg**.[^apache-iceberg] Like Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg provides ACID transactions and "time travel" by organizing parquet files into snapshots, managed by manifest and metadata files (**Figure 4**). However, this file-based metadata introduces costs: snapshot creation is expensive (dictating large, infrequent writes), optimistic concurrency leads to conflicts between simultaneous writers, and coordinating updates on S3 requires an external catalog like AWS Glue or Nessie.[^nessie]
+Today's most popular framework is **Iceberg**.[^apache-iceberg] Like Delta Lake[^delta][^databricks] and Apache Hudi,[^hudi] Iceberg provides ACID transactions and "time travel" by organizing parquet files into snapshots, managed by manifest and metadata files (**Figure 4**). However, this file-based metadata introduces costs (snapshot creation is expensive dictating large, infrequent writes), optimistic concurrency leads to conflicts between simultaneous writers, and coordinating updates on S3 requires an external catalog like AWS Glue or Nessie.[^nessie]
 
 <div style="float: right; width: 65%; margin: 0.5rem 0 1rem 1.5rem; font-size: 0.85em;">
 
