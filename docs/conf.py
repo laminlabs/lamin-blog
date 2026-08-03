@@ -33,6 +33,7 @@ html_theme_options["icon_links"] = [
 
 extensions.append("ablog")
 authors = {
+    "alexras": ("Alex Rasmussen", "https://github.com/alexras"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "fabian-theis": (
         "Fabian Theis",
@@ -51,6 +52,7 @@ authors = {
     "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
     "melonora": ("Wouter-Michiel Vierdag", "https://github.com/melonora"),
     "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
+    "Raaghav-Pillai": ("Raaghav Pillai", "https://github.com/Raaghav-Pillai"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "timtreis": ("Tim Treis", "https://github.com/timtreis"),
     "tjburns08": ("Tyler Burns", "https://github.com/tjburns08"),
