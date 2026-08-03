@@ -14,7 +14,7 @@ db: https://lamin.ai/laminlabs/1000genomes
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
 Efficiently analyzing the more than 100M genomic variants across thousands of files is still a challenge in the age of agents.
-Here, we show how modern query engines like Polars[^polars] and DuckDB[^duckdb] can perform the core computational work to efficiently access these large, distributed datasets.
+Here, we show how modern query engines like Polars and DuckDB can perform the core computational work to efficiently access these large, distributed datasets.
 And we discuss how lakehouse frameworks, including Iceberg, LaminDB, and LanceDB, avoid problems that arise from letting agents directly work on raw files.
 
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to understand disease-associated mutations and evolutionary history.
@@ -31,7 +31,7 @@ The first collection stores individual-level information, with features such as 
 
 ## Data access
 
-While the past years have made it abundantly clear that query engines like Polars and DuckDB outperform classical ways of data access, in biology they are typically applied to data in file storage systems or data lakes.
+While the past years have made it abundantly clear that query engines like Polars[^polars] and DuckDB[^duckdb] outperform classical ways of data access, in biology they are typically applied to data in file storage systems or data lakes.
 Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
 While agents are able to navigate such storage systems, they, just like humans, spend a lot of energy to find files and verify that they are amenable to a certain analysis.
 A widely received study recently showed how agents can even fail entirely if they need to access data across heterogeneous sources, and how they can be enabled with a unified schema or API layer.[^anthropic-agents]
