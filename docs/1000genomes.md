@@ -85,7 +85,10 @@ Even with this head start, the agent still burns significant time and tokens jus
 
 ### A schema contract
 
-How can a lakehouse help? In the context of this problem, a lakehouse does nothing more than ensuring that the 26 files fulfill a schema contract and form one dataset together. In many lakehouse frameworks, this is called a "table", backed by parquet files. In LaminDB, we call it a "Collection". If parquet files are part of a schema-validated collection, an agent can trust that they all have a consistent schema, and it doesn't even need to navigate filepaths. The access pattern looks like this:
+Now, what if the 26 files formed one dataset together?
+An agent could trust that all files have a consistent schema and start deriving queries, and it wouldn't even need to navigate filepaths.
+Fortunately, this is one problem that all lakehouses solve: they present a collection of parquet files as a single table to the user.
+We'll deep dive on different lakehouse frameworks later, but here is how the access pattern looks with LaminDB:
 
 ```python
 import lamindb as ln
@@ -111,7 +114,7 @@ The schema contract for the 26 parquet files can also be visualized, showing the
 
 **Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6).
 
-The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (**Figure 1**), with [a comparable prompt](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) and the same context. While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's study them!
+The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (**Figure 1**), with [a comparable prompt](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) and the same context. While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's put them to the test!
 
 ## Queries
 
