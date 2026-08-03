@@ -12,7 +12,7 @@ affiliation:
 db: https://lamin.ai/laminlabs/1000genomes
 ---
 
-The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
+The 1000 Genomes Project sequenced 3201 individuals worldwide to build a comprehensive atlas of human genetic variation.
 Here, we discuss how to efficiently analyze 100M+ genomic variants in the age of agents.
 We evaluate modern query engines like Polars and DuckDB for streaming these large, distributed datasets, and show how lakehouse frameworks (Iceberg, LanceDB, LaminDB) address the efficiency and integrity problems of letting agents interact directly with raw files.
 
@@ -126,7 +126,7 @@ Let us first look at the simple filter from the analysis above across all three 
 :::::{tab-item} Polars
 
 ```python
-with colletion.open(engine="polars") as df:
+with collection.open(engine="polars") as df:
     filtered = df.filter(
         (pl.col("CHROM") == chrom) & (pl.col("POS") >= lo) & (pl.col("POS") <= hi)
     ).collect()
@@ -486,7 +486,7 @@ Dataset 1: 1000 Genomes CNV calls (DRAGEN, hg38), UID `Lh6IsCOGIl5TOjAj`. Datase
 
 Note that while the full high-coverage expanded cohort of the 1000 Genomes Project contains 3,202 individuals, the DRAGEN `hg38` reanalysis we pulled from contains exactly 3,201 files. This is because one sample (NA18498) from the original Phase 3 release was excluded during the re-alignment to the GRCh38 reference genome, a common occurrence in genomics due to relatedness discoveries or quality control thresholds.
 
-**Dataset 2 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6)):** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD)."
+**Dataset 2 ([lineage](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6)):** The Phase 3 release of the 1000 Genomes Project is one of the most comprehensive dataset from the original project, comprising whole-genome and exome sequencing data from 2,504 individuals across 26 populations spanning 5 continental populations (AFR, AMR, EAS, EUR, SAS). Variant calls are provided as VCF files, split per chromosome, with the standard naming convention. Each field in the filename encodes one step of the pipeline, in order — `ALL` (cohort) → `chr<N>` (which chromosome the file covers) → `phase3` (release/call-set version) → `shapeit2_mvncall_integrated` (methods used, in the order applied: `MVNCall` integrates calls, then `SHAPEIT2` phases them) → `20130502` (release date, YYYYMMDD).
 
 ### Query timings
 
