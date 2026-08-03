@@ -347,7 +347,7 @@ Today's most popular framework is **Iceberg**.[^apache-iceberg] Like Delta Lake[
 
 ¹ LaminDB [guarantees data ↔ metadata consistency through ACID operations](https://docs.lamin.ai/acid), but does not guarantee row-level ACID operations the way Iceberg and DuckLake do. Because you can map an insert into a collection of parquet files via `lamindb.Collection.append()` in an ACID way, the practical robustness guarantee to the user is similar.
 
-² See the [Time travel](#time-travel) section.
+² See the [Developer experience](#time-travel) section for examples.
 
 ³ Adding a nullable/optional column without rewriting existing files.
 
@@ -373,7 +373,7 @@ While LanceDB fits the lakehouse architecture, non-lakehouse architectures for m
 ### Developer experience
 
 To see how these concepts translate into developer experience, let's compare the code required to perform these essential agentic operations—appending data, evolving schemas, and time-traveling.
-In the queries themselves, there is no noteworthy difference to what we've discussed above (see **Methods**).
+In the queries themselves, there is no noteworthy difference to what we've discussed above (see [Querying Iceberg & LanceDB](#iceberg-lancedb)).
 
 The first type of write operation we need to perform is adding new data to the system. This means appending a batch of rows.
 
@@ -491,6 +491,8 @@ Note that while the full high-coverage expanded cohort of the 1000 Genomes Proje
 ### Query timings
 
 All timings are single-run measurements on SageMaker (`ml.m5.24xlarge`) in `store` mode. Versions: `lamindb-core==2.7.0`, `duckdb==1.5.3`, `polars==1.42.0`, `pyiceberg==0.11.1`, `lancedb==0.33.0`, `pandas==2.3.3`, Python 3.12. Query engines (PyArrow, Polars, DuckDB) compute natively; table formats (Iceberg, LanceDB) scan natively and aggregate in DuckDB. PyArrow's grouped median is approximate (t-digest); the others are exact. Because the two datasets differ in schema, Queries 2 and 3 run analogous but not identical analyses (per-sample on Dataset 1, per-chromosome on Dataset 2); the read and filter operations are identical in logic across datasets and carry the file-count comparison. Single-run numbers are point measurements, not distributions.
+
+(iceberg-lancedb)=
 
 ### Querying Iceberg & LanceDB
 
