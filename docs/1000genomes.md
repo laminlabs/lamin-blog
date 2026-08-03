@@ -375,7 +375,7 @@ While LanceDB fits the lakehouse architecture, non-lakehouse architectures for m
 To see how these concepts translate into developer experience, let's compare the code required to perform these essential agentic operations—appending data, evolving schemas, and time-traveling.
 In the queries themselves, there is no noteworthy difference to what we've discussed above (see [Querying Iceberg & LanceDB](#iceberg-lancedb)).
 
-The first type of write operation we need to perform is adding new data to the system. This means appending a batch of rows.
+The first type of write operation we need to perform is adding new data to the system. Rather than just dropping a raw file into a bucket, the following code snippets ensure that a new dataset complies with the schema of the existing dataset, and that it's added in an ACID fashion.
 
 ::::::{tab-set}
 :::::{tab-item} Iceberg
@@ -406,7 +406,7 @@ collection.append(batch)  # batch is an artifact
 :::::
 ::::::
 
-The second type of write operation is to append columns.
+Similarly, when an analysis requires new features, the following snippets ensure that columns are updated consistently across the entire dataset, and future incoming datasets.
 
 ::::::{tab-set}
 
@@ -441,7 +441,7 @@ collection.schema.add(feature)
 :::::
 ::::::
 
-Finally, we look at how one retrieves a previous version of a dataset via "time travel".
+Finally, because agents inevitably make mistakes, we look at how to retrieve a previous version of a dataset via "time travel".
 
 ::::::{tab-set}
 
