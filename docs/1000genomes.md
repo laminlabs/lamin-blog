@@ -31,10 +31,9 @@ The first collection stores individual-level information—such as the individua
 
 ## Data access
 
-While the past years have made it abundantly clear that query engines like Polars[^polars] and DuckDB[^duckdb] outperform classical ways of data access, in biology they are typically applied to data in file storage systems or data lakes.
-Often, the relevant `.vcf` and `.parquet` files are part of large collections of other file types and projects.
-While agents are able to navigate such storage systems, they, just like humans, spend a lot of energy to find files and verify that they are amenable to a certain analysis.
-A widely received study recently showed how agents can even fail entirely if they need to access data across heterogeneous sources, and how they can be enabled with a unified schema or API layer.[^anthropic-agents]
+Modern query engines like Polars[^polars] and DuckDB[^duckdb] vastly outperform classical data access methods, yet these formidable tools are often pointed at raw file storage systems or data lakes.
+In these environments, the relevant `.vcf` and `.parquet` files are often buried within massive collections of mixed file types. While AI agents can navigate these storage systems, doing so forces them to waste significant compute and token limits simply finding files and verifying their schemas.
+A recent study[^anthropic-agents] demonstrated that agents can fail entirely when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.
 
 ### A simple agentic analysis
 
