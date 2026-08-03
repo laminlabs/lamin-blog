@@ -138,7 +138,7 @@ with collection.open(engine="polars") as df:
 
 :::::{tab-item} DuckDB
 
-To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for dataset 1 and 3 sec for dataset 2. As DuckDB cold reads all 3,201 Parquet files over `httpfs` the query is bottlenecked on 3,201 sequential S3 footer round-trips to locate row groups because of which the filter query is so high.
+To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for dataset 1 and 3 sec for dataset 2.
 
 ```python
 import duckdb
@@ -296,7 +296,10 @@ recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
 
 ### Timing results
 
-Benchmarking these queries reveals two major takeaways (**Figure 3**): First, Polars is the only query engine that efficiently handles the massive file count (3,201 files) of Dataset 1, though scanning it is still slower than scanning the much larger (but consolidated) Dataset 2.
+Benchmarking these queries reveals two major takeaways (**Figure 3**):
+
+First, Polars is the only query engine that efficiently handles the massive file count (3,201 files) of Dataset 1. Because DuckDB cold-reads Parquet files over `httpfs`, it is bottlenecked by 3,201 sequential S3 footer round-trips just to locate row groups. This explains why DuckDB is dramatically slower here, despite Dataset 1 having 20x fewer rows than Dataset 2.
+
 Second, while Polars delivers the fastest query times overall, DuckDB pulls ahead on complex relational logic—specifically, the recurrent region detection in Dataset 2.
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
