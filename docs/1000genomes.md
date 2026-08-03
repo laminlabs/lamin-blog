@@ -174,7 +174,7 @@ filtered = con.execute(
 ```python
 import pyarrow.compute as pc
 
-with colletion.open(engine="pyarrow") as dataset:
+with collection.open(engine="pyarrow") as dataset:
     expr = ((pc.field("CHROM") == chrom)
             & (pc.field("POS") >= lo) & (pc.field("POS") <= hi))
     filtered = dataset.to_table(filter=expr)
@@ -296,7 +296,8 @@ recurrent = counts.filter(pc.greater_equal(counts["SAMPLE_NAME_count"], 2))
 
 ### Timing results
 
-Benchmarking the runtime of these queries reveals two main results (**Figure 3**): Polars is the only query engine that's able to efficiently query the high number of parquet files in dataset 1, albeit still at slower times than for the 20x more rows in dataset 2. Polars yields the fastest queries overall, except for the complicated recurrent region detection in dataset 2, where DuckDB wins.
+Benchmarking these queries reveals two major takeaways (**Figure 3**): First, Polars is the only query engine that efficiently handles the massive file count (3,201 files) of Dataset 1, though scanning it is still slower than scanning the much larger (but consolidated) Dataset 2.
+Second, while Polars delivers the fastest query times overall, DuckDB pulls ahead on complex relational logic—specifically, the recurrent region detection in Dataset 2.
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
   <div style="flex: 1; min-width: 0;">
