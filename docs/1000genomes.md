@@ -17,16 +17,17 @@ Here, we discuss how to efficiently analyze 100M+ genomic variants in the age of
 We evaluate modern query engines like Polars and DuckDB for streaming these large, distributed datasets, and show how lakehouse frameworks (Iceberg, LanceDB, LaminDB) address the efficiency and integrity problems of letting agents interact directly with raw files.
 
 An atlas like 1000 Genomes[^1000g] serves as a foundational reference for researchers to understand disease-associated mutations and evolutionary history.
-Such studies often require querying large amounts of data and are today often performed agentically based on big data formats, most notably Parquet files.
-Several benchmarks show that queries of Parquet files can be up to a factor 1000 faster than querying VCF files, let alone cloud access advantages.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
-Hence, we transform VCF files to Parquet files: Collection 1 was created in the DRAGEN pipeline[^dragen] and stores Copy Number Variants (CNVs) called for each individual, totaling 4.86M observations across 3201 files. Collection 2 was created in a SHAPEIT2 pipeline by EMBL[^shapeit] and is a population-level catalog of all unique variants — CNVs, Single Nucleotide Variants (SNVs), and small insertions/deletions (Indels) — totaling 88M observations across 26 files.
+Such studies often require querying large amounts of data and are increasingly performed by AI agents leveraging formats such as Parquet.
+Several benchmarks show that queries of Parquet files can be up to 1000x faster than querying VCF files, not to mention the advantages of cloud-native access.[^23andme][^azure-genomics][^aws-emr][^boufea2017]
+Hence, we transform two collections of VCF files to Parquet files:
 
-| #     | Variant types      | Grouping       | Variants | Files | Source                                                               | Explore                                                                    |
-| ----- | ------------------ | -------------- | -------- | ----- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| **1** | CNVs               | Per-individual | 4.86M    | 3201  | [link](https://registry.opendata.aws/ilmn-dragen-1kgp/)              | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
-| **2** | CNVs, SNVs, Indels | Per-chromosome | 88M      | 26    | [link](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/) | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
+<!-- prettier-ignore -->
+| # | Pipeline | Variant types | Grouping | Variants | Files | Source | Explore |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **1** | DRAGEN[^dragen] | CNVs | Per-individual | 4.86M | 3201 | [link](https://registry.opendata.aws/ilmn-dragen-1kgp/) | [link](https://lamin.ai/laminlabs/1000genomes/collection/Lh6IsCOGIl5TOjAj) |
+| **2** | EMBL SHAPEIT2[^shapeit] | CNVs, SNVs, Indels | Per-chromosome | 88M | 26 | [link](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/) | [link](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) |
 
-The first collection stores individual-level information, with features such as the individual's identifier, their specific genotype call, and the length of the structural variant. The second dataset stores population-level features, recording the location, type, and global as well as population-specific allele frequencies of each variant.
+The first collection stores individual-level information—such as the individual's identifier, their specific genotype call, and the length of the structural variant. The second dataset is a population-level catalog of all unique variants, recording the location, type, and both global and population-specific allele frequencies.
 
 ## Data access
 
