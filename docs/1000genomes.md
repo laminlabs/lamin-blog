@@ -81,7 +81,7 @@ And this happens despite [the prompt](https://lamin.ai/laminlabs/1000genomes/run
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Benchmarking the time for running the simple analysis of determining the number and types of variants in a certain genomic band with polars and the 26 files dataset. Here is an [agent run](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) for raw files, and here is an [agent run](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) that leverages the schema contract of the collection.
+**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Tokens and time required for an agent to analyze variants across a genomic region using Polars on Dataset 2 (26 files). Here is an exemplary [agent run](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) for raw files, and here [is one](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) that leverages the schema contract of the collection.
 
 ### A schema contract
 
