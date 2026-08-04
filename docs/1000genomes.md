@@ -10,6 +10,7 @@ affiliation:
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/1000genomes
+linkedin: https://www.linkedin.com/posts/falexwolf_agents-are-terrible-at-navigating-heterogeneous-ugcPost-7490370634896646144-mk5p/
 ---
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
