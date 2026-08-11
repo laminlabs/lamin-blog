@@ -44,18 +44,17 @@ Zooming in further, we can see that the different fluorescence microscopy imagin
 
 **Figure 2 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Fluorescence microscopy images of different proteins and subcellular structures in a small region of the ovarian cancer Xenium dataset.
 
-| Channel # | Stain                    | Description                                                                                                                                          |
-| --------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1         | DAPI                     | DNA                                                                                                                                                  |
-| 2         | ATP1A1, E-Cadherin, CD45 | **ATP1A1, E-Cadherin:** Epithelial markers<br>**CD45:** Pan-lymphocyte marker                                                                        |
-| 3         | 18S                      | Ribosomal RNA, used for [segmentation](https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/algorithms-overview/segmentation) |
-| 4         | AlphaSMA/Vimentin        | **AlphaSMA:** Smooth Muscle Actin, a cytoskeletal protein<br>**Vimentin:** A cytoskeletal protein used as a soft-tissue tumor marker                 |
-| 5         | None                     | Dummy Channel                                                                                                                                        |
+| Channel | Stain                    | Description                                                                                                                                          |
+| ------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1       | DAPI                     | DNA                                                                                                                                                  |
+| 2       | ATP1A1, E-Cadherin, CD45 | **ATP1A1, E-Cadherin:** Epithelial markers<br>**CD45:** Pan-lymphocyte marker                                                                        |
+| 3       | 18S                      | Ribosomal RNA, used for [segmentation](https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/algorithms-overview/segmentation) |
+| 4       | AlphaSMA/Vimentin        | **AlphaSMA:** Smooth Muscle Actin, a cytoskeletal protein<br>**Vimentin:** A cytoskeletal protein used as a soft-tissue tumor marker                 |
+| 5       | None                     | Dummy Channel                                                                                                                                        |
 
 **Table 1**: Summary of the fluorescent stains used in the ovarian cancer Xenium dataset.
-|
 
-## Generating Single Cell Images with scPortrait
+## Generating single-cell images
 
 To generate a single cell image dataset we apply a segmentation mask to the image, and then extract images of individual cells. The Xenium dataset provides a segmentation mask already (**Figure 3**).
 
@@ -73,7 +72,7 @@ After loading the sdata object into an `scPortrait` project, we can run `scPortr
 
 **Figure 4 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Single cell images from the ovarian cancer Xenium dataset extracted with scPortrait.
 
-## Featurizing Single Cell Images with ConvNeXt
+## Featurizing single-cell images
 
 To find similarities and differences between individual cells in our image dataset, and to ultimately integrate different single cell datasets and modalities, we have to embed all cells into a unified representation. To do this, we first have to derive common features describing each cell based on its image. Multiple approaches to achieve this have been described, which broadly fall into two categories:
 
