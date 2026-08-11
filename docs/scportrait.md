@@ -88,11 +88,16 @@ Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in i
 
 **Figure 5 ([source](https://lamin.ai/scportrait/examples/transform/GgYLvhXloKY20002))**: UMAP representation of ConvNeXt image features of individual segmented cells in an ovarian cancer tissue region. Each dot corresponds to a single cell. Colors correspond to the expression of the indicated genes across cells.
 
-# Data & code availability
+## Data & code availability
+
+The blog post roughly follows this guide for working with `scportrait` and `lamindb`: [docs.lamin.ai/sc-imaging](https://docs.lamin.ai/sc-imaging). For source code, see:
 
 - Analyses of this blog post: https://lamin.ai/scportrait/examples
-- scPortrait souce code: https://github.com/MannLabs/scPortrait
-- A guide for working with `scportrait` and `lamindb`: [docs.lamin.ai/sc-imaging](https://docs.lamin.ai/sc-imaging)
+- The scPortrait library: https://github.com/MannLabs/scPortrait
+
+## Acknowledgements
+
+We thank Lukas Heumos for support in creating [docs.lamin.ai/sc-imaging](https://docs.lamin.ai/sc-imaging).
 
 ## References
 
