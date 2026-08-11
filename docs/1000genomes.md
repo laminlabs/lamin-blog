@@ -33,7 +33,7 @@ The first collection stores individual-level information—such as the individua
 ## Data access
 
 Modern query engines like Polars[^polars] and DuckDB[^duckdb] vastly outperform classical data access methods, yet these formidable tools are often pointed at raw file storage systems or data lakes.
-In these environments, the relevant `.vcf` and `.parquet` files are often buried within massive collections of mixed file types. While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
+In these environments, the relevant `.vcf` and `.parquet` files are often buried within massive collections of mixed file types. While AI agents can navigate these storage systems, doing so forces them to waste significant compute and token limits simply finding files and verifying their schemas.
 A recent study[^anthropic-agents] demonstrated that agents can fail entirely when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.
 
 ### A simple agentic analysis
@@ -82,7 +82,7 @@ Even with this head start, the agent still burns significant time and tokens jus
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="700" style="padding: 0;"/>
 </div>
 
-**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Tokens and time required for an agent (Claude Code with `claude-opus-5[1m]`) to analyze variants across a genomic region using Polars on Dataset 2 (26 files). Compare an exemplary [agent run on raw files](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) against [a run that leverages the schema contract of a collection](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC).
+**Figure 1 ([source](https://lamin.ai/laminlabs/1000genomes/artifact/yExW5sWBJur4riJA))**: Tokens and time required for an agent (Claude Code with `claude-opus-5[1m]`) to analyze variants across a genomic region using Polars on dataset 2 (26 files). Compare an exemplary [agent run on raw files](https://lamin.ai/laminlabs/1000genomes/run/8esUbPUzXhRExQ72) against [a run that leverages the schema contract of a collection](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC).
 
 ### A schema contract
 
@@ -113,7 +113,7 @@ The schema contract for the 26 parquet files can also be visualized, showing the
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/5wVVtCfTQ80ObXEL0000.png" width="1000" style="padding: 0;">
 </div>
 
-**Figure 2**: Screenshot of [Dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) with descriptions of its features.
+**Figure 2**: Screenshot of [dataset 2](https://lamin.ai/laminlabs/1000genomes/collection/hVu9puwdRGskm1I6) with descriptions of its features.
 
 The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (**Figure 1**), with [a comparable prompt](https://lamin.ai/laminlabs/1000genomes/run/j2xJseimmBQU4BtC) and the same context. While ensuring efficient data access has a big impact on agentic efficiency and is often equated to "AI-ready data", it's little help if the actual data queries are inefficient. Let's put them to the test!
 
@@ -152,7 +152,7 @@ with collection.open(engine="pyarrow") as dataset:
 
 :::::{tab-item} DuckDB
 
-To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for Dataset 1 and 3 sec for Dataset 2.
+To query via DuckDB, we need to register a lazy view over the collection's S3 paths. The source bucket is cross-account (EU), so credentials are extracted from the artifact's own storage session — `PROVIDER credential_chain` does **not** authenticate here. Creating this view takes around 40 sec for Dataset 1 and 3 sec for dataset 2.
 
 ```python
 import duckdb
@@ -245,7 +245,7 @@ stats = con.execute("""
 
 ### Recurrent regions
 
-Finding recurrent mutation hotspots helps pinpoint highly mutable regions, functional genomic elements under evolutionary pressure, and common structural variations across populations. To identify these, we bin positions into genomic windows (1 kbp for Dataset 1, 1 Mbp for Dataset 2) and flag bins containing variants from multiple samples.
+Finding recurrent mutation hotspots helps pinpoint highly mutable regions, functional genomic elements under evolutionary pressure, and common structural variations across populations. To identify these, we bin positions into genomic windows (1 kbp for Dataset 1, 1 Mbp for dataset 2) and flag bins containing variants from multiple samples.
 
 ::::::{tab-set}
 :::::{tab-item} Polars
@@ -528,7 +528,7 @@ table = db.create_table("cnv_vcf", data=arrow, mode="overwrite")
 :::::
 ::::::
 
-The timing results for format conversion are dominated by the conversion to a PyArrow dataset, and take substantially longer for LanceDB than for Iceberg for the larger Dataset 2.
+The timing results for format conversion are dominated by the conversion to a PyArrow dataset, and take substantially longer for LanceDB than for Iceberg for the larger dataset 2.
 
 | Operation | Dataset | Iceberg (sec) | LanceDB (sec) |
 | --------- | ------- | ------------- | ------------- |
