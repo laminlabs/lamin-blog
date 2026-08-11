@@ -8,7 +8,7 @@ affiliation:
 db: https://lamin.ai/scportrait/examples
 ---
 
-Profiling cells in tissues, their native environment, promises to deliver deep insights into diverse aspects of cellular function. When applied to patient tissue, such techniques improve our understanding of disease. One technology that provides this type of data is spatial transcriptomics, which measures the abundance and spatial location of RNA transcripts in cells, while preserving tissue context. Named “Method of the year 2020” by [Nature Methods](https://www.nature.com/articles/s41592-020-01033-y), spatial transcriptomics is now routinely applied in diverse biological contexts. Along with information on transcripts, fluorescence microscopy images of cells are also routinely collected now. These images contain information about cell morphology and the intracellular distribution of proteins, complementing the information provided by the transcriptome. Here, we show how this image information can be made available on the single cell level by segmenting tissue slides and extracting single cell images with the Python-based toolkit [scPortrait](https://github.com/MannLabs/scPortrait). We then build a representation of the cells in our tissue using deep learning to embed their image-derived profiles into a continuous space.
+Profiling cells in tissues, their native environment, promises to deliver deep insights into diverse aspects of cellular function. When applied to patient tissue, such techniques improve our understanding of disease. One technology that provides this type of data is spatial transcriptomics, which measures the abundance and spatial location of RNA transcripts in cells, while preserving tissue context. Named "Method of the year 2020" by Nature Methods,[^nature-methods] spatial transcriptomics is now routinely applied in diverse biological contexts. Along with information on transcripts, fluorescence microscopy images of cells are also routinely collected now. These images contain information about cell morphology and the intracellular distribution of proteins, complementing the information provided by the transcriptome. Here, we show how this image information can be made available on the single cell level by segmenting tissue slides and extracting single cell images with the Python-based toolkit scPortrait.[^scportrait] We then build a representation of the cells in our tissue using deep learning to embed their image-derived profiles into a continuous space.
 
 The technology that was used to generate the data we work with is 10x Genomics’s Xenium. Xenium enables the acquisition of two data modalities on the single cell level:
 
@@ -21,10 +21,10 @@ We work with a publicly available [Xenium dataset](https://www.10xgenomics.com/w
 
 Our workflow consists of:
 
-1. Loading Xenium data as a [SpatialData](https://spatialdata.scverse.org) object
+1. Loading Xenium data as a SpatialData[^spatialdata] object
 2. Loading the immunohistochemistry images into scPortrait
 3. Using the cytosol segmentation provided as part of the dataset to extract single cell images with scPortrait
-4. Deriving single cell image features with the convolutional neural network [ConvNeXt](https://arxiv.org/abs/2201.03545) pretrained on natural images
+4. Deriving single cell image features with the convolutional neural network ConvNeXt[^convnext] pretrained on natural images
 
 ## Loading Xenium Data
 
@@ -80,7 +80,7 @@ To find similarities and differences between individual cells in our image datas
 1. Using pre-engineered ways to calculate single-cell image features, such as using the convex hull of the DAPI stain to calculate a nucleus outline and area. [CellProfiler](https://github.com/afermg/cp_measure) provides a collection of such features.
 2. Using automatic feature extractors that learn descriptive features from image data. This is currently done using deep learning with models based on architectures including convolutional neural networks (CNNs) and vision transformers (ViTs).
 
-Here, we use [ConvNeXt](https://arxiv.org/abs/2201.03545), a CNN that was trained to classify images in [imageNet](https://ieeexplore.ieee.org/document/5206848), a collection of natural images. We hypothesize that ConvNeXt has learned a feature set that is useful to describe images, and can therefore identify cellular phenotypes despite not having been trained on images of cells. The images in imageNet are 3-channel RGB images. Hence, ConvNeXt accepts three input channels. We chose to use the ATP1A1, E-Cadherin, CD45 (#2), 18S (#3) and AlphaSMA/Vimentin (#4) channels to featurize our cells. With the `scPortrait` `Dataloader` we can then calculate ConvNeXt features for all cells in the Xenium dataset. Using a `umap` visualization to inspect this embedding, we find that the expression of a number of genes varies across cells with different morphological features (**Figure 5**).
+Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in imageNet,[^imagenet] a collection of natural images. We hypothesize that ConvNeXt has learned a feature set that is useful to describe images, and can therefore identify cellular phenotypes despite not having been trained on images of cells. The images in imageNet are 3-channel RGB images. Hence, ConvNeXt accepts three input channels. We chose to use the ATP1A1, E-Cadherin, CD45 (#2), 18S (#3) and AlphaSMA/Vimentin (#4) channels to featurize our cells. With the `scPortrait` `Dataloader` we can then calculate ConvNeXt features for all cells in the Xenium dataset. Using a `umap` visualization to inspect this embedding, we find that the expression of a number of genes varies across cells with different morphological features (**Figure 5**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vdUZBbdtiawnXUWX0000.png" width="700" style="padding: 0;"/>
@@ -93,3 +93,15 @@ Here, we use [ConvNeXt](https://arxiv.org/abs/2201.03545), a CNN that was traine
 - Analyses of this blog post: https://lamin.ai/scportrait/examples
 - scPortrait souce code: https://github.com/MannLabs/scPortrait
 - A guide for working with `scportrait` and `lamindb`: [docs.lamin.ai/sc-imaging](https://docs.lamin.ai/sc-imaging)
+
+## References
+
+[^nature-methods]: Nature Methods (2021). Method of the Year 2020: spatially resolved transcriptomics. [Nature Methods](https://www.nature.com/articles/s41592-020-01033-y).
+
+[^scportrait]: Mann Labs. scPortrait: A Python toolkit for single-cell image analysis. [GitHub](https://github.com/MannLabs/scPortrait).
+
+[^spatialdata]: SpatialData. A unified spatial omics data framework for Python. [SpatialData](https://spatialdata.scverse.org).
+
+[^convnext]: Liu Z et al. (2022). A ConvNet for the 2020s. [arXiv:2201.03545](https://arxiv.org/abs/2201.03545).
+
+[^imagenet]: Deng J et al. (2009). ImageNet: A large-scale hierarchical image database. [doi:10.1109/CVPR.2009.5206848](https://ieeexplore.ieee.org/document/5206848).
