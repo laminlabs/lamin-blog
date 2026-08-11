@@ -1,5 +1,5 @@
 ---
-title: "Analyzing single-cell images from 10x Genomics Xenium data with scPortrait"
+title: "Extracting single-cell morphology and subcellular protein localisation from 10x Genomics Xenium data with scPortrait"
 date: 2026-08-11
 author: sophiamaedler, nik-as
 affiliation:
@@ -8,9 +8,9 @@ affiliation:
 db: https://lamin.ai/scportrait/examples
 ---
 
-Profiling cells in tissues, their native environment, promises to deliver deep insights into diverse aspects of cellular function. When applied to patient tissue, such techniques improve our understanding of disease. One technology that provides this type of data is spatial transcriptomics, which measures the abundance and spatial location of RNA transcripts in cells, while preserving tissue context. Named "Method of the year 2020" by Nature Methods,[^nature-methods] spatial transcriptomics is now routinely applied in diverse biological contexts. Along with information on transcripts, fluorescence microscopy images of cells are also routinely collected now. These images contain information about cell morphology and the intracellular distribution of proteins, complementing the information provided by the transcriptome. Here, we show how this image information can be made available on the single cell level by segmenting tissue slides and extracting single cell images with the Python-based toolkit scPortrait.[^scportrait] We then build a representation of the cells in our tissue using deep learning to embed their image-derived profiles into a continuous space.
+Profiling cells in tissues, their native environment, promises to deliver deep insights into diverse aspects of cellular function. When applied to patient tissue, such techniques improve our understanding of disease. One technology that provides this type of data is spatial transcriptomics, which measures the abundance and spatial location of RNA transcripts in cells, while preserving tissue context. Named "Method of the year 2020" by Nature Methods, spatial transcriptomics is now routinely applied in diverse biological contexts. Along with information on transcripts, fluorescence microscopy images of cells are also routinely collected now. These images contain information about cell morphology and the intracellular distribution of proteins, complementing the information provided by the transcriptome. Here, we show how this image information can be made available on the single cell level by segmenting tissue slides and extracting single-cell images with the Python-based toolkit scPortrait. We then build a representation of the cells in our tissue using deep learning to embed their image-derived profiles into a continuous space.
 
-The technology that was used to generate the data we work with is 10x Genomics’s Xenium. Xenium enables the acquisition of two data modalities on the single cell level:
+The spatial transcriptomics[^nature-methods] technology that was used to generate the data we work with is 10x Genomics’s Xenium. Xenium enables the acquisition of two data modalities on the single cell level:
 
 1. Spatial Transcriptomics. A set of probes is used to read out the expression of genes _in situ_.
 2. Images. Multiple fluorescence imaging channels can record the distribution of stained proteins and cellular structures with subcellular accuracy.
@@ -19,12 +19,12 @@ To profile the transcriptome, Xenium implements a probe-based transcriptomics as
 
 We work with a publicly available [Xenium dataset](https://www.10xgenomics.com/welcome?closeUrl=%2Fdatasets&lastTouchOfferName=FFPE%20Human%20Ovarian%20Cancer%20with%205K%20Human%20Pan%20Tissue%20and%20Pathways%20Panel%20plus%20100%20Custom%20Genes&lastTouchOfferType=Dataset&product=chromium&redirectUrl=%2Fdatasets%2Fxenium-prime-ffpe-human-ovarian-cancer) from an Ovarian cancer patient. This dataset includes more than 120 million transcripts from more than 400,000 cells. It also includes fluorescence images of staining for multiple cellular structures and proteins including the cell membrane and the nucleus.
 
-Our workflow consists of:
+We will extract and analyze single-cell images from this dataset using the Python-based toolkit scPortrait[^scportrait]. Our workflow consists of:
 
 1. Loading Xenium data as a SpatialData[^spatialdata] object
 2. Loading the immunohistochemistry images into scPortrait
-3. Using the cytosol segmentation provided as part of the dataset to extract single cell images with scPortrait
-4. Deriving single cell image features with the convolutional neural network ConvNeXt[^convnext] pretrained on natural images
+3. Using the cytosol segmentation provided as part of the dataset to extract single-cell images with scPortrait
+4. Deriving single-cell image features with the convolutional neural network ConvNeXt[^convnext] pretrained on natural images
 
 ## Loading Xenium Data
 
@@ -56,7 +56,7 @@ Zooming in further, we can see that the different fluorescence microscopy imagin
 
 ## Generating single-cell images
 
-To generate a single cell image dataset we apply a segmentation mask to the image, and then extract images of individual cells. The Xenium dataset provides a segmentation mask already (**Figure 3**).
+To generate a single-cell image dataset we apply a segmentation mask to the image, and then extract images of individual cells. The Xenium dataset provides a segmentation mask already (**Figure 3**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vfTvQso0dF5vXLl30000.png" width="500" style="padding: 0;"/>
@@ -64,17 +64,17 @@ To generate a single cell image dataset we apply a segmentation mask to the imag
 
 **Figure 3 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Segmentation masks from the ovarian cancer Xenium dataset loaded into scPortrait.
 
-After loading the sdata object into an `scPortrait` project, we can run `scPortrait.extract()` to extract a single cell image dataset (**Figure 4**).
+After loading the sdata object into an `scPortrait` project, we can run `scPortrait.extract()` to extract a single-cell image dataset (**Figure 4**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VDLiYGGEcoHQMaR60000.png" width="700" style="padding: 0;"/>
 </div>
 
-**Figure 4 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Single cell images from the ovarian cancer Xenium dataset extracted with scPortrait.
+**Figure 4 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Single-cell images from the ovarian cancer Xenium dataset extracted with scPortrait.
 
 ## Featurizing single-cell images
 
-To find similarities and differences between individual cells in our image dataset, and to ultimately integrate different single cell datasets and modalities, we have to embed all cells into a unified representation. To do this, we first have to derive common features describing each cell based on its image. Multiple approaches to achieve this have been described, which broadly fall into two categories:
+To find similarities and differences between individual cells in our image dataset, and to ultimately integrate different single-cell datasets and modalities, we have to embed all cells into a unified representation. To do this, we first have to derive common features describing each cell based on its image. Multiple approaches to achieve this have been described, which broadly fall into two categories:
 
 1. Using pre-engineered ways to calculate single-cell image features, such as using the convex hull of the DAPI stain to calculate a nucleus outline and area. [CellProfiler](https://github.com/afermg/cp_measure) provides a collection of such features.
 2. Using automatic feature extractors that learn descriptive features from image data. This is currently done using deep learning with models based on architectures including convolutional neural networks (CNNs) and vision transformers (ViTs).
