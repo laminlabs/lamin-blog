@@ -10,6 +10,7 @@ affiliation:
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/1000genomes
+linkedin: https://www.linkedin.com/posts/falexwolf_agents-are-terrible-at-navigating-heterogeneous-ugcPost-7490370634896646144-mk5p/
 ---
 
 The 1000 Genomes Project sequenced 3202 individuals worldwide to build a comprehensive atlas of human genetic variation.
@@ -118,7 +119,7 @@ The result is an agentic analysis that costs 3x fewer tokens and is 4x faster (*
 
 ## Queries
 
-We will be using the popular query engines Polars,[^polars] DuckDB[^duckdb], and PyArrow[^pyarrow], all of which handle datasets that don't fit into memory by streaming them directly from storage. It is worth noting that a new generation of readers can also efficiently query raw `.vcf` files directly.[^biodatageeks] However, they lack the advantages of cloud nativeness and a much broader big data ecosystem, and hence we'll not study them in this post.
+We will be using the popular query engines Polars,[^polars] DuckDB,[^duckdb] and PyArrow,[^pyarrow] all of which handle datasets that don't fit into memory by streaming them directly from storage. It is worth noting that a new generation of readers can also efficiently query raw `.vcf` files directly.[^biodatageeks] However, they lack the advantages of cloud nativeness and a much broader big data ecosystem, and hence we'll not study them in this post.
 
 ### Simple filter
 
