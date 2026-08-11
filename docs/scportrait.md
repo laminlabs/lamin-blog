@@ -5,6 +5,7 @@ author: sophiamaedler, nik-as
 affiliation:
   sophiamaedler: Matthias Mann Lab
   nik-as: Fabian Theis Lab
+db: https://lamin.ai/scportrait/examples
 ---
 
 Profiling cells in tissues, their native environment, promises to deliver deep insights into diverse aspects of cellular function. When applied to patient tissue, such techniques improve our understanding of disease. One technology that provides this type of data is spatial transcriptomics, which measures the abundance and spatial location of RNA transcripts in cells, while preserving tissue context. Named “Method of the year 2020” by [Nature Methods](https://www.nature.com/articles/s41592-020-01033-y), spatial transcriptomics is now routinely applied in diverse biological contexts. Along with information on transcripts, fluorescence microscopy images of cells are also routinely collected now. These images contain information about cell morphology and the intracellular distribution of proteins, complementing the information provided by the transcriptome. Here, we show how this image information can be made available on the single cell level by segmenting tissue slides and extracting single cell images with the Python-based toolkit [`scPortrait`](https://github.com/MannLabs/scPortrait). We then build a representation of the cells in our tissue using deep learning to embed their image-derived profiles into a continuous space.
