@@ -1,6 +1,6 @@
 ---
-title: "A workflow for single-cell image analysis of multimodal 10x Genomics Xenium data"
-date: 2026-08-04
+title: "Analyzing single-cell images from 10x Genomics Xenium data with scPortrait"
+date: 2026-08-11
 author: sophiamaedler, nik-as
 affiliation:
   sophiamaedler: Matthias Mann Lab
