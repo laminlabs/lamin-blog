@@ -59,7 +59,7 @@ Zooming in further, we can see that the different fluorescence microscopy imagin
 To generate a single-cell image dataset we apply a segmentation mask to the image, and then extract images of individual cells. The Xenium dataset provides a segmentation mask already (**Figure 3**).
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vfTvQso0dF5vXLl30000.png" width="500" style="padding: 0;"/>
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vfTvQso0dF5vXLl30001.png" width="500" style="padding: 0;"/>
 </div>
 
 **Figure 3 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Segmentation masks from the ovarian cancer Xenium dataset loaded into scPortrait.
