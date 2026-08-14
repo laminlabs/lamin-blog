@@ -13,14 +13,10 @@ Here, we show how to extract single-cell images from these data by segmenting ti
 We then embed the single-cell images with a neural network to identify cells with distinct morphologies and intracellular protein distributions.
 Mapping the image-derived representation onto transcriptomic space reveals distinct transcriptomic subpopulations.
 
-The spatial transcriptomics[^nature-methods] technology that was used to generate the data we work with is 10x Genomics’s Xenium. Xenium enables the acquisition of two data modalities on the single cell level:
-
-1. Spatial Transcriptomics. A set of probes is used to read out the expression of genes _in situ_.
-2. Images. Multiple fluorescence imaging channels can record the distribution of stained proteins and cellular structures with subcellular accuracy.
+We study a publicly available [Xenium dataset](https://lamin.ai/scportrait/examples/artifact/maZ6xBiJ48hYVMc9) from an ovarian cancer patient.
+This dataset includes more than 120 million transcripts from more than 400,000 cells, along with fluorescence images showing staining of multiple cellular structures and proteins, including the cell membrane and nucleus.
 
 To profile the transcriptome, Xenium implements a probe-based transcriptomics assay where a panel of 5,000 probes is used to measure the expression of a predefined set of genes in all cells. The main advantage of probe-based methods is their high resolution, up to the subcellular level.
-
-We work with a publicly available [Xenium dataset](https://www.10xgenomics.com/welcome?closeUrl=%2Fdatasets&lastTouchOfferName=FFPE%20Human%20Ovarian%20Cancer%20with%205K%20Human%20Pan%20Tissue%20and%20Pathways%20Panel%20plus%20100%20Custom%20Genes&lastTouchOfferType=Dataset&product=chromium&redirectUrl=%2Fdatasets%2Fxenium-prime-ffpe-human-ovarian-cancer) from an Ovarian cancer patient. This dataset includes more than 120 million transcripts from more than 400,000 cells. It also includes fluorescence images of staining for multiple cellular structures and proteins including the cell membrane and the nucleus.
 
 We will extract and analyze single-cell images from this dataset using the Python-based toolkit scPortrait[^scportrait]. Our workflow consists of:
 
