@@ -1,17 +1,17 @@
 ---
 title: "Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait"
 date: 2026-08-14
-author: sophiamaedler, nik-as
+author: Sophia C. Mädler (sophiamaedler), Niklas A. Schmacke (nik-as)
 affiliation:
-  sophiamaedler: Matthias Mann Lab
-  nik-as: Fabian Theis Lab
+  Sophia C. Mädler: Matthias Mann Lab
+  Niklas A. Schmacke: Fabian Theis Lab
 db: https://lamin.ai/scportrait/examples
 ---
 
 Spatial transcriptomics measures the abundance and spatial location of RNA transcripts in cells in their tissue context.
 It also routinely captures fluorescence microscopy images of cells to complement transcriptional information with information about the intracellular distribution of proteins and cell morphology.
 Here, we show how these images can be made available on the single-cell level by segmenting tissue slides and extracting single-cell images with the Python-based toolkit scPortrait.
-We then build a representation of the cells in the tissue using deep learning embedding their image-derived profiles into a continuous space.
+We then build a representation of all cells in the tissue using deep learning, embedding their image-derived profiles into a continuous space. In this representation space, we identify cells with distinct morphologies and intracellular protein distributions. Combining the image-based representation with transcriptome information, we show that these image-based differences are reflected in a cell’s gene expression profile, enabling the identification of distinct subpopulations. Throughout, we make the progression from raw datasets to embedding vectors transparent by tracking each data transformation with LaminDB.
 
 The spatial transcriptomics[^nature-methods] technology that was used to generate the data we work with is 10x Genomics’s Xenium. Xenium enables the acquisition of two data modalities on the single cell level:
 
@@ -82,7 +82,7 @@ To find similarities and differences between individual cells in our image datas
 1. Using pre-engineered ways to calculate single-cell image features, such as using the convex hull of the DAPI stain to calculate a nucleus outline and area. [CellProfiler](https://github.com/afermg/cp_measure) provides a collection of such features.
 2. Using automatic feature extractors that learn descriptive features from image data. This is currently done using deep learning with models based on architectures including convolutional neural networks (CNNs) and vision transformers (ViTs).
 
-Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in imageNet,[^imagenet] a collection of natural images. We hypothesize that ConvNeXt has learned a feature set that is useful to describe images, and can therefore identify cellular phenotypes despite not having been trained on images of cells. The images in imageNet are 3-channel RGB images. Hence, ConvNeXt accepts three input channels. We chose to use the ATP1A1, E-Cadherin, CD45 (#2), 18S (#3) and AlphaSMA/Vimentin (#4) channels to featurize our cells. With the `scPortrait` `Dataloader` we can then calculate ConvNeXt features for all cells in the Xenium dataset. Using a `umap` visualization to inspect this embedding, we find that the expression of a number of genes varies across cells with different morphological features (**Figure 5**).
+Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in imageNet,[^imagenet] a collection of natural images. We hypothesize that ConvNeXt has learned a feature set that is useful to describe images, and can therefore identify cellular phenotypes despite not having been trained on images of cells. The images in imageNet are 3-channel RGB images. Hence, ConvNeXt accepts three input channels. We chose to use the ATP1A1, E-Cadherin, CD45 (#2), 18S (#3) and AlphaSMA/Vimentin (#4) channels to featurize our cells. With the `scPortrait` `Dataloader` we can then calculate ConvNeXt features for all cells in the Xenium dataset. Using a `umap` visualization to inspect this embedding, we find populations of cells corresponding to different morphologies and intracellular marker protein distributions (**Figure 5**). Overlaying this image-based embedding with transcriptome information for each cell reveals that cellular differences identified via image-based features are accompanied by gene expression changes. For example, we identify a morphologically distinct population of cells that expresses the collagen gene *COL5A1*.(**Figure 5**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vdUZBbdtiawnXUWX0000.png" width="700" style="padding: 0;"/>
@@ -100,7 +100,7 @@ The blog post roughly follows this guide for working with `scportrait` and `lami
 ## How to cite
 
 ```
-Maedler S & Schmacke N (2026). Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait. Lamin Blog. https://blog.lamin.ai/scportrait
+Mädler SC & Schmacke NA (2026). Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait. Lamin Blog. https://blog.lamin.ai/scportrait
 ```
 
 ## Acknowledgements
