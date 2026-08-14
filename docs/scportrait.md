@@ -9,16 +9,16 @@ db: https://lamin.ai/scportrait/examples
 ---
 
 Spatial transcriptomics measures RNA abundance and spatial localization in tissue and is routinely complemented by fluorescence microscopy imaging.
-Here, we show how to extract single-cell images from these data by segmenting tissue slides with the Python-based scPortrait toolkit.
+Here, we show how to extract single-cell images from this data by segmenting tissue slides with the Python-based scPortrait toolkit.
 We then embed the single-cell images with a neural network to identify cells with distinct morphologies and intracellular protein distributions.
-Mapping the image-derived representation onto transcriptomic space reveals distinct transcriptomic subpopulations.
+We further characterize these cells by mapping the expression of individual genes on the embedding, finding a subpopulation that expresses the collagen gene _COL5A1_.
 
 We study a publicly available [Xenium dataset](https://lamin.ai/scportrait/examples/artifact/maZ6xBiJ48hYVMc9) from an ovarian cancer patient.
 This dataset includes more than 120 million transcripts from more than 400,000 cells, along with fluorescence images showing staining of multiple cellular structures and proteins, including the cell membrane and nucleus.
 
-We will extract and analyze single-cell images from this dataset using the Python-based toolkit scPortrait[^scportrait]. Our workflow consists of:
+We will extract and analyze single-cell images from this dataset using scPortrait.[^scportrait] Our workflow consists of:
 
-1. Loading Xenium data as a SpatialData[^spatialdata] object
+1. Loading the Xenium dataset as a SpatialData[^spatialdata] object
 2. Loading the immunohistochemistry images into scPortrait
 3. Using the cytosol segmentation provided as part of the dataset to extract single-cell images with scPortrait
 4. Deriving single-cell image features with the convolutional neural network ConvNeXt[^convnext] pretrained on natural images
@@ -52,7 +52,7 @@ Channel | Stain | Description
 
 **Table 1**: Summary of the fluorescent stains used in the ovarian cancer Xenium dataset.
 
-## Generating single-cell images
+## Extracting single-cell images
 
 To generate a single-cell image dataset we apply a segmentation mask to the image, and then extract images of individual cells. The Xenium dataset provides a segmentation mask already (**Figure 3**).
 
@@ -70,14 +70,16 @@ After loading the sdata object into an `scPortrait` project, we can run `scPortr
 
 **Figure 4 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Single-cell images from the ovarian cancer Xenium dataset extracted with scPortrait.
 
-## Featurizing single-cell images
+## Embedding single-cell images
 
 To find similarities and differences between individual cells in our image dataset, and to ultimately integrate different single-cell datasets and modalities, we have to embed all cells into a unified representation. To do this, we first have to derive common features describing each cell based on its image. Multiple approaches to achieve this have been described, which broadly fall into two categories:
 
 1. Using pre-engineered ways to calculate single-cell image features, such as using the convex hull of the DAPI stain to calculate a nucleus outline and area. [CellProfiler](https://github.com/afermg/cp_measure) provides a collection of such features.
 2. Using automatic feature extractors that learn descriptive features from image data. This is currently done using deep learning with models based on architectures including convolutional neural networks (CNNs) and vision transformers (ViTs).
 
-Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in imageNet,[^imagenet] a collection of natural images. We hypothesize that ConvNeXt has learned a feature set that is useful to describe images, and can therefore identify cellular phenotypes despite not having been trained on images of cells. The images in imageNet are 3-channel RGB images. Hence, ConvNeXt accepts three input channels. We chose to use the ATP1A1, E-Cadherin, CD45 (#2), 18S (#3) and AlphaSMA/Vimentin (#4) channels to featurize our cells. With the `scPortrait` `Dataloader` we can then calculate ConvNeXt features for all cells in the Xenium dataset. Using a `umap` visualization to inspect this embedding, we find populations of cells corresponding to different morphologies and intracellular marker protein distributions. Overlaying this image-based embedding with transcriptome information for each cell reveals that cellular differences identified via image-based features are accompanied by gene expression changes. For example, we identify a morphologically distinct population of cells that expresses the collagen gene _COL5A1_ (**Figure 5**).
+Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in imageNet,[^imagenet] a collection of natural images. We hypothesize that ConvNeXt has learned a feature set that is useful to describe images, and can therefore identify cellular phenotypes despite not having been trained on images of cells. The images in imageNet are 3-channel RGB images. Hence, ConvNeXt accepts three input channels. We chose to use the ATP1A1, E-Cadherin, CD45 (#2), 18S (#3) and AlphaSMA/Vimentin (#4) channels to featurize our cells. Using scPortrait, we can then calculate ConvNeXt features for all cells in the Xenium dataset. Using UMAP to inspect this embedding, we find populations of cells corresponding to different morphologies and intracellular marker protein distributions.
+
+Overlaying this image-based embedding with transcriptome information for each cell reveals that cellular differences identified via image-based features are accompanied by gene expression changes. For example, we identify a morphologically distinct population of cells that expresses the collagen gene _COL5A1_ (**Figure 5**).
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vdUZBbdtiawnXUWX0000.png" width="700" style="padding: 0;"/>
