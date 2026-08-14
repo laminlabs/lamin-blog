@@ -74,7 +74,7 @@ After loading the sdata object into an `scPortrait` project, we can run `scPortr
 
 To find similarities and differences between individual cells in our image dataset, and to ultimately integrate different single-cell datasets and modalities, we have to embed all cells into a unified representation. To do this, we first have to derive common features describing each cell based on its image. Multiple approaches to achieve this have been described, which broadly fall into two categories:
 
-1. Using pre-engineered ways to calculate single-cell image features, such as using the convex hull of the DAPI stain to calculate a nucleus outline and area. [CellProfiler](https://github.com/afermg/cp_measure) provides a collection of such features.
+1. Using pre-engineered ways to calculate single-cell image features, such as using the convex hull of the DAPI stain to calculate a nucleus outline and area. CellProfiler[^cellprofiler][^cpmeasure] provides a collection of such features.
 2. Using automatic feature extractors that learn descriptive features from image data. This is currently done using deep learning with models based on architectures including convolutional neural networks (CNNs) and vision transformers (ViTs).
 
 Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in imageNet,[^imagenet] a collection of natural images. We hypothesize that ConvNeXt has learned a feature set that is useful to describe images, and can therefore identify cellular phenotypes despite not having been trained on images of cells. The images in imageNet are 3-channel RGB images. Hence, ConvNeXt accepts three input channels. We chose to use the ATP1A1, E-Cadherin, CD45 (#2), 18S (#3) and AlphaSMA/Vimentin (#4) channels to featurize our cells. Using scPortrait, we can then calculate ConvNeXt features for all cells in the Xenium dataset. Using UMAP to inspect this embedding, we find populations of cells corresponding to different morphologies and intracellular marker protein distributions.
@@ -113,3 +113,7 @@ Mädler SC & Schmacke NA (2026). Extracting single-cell morphology and subcellul
 [^convnext]: Liu Z et al. (2022). A ConvNet for the 2020s. [arXiv:2201.03545](https://arxiv.org/abs/2201.03545).
 
 [^imagenet]: Deng J et al. (2009). ImageNet: A large-scale hierarchical image database. [doi:10.1109/CVPR.2009.5206848](https://ieeexplore.ieee.org/document/5206848).
+
+[^cellprofiler]: McQuin C, Goodman A, Chernyshev V, et al. (2018). CellProfiler 3.0: Next-generation image processing for biology. PLOS Biology, 16(7), e2005970. [doi:10.1371/journal.pbio.2005970](https://doi.org/10.1371/journal.pbio.2005970).
+
+[^cpmeasure]: Munoz AF, Treis T, Kalinin AA, et al. (2025). cp_measure: API-first feature extraction for image-based profiling workflows. [arXiv:2507.01163](https://arxiv.org/abs/2507.01163).
