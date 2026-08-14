@@ -16,8 +16,6 @@ Mapping the image-derived representation onto transcriptomic space reveals disti
 We study a publicly available [Xenium dataset](https://lamin.ai/scportrait/examples/artifact/maZ6xBiJ48hYVMc9) from an ovarian cancer patient.
 This dataset includes more than 120 million transcripts from more than 400,000 cells, along with fluorescence images showing staining of multiple cellular structures and proteins, including the cell membrane and nucleus.
 
-To profile the transcriptome, Xenium implements a probe-based transcriptomics assay where a panel of 5,000 probes is used to measure the expression of a predefined set of genes in all cells. The main advantage of probe-based methods is their high resolution, up to the subcellular level.
-
 We will extract and analyze single-cell images from this dataset using the Python-based toolkit scPortrait[^scportrait]. Our workflow consists of:
 
 1. Loading Xenium data as a SpatialData[^spatialdata] object
