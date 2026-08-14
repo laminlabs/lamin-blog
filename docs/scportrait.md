@@ -1,10 +1,10 @@
 ---
 title: "Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait"
 date: 2026-08-14
-author: Sophia C. Mädler (sophiamaedler), Niklas A. Schmacke (nik-as)
+author: sophiamaedler, nik-as
 affiliation:
-  Sophia C. Mädler: Matthias Mann Lab
-  Niklas A. Schmacke: Fabian Theis Lab
+  sophiamaedler: Matthias Mann Lab
+  nik-as: Fabian Theis Lab
 db: https://lamin.ai/scportrait/examples
 ---
 
