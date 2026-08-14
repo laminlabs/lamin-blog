@@ -103,11 +103,9 @@ We thank Lukas Heumos for support in creating [docs.lamin.ai/sc-imaging](https:/
 
 ## References
 
-[^nature-methods]: Nature Methods (2021). Method of the Year 2020: spatially resolved transcriptomics. [Nature Methods](https://www.nature.com/articles/s41592-020-01033-y).
+[^scportrait]: Mädler SC, Schmacke NA, Palma A, et al. (2025). scPortrait integrates single-cell images into multimodal modeling. bioRxiv. [doi:10.1101/2025.09.22.677590](https://doi.org/10.1101/2025.09.22.677590).
 
-[^scportrait]: Mann Labs. scPortrait: A Python toolkit for single-cell image analysis. [GitHub](https://github.com/MannLabs/scPortrait).
-
-[^spatialdata]: SpatialData. A unified spatial omics data framework for Python. [SpatialData](https://spatialdata.scverse.org).
+[^spatialdata]: Marconato L, Palla G, Yamauchi KA, et al. (2025). SpatialData: an open and universal data framework for spatial omics. Nature Methods, 22, 58-62. [doi:10.1038/s41592-024-02212-x](https://doi.org/10.1038/s41592-024-02212-x).
 
 [^convnext]: Liu Z et al. (2022). A ConvNet for the 2020s. [arXiv:2201.03545](https://arxiv.org/abs/2201.03545).
 
