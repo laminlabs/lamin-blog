@@ -92,15 +92,15 @@ The blog post roughly follows this guide for working with `scportrait` and `lami
 - Analyses of this blog post: https://lamin.ai/scportrait/examples
 - The scPortrait library: https://github.com/MannLabs/scPortrait
 
+## Acknowledgements
+
+We thank Lukas Heumos for support in creating [docs.lamin.ai/sc-imaging](https://docs.lamin.ai/sc-imaging).
+
 ## How to cite
 
 ```
 Mädler SC & Schmacke NA (2026). Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait. Lamin Blog. https://blog.lamin.ai/scportrait
 ```
-
-## Acknowledgements
-
-We thank Lukas Heumos for support in creating [docs.lamin.ai/sc-imaging](https://docs.lamin.ai/sc-imaging).
 
 ## References
 
