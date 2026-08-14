@@ -1,6 +1,6 @@
 ---
-title: "Extracting single-cell morphology and subcellular protein localisation from 10x Genomics Xenium data with scPortrait"
-date: 2026-08-11
+title: "Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait"
+date: 2026-08-14
 author: sophiamaedler, nik-as
 affiliation:
   sophiamaedler: Matthias Mann Lab
@@ -93,6 +93,12 @@ The blog post roughly follows this guide for working with `scportrait` and `lami
 
 - Analyses of this blog post: https://lamin.ai/scportrait/examples
 - The scPortrait library: https://github.com/MannLabs/scPortrait
+
+## How to cite
+
+```
+Maedler S & Schmacke N (2026). Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait. Lamin Blog. https://blog.lamin.ai/scportrait
+```
 
 ## Acknowledgements
 
