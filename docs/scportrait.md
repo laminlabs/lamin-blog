@@ -8,7 +8,10 @@ affiliation:
 db: https://lamin.ai/scportrait/examples
 ---
 
-Profiling cells in tissues, their native environment, promises to deliver deep insights into diverse aspects of cellular function. When applied to patient tissue, such techniques improve our understanding of disease. One technology that provides this type of data is spatial transcriptomics, which measures the abundance and spatial location of RNA transcripts in cells, while preserving tissue context. Named "Method of the year 2020" by Nature Methods, spatial transcriptomics is now routinely applied in diverse biological contexts. Along with information on transcripts, fluorescence microscopy images of cells are also routinely collected now. These images contain information about cell morphology and the intracellular distribution of proteins, complementing the information provided by the transcriptome. Here, we show how this image information can be made available on the single cell level by segmenting tissue slides and extracting single-cell images with the Python-based toolkit scPortrait. We then build a representation of the cells in our tissue using deep learning to embed their image-derived profiles into a continuous space.
+Spatial transcriptomics measures the abundance and spatial location of RNA transcripts in cells in their tissue context.
+It also routinely captures fluorescence microscopy images of cells to complement transcriptional information with information about the intracellular distribution of proteins and cell morphology.
+Here, we show how these images can be made available on the single-cell level by segmenting tissue slides and extracting single-cell images with the Python-based toolkit scPortrait.
+We then build a representation of the cells in the tissue using deep learning embedding their image-derived profiles into a continuous space.
 
 The spatial transcriptomics[^nature-methods] technology that was used to generate the data we work with is 10x Genomics’s Xenium. Xenium enables the acquisition of two data modalities on the single cell level:
 
