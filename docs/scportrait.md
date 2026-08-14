@@ -13,7 +13,7 @@ Here, we show how to extract single-cell images from this data by segmenting tis
 We then embed the single-cell images with a neural network to identify cells with distinct morphologies and intracellular protein distributions.
 We further characterize these cells by mapping the expression of individual genes on the embedding, finding a subpopulation that expresses the collagen gene _COL5A1_.
 
-We study a publicly available [Xenium dataset](https://lamin.ai/scportrait/examples/artifact/maZ6xBiJ48hYVMc9) from an ovarian cancer patient.
+We study a publicly available [Xenium dataset](https://lamin.ai/scportrait/examples/artifact/maZ6xBiJ48hYVMc9) from an ovarian cancer patient.[^xenium_dataset]
 This dataset includes more than 120 million transcripts from more than 400,000 cells, along with fluorescence images showing staining of multiple cellular structures and proteins, including the cell membrane and nucleus.
 
 We will extract and analyze single-cell images from this dataset using scPortrait.[^scportrait] Our workflow consists of:
@@ -117,3 +117,5 @@ Mädler SC & Schmacke NA (2026). Extracting single-cell morphology and subcellul
 [^cellprofiler]: McQuin C, Goodman A, Chernyshev V, et al. (2018). CellProfiler 3.0: Next-generation image processing for biology. PLOS Biology, 16(7), e2005970. [doi:10.1371/journal.pbio.2005970](https://doi.org/10.1371/journal.pbio.2005970).
 
 [^cpmeasure]: Munoz AF, Treis T, Kalinin AA, et al. (2025). cp_measure: API-first feature extraction for image-based profiling workflows. [arXiv:2507.01163](https://arxiv.org/abs/2507.01163).
+
+[^xenium_dataset]: 10x Genomics. Xenium Prime FFPE Human Ovarian Cancer dataset. [10x Genomics Dataset](https://www.10xgenomics.com/datasets/xenium-prime-ffpe-human-ovarian-cancer).
