@@ -82,10 +82,10 @@ Here, we use ConvNeXt,[^convnext] a CNN that was trained to classify images in i
 Overlaying this image-based embedding with transcriptome information for each cell reveals that cellular differences identified via image-based features are accompanied by gene expression changes. For example, we identify a morphologically distinct population of cells that expresses the collagen gene _COL5A1_ (**Figure 5**).
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vdUZBbdtiawnXUWX0000.png" width="700" style="padding: 0;"/>
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vdUZBbdtiawnXUWX0001.png" width="400" style="padding: 0;"/>
 </div>
 
-**Figure 5 ([source](https://lamin.ai/scportrait/examples/transform/GgYLvhXloKY20002))**: UMAP representation of ConvNeXt image features of individual segmented cells in an ovarian cancer tissue region. Each dot corresponds to a single cell. Colors correspond to the expression of the indicated genes across cells.
+**Figure 5 ([source](https://lamin.ai/scportrait/examples/transform/GgYLvhXloKY20002))**: UMAP representation of ConvNeXt image features of individual segmented cells in an ovarian cancer tissue region. Each dot corresponds to a single cell. Colors correspond to the expression of the _COL5A1_ gene across cells.
 
 ## Data & code availability
 
