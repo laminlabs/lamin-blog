@@ -41,13 +41,14 @@ Zooming in further, we can see that the different fluorescence microscopy imagin
 
 **Figure 2 ([source](https://lamin.ai/scportrait/examples/transform/OofR70fo7iEt0007))**: Fluorescence microscopy images of different proteins and subcellular structures in a small region of the ovarian cancer Xenium dataset.
 
-| Channel | Stain                    | Description                                                                                                                                          |
-| ------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1       | DAPI                     | DNA                                                                                                                                                  |
-| 2       | ATP1A1, E-Cadherin, CD45 | **ATP1A1, E-Cadherin:** Epithelial markers<br>**CD45:** Pan-lymphocyte marker                                                                        |
-| 3       | 18S                      | Ribosomal RNA, used for [segmentation](https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/algorithms-overview/segmentation) |
-| 4       | AlphaSMA/Vimentin        | **AlphaSMA:** Smooth Muscle Actin, a cytoskeletal protein<br>**Vimentin:** A cytoskeletal protein used as a soft-tissue tumor marker                 |
-| 5       | None                     | Dummy Channel                                                                                                                                        |
+<!-- prettier-ignore -->
+Channel | Stain | Description
+--- | --- | ---
+1 | DAPI | DNA
+2 | ATP1A1, E-Cadherin, CD45 | **ATP1A1, E-Cadherin:** Epithelial markers<br>**CD45:** Pan-lymphocyte marker
+3 | 18S | Ribosomal RNA, used for [segmentation](https://www.10xgenomics.com/support/software/xenium-onboard-analysis/latest/algorithms-overview/segmentation)
+4 | AlphaSMA/Vimentin | **AlphaSMA:** Smooth Muscle Actin, a cytoskeletal protein<br>**Vimentin:** A cytoskeletal protein used as a soft-tissue tumor marker
+5 | None | Dummy Channel
 
 **Table 1**: Summary of the fluorescent stains used in the ovarian cancer Xenium dataset.
 
