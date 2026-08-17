@@ -12,7 +12,7 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-Today we launch Lamin to the general public! With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy & efficient multimodal AI, no matter where and how you run it.
+Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy & efficient multimodal AI, no matter where and how you run it.
 
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent, in particular in large projects spanning many collaborators and datasets, and ever since serving teams in academia, BioTech, and Big Pharma.
 Today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
@@ -21,7 +21,7 @@ For example, Jeremie started using LaminDB during his PhD on single-cell foundat
 
 > When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS Paris & Institut Pasteur](https://www.linkedin.com/feed/update/urn:li:activity:7452778533657014273/)
 
-Here is an example illustrating how traceability matters across a drug discovery project that spans multiple entities and data generation steps -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq.[^schmidt22]
+On a different scale, the following video illustrates how how traceability matters across a drug discovery project that spans many entities and data generation steps -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq.[^schmidt22]
 
 ```{raw} html
 <iframe width="560" height="315" src="https://www.youtube.com/embed/yK3ODFZLL1A?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
