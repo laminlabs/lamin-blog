@@ -9,9 +9,9 @@ db: https://lamin.ai/scportrait/examples
 ---
 
 Spatial transcriptomics measures RNA abundance and spatial localization in tissue and is routinely complemented by fluorescence microscopy imaging.
-Here, we show how to extract single-cell images from this data by segmenting tissue slides with the Python-based scPortrait toolkit.
+Here, we show how to extract single-cell images from this data by with the Python-based toolkit scPortrait.
 We then embed the single-cell images with a neural network to identify cells with distinct morphologies and intracellular protein distributions.
-We further characterize these cells by mapping the expression of individual genes on the embedding, finding a subpopulation that expresses the collagen gene _COL5A1_.
+We further characterize these cells by inspecting their gene expression, finding a morphologically defined subpopulation that expresses the collagen gene _COL5A1_.
 
 We study a publicly available [Xenium dataset](https://lamin.ai/scportrait/examples/artifact/maZ6xBiJ48hYVMc9) from an ovarian cancer patient.[^xenium_dataset]
 This dataset includes more than 120 million transcripts from more than 400,000 cells, along with fluorescence images showing staining of multiple cellular structures and proteins, including the cell membrane and nucleus.
