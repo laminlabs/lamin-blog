@@ -2,6 +2,14 @@
 title: "Lamin: an open data platform for traceable, multimodal AI"
 date: 2026-08-17
 author: sunnyosun, Koncopd, Ebad371, sheetalgiri, chaichontat, fredericenard, falexwolf
+affiliation:
+  sunnyosun: Lamin Labs, Munich
+  Koncopd: Lamin Labs, Munich
+  Ebad371: Lamin Labs, Munich
+  sheetalgiri: Lamin Labs, Munich
+  fredericenard: Lamin Labs, NYC
+  chaichontat: Lamin Labs, NYC
+  falexwolf: Lamin Labs, Munich
 ---
 
 Today we launch Lamin to the general public! With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) and use it to build more trustworthy & efficient multimodal AI, no matter where and how you run it.
@@ -9,7 +17,7 @@ Today we launch Lamin to the general public! With a single click, anyone can cre
 We started working on Lamin in early 2022 with the idea that computational biology should be more reliable & efficent, in particular in large projects spanning many collaborators and datasets.
 And so we have been serving teams in academia, BioTech, and Big Pharma since late 2022.
 Today, anyone can delegate work to a team of agents, and even a project with a single human needs to keep track of many analyses, models, and datasets.
-And so, LaminDB found its path even into PhD projects:
+And so, LaminDB found its path even into PhD projects.
 
 > When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS ULM](https://www.linkedin.com/feed/update/urn:li:activity:7452778533657014273/)
 
