@@ -43,16 +43,8 @@ This is also true when performing even a simple genetic variant analysis: by tre
 import lamindb as ln
 import polars as pl
 
-# Connect to the database
 db = ln.DB("laminlabs/1000genomes")
-
-# Retrieve the collection
 collection = db.Collection.get("hVu9puwdRGskm1I6")
-
-# Confirm the schema contract for these files
-collection.schema.describe()
-
-# Open the collection as a lazy Polars dataframe
 with collection.open(engine="polars") as df:
     chrom = "1"
     lo, hi = 150_000_000, 200_000_000
@@ -96,7 +88,7 @@ Explore datasets at https://lamin.ai/explore, play with the quickstart of the op
 
 Zavain Dar, Adam Goulburn & Nan Li from Dimension led our seed investment round in September 2022 and have actively supported us ever since. They previously backed companies like Recursion & HuggingFace. Surbhi Sarna & Jared Friedman from YC believed in us even before a meaningful line of code was written. Pillar VC, Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa completed the seed investment.
 
-We’re grateful to those people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We should also mention big data storage formats including parquet, HDF5, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase, which we use to provide access to Postgres connection strings at scale.
+We’re grateful to those people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We should also mention big data storage formats including parquet, HDF5, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase.
 
 We're deeply grateful to our early customers for their patience and feedback, our team for relentlessly building the platform, and everyone who supported us along the way. We hope to feature their many names and contributions in upcoming posts.
 
