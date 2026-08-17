@@ -35,6 +35,7 @@ extensions.append("ablog")
 authors = {
     "alexras": ("Alex Rasmussen", "https://github.com/alexras"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
+    "Ebad371": ("Ebad Khan", "https://github.com/Ebad371"),
     "fabian-theis": (
         "Fabian Theis",
         "https://scholar.google.com/citations?user=sqWpn2AAAAAJ&hl=en",
@@ -53,6 +54,7 @@ authors = {
     "melonora": ("Wouter-Michiel Vierdag", "https://github.com/melonora"),
     "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
     "Raaghav-Pillai": ("Raaghav Pillai", "https://github.com/Raaghav-Pillai"),
+    "sheetalgiri": ("Sheetal Giri", "https://github.com/sheetalgiri"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "timtreis": ("Tim Treis", "https://github.com/timtreis"),
     "tjburns08": ("Tyler Burns", "https://github.com/tjburns08"),
