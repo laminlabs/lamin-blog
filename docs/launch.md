@@ -11,9 +11,7 @@ And so we have been serving teams in academia, BioTech, and Big Pharma since lat
 Today, anyone can delegate work to a team of agents, and even a project with a single human needs to keep track of many analyses, models, and datasets.
 And so, LaminDB found its path even into PhD projects:
 
-```{epigraph}
-When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS ULM](https://www.linkedin.com/feed/update/urn:li:activity:7452778533657014273/)
-```
+> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS ULM](https://www.linkedin.com/feed/update/urn:li:activity:7452778533657014273/)
 
 With the exception of closed biological systems – e.g. for modeling structure-based predictions – it has remained notoriously difficult to create large-scale training datasets for biology. This holds in particular for collections of multi-modal omics datasets. Lamin built an open-source data lakehouse that makes it easy to create, manage, and leverage growing biological dataset collections.
 
