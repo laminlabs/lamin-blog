@@ -12,22 +12,29 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy & efficient multimodal AI, no matter where and how you run it.
+Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient multimodal AI, no matter where and how you run it.
 
-We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent, in particular in large projects spanning many collaborators and datasets, and ever since serving teams in academia, BioTech, and Big Pharma.
-Today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
-To our knowledge there is no open-source data management tool that lets you do that.
-For example, Jeremie started using LaminDB during his PhD on single-cell foundation models.
+We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
+Everything that was true back then is even more true today in the age of agents: Untraceable results cannot be trusted. Without efficient access to multimodal data, agents burn tokens, make mistakes, or fail entirely. And changes to data should ideally be subject to git-like governance.
+
+## Traceability in academia and drug discovery
+
+For years, we have been serving teams of humans in academia, BioTech, and Big Pharma, but today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
+For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
 
 > When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS Paris & Institut Pasteur](https://www.linkedin.com/feed/update/urn:li:activity:7452778533657014273/)
 
-On a different scale, the following video illustrates how how traceability matters across a drug discovery project that spans many entities and data generation steps -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq.[^schmidt22]
+Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11). LaminDB allows tracing how information flows through many data transformation steps and across many entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about targets and perturbations.[^schmidt22]
 
 ```{raw} html
 <iframe width="560" height="315" src="https://www.youtube.com/embed/yK3ODFZLL1A?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
-With the exception of closed biological systems – e.g. for modeling structure-based predictions – it has remained notoriously difficult to create large-scale training datasets for biology. This holds in particular for collections of multi-modal omics datasets. Lamin built an open-source data lakehouse that makes it easy to create, manage, and leverage growing biological dataset collections.
+Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and creates a long-term memory of data operations ("How did we analyze datasets for frozen lung tissue before?"). It's been notoriously difficult to create big training datasets for biology outside of simple systems. Just by using LaminDB, one creates FAIR training data automatically, a bit like when using git to manage the source code of a project.
+
+## Efficient data access
+
+## The world's largest collection of queryable biological training data
 
 To illustrate this, we provide free programmatic access to the world’s largest public collection of single-cell data at lamin.ai/explore. We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, HubMAP, or the Arc Virtual Cell Atlas and make their datasets and entities queryable through easy-to-use open-source Python & R libraries. Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface. If Lamin was a closed web platform rather than an open-source harmonizing access layer for the modern data stack, we could never have built on the work of others simply by interfacing their assets.
 
