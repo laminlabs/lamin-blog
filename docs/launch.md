@@ -7,8 +7,8 @@ affiliation:
   Koncopd: Lamin Labs, Munich
   Ebad371: Lamin Labs, Munich
   sheetalgiri: Lamin Labs, Munich
-  fredericenard: Lamin Labs, NYC
   chaichontat: Lamin Labs, NYC
+  fredericenard: Lamin Labs, NYC
   falexwolf: Lamin Labs, Munich
 ---
 
@@ -33,6 +33,39 @@ Especially drug discovery teams need end-to-end traceability for GxP compliance 
 Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and creates a long-term memory of data operations ("How did we analyze datasets for frozen lung tissue before?"). It's been notoriously difficult to create big training datasets for biology outside of simple systems. Just by using LaminDB, one creates FAIR training data automatically, a bit like when using git to manage the source code of a project.
 
 ## Efficient data access
+
+Unlike in traditional SQL-based data warehousing, in AI and R&D data is often kept in storage systems or data lakes.
+While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
+A recent study on the NCBI Virus Database demonstrated that agents can fail entirely when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.[^anthropic-agents]
+This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing together 88M variants e.g. with polars:
+
+```python
+import lamindb as ln
+import polars as pl
+
+# Connect to the database
+db = ln.DB("laminlabs/1000genomes")
+
+# Retrieve the collection
+collection = db.Collection.get("hVu9puwdRGskm1I6")
+
+# Confirm the schema contract for these files
+collection.schema.describe()
+
+# Open the collection as a lazy Polars dataframe
+with collection.open(engine="polars") as df:
+    chrom = "1"
+    lo, hi = 150_000_000, 200_000_000
+    filtered = df.filter(
+        (pl.col("chrom") == chrom) & (pl.col("pos") >= lo) & (pl.col("pos") <= hi)
+    ).collect()
+```
+
+Such efficient data access then helps agents reduce token usage or spares humans wrangling data.[^pillai26]
+
+<div style="text-align: center">
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="400" style="padding: 0;"/>
+</div>
 
 ## The world's largest collection of queryable biological training data
 
@@ -69,4 +102,8 @@ We're deeply grateful to our early customers for their patience and feedback, ou
 
 ## References
 
+[^anthropic-agents]: Luebbert L et al. (2026). Paving the way for agents in biology. [Anthropic Research](https://www.anthropic.com/research/agents-in-biology).
+
 [^schmidt22]: https://pubmed.ncbi.nlm.nih.gov/35113687/ "Schmidt R, Steinhart Z, Layeghi M, Freimer JW, Bueno R, Nguyen VQ, Blaeschke F, Ye CJ, Marson A. CRISPR activation and interference screens decode stimulation responses in primary human T cells. Science. 2022."
+
+[^pillai26]: Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026). Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses. Lamin Blog. https://blog.lamin.ai/1000genomes
