@@ -1,5 +1,5 @@
 ---
-title: "Lamin: an open data platform for traceable, multimodal AI"
+title: "Lamin: An open data platform for traceable, multimodal AI"
 date: 2026-08-17
 author: sunnyosun, Koncopd, Ebad371, sheetalgiri, chaichontat, fredericenard, falexwolf
 affiliation:
