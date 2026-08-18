@@ -15,13 +15,16 @@ affiliation:
 Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient multimodal AI, no matter where and how you run it.
 
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
-Everything that was true back then is even more true today: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data. Changes made by agents need to be reviewed and approved.
+Everything that was true back then, and had been true for decades, is even more true today: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data. Changes made by agents need to be reviewed and approved.
 
-> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
+> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
+> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory) <br>
+> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10) <br>
+> The bottleneck for biological agents is not only reasoning but the absence of widespread deterministic execution layers for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics)
-
-> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
+These fundamental problems are particularly severe in the life sciences due to its many different data formats and generation processes, the high number of concepts needed to define measurements and parametrize datasets -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses, producing emergent non-deterministic data flow.
+Combine this with the explosion of data generation techniques -- in particular scRNA-seq, next-generation sequencing, and high-throughput techqniues -- with the promise of AI helping to get real value out of it while the world had been building UI-first data platforms for each community and ELN systems for biologists.
+So it was clear that a new API-first data management tool for the age of AI was needed, and we built it open-source.
 
 ## Tracing data
 
