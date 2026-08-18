@@ -55,9 +55,9 @@ with collection.open(engine="polars") as df:
 
 Such efficient data access then helps agents reduce token usage or spares humans wrangling data.[^pillai26]
 
-<div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/TiR6uHs6qULMwaYs0000.svg" width="400" style="padding: 0;"/>
-</div>
+```{raw} html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vZIoTjYvEgw?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
 
 ## The world's largest collection of queryable biological training data
 
