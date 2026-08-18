@@ -17,18 +17,18 @@ Today we're happy to launch Lamin to the general public. With a single click, an
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
 Everything that was true back then is even more true today: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data. Changes made by agents need to be reviewed and approved.
 
-> In God we trust, everything else is data. -- popularized by W. Edwards Deming (1978)
+> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
 
-> There are three kinds of lies: lies, damned lies, and statistics. -- popularized by Mark Twain in 1907
+> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics)
 
-> 80% of data science is spent cleaning and preparing data — not analyzing it. -- popularized by Hadley Wickham (2014)
+> 80% of data science is spent cleaning and preparing data — not analyzing it. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
 ## Tracing data
 
 For years, we have been serving teams of humans in academia, BioTech, and Big Pharma, but today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
 For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
 
-> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS Paris & Institut Pasteur](https://www.linkedin.com/feed/update/urn:li:activity:7452778533657014273/)
+> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS Paris & Institut Pasteur](https://x.com/jkobject/status/2047043597820666039)
 
 Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11). LaminDB allows tracing how information flows through many data transformation steps and across many entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about targets and perturbations.[^schmidt22]
 
