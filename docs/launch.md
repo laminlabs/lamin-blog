@@ -21,7 +21,7 @@ Everything that was true back then is even more true today: Untraceable agentic 
 
 > There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics)
 
-> 80% of data science is spent cleaning and preparing data — not analyzing it. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
+> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
 ## Tracing data
 
