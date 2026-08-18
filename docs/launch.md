@@ -23,7 +23,12 @@ Everything that was true back then, and had been true for decades, is even more 
 > The bottleneck for biological agents is not only reasoning but the absence of widespread deterministic execution layers for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
 These fundamental problems are particularly severe in the life sciences due to its many different data formats and generation processes, the high number of concepts needed to define measurements and parametrize datasets -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses, producing emergent non-deterministic data flow.
-Combine this with the explosion of data generation techniques -- in particular scRNA-seq, next-generation sequencing, and high-throughput techqniues -- with the promise of AI helping to get real value out of it while the world had been building UI-first data platforms for each community and ELN systems for biologists.
+
+<div style="text-align: center">
+<img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
+</div>
+
+If you combine this this with the explosion of data generation techniques -- in particular scRNA-seq, next-generation sequencing, and high-throughput techqniues -- with the promise of AI helping to get real value out of it while the world had been building UI-first data platforms for each community and ELN systems for biologists.
 So it was clear that a new API-first data management tool for the age of AI was needed, and we built it open-source.
 
 ## Tracing data
