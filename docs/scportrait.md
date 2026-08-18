@@ -9,7 +9,7 @@ db: https://lamin.ai/scportrait/examples
 ---
 
 Spatial transcriptomics measures RNA abundance and spatial localization in tissue and is routinely complemented by fluorescence microscopy imaging.
-Here, we show how to extract single-cell images from this data by with the Python-based toolkit scPortrait.
+Here, we show how to extract single-cell images from this data with the Python-based toolkit scPortrait.
 We then embed the single-cell images with a neural network to identify cells with distinct morphologies and intracellular protein distributions.
 We further characterize these cells by inspecting their gene expression, finding a morphologically defined subpopulation that expresses the collagen gene _COL5A1_.
 
