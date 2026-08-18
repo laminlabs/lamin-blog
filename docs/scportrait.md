@@ -85,7 +85,7 @@ Overlaying this image-based embedding with transcriptome information for each ce
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vdUZBbdtiawnXUWX0001.png" width="400" style="padding: 0;"/>
 </div>
 
-**Figure 5 ([source](https://lamin.ai/scportrait/examples/transform/GgYLvhXloKY20002))**: UMAP representation of ConvNeXt image features of individual segmented cells in an ovarian cancer tissue region. Each dot corresponds to a single cell. Colors correspond to the expression of the _COL5A1_ gene across cells.
+**Figure 5 ([source](https://lamin.ai/scportrait/examples/transform/GgYLvhXloKY20002))**: UMAP representation of ConvNeXt image features of individual segmented cells in an ovarian cancer tissue region. Each dot corresponds to a single cell. Colors correspond to the expression of the _COL5A1_ gene across cells. _COL5A1_ was identified as a gene with variable expression across image-based cell embeddings by calculating differentially expressed genes across Leiden clusters in image-space.
 
 ## Data & code availability
 
