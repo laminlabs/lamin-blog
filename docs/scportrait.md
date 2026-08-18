@@ -3,8 +3,8 @@ title: "Extracting single-cell morphology and subcellular protein localisation f
 date: 2026-08-14
 author: sophiamaedler, nik-as
 affiliation:
-  sophiamaedler: Matthias Mann Lab, Max Planck Institute of Biochemistry, Munich
-  nik-as: Fabian Theis Lab, Helmholtz Munich
+  sophiamaedler: Matthias Mann Lab, Department of Proteomics and Signal Transduction, Max Planck Institute of Biochemistry, Martinsried, Germany
+  nik-as: Fabian Theis Lab, Institute of Computational Biology, Helmholtz Center Munich, Munich, Germany
 db: https://lamin.ai/scportrait/examples
 ---
 
