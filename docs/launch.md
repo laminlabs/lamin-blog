@@ -15,9 +15,15 @@ affiliation:
 Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient multimodal AI, no matter where and how you run it.
 
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
-Everything that was true back then is even more true today in the age of agents: Untraceable results cannot be trusted. Without efficient access to multimodal data, agents burn tokens, make mistakes, or fail entirely. And changes to data should ideally be subject to git-like governance.
+Everything that was true back then is even more true today: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data. Changes made by agents need to be reviewed and approved.
 
-## Traceability in academia and drug discovery
+> In God we trust, everything else is data. -- popularized by W. Edwards Deming (1978)
+
+> There are three kinds of lies: lies, damned lies, and statistics. -- popularized by Mark Twain in 1907
+
+> 80% of data science is spent cleaning and preparing data — not analyzing it. -- popularized by Hadley Wickham (2014)
+
+## Tracing data
 
 For years, we have been serving teams of humans in academia, BioTech, and Big Pharma, but today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
 For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
@@ -32,7 +38,7 @@ Especially drug discovery teams need end-to-end traceability for GxP compliance 
 
 Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and creates a long-term memory of data operations ("How did we analyze datasets for frozen lung tissue before?"). It's been notoriously difficult to create big training datasets for biology outside of simple systems. Just by using LaminDB, one creates FAIR training data automatically, a bit like when using git to manage the source code of a project.
 
-## Efficient data access
+## Accessing data
 
 Unlike in traditional SQL-based data warehousing, in AI and R&D data is often kept in storage systems or data lakes.
 While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
@@ -59,7 +65,7 @@ Such efficient data access then helps agents reduce token usage or spares humans
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vZIoTjYvEgw?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
-## The world's largest collection of queryable biological training data
+## Atlases
 
 To illustrate this, we provide free programmatic access to the world’s largest public collection of single-cell data at lamin.ai/explore. We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, HubMAP, or the Arc Virtual Cell Atlas and make their datasets and entities queryable through easy-to-use open-source Python & R libraries. Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface. If Lamin was a closed web platform rather than an open-source harmonizing access layer for the modern data stack, we could never have built on the work of others simply by interfacing their assets.
 
