@@ -14,6 +14,27 @@ affiliation:
 
 Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient multimodal AI, no matter where and how you run it.
 
+LaminDB is an open-source data management tool that makes it easy to query, trace & govern datasets across diverse storage formats and locations.
+Think about it like you think about git for data: a database that captures all relevant context, including the data flow into models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
+
+LaminDB is a distributed system -- like git -- that it's very easy to host: you just need a SQL database and a storage system.
+If you run `pip install lamindb` followed by `lamin init` in a directory on your laptop, it will start tracking what you do in that directory in a SQLite database:
+
+<div style="display: flex; gap: 16px; align-items: flex-start;">
+  <div style="flex: 1; min-width: 0;">
+    <pre><code>pip install lamindb
+cd my_dev_dir
+lamin init</code></pre>
+  </div>
+  <div style="flex: 1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KWOioD0id2csEv2S0000.png" />
+  </div>
+</div>
+
+You keep your scripts, notebooks, and workflows
+
+## Why?
+
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
 Some of the underlying problems are fundamental and had already been true for decades.
 
@@ -82,8 +103,6 @@ Such efficient data access then helps agents reduce token usage or spares humans
 ## Atlases
 
 To illustrate this, we provide free programmatic access to the world’s largest public collection of single-cell data at lamin.ai/explore. We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, HubMAP, or the Arc Virtual Cell Atlas and make their datasets and entities queryable through easy-to-use open-source Python & R libraries. Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface. If Lamin was a closed web platform rather than an open-source harmonizing access layer for the modern data stack, we could never have built on the work of others simply by interfacing their assets.
-
-So, what is a LaminDB instance? Imagine a “queryable git repository” designed to query, version, and share datasets instead of code. Both are open-source distributed platforms that can run on your laptop or in the cloud, and both track changes. But unlike git, LaminDB lets you query for biological data structures & entities – datasets, genes, proteins, cell types, perturbations, projects, samples – all from your programming language of choice and based on popular open standards like Postgres, SQLite, parquet, zarr, or h5ad.
 
 The more complex dataset collections become, the harder it is to perform reliable reproducible research. Even navigating a single project can become a challenge, leave alone training an AI on all datasets of a large organization, or all of humanities biological datasets. Hence, LaminDB provides data and code traceability, linking your models and analyses to their input datasets.
 
