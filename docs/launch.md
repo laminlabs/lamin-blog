@@ -15,23 +15,19 @@ affiliation:
 Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient multimodal AI, no matter where and how you run it.
 
 LaminDB is an open-source data management tool that makes it easy to query, trace & govern datasets across diverse storage formats and locations.
-Think about it like you think about git for data: a database that captures all relevant context, including the data flow into models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
+It's a bit like git for data: a database that captures all relevant context about your work.
+That includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
 
-LaminDB is a distributed system -- like git -- that it's very easy to host: you just need a SQL database and a storage system.
-If you run `pip install lamindb` followed by `lamin init` in a directory on your laptop, it will start tracking what you do in that directory in a SQLite database:
+Like git, LaminDB is a distributed system that runs anywhere. For example, this is how you'd manage the data in a directory on your laptop using a SQLite database.
 
 <div style="display: flex; gap: 16px; align-items: flex-start;">
-  <div style="flex: 1; min-width: 0;">
-    <pre><code>pip install lamindb
-cd my_dev_dir
-lamin init</code></pre>
+  <div style="flex: 0.9; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/jMlG8OWw2yFbuhZJ0002.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
   </div>
-  <div style="flex: 1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KWOioD0id2csEv2S0000.png" />
+  <div style="flex: 1.1; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KWOioD0id2csEv2S0003.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
   </div>
 </div>
-
-You keep your scripts, notebooks, and workflows
 
 ## Why?
 
