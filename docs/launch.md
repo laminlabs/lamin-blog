@@ -12,20 +12,21 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient multimodal AI, no matter where and how you run it.
+Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient AI, no matter where and how you run it.
 
 LaminDB is an open-source data management tool that makes it easy to query, trace & govern datasets across diverse storage formats and locations.
-It's a bit like git for data: a database that captures all relevant context about your work.
+Like git, LaminDB is a distributed system that runs anywhere and captures all relevant context about your work.
 That includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
+It takes a few seconds to install LaminDB and create a database.
 
-Like git, LaminDB is a distributed system that runs anywhere. For example, this is how you'd manage the data in a directory on your laptop using a SQLite database.
-
-<div style="display: flex; gap: 16px; align-items: flex-start;">
-  <div style="flex: 0.9; min-width: 0;">
+<div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
+  <div style="flex: 0.80; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/jMlG8OWw2yFbuhZJ0002.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
+    <p style="text-align: right; margin-top: 0.2rem;"><em>Init a database like you init a git repo.</em></p>
   </div>
-  <div style="flex: 1.1; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KWOioD0id2csEv2S0003.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
+  <div style="flex: 1.2; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KWOioD0id2csEv2S0005.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
+    <p style="text-align: right; margin-top: 0.2rem;"><em>An SQLite database tracks all context you need.</em></p>
   </div>
 </div>
 
