@@ -3,9 +3,11 @@ title: "From CZI's CELLxGENE to LaminDB: a hosted mirror and a Python ETL packag
 date: 2026-08-20
 author: ishitajain9717, Zethson, Koncopd, falexwolf, sunnyosun
 affiliation:
-  sunnyosun: Lamin Labs, Munich
+  ishitajain9717: Lamin Labs, Munich
   Zethson: Lamin Labs, Munich
+  Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
+  sunnyosun: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/cellxgene
 repo: https://github.com/laminlabs/cellxgene-lamin
 linkedin: TBD
