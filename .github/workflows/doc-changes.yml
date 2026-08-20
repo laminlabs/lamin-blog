@@ -21,3 +21,15 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           docs_token: ${{ secrets.LAMIN_BUILD_DOCS }}
           changelog_file: lamin-docs/docs/changelog/soon/blog.md
+      - name: Dispatch changelog merge in lamin-docs
+        if: github.event.pull_request.merged == true
+        env:
+          GH_TOKEN: ${{ secrets.LAMIN_BUILD_DOCS }}
+          PUBLISHED_AT: ${{ github.event.pull_request.merged_at }}
+        run: |
+          set -euo pipefail
+          curl -sS -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            https://api.github.com/repos/laminlabs/lamin-docs/dispatches \
+            -d "{\"event_type\":\"lamin-blog-dispatch\",\"client_payload\":{\"published_at\":\"${PUBLISHED_AT}\"}}"

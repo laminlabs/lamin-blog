@@ -6,8 +6,6 @@ affiliation:
   jejomath: MereLogic, Cambridge, MA
 repo: https://github.com/laminlabs/lamindb
 linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7434991882767716352/
-tweet: https://x.com/laminlabs/status/2029225038562435195
-bsky: https://bsky.app/profile/laminlabs.bsky.social/post/3mganov2lnk2s
 ---
 
 One avenue into the future of biotech is scaled learning from multi-modal datasets.
@@ -63,10 +61,6 @@ You can pip install `lamindb` or check it out on GitHub: https://github.com/lami
 Jesse has worked as a software engineer & engineering manager with a focus on data platforms at Google, Verily, Sanofi, Cellarity, and other companies.
 Today he runs a consulting company called Merelogic.
 
-## Disclosure
-
-Lamin engaged Jesse to explain the connection between biology's "sparse measurements" and the lakehouse concept. This blog post is the result of that engagement.
-
 ## Author contributions
 
 Jesse authored the text and the second graphic in collaboration with the Lamin team. The first and the third graphic were created by the Lamin team.
@@ -78,3 +72,7 @@ The "1 million features" pencil drawing that, over the years, led to the first f
 <div style="text-align: center">
 <img width="800" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/vriNut4LCbfvd3qu0001.png">
 </div>
+
+## Background
+
+Lamin engaged Jesse to explain the connection between biology's "sparse measurements" and the lakehouse concept. This blog post is the result of that engagement.

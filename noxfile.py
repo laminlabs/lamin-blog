@@ -9,6 +9,7 @@ def lint(session: nox.Session) -> None:
     run_pre_commit(session)
 
 
+# attempt fix
 @nox.session
 def build(session: nox.Session):
     session.run(*["lndocs", "--strict", "--blog"])

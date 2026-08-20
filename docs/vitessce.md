@@ -9,9 +9,7 @@ affiliation:
   chaichontat: Lamin Labs, NYC
   sunnyosun: Lamin Labs, Munich
 db: http://lamin.ai/vitessce/examples
-tweet: https://x.com/falexwolf/status/2028588464980238768
 linkedin: https://www.linkedin.com/posts/falexwolf_two-years-ago-we-partnered-with-mark-keller-activity-7434352682192257024-suK8
-bsky: https://bsky.app/profile/falexwolf.bsky.social/post/3mg4aej3xys2d
 ---
 
 The open-source tool [Vitessce](https://vitessce.io) and Lamin now work together to manage & visualize multimodal and spatial single-cell data.
@@ -83,6 +81,8 @@ Useful starting points for customization include the following example database 
 - The [vitessce/examples](https://lamin.ai/vitessce/examples) database
 - The [vitessce-python-tutorial](https://github.com/vitessce/vitessce-python-tutorial/) repository
 - The [paper-figures](https://github.com/vitessce/paper-figures) repository
+
+## References
 
 [^keller25]: Keller, M.S., Gold, I., McCallum, C. et al. Vitessce: integrative visualization of multimodal and spatially resolved single-cell data. Nat Methods 22, 63–67 (2025).
 
