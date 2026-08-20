@@ -1,17 +1,13 @@
 ---
-title: "A programmatically queryable CELLxGENE LaminDB instance"
-date: 2026-02-21
-author: sunnyosun*, Zethson*, falexwolf
-orcid:
-  Zethson: 0000-0002-8937-3457
-  falexwolf: 0000-0002-8760-7838
+title: "From CZI's CELLxGENE to LaminDB: a hosted mirror and a Python ETL package"
+date: 2026-08-20
+author: ishitajain9717, Zethson, Koncopd, falexwolf, sunnyosun
 affiliation:
   sunnyosun: Lamin Labs, Munich
   Zethson: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
 db: https://lamin.ai/laminlabs/cellxgene
 repo: https://github.com/laminlabs/cellxgene-lamin
-tweet: TBD
 linkedin: TBD
 ---
 
@@ -233,15 +229,15 @@ All code used in this blog post is free & open-source.
 
 ## Author contributions
 
-`*` These authors contributed equally.
+Ishita created a Python package that can be run as an ETL to mirror the CZI cellxgene datasets into a LaminDB instance.
+Lukas worked out ontology mappings.
+Sergei created AnnData streaming accessors to run parsing at scale.
+Alex co-supervised the project.
+Sunny conceptualized the project, implemented the initial versions, and co-supervised the project.
 
-Sunny conceptualized and implemented the initial versions of the CELLxGENE instance.
-Lukas refined the implementation and updated the CELLxGENE instance to more recent versions.
-Alex supervised the work.
-
-## Citation
+## How to cite
 
 ```
-Sun S, Heumos L & Wolf A (2026). A programmatically queryable CELLxGENE LaminDB instance. Lamin Blog.
+Jain I, Heumos L, Sergei, R, Wolf A, Sun S,  (2026). A programmatically queryable CELLxGENE LaminDB instance. Lamin Blog.
 https://blog.lamin.ai/cellxgene-lamindb
 ```
