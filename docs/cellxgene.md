@@ -28,7 +28,7 @@ It enables you to:
 
 Here, we explain how we curate and maintain the instance, and how you can use it.
 
-## Connecting to the instance
+## Connecting to the database
 
 Getting started takes two lines:
 
