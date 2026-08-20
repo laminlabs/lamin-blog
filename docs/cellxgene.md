@@ -13,9 +13,9 @@ linkedin: TBD
 
 ---
 
-[CZ CELLxGENE](https://cellxgene.cziscience.com/) hosts one of the largest standardized collections of single-cell RNA-seq datasets.
+[CZ CELLxGENE](https://cellxgene.cziscience.com/)[^cellxgene] hosts one of the largest standardized collections of single-cell RNA-seq datasets.
 Its [Census](https://chanzuckerberg.github.io/cellxgene-census/) provides efficient access via TileDB-SOMA, and individual datasets are available as `.h5ad` files on S3.
-However, programmatically querying _across_ datasets by arbitrary metadata combinations — cell types, tissues, diseases, assays, collections, donor information — has required writing custom data wrangling code.
+However, programmatically querying _across_ datasets by arbitrary metadata combinations — cell types, tissues, diseases, assays, collections, donor information — has required writing custom data wrangling code.[^aevermann2025]
 
 We maintain [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), a public LaminDB instance that mirrors CELLxGENE data with curated, queryable metadata.
 It enables you to:
@@ -238,6 +238,11 @@ Sunny conceptualized the project, implemented & maintained the initial versions 
 ## How to cite
 
 ```
-Jain I, Heumos L, Sergei, R, Wolf A, Sun S,  (2026). A programmatically queryable CELLxGENE LaminDB instance. Lamin Blog.
-https://blog.lamin.ai/cellxgene-lamindb
+Jain I, Heumos L, Sergei, R, Wolf A & Sun S (2026). From CZI's CELLxGENE to LaminDB: a hosted mirror and a Python ETL package. Lamin Blog. https://blog.lamin.ai/cellxgene
 ```
+
+## References
+
+[^cellxgene]: CZI Cell Science Program et al. (2025). CZ CELLxGENE Discover: a single-cell data platform for scalable exploration, analysis and modeling of aggregated data. Nucleic Acids Research, 53(D1), D886–D900. [doi:10.1093/nar/gkae1142](https://doi.org/10.1093/nar/gkae1142).
+
+[^aevermann2025]: Aevermann B et al. (2025). A path towards AI-scale, interoperable biological data. arXiv. [arXiv:2510.09757](https://arxiv.org/abs/2510.09757).
