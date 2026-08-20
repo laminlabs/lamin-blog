@@ -1,5 +1,5 @@
 ---
-title: "From CZI's CELLxGENE to LaminDB: a hosted mirror and a Python ETL package"
+title: "CELLxGENE on Lamin"
 date: 2026-08-20
 author: ishitajain9717, Zethson, Koncopd, falexwolf, sunnyosun
 affiliation:
