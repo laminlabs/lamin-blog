@@ -1,10 +1,12 @@
 ---
 title: "CELLxGENE on Lamin"
 date: 2026-08-20
-author: ishitajain9717, Zethson, Koncopd, falexwolf, sunnyosun
+author: ishitajain9717, Zethson, chaichontat, fredericenard, Koncopd, falexwolf, sunnyosun
 affiliation:
   ishitajain9717: Lamin Labs, Munich
   Zethson: Lamin Labs, Munich
+  fredericenard: Lamin Labs, NYC
+  chaichontat: Lamin Labs, NYC
   Koncopd: Lamin Labs, Munich
   falexwolf: Lamin Labs, Munich
   sunnyosun: Lamin Labs, Munich
@@ -234,7 +236,7 @@ All code used in this blog post is free & open-source.
 
 Ishita created a Python package that can be run as an ETL to mirror the CZI cellxgene datasets into a LaminDB instance. She has maintained the mirror since early 2026.
 Lukas worked out ontology mappings and maintained the mirror in 2025.
-Sergei created AnnData streaming accessors to run parsing at scale.
+Sergei created AnnData streaming accessors to run parsing at scale. Fred developed the backend, and Richard the frontend.
 Alex co-supervised the project.
 Sunny conceptualized the project, implemented & maintained the initial versions of the mirror, and co-supervised the project.
 
