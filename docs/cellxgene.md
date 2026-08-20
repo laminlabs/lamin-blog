@@ -13,11 +13,12 @@ repo: https://github.com/laminlabs/cellxgene-lamin
 linkedin: TBD
 ---
 
----
+CZI's CELLxGENE doesn't allow to programmatically query across datasets. Hence, we built a mirror in a LaminDB instance.
+The work on this project started in 2022 and was seminal to the evolution of LaminDB's design.
 
-[CZ CELLxGENE](https://cellxgene.cziscience.com/)[^cellxgene] hosts one of the largest standardized collections of single-cell RNA-seq datasets.
-Its [Census](https://chanzuckerberg.github.io/cellxgene-census/) provides efficient access via TileDB-SOMA, and individual datasets are available as `.h5ad` files on S3.
-However, programmatically querying _across_ datasets by arbitrary metadata combinations — cell types, tissues, diseases, assays, collections, donor information — has required writing custom data wrangling code.[^aevermann2025]
+CZI's CELLxGENE[^cellxgene][^aevermann2025] hosts one of the largest standardized collections of single-cell RNA-seq datasets.
+Its Census provides a streamable version of a concanated subset of datasets through a single array from the cloud.
+But the whole atlas is presently only availabe as `.h5ad` files, which store the individual datasets in smaller arrays.
 
 We maintain [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), a public LaminDB instance that mirrors CELLxGENE data with curated, queryable metadata.
 It enables you to:
