@@ -229,11 +229,11 @@ All code used in this blog post is free & open-source.
 
 ## Author contributions
 
-Ishita created a Python package that can be run as an ETL to mirror the CZI cellxgene datasets into a LaminDB instance.
-Lukas worked out ontology mappings.
+Ishita created a Python package that can be run as an ETL to mirror the CZI cellxgene datasets into a LaminDB instance. She has maintained the mirror since early 2026.
+Lukas worked out ontology mappings and maintained the mirror in 2025.
 Sergei created AnnData streaming accessors to run parsing at scale.
 Alex co-supervised the project.
-Sunny conceptualized the project, implemented the initial versions, and co-supervised the project.
+Sunny conceptualized the project, implemented & maintained the initial versions of the mirror, and co-supervised the project.
 
 ## How to cite
 
