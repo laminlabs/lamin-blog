@@ -10,7 +10,6 @@ affiliation:
   sunnyosun: Lamin Labs, Munich
 db: http://lamin.ai/vitessce/examples
 linkedin: https://www.linkedin.com/posts/falexwolf_two-years-ago-we-partnered-with-mark-keller-activity-7434352682192257024-suK8
-bsky: https://bsky.app/profile/falexwolf.bsky.social/post/3mg4aej3xys2d
 ---
 
 The open-source tool [Vitessce](https://vitessce.io) and Lamin now work together to manage & visualize multimodal and spatial single-cell data.
