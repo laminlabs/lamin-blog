@@ -46,6 +46,7 @@ authors = {
     "ishitajain9717": ("Ishita Jain", "https://github.com/ishitajain9717"),
     "jejomath": ("Jesse Johnson", "https://github.com/jejomath"),
     "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
+    "jorenretel": ("Joren Retel", "https://github.com/jorenretel"),
     "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
     "LucaMarconato": ("Luca Marconato", "https://github.com/LucaMarconato"),
