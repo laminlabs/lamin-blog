@@ -1,14 +1,14 @@
 ---
 title: "Lamin: An open data platform for traceable, multimodal AI"
 date: 2026-09-07
-author: sunnyosun, Koncopd, Ebad371, sheetalgiri, chaichontat, fredericenard, falexwolf
+author: sunnyosun, Koncopd, Ebad371, sheetalgiri, fredericenard*, chaichontat*, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
   Koncopd: Lamin Labs, Munich
   Ebad371: Lamin Labs, Munich
   sheetalgiri: Lamin Labs, Munich
-  chaichontat: Lamin Labs, NYC
   fredericenard: Lamin Labs, NYC
+  chaichontat: Lamin Labs, NYC
   falexwolf: Lamin Labs, Munich
 ---
 
@@ -24,7 +24,7 @@ But it is still git that manages code, it's still markdown that holds notes, it'
 Agents are using these systems in similar ways to how humans have been using them for years, just at a higher frequency and scales in a number of ways.
 There are also still the same note taking, inventory management, and workspace applications that serve as systems of record -- just that they now allow you to run AI inside these applications.
 None of these systems were built for models and humans to manage the complexity of data in a complex domain like biology at these new scale.
-And vector databases, which were built for AI, seem to have already had their peak moment.
+And vector databases, which were built for AI, seem to have already had their peak moment.[^symbolic-memory]
 
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
 Some of the underlying problems are fundamental and had already been true for decades.
@@ -32,11 +32,11 @@ Some of the underlying problems are fundamental and had already been true for de
 > There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
 > A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
-But only since everybody started to delegate work to agents they have become painful for a large number of people: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data. Changes made by agents have a strong need for review.
+But only since everybody started to delegate work to agents they have become painful for a large number of people: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data.
 
 > The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data geenration processes, the high number of concepts needed to define measurements and parametrize datasets across modalities -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses, producing non-deterministic data flow.
+And changes made by agents have a strong need for review. These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data generation processes, the high number of concepts needed to define measurements and parametrize datasets across modalities -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses, producing non-deterministic data flow.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
@@ -175,6 +175,10 @@ We’re grateful to those people & organizations maintaining the open infrastruc
 
 We're deeply grateful to our early customers for their patience and feedback, our team for relentlessly building the platform, and everyone who supported us along the way. We hope to feature their many names and contributions in upcoming posts.
 
+## Author contributions
+
+`*` These authors contributed equally.
+
 ## References
 
 [^anthropic-agents]: Luebbert L et al. (2026). Paving the way for agents in biology. [Anthropic Research](https://www.anthropic.com/research/agents-in-biology).
@@ -182,3 +186,5 @@ We're deeply grateful to our early customers for their patience and feedback, ou
 [^schmidt22]: https://pubmed.ncbi.nlm.nih.gov/35113687/ "Schmidt R, Steinhart Z, Layeghi M, Freimer JW, Bueno R, Nguyen VQ, Blaeschke F, Ye CJ, Marson A. CRISPR activation and interference screens decode stimulation responses in primary human T cells. Science. 2022."
 
 [^pillai26]: Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026). Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses. Lamin Blog. https://blog.lamin.ai/1000genomes
+
+[^symbolic-memory]: Wolf A (2026). Symbolic memory for biological R&D. Lamin Blog. https://blog.lamin.ai/symbolic-memory
