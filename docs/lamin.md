@@ -124,28 +124,23 @@ The records management experience is similar to popular systems of record:
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NRzVQXJaRH8?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
-## Providing atlases
+## Unifying biological atlases
 
-To illustrate this, we provide free programmatic access to the world’s largest public collection of single-cell data at lamin.ai/explore. We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, HubMAP, or the Arc Virtual Cell Atlas and make their datasets and entities queryable through easy-to-use open-source Python & R libraries. Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface. If Lamin was a closed web platform rather than an open-source harmonizing access layer for the modern data stack, we could never have built on the work of others simply by interfacing their assets.
+We provide free programmatic access to the world’s largest public collection of single-cell data at [lamin.ai/explore](https://lamin.ai/explore). We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, HubMAP, or the Arc Virtual Cell Atlas and make their datasets and entities queryable through easy-to-use open-source Python & R libraries. Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface. If Lamin was a closed web platform rather than an open-source harmonizing access layer for the modern data stack, we could never have built on the work of others simply by interfacing their assets.
 
 The more complex dataset collections become, the harder it is to perform reliable reproducible research. Even navigating a single project can become a challenge, leave alone training an AI on all datasets of a large organization, or all of humanities biological datasets. Hence, LaminDB provides data and code traceability, linking your models and analyses to their input datasets.
 
 What makes reproducibility even more challenging is the fact that much of computational biology happens in interactive analyses - notebooks, scripts, ad-hoc queries & model usage - but these analyses often exist in a vacuum, invisible to the organization's broader data flow. While insights emerge from these analyses, the steps that generated them remain inaccessible. Data and code traceability captures these interactive analyses and creates an unprecedented training dataset that helps both humans and AI models learn from every analysis. It closes the training feedback loop across different teams and models, in particular between the wetlab and the drylab.
 
-Screenshot of data lineage graph illustrating how transforms like notebooks, scripts, pipelines, and functions produce artifacts like datasets or models: https://lamin.ai/laminlabs/lamindata/artifact/W1AiST5wLrbNEyVq
+## Who uses it?
 
 Organizations across pharma, biotech, and academia are already using Lamin to create these training feedback loops, including:
 
-Pfizer – A global BigPharma company with headquarters in the US
-Ensocell Therapeutics – A BioTech with offices in Cambridge, UK, and California
-DZNE – The National Research Center for Neuro-Degenerative Diseases in Germany
-Helmholtz Munich – The National Research Center for Environmental Health in Germany
-scverse – An international non-profit consortium for open-source omics data tools
-The Global Immunological Swarm Learning Network – Research hospitals at U Bonn, Harvard, MIT, Stanford, ETH Zürich, Charite, Mount Sinai, and others
-
-Get started.
-
-Explore datasets at https://lamin.ai/explore, play with the quickstart of the open-source package at https://docs.lamin.ai or request a hosted LaminDB instance to play with LaminHub.
+- Pfizer – A global BigPharma company with headquarters in the US
+- Ensocell Therapeutics – A BioTech with offices in Cambridge, UK, and California
+- DZNE – The National Research Center for Neuro-Degenerative Diseases in Germany
+- Helmholtz Munich – The National Research Center for Environmental Health in Germany
+- The Global Immunological Swarm Learning Network – Research hospitals at U Bonn, Harvard, MIT, Stanford, ETH Zürich, Charite, Mount Sinai, and others
 
 > All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory) <br>
 
