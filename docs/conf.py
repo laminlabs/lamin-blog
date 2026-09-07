@@ -36,6 +36,7 @@ extensions.append("sphinxcontrib.mermaid")
 authors = {
     "andreassteffen": ("Andreas Steffen", "https://github.com/andreassteffen"),
     "ap-dash": ("Andreas Poehlmann", "https://github.com/ap--"),
+    "alexras": ("Alex Rasmussen", "https://github.com/alexras"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "fabian-theis": (
         "Fabian Theis",
@@ -57,6 +58,9 @@ authors = {
     "melonora": ("Wouter-Michiel Vierdag", "https://github.com/melonora"),
     "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
     "rcannood": ("Robrecht Cannoodt", "https://github.com/rcannood"),
+    "nik-as": ("Niklas A. Schmacke", "https://github.com/nik-as"),
+    "Raaghav-Pillai": ("Raaghav Pillai", "https://github.com/Raaghav-Pillai"),
+    "sophiamaedler": ("Sophia C. Mädler", "https://github.com/sophiamaedler"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "SZhengP": ("Shijie Zheng", "https://github.com/SZhengP"),
     "tgelafr-pfzr": ("Tatiana Gelaf Romer", "https://github.com/tgelafr-pfzr"),
