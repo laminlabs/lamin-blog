@@ -14,12 +14,13 @@ affiliation:
 ---
 
 We're super happy to announce that Lamin is now generally available!
-With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to manage data for more trustworthy and efficient AI, no matter where and how you run it.
-After years of serving BioTechs and some of the world's largest life science organizations, agents mean that even individuals now work with high numbers of datasets, workflows, analyses, and models, but lack a suitable system of record.
+With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to manage data for building more trustworthy and efficient AI, no matter where and how you run it.
+After years of serving BioTechs and some of the world's largest life science organizations, agents let even individual humans work with high numbers of datasets, workflows, analyses, and models.
+Lamin provides the data layer that keeps that work sane.
 
 ## Why?
 
-AI had its breakthrough, intelligence has become abundant, but no fundamental innovation has taken place on the memory layer.
+AI had its breakthrough and intelligence has become abundant but no fundamental innovation has taken place on the memory layer.
 There'd be a strong need for it: the speed in which agents produce and transform data in sometimes unreliable and dangerous ways is staggering.
 But it is still git that manages code, it's still markdown that holds notes, it's still the same file systems, databases, warehouses, and lakehouses that hold data, it's still the same ontologies that provide agents with a framework.
 Agents are using these systems in similar ways to how humans have been using them for years, just at a higher frequency and scales in a number of ways.
@@ -33,11 +34,11 @@ Some of the underlying problems are fundamental and had already been true for de
 > There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
 > A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
-But only since everybody started to delegate work to agents they have become painful for a large number of people: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data.
+But only since everybody started to delegate work to agents they have become painful for a large number of people and organizations: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data.
 
 > The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-And changes made by agents have a strong need for review. These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data generation processes, the high number of concepts needed to define measurements and parametrize datasets across modalities -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses, producing non-deterministic data flow.
+And changes made by agents have a strong need for review. These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data generation processes, the high number of concepts needed even to just define measurements -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses with their non-deterministic data flow.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
@@ -45,7 +46,7 @@ And changes made by agents have a strong need for review. These fundamental prob
 
 The last decade has brought much innovation in the sophistication and scale of data generation techniques -- in particular scRNA-seq, next-generation sequencing, and high-throughput techqniues.
 And it has brought the promise of AI helping to get real value out of it while the world kept building UI-first platforms and ELN systems for biologists wrangling anecdotal data.
-So it was clear that a new API-first data management tool for the age of AI was needed, and we built it open-source into the pydata stack, so that you don't have to worry about an ideosyncratic rate-limited REST.
+So we thought a new API-first data management tool for the age of AI was needed, and we built it open-source into the pydata stack, so that you don't have to worry about an ideosyncratic rate-limited REST.
 
 > I don't want to learn your garbage query language. -- [Erik Bernarhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
