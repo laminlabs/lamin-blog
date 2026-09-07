@@ -1,6 +1,6 @@
 ---
 title: "Extracting single-cell morphology and subcellular protein localisation from Xenium data with scPortrait"
-date: 2026-08-14
+date: 2026-09-07
 author: sophiamaedler, nik-as
 affiliation:
   sophiamaedler: Matthias Mann Lab, Department of Proteomics and Signal Transduction, Max Planck Institute of Biochemistry, Martinsried, Germany
