@@ -1,6 +1,6 @@
 ---
 title: "Lamin: An open data platform for traceable, multimodal AI"
-date: 2026-08-17
+date: 2026-09-07
 author: sunnyosun, Koncopd, Ebad371, sheetalgiri, chaichontat, fredericenard, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
