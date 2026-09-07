@@ -115,7 +115,7 @@ Such efficient data access then helps agents reduce token usage or spares humans
 
 And it doesn't just work for tabular data. For years we've helped communities manage data structures with higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata] manage datasets at scale.[^spatialdata-blog][^mapped-collection][^annbatch]
 
-## Note, LIMS, ELN, Ontologies
+## Notes, LIMS, ELN, Ontologies
 
 > A feature is an individual measurable property or characteristic of a data set. [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
 
