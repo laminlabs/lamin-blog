@@ -12,10 +12,39 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient AI, no matter where and how you run it.
+Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient AI, no matter where and how you run it, and in particular in the life sciences.
 
-AI had its breakthrough, intelligence has become abundant, yet almost no innovation has taken place on the memory layer.
-By constrast, in most contexts infrastructure is lagging behind the staggering speed in which AI produces and transforms data.
+## Why?
+
+AI had its breakthrough, intelligence has become abundant, but no fundamental innovation has taken place on the memory layer despite a strong need for it given the staggering speed in which AI produces and transforms data in sometimes unreliable and dangerous ways.
+It is still git that manages code, it's still markdown that holds notes, it's still the same file systems, databases, warehouses, and lakehouses that hold data, it's still the same ontologies that provide agents with a framework.
+People are using these systems in similar ways to how humans have been using them, just at a much higher frequency and scales in a number of ways.
+There are also still the same note taking, inventory management, and workspace applications that serve as systems of record -- just that they now allow you to run AI inside these applications.
+None of these systems were built for models and humans to manage the complexity of data in a complex domain like biology at these new scale.
+
+We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
+Some of the underlying problems are fundamental and had already been true for decades.
+
+> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
+> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
+
+But only since everybody started to delegate work to agents they have become painful for a large number of people: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data. Changes made by agents have a strong need for review.
+
+> The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
+
+These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data geenration processes, the high number of concepts needed to define measurements and parametrize datasets across modalities -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses, producing non-deterministic data flow.
+
+<div style="text-align: center">
+<img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
+</div>
+
+The last decade has brought much innovation in the sophistication and scale of data generation techniques -- in particular scRNA-seq, next-generation sequencing, and high-throughput techqniues.
+And it has brought the promise of AI helping to get real value out of it while the world kept building UI-first platforms and ELN systems for biologists wrangling anecdotal data.
+So it was clear that a new API-first data management tool for the age of AI was needed, and we built it open-source into the pydata stack, so that you don't have to worry about an ideosyncratic rate-limited REST.
+
+> I don't want to learn your garbage query language. -- [Erik Bernarhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
+
+## What?
 
 LaminDB is an open-source data management tool that makes it easy to query, trace & govern datasets across diverse storage formats and locations.
 Like git, LaminDB is a distributed system that runs anywhere and captures all relevant context about your work.
@@ -32,31 +61,6 @@ It takes a few seconds to install LaminDB and create a database.
     <p style="text-align: right; margin-top: 0.2rem;"><em>An SQLite database tracks all context you need.</em></p>
   </div>
 </div>
-
-## Why?
-
-We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
-Some of the underlying problems are fundamental and had already been true for decades.
-
-> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
-> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory) <br>
-> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
-
-But only since everybody started to delegate work to agents they have become painful for a large number of people: Untraceable agentic results cannot be trusted. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data. Changes made by agents have a particularly strong need for review.
-
-> The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
-
-These fundamental problems are particularly severe in the life sciences due to its many different data formats and generation processes, the high number of concepts needed to define measurements and parametrize datasets across modalities -- it's not just tokens or pixels or a few simple metrics as in other domains -- and the related need for interactive human or agentic analyses, producing emergent non-deterministic rather than simple deterministic data flow.
-
-<div style="text-align: center">
-<img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
-</div>
-
-The last decade has brought much innovation in the sophistication and scale of data generation techniques -- in particular scRNA-seq, next-generation sequencing, and high-throughput techqniues.
-And it has brought the promise of AI helping to get real value out of it while the world kept building UI-first platforms and ELN systems for biologists wrangling anecdotal data.
-So it was clear that a new API-first data management tool for the age of AI was needed, and we built it open-source into the pydata stack, so that you don't have to worry about an ideosyncratic rate-limited REST.
-
-> I don't want to learn your garbage query language. -- [Erik Bernarhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
 ## Tracing data
 
@@ -122,6 +126,8 @@ The Global Immunological Swarm Learning Network – Research hospitals at U Bonn
 Get started.
 
 Explore datasets at https://lamin.ai/explore, play with the quickstart of the open-source package at https://docs.lamin.ai or request a hosted LaminDB instance to play with LaminHub.
+
+> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory) <br>
 
 ## Thanks to
 
