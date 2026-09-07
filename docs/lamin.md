@@ -13,7 +13,7 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-Today we're happy to launch Lamin with general availability.
+We're super happy to announce that Lamin is now generally available!
 With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to manage data for more trustworthy and efficient AI, no matter where and how you run it.
 After years of serving BioTechs and some of the world's largest life science organizations, agents mean that even individuals now work with high numbers of datasets, workflows, analyses, and models, but lack a suitable system of record.
 
