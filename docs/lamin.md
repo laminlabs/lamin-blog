@@ -62,7 +62,7 @@ It takes a few seconds to install LaminDB and create a database.
   </div>
 </div>
 
-## Tracing data
+## Tracing data, code & agents
 
 For years, we have been serving teams of humans in academia, BioTech, and Big Pharma, but today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
 For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
@@ -77,7 +77,7 @@ Especially drug discovery teams need end-to-end traceability for GxP compliance 
 
 Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and creates a long-term memory of data operations ("How did we analyze datasets for frozen lung tissue before?"). It's been notoriously difficult to create big training datasets for biology outside of simple systems. Just by using LaminDB, one creates FAIR training data automatically, a bit like when using git to manage the source code of a project.
 
-## Accessing data
+## Accessing data - lakehouse beyond tables
 
 Unlike in traditional SQL-based data warehousing, in AI and R&D data is often kept in storage systems or data lakes.
 While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
@@ -104,7 +104,27 @@ Such efficient data access then helps agents reduce token usage or spares humans
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vZIoTjYvEgw?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
-## Atlases
+## Unifying records - LIMS & ELN
+
+> A feature is an individual measurable property or characteristic of a data set. [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
+
+While models are trained on datasets in storage - be it a local file system or S3 - many workflows require managing data in transactional systems of record.
+Most prominently, the electronic lab notebook (ELN) and laboratory inventory management systems (LIMS) used by life scientists to manage experiments and all the entities and notes that surround them.
+Mapping data in such an ELN or LIMS system on data that a machine learning scientist would use for model training has historically been a painful process.
+We are not aware of any system that would provide that mapping and so all organizations we know use syncing processes that export data from these systems into machine-learning ready formats in storage.
+These processes are almost always brittle and almost never provide the detailed context that the original system provided.
+
+So, we built a records framework into a transactional database that's based on the same features that index datasets in the storage of a lakehouse.
+Hence, if you export or import between database and storage, there is no mapping and no ambiguity; the columns of an interactive sheet with experimental records map onto the columns of a csv or parquet file.
+And similar for other metadata dimensions of other data formats.
+
+The records management experience is similar to popular systems of record:
+
+```{raw} html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NRzVQXJaRH8?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
+
+## Providing atlases
 
 To illustrate this, we provide free programmatic access to the world’s largest public collection of single-cell data at lamin.ai/explore. We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, HubMAP, or the Arc Virtual Cell Atlas and make their datasets and entities queryable through easy-to-use open-source Python & R libraries. Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface. If Lamin was a closed web platform rather than an open-source harmonizing access layer for the modern data stack, we could never have built on the work of others simply by interfacing their assets.
 
