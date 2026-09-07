@@ -12,15 +12,19 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient AI, no matter where and how you run it, and in particular in the life sciences.
+Today we're happy to launch Lamin with general availability.
+With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to manage data for more trustworthy and efficient AI, no matter where and how you run it.
+After years of serving BioTechs and some of the world's largest life science organizations, agents mean that even individuals now work with high numbers of datasets, workflows, analyses, and models, but lack a suitable system of record.
 
 ## Why?
 
-AI had its breakthrough, intelligence has become abundant, but no fundamental innovation has taken place on the memory layer despite a strong need for it given the staggering speed in which AI produces and transforms data in sometimes unreliable and dangerous ways.
-It is still git that manages code, it's still markdown that holds notes, it's still the same file systems, databases, warehouses, and lakehouses that hold data, it's still the same ontologies that provide agents with a framework.
-People are using these systems in similar ways to how humans have been using them, just at a much higher frequency and scales in a number of ways.
+AI had its breakthrough, intelligence has become abundant, but no fundamental innovation has taken place on the memory layer.
+There'd be a strong need for it: the speed in which agents produce and transform data in sometimes unreliable and dangerous ways is staggering.
+But it is still git that manages code, it's still markdown that holds notes, it's still the same file systems, databases, warehouses, and lakehouses that hold data, it's still the same ontologies that provide agents with a framework.
+Agents are using these systems in similar ways to how humans have been using them for years, just at a higher frequency and scales in a number of ways.
 There are also still the same note taking, inventory management, and workspace applications that serve as systems of record -- just that they now allow you to run AI inside these applications.
 None of these systems were built for models and humans to manage the complexity of data in a complex domain like biology at these new scale.
+And vector databases, which were built for AI, seem to have already had their peak moment.
 
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
 Some of the underlying problems are fundamental and had already been true for decades.
