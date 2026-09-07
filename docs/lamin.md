@@ -14,6 +14,9 @@ affiliation:
 
 Today we're happy to launch Lamin to the general public. With a single click, anyone can create a database on [lamin.ai](https://lamin.ai/) to build more trustworthy and efficient AI, no matter where and how you run it.
 
+AI had its breakthrough, intelligence has become abundant, yet almost no innovation has taken place on the memory layer.
+By constrast, in most contexts infrastructure is lagging behind the staggering speed in which AI produces and transforms data.
+
 LaminDB is an open-source data management tool that makes it easy to query, trace & govern datasets across diverse storage formats and locations.
 Like git, LaminDB is a distributed system that runs anywhere and captures all relevant context about your work.
 That includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
