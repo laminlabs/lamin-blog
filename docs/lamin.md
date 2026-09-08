@@ -17,6 +17,7 @@ We're thrilled to announce that Lamin is now generally available -- with just a 
 For years we've deployed the open-source LaminDB in life science organizations to make interactive workflows traceable and data AI-ready.
 But today, AI agents enable even individual scientists to generate and process data at a new scale,
 and hosting a LaminDB instance in the cloud had to become as easy as it gets.
+Here we present the key ideas, features, and design choices that the Lamin platform offers.
 
 ## Why?
 
