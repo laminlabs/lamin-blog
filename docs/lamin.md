@@ -1,21 +1,21 @@
 ---
 title: "Lamin: An open data platform for traceable, multimodal AI"
 date: 2026-09-07
-author: sunnyosun, Koncopd, Ebad371, ishitajain9717, sheetalgiri, fredericenard*, chaichontat*, falexwolf
+author: sunnyosun, Koncopd, Ebad371, ishitajain9717, sheetalgiri, chaichontat*, fredericenard*, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
   Koncopd: Lamin Labs, Munich
   Ebad371: Lamin Labs, Munich
   ishitajain9717: Lamin Labs, Munich
   sheetalgiri: Lamin Labs, Munich
-  fredericenard: Lamin Labs, NYC
   chaichontat: Lamin Labs, NYC
+  fredericenard: Lamin Labs, NYC
   falexwolf: Lamin Labs, Munich
 ---
 
 We're thrilled to announce that Lamin is now generally available.
 With just a few clicks, anyone can create a database on [lamin.ai](https://lamin.ai) and hosting a LaminDB instance becomes as easy as it gets.
-Based on the open-source LaminDB, we've helped life science organizations scale traceable processes and AI-ready multimodal data already for years.
+Based on the open-source LaminDB, we've been helping life science organizations scale traceable processes and AI-ready multimodal data for years.
 But today, AI agents enable even individual scientists to generate and process data at new scale.
 Lamin provides the essential open-core data layer to build more trustworthy and efficient AI workflows.
 
