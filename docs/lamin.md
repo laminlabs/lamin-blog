@@ -97,7 +97,9 @@ For example, Jeremie started using LaminDB during his PhD on single-cell foundat
 To exemplify how tracing information flow through steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations, consider how the following video traces the steps in a reconstructed research project, based on Schmidt _et al._, Science (2022).[^schmidt22]
 
 ```{raw} html
+<div style="text-align: center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/yK3ODFZLL1A?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 ```
 
 Tracking data flow is easy and can instrument different applications. For example, in a Python script or notebook you'd just call:
@@ -141,7 +143,9 @@ with collection.open(engine="polars") as df:
 Such efficient data access then helps agents reduce token usage or spares humans wrangling data.[^pillai26]
 
 ```{raw} html
+<div style="text-align: center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vZIoTjYvEgw?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 ```
 
 And it doesn't just work for tabular data. For years we've helped communities manage data structures with higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata] manage datasets at scale.[^spatialdata-blog][^mapped-collection][^annbatch]
@@ -161,7 +165,9 @@ Hence, if you export or import between database and storage, there is no mapping
 And similar for other metadata dimensions of other data formats.
 
 ```{raw} html
+<div style="text-align: center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NRzVQXJaRH8?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 ```
 
 ## Managing changes
@@ -180,7 +186,9 @@ lamin switch -c my_branch
 You can then save new datasets versions, add new records, write new code all on that branch as you'd do in `git`. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
 
 ```{raw} html
+<div style="text-align: center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/rzRwcMj6-fc?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 ```
 
 ## Exploring biological atlases
