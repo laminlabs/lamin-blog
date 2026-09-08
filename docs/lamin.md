@@ -48,7 +48,7 @@ These fundamental problems are particularly severe in the life sciences due to i
 The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
 The last decade also brought the promise of AI helping to get real value out of these data.
 But the world has kept building UI-first platforms and ELN systems for biologists wrangling anecdotal data.
-So we thought a new API-first data management tool for the age of AI was needed, and we built it open-source into the pydata stack, so that one wouldn't have to worry about an ideosyncratic rate-limited REST.
+So we thought an API-first data management tool for the age of AI was needed, and we built it open-source into the pydata stack, so that it's just a `pip install` to set it up and users wouldn't have to worry about dealing with the ideosyncratic rate-limited REST API of a startup.
 
 > I don't want to learn your garbage query language. -- [Erik Bernarhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
