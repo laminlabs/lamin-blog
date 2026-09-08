@@ -195,8 +195,6 @@ We're deeply grateful to our early customers for their patience and feedback, ou
 
 [^pillai26]: Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026). Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses. Lamin Blog. https://blog.lamin.ai/1000genomes
 
-[^symbolic-memory]: Wolf A (2026). Symbolic memory for biological R&D. Lamin Blog. https://blog.lamin.ai/symbolic-memory
-
 [^anndata]: Virshup I, Rybakov S, Theis FJ, Angerer P & Wolf FA (2021). anndata: Annotated data. bioRxiv. https://doi.org/10.1101/2021.12.16.473007
 
 [^spatialdata]: Marconato, L., Palla, G., Yamauchi, K.A. et al. SpatialData: an open and universal data framework for spatial omics. Nat Methods 22, 58–62 (2025).
