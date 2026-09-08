@@ -21,11 +21,11 @@ Here we present the key ideas, features, and design choices that the Lamin platf
 
 ## Why?
 
-While agents had their breakthrough and intelligence has become abundant, innovation on the systems operated by agents is lagging behind.
+While agents have had their breakthrough and intelligence has become abundant, innovation on the systems operated by agents is lagging behind.
 There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.
-But it's still git that manages code, it's still markdown that holds notes, it's still OWL that holds ontologies, and still the same file systems, databases, and warehouses that hold data.
+But it's still git that manages code, still markdown that holds notes, still OWL that holds ontologies, and still the same file systems, databases, and warehouses that hold data.
 Agents are using these low-level systems in similar ways to how developers have been using them for years, although at a different scale and with different characteristics.[^treybig26]
-One layer up, the world is still using the same high-level systems: note-taking, inventory management, productivity workspaces with a UI-first, human-centric design are used as the primary systems of record.
+One layer up, the world is still using the same high-level systems: note-taking, inventory management, and productivity workspaces with a UI-first, human-centric design are used as the primary systems of record.
 None of these systems were built for agents to manage data in a complex domain like biology at this new scale.
 
 We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
