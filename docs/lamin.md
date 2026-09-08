@@ -190,7 +190,9 @@ Instead of navigating fragmented dataset conventions, you can now query for gene
 
 ## What's next?
 
-Help a wide range of life science researchers and organizations stay sane while AI transforms the world.
+> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
+
+We're looking forward to helping a growing number of life science researchers and organizations stay sane through staying in control while AI transforms that world.
 
 > Folks working on comp bio or data science in biopharma would love this compbio-ops tool: LaminDB. -- [Umut Eser, Johnson & Johnson](https://www.linkedin.com/posts/umuteser_github-laminlabslamindb-a-data-framework-activity-7115709673126707201-P3r9)
 
@@ -201,8 +203,6 @@ Help a wide range of life science researchers and organizations stay sane while 
 > They‘re solving the decades-old metadata problem in biology at Lamin. I always thought it was intractable. -- [Jairav Desai, RefinedScience](https://www.linkedin.com/posts/jairavxdesai_lamin-share-7496607764979326976-i-0i/)
 
 ## Thanks to
-
-> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
 
 Our early customers for their patience and kindness.
 
