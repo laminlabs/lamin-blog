@@ -85,19 +85,31 @@ Its global multi-cloud deployment is available at [lamin.ai](https://lamin.ai) a
 
 ## Tracing data, code & agents
 
-We have been serving teams in academia, BioTech, and Big Pharma, to track data, code & agents. Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
+Over the past years, we have been helping teams in life science organizations to track data, code & agents. Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11); and that means they need traceability not just for the deterministic bionformatics pipeline but also upstream metadata entry in the wetlab and downstream interactive (agentic) analyses.
 
->
+> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code. -- [Joe Saelens, Pfizer (2026)](https://youtu.be/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477)
 
-but today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
+Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
 For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
 
 > When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS Paris & Institut Pasteur](https://x.com/jkobject/status/2047043597820666039)
 
-LaminDB allows tracing how information flows through data transformation steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations.[^schmidt22]
+To exemplify how tracing information flow through steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations, consider how the following video traces the steps in a reconstructed research project, based on Schmidt _et al._, Science (2022).[^schmidt22]
 
 ```{raw} html
 <iframe width="560" height="315" src="https://www.youtube.com/embed/yK3ODFZLL1A?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
+
+Tracking data flow is easy and can instrument different applications. For example, in a Python script or notebook you'd just call:
+
+```python
+import lamindb as ln
+
+ln.track()  # initiate a tracked notebook/script run
+
+# your code automatically tracks inputs & outputs
+
+ln.finish()  # mark run as finished, save execution report, source code & environment
 ```
 
 Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and creates a long-term memory of data operations ("How did we analyze datasets for frozen lung tissue before?"). It's been notoriously difficult to create big training datasets for biology outside of simple systems.
