@@ -13,11 +13,11 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-We're super happy to announce that Lamin is now generally available.
-With a few clicks, anyone can create a database on [lamin.ai](https://lamin.ai) and hosting a LaminDB instance is as easy as it gets.
-We've been helping life science organizations get multimodal data AI-ready and establish processes at this new scale -- in their infrastructure and based on the open-source LaminDB.
-Today agents let even individuals work with high numbers of datasets, workflows, analyses, and models.
-Lamin provides the open-source data layer that keeps that work sane.
+We're thrilled to announce that Lamin is now generally available.
+With just a few clicks, anyone can create a database on [lamin.ai](https://lamin.ai) and hosting a LaminDB instance becomes as easy as it gets.
+Based on the open-source LaminDB, we've helped life science organizations scale traceable processes and AI-ready multimodal data already for years.
+But today, AI agents enable even individual scientists to generate and process data at new scale.
+Lamin provides the essential open-core data layer to build more trustworthy and efficient AI workflows.
 
 ## Why?
 
