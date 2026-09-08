@@ -210,6 +210,8 @@ The team members and consultants who helped build Lamin, some of which have been
 
 Those people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We should also mention big data storage formats including parquet, HDF5, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase.
 
+The many people who supported us along the way. Most notably, family and friends who supported the idea.
+
 ## Author contributions
 
 `*` These authors contributed equally.
