@@ -188,23 +188,27 @@ You can then save new datasets versions, add new records, write new code all on 
 We provide free programmatic access to the world’s largest public collection of single-cell data at [lamin.ai/explore](https://lamin.ai/explore). We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, the Arc Virtual Cell Atlas, and HubMAP, and make their datasets and entities queryable through easy-to-use open-source Python & R libraries.
 Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface.
 
-## Who uses it?
+## What's next?
 
-Organizations across pharma, biotech, and academia are already using Lamin to create these training feedback loops, including:
+Help a wide range of life science researchers and organizations stay sane while AI transforms the world.
 
-- Pfizer – A global BigPharma company with headquarters in the US
-- Ensocell Therapeutics – A BioTech with offices in Cambridge, UK, and California
-- DZNE – The National Research Center for Neuro-Degenerative Diseases in Germany
-- Helmholtz Munich – The National Research Center for Environmental Health in Germany
-- The Global Immunological Swarm Learning Network – Research hospitals at U Bonn, Harvard, MIT, Stanford, ETH Zürich, Charite, Mount Sinai, and others
+> Folks working on comp bio or data science in biopharma would love this compbio-ops tool: LaminDB. -- [Umut Eser, Johnson & Johnson](https://www.linkedin.com/posts/umuteser_github-laminlabslamindb-a-data-framework-activity-7115709673126707201-P3r9)
 
-> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory) <br>
+> You are doing amazing stuff at Lamin! I'll make sure to write up a piece on how it truly helped me with the analysis. It's great - keep it up! -- [Saber Hafezqorani, Genentech](<https://www.linkedin.com/feed/update/urn:li:ugcPost:7490370634896646144/?dashCommentUrn=urn%3Ali%3Afsd_comment%3A(7491559214700470272%2Curn%3Ali%3AugcPost%3A7490370634896646144)>)
+
+> Thank you Lamin team for helping us with PerturBench - our comprehensive evaluation framework for benchmarking Perturbation Response Models. -- [Esther Wershof, Altos Labs](https://www.linkedin.com/feed/update/urn:li:activity:7460228150048927744/)
+
+> They‘re solving the decades-old metadata problem in biology at Lamin. I always thought it was intractable. -- [Jairav Desai, RefinedScience](https://www.linkedin.com/posts/jairavxdesai_lamin-share-7496607764979326976-i-0i/)
 
 ## Thanks to
 
-Our early customers for their patience and feedback.
+> All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
 
-Zavain Dar, Adam Goulburn & Nan Li from Dimension led our seed investment round in September 2022 and have actively supported us ever since. They previously backed companies like Recursion & Hugging Face. Surbhi Sarna & Jared Friedman from YC believed in us even before a meaningful line of code was written. Pillar VC, Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa completed the seed investment.
+Our early customers for their patience and kindness.
+
+Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment round in September 2022 and have actively supported us ever since. They previously backed companies like Recursion & Hugging Face. Surbhi Sarna & Jared Friedman from YC. Pillar VC, Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa.
+
+> Current myopic obsessions: 1) technoscientific collisions driven by scaling laws of ML applied to the life sciences (@envedabio, @newlimit, @laminlabs, @automata_tech) 2) data first compute stacks 3) obsessing over technological disruption of company form & investor underwriting -- [Zavain Dar, Dimension](https://x.com/zavaindar/status/1717659487312531638)
 
 The team members and consultants who helped build Lamin, some of which have been working with us for years and building key products. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, and Bernardo Penteado.
 
