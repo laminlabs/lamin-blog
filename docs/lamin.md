@@ -54,9 +54,9 @@ But the world has kept building UI-first platforms and ELN systems for biologist
 So we thought an API-first data management tool for the age of AI -- capable of handling the complexity of the life sciences -- was needed.
 
 We built it open-source, directly onto the PyData stack, so that setting it up is just a `pip install`.
-Users shouldn't have to worry about dealing with the ideosyncratic, rate-limited REST API of a startup.
+Users shouldn't have to worry about dealing with the idiosyncratic, rate-limited REST API of a startup.
 
-> I don't want to learn your garbage query language. -- [Erik Bernarhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
+> I don't want to learn your garbage query language. -- [Erik Bernhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
 ## What?
 
