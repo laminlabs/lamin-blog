@@ -60,9 +60,9 @@ Users shouldn't have to worry about dealing with the idiosyncratic, rate-limited
 
 ## What?
 
-LaminDB is an open-source data management tool that makes it easy to query, trace & govern datasets across diverse storage formats and locations.
+LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations.
 Like git, LaminDB is a distributed system that runs anywhere and captures all relevant context about your work.
-That includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
+This includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
 It takes a few seconds to install LaminDB and create a database.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
