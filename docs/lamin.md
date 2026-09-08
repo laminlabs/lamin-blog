@@ -63,18 +63,25 @@ Users shouldn't have to worry about dealing with the idiosyncratic, rate-limited
 LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations.
 Like git, LaminDB is a distributed system that runs anywhere and captures all relevant context about your work.
 This includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
-It takes a few seconds to install LaminDB and create a database.
+It takes a few seconds to install LaminDB and create an SQLite database that keeps track of your files and all context surrounding them on your laptop.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/jMlG8OWw2yFbuhZJ0002.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
-    <p style="text-align: right; margin-top: 0.2rem;"><em>Init a database like you init a git repo.</em></p>
+    <p style="text-align: right; margin-top: 0.2rem;"><em>Init a local database like you init a git repo.</em></p>
   </div>
   <div style="flex: 1.2; min-width: 0;">
     <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/KWOioD0id2csEv2S0005.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
-    <p style="text-align: right; margin-top: 0.2rem;"><em>An SQLite database tracks all context you need.</em></p>
+    <p style="text-align: right; margin-top: 0.2rem;"><em>The SQLite file indexing your files.</em></p>
+  </div>
+  <div style="flex: 1.2; min-width: 0;">
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/EqsNFkUSWz0XdGFG0000.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
+    <p style="text-align: right; margin-top: 0.2rem;"><em>Create a database on the hub UI.</em></p>
   </div>
 </div>
+
+LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git.
+Its global multi-cloud deployment is available at [lamin.ai](https://lamin.ai) and with a click of a button you create a database that keeps track of files across file storage systems.
 
 ## Tracing data, code & agents
 
