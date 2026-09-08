@@ -85,12 +85,16 @@ Its global multi-cloud deployment is available at [lamin.ai](https://lamin.ai) a
 
 ## Tracing data, code & agents
 
-For years, we have been serving teams of humans in academia, BioTech, and Big Pharma, but today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
+We have been serving teams in academia, BioTech, and Big Pharma, to track data, code & agents. Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
+
+>
+
+but today, anyone can delegate work to a team of agents, and even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
 For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
 
 > When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS Paris & Institut Pasteur](https://x.com/jkobject/status/2047043597820666039)
 
-Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11). LaminDB allows tracing how information flows through data transformation steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations.[^schmidt22]
+LaminDB allows tracing how information flows through data transformation steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations.[^schmidt22]
 
 ```{raw} html
 <iframe width="560" height="315" src="https://www.youtube.com/embed/yK3ODFZLL1A?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
