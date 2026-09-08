@@ -28,27 +28,33 @@ Agents are using these low-level systems in similar ways to how developers have 
 One layer up, the world is still using the same high-level systems: note-taking, inventory management, and productivity workspaces with a UI-first, human-centric design are used as the primary systems of record.
 None of these systems were built for agents to manage data in a complex domain like biology at this new scale.
 
-We started working on Lamin in early 2022 with the idea that computational biology should become more traceable & efficent.
-Some of the underlying problems are fundamental and had already been true for decades.
+We started working on Lamin in early 2022 with the idea that computational biology should become more traceable and efficient.
+Some of the underlying problems are fundamental and have persisted for decades.
 
 > There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
 > A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
-But only since everybody started to delegate work to agents they have become painful for a large number of people and organizations: Agents need API-first access to operate. Untraceable agentic results cannot be trusted but tracing interactive data workloads doesn't fit the established workflow managers. Agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data.
+But it is only since we started delegating work to agents that these issues have become painful for a high number of people and organizations.
+Agents need API-first access to operate.
+Untraceable agentic results cannot be trusted, but tracing interactive workloads doesn't fit into established workflow managers.
+Furthermore, agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data.
 
 > The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-Changes made by agents have a strong need for review and need to frequently corrected.
-These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data generation processes, the high number of concepts needed even to just define measurements -- it's not just tokens or pixels or a few simple metrics as in other domains.
+Changes made by agents require strict review and frequent correction.
+These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data generation processes, and the sheer number of concepts required just to define measurements -- it's not just tokens or pixels or a few simple metrics like in other domains.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
 </div>
 
 The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
-The last decade also brought the promise of AI helping to get real value out of these data.
+The last decade also brought the promise of AI helping to extract real value out of this data.
 But the world has kept building UI-first platforms and ELN systems for biologists wrangling anecdotal data.
-So we thought an API-first data management tool for the age of AI was needed, and we built it open-source into the pydata stack, so that it's just a `pip install` to set it up and users wouldn't have to worry about dealing with the ideosyncratic rate-limited REST API of a startup.
+So we thought an API-first data management tool for the age of AI -- capable of handling the complexity of the life sciences -- was needed.
+
+We built it open-source, directly onto the PyData stack, so that setting it up is just a `pip install`.
+Users shouldn't have to worry about dealing with the ideosyncratic, rate-limited REST API of a startup.
 
 > I don't want to learn your garbage query language. -- [Erik Bernarhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
