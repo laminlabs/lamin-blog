@@ -216,6 +216,22 @@ We're deeply grateful to our early customers for their patience and feedback, ou
 
 `*` These authors contributed equally.
 
+Sunny is a co-founder of Lamin and led building biology-focsed use cases and the related open-source libraries, e.g., `bionty`. She has also led customer interactions and product management for the UI.
+
+Sergei is a founding engineer who started working with us part-time from the first month on. Over the years, he has led the deep data infrastructure work both in the open-source libraries and for the web platform. He has also made numerous other contributions to the open-source libraries.
+
+Ebad is a AI Backend Engineer who has implemented features like the bot accounts, the Pro subscription plan on LaminHub, and agent harness integrations.
+
+Ishita is a Research Software Engineer who has maintained the open-source libraries, the `cellxgene` mirror, and data curation projects.
+
+Sheetal is a Full-stack and Research Software Engineer who has developed the UI with features such as Change Requests. She has also contributed to the open-source libraries.
+
+Chaichontat is a founding full-stack engineer. He architected, implemented, and leads the frontend of LaminHub. He has also contributed to many other aspects of Lamin.
+
+Frederic is a founding full-stack engineer who started working with us after just a few months. He architected, implemented, and leads the backend of LaminHub along with all infrastructure systems. He also contributed to many other aspects of Lamin.
+
+Alex is a co-founder of Lamin. He implemented wide parts of LaminDB and contributed his opinion to most other parts of Lamin.
+
 ## References
 
 [^anthropic-agents]: Luebbert L et al. (2026). Paving the way for agents in biology. [Anthropic Research](https://www.anthropic.com/research/agents-in-biology).
