@@ -188,10 +188,6 @@ You can then save new datasets versions, add new records, write new code all on 
 We provide free programmatic access to the world’s largest public collection of single-cell data at [lamin.ai/explore](https://lamin.ai/explore). We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, the Arc Virtual Cell Atlas, and HubMAP, and make their datasets and entities queryable through easy-to-use open-source Python & R libraries.
 Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface.
 
-## Validate & annotate datasets
-
-...
-
 ## Who uses it?
 
 Organizations across pharma, biotech, and academia are already using Lamin to create these training feedback loops, including:
