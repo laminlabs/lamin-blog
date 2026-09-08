@@ -56,7 +56,7 @@ So we thought an API-first data management tool for the age of AI -- capable of 
 We built it open-source, directly onto the PyData stack, so that setting it up is just a `pip install`.
 Users shouldn't have to worry about dealing with the idiosyncratic, rate-limited REST API of a startup.
 
-> I don't want to learn your garbage query language. -- [Erik Bernhardsson](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
+> I don't want to learn your garbage query language. -- [Erik Bernhardsson (2018)](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
 ## What?
 
@@ -87,7 +87,7 @@ Its global multi-cloud deployment is available at [lamin.ai](https://lamin.ai) a
 
 Over the past years, we have been helping teams in life science organizations to track data, code & agents. Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11); and that means they need traceability not just for the deterministic bionformatics pipeline but also upstream metadata entry in the wetlab and downstream interactive (agentic) analyses.
 
-> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code. -- [Joe Saelens, Pfizer (2026)](https://youtu.be/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477)
+> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code. -- [Joe Saelens, Pfizer](https://youtu.be/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477)
 
 Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
 For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
@@ -183,7 +183,7 @@ You can then save new datasets versions, add new records, write new code all on 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/rzRwcMj6-fc?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
-## Explore biological atlases
+## Exploring biological atlases
 
 We provide free programmatic access to the world’s largest public collection of single-cell data at [lamin.ai/explore](https://lamin.ai/explore). We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, the Arc Virtual Cell Atlas, and HubMAP, and make their datasets and entities queryable through easy-to-use open-source Python & R libraries.
 Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface.
