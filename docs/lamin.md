@@ -230,7 +230,7 @@ The many people who supported us along the way. Most notably, family and friends
 
 Sunny is a co-founder of Lamin and led building biology-focsed use cases and the related open-source libraries, e.g., `bionty`. She has also led customer interactions and product management for the UI.
 
-Sergei is a founding engineer who started working with us part-time from the first month on. Over the years, he has led the deep data infrastructure work both in the open-source libraries and for the web platform. He has also made numerous other contributions to the open-source libraries.
+Sergei is a founding engineer who started working with us part-time in our first month and soon became a core member of the team. Over the years, he has led the deep data infrastructure work across both the open-source libraries and the web platform He has also made numerous other contributions to the open-source libraries.
 
 Ebad is a AI Backend Engineer who has implemented features like the bot accounts, the Pro subscription plan on LaminHub, and agent harness integrations.
 
