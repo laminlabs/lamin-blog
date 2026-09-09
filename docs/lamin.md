@@ -63,7 +63,7 @@ Users shouldn't have to worry about dealing with the idiosyncratic, rate-limited
 LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations.
 Like git, LaminDB is a distributed system that runs anywhere and captures all relevant context about your work.
 This includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
-It takes a few seconds to install LaminDB and create an SQLite database that keeps track of your files and all context surrounding them on your laptop. This is great for purely local work. But as soon as you want to collaborate or manage data in cloud storage, you can connect the same setup to LaminHub and a cloud database and storage.
+It takes a few seconds to install LaminDB and create an SQLite database that keeps track of your files and all context surrounding them on your laptop. This is great for purely local work. But as soon as you want to collaborate or manage data in cloud storage, you can connect the same setup to LaminHub and a cloud database.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
