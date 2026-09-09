@@ -21,7 +21,7 @@ Here we present the key ideas, features, and design choices that the Lamin platf
 
 ## Why?
 
-While agents have had their breakthrough and intelligence has become abundant, innovation on the systems operated by agents is lagging behind.
+While agents have had their breakthrough and intelligence has become abundant, innovation on the systems operated by agents is lagging behind. Agents make this gap more visible and urgent, but the underlying problem is broader: complex data systems have long lacked a convenient, programmable, and traceable layer for managing scientific data.
 There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.
 But it's still git that manages code, still markdown that holds notes, still OWL that holds ontologies, and still the same file systems, databases, and warehouses that hold data.
 Agents are using these low-level systems in similar ways to how developers have been using them for years, although at a different scale and with different characteristics.[^treybig26]
