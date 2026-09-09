@@ -37,7 +37,7 @@ Some of the underlying problems are fundamental and have persisted for decades.
 But it is only since we started delegating work to agents that these issues have become painful for a high number of people and organizations.
 Agents need API-first access to operate.
 Untraceable agentic results cannot be trusted, but tracing interactive workloads doesn't fit into established workflow managers.
-Furthermore, agents burn tokens, make mistakes, or fail entirely if unable to efficiently access data.
+Furthermore, agents burn tokens, make mistakes, or fail entirely if unable to efficiently discover and access data.
 
 > The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
