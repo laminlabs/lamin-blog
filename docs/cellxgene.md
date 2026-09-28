@@ -15,14 +15,12 @@ repo: https://github.com/laminlabs/cellxgene-lamin
 linkedin: TBD
 ---
 
-CZI's CELLxGENE doesn't allow to programmatically query across datasets. Hence, we built a mirror in a LaminDB instance.
-The work on this project started in 2022 and was seminal to the evolution of LaminDB's design.
+Ten years ago, the Human Cell Atlas set out to map every cell type in the human body. CZI's CELLxGENE[^cellxgene] has quietly become that atlas. Today it hosts over 1,900 standardized single-cell datasets, spanning hundreds of tissues, diseases, and organisms, curated to a common schema and freely accessible. It is one of the most significant data infrastructure efforts in modern biology.
 
-CZI's CELLxGENE[^cellxgene][^aevermann2025] hosts one of the largest standardized collections of single-cell RNA-seq datasets.
-Its Census provides a streamable version of a concanated subset of datasets through a single array from the cloud.
-But the whole atlas is presently only availabe as `.h5ad` files, which store the individual datasets in smaller arrays.
+But access has remained a bottleneck. The datasets live as individual `.h5ad` files. There is no way to query across them — to ask "give me all T cells from kidney across every dataset" — without downloading and opening each file manually. The Census helps for the concatenated view, but the individual datasets, their metadata, and their relationships to biological knowledge remain largely opaque to programmatic exploration.
 
-We maintain [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), a public LaminDB instance that mirrors CELLxGENE data with curated, queryable metadata.
+We maintain [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene) to close that gap — a public LaminDB instance that mirrors CELLxGENE with fully queryable, ontology-backed metadata. The goal is simple, make ten years of CZI's curation effort as useful as it deserves to be.
+
 It enables you to:
 
 1. **Query across datasets** using biological ontologies: filter `.h5ad` artifacts by cell type, tissue, disease, assay, organism, and more — all with a single API call.
@@ -72,16 +70,17 @@ This is the same Django ORM-style syntax used throughout LaminDB, which means qu
 
 ## How we curate the instance
 
-Each CELLxGENE Census LTS release (published every six months) triggers an update of `laminlabs/cellxgene`.
-The curation process:
+Each CELLxGENE Census LTS release (published every six months) triggers a full update of `laminlabs/cellxgene`. But CZI adds new datasets to the portal every week — and researchers often want access to those before the next LTS. So we also run a **weekly pre-release ingestion**: datasets that appear in the latest Census build but have not yet been folded into an LTS release are registered with a `pre-release` label, annotated with the same ontology-backed metadata, and made queryable immediately.
 
-1. **Register artifacts**: Each `.h5ad` file from the Census release is registered as an `artifact`, pointing to its S3 location on `s3://cellxgene-data-public`. No data is copied — LaminDB references the original storage.
+The full curation process:
+
+1. **Register artifacts**: Each `.h5ad` file is registered as an `artifact`, pointing to its S3 location on `s3://cellxgene-data-public`. No data is copied, LaminDB references the original storage. LTS artifacts are registered with each Census release; datasets added to the Census between LTS releases are registered weekly with a `pre-release` label, making them queryable immediately.
 
 2. **Parse and link metadata**: For each artifact, we parse the `obs` fields and link them to ontology-backed registries. Cell types are linked to the [Cell Ontology](http://obophenotype.github.io/cell-ontology/), tissues to [Uberon](http://obophenotype.github.io/uberon/), diseases to [Mondo](https://mondo.monarchinitiative.org/), assays to [EFO](https://www.ebi.ac.uk/efo/), and so on. This is what enables cross-dataset queries.
 
-3. **Register collections**: CELLxGENE organizes datasets into collections (typically corresponding to a publication). We mirror this structure: each CELLxGENE collection maps to a `Collection` in LaminDB, grouping the relevant artifacts. Collections are versioned across Census releases.
+4. **Register collections**: CELLxGENE organizes datasets into collections (typically corresponding to a publication). We mirror this structure: each CELLxGENE collection maps to a `Collection` in LaminDB, grouping the relevant artifacts. Collections are versioned across Census releases.
 
-4. **Register the Census store**: The concatenated `tiledbsoma` array is registered as a single artifact, enabling direct queries via `artifact.open()`.
+5. **Register the Census store**: The concatenated `tiledbsoma` array is registered as a single artifact, enabling direct queries via `artifact.open()`.
 
 The scripts that perform this curation live in [cellxgene-lamin](https://github.com/laminlabs/cellxgene-lamin), and the schema definition is part of [lamindb](https://github.com/laminlabs/lamindb/blob/main/lamindb/examples/cellxgene/_cellxgene.py).
 
@@ -220,7 +219,7 @@ You can [transfer](https://docs.lamin.ai/transfer) any artifact from `laminlabs/
 
 ## Outlook
 
-We update `laminlabs/cellxgene` with each Census LTS release.
+We update `laminlabs/cellxgene` with each Census LTS release and register newly added datasets weekly as pre-release, so the instance always reflects the latest state of CELLxGENE.
 Going forward, we plan to extend the instance with spatial transcriptomics datasets as they become available through Census.
 
 ## Code & data availability
