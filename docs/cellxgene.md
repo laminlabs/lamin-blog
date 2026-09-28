@@ -15,11 +15,17 @@ repo: https://github.com/laminlabs/cellxgene-lamin
 linkedin: TBD
 ---
 
-Ten years ago, the Human Cell Atlas set out to map every cell type in the human body. CZI's CELLxGENE[^cellxgene] has quietly become that atlas. Today it hosts over 1,900 standardized single-cell datasets, spanning hundreds of tissues, diseases, and organisms, curated to a common schema and freely accessible. It is one of the most significant data infrastructure efforts in modern biology.
+Ten years ago, the Human Cell Atlas set out to map every cell type in the human body. CZI's CELLxGENE has quietly become that atlas. Today it hosts over 1,900 standardized single-cell datasets, spanning hundreds of tissues, diseases, and organisms, curated to a common schema and freely accessible. It is one of the most significant data infrastructure efforts in modern biology.
 
 But access has remained a bottleneck. The datasets live as individual `.h5ad` files. There is no way to query across them — to ask "give me all T cells from kidney across every dataset" — without downloading and opening each file manually. The Census helps for the concatenated view, but the individual datasets, their metadata, and their relationships to biological knowledge remain largely opaque to programmatic exploration.
 
-We maintain [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene) to close that gap — a public LaminDB instance that mirrors CELLxGENE with fully queryable, ontology-backed metadata. The goal is simple, make ten years of CZI's curation effort as useful as it deserves to be.
+The work on this project started in 2022 and was seminal to the evolution of LaminDB's design.
+
+CZI's CELLxGENE[^cellxgene][^aevermann2025] hosts one of the largest standardized collections of single-cell RNA-seq datasets.
+Its Census provides a streamable version of a concatenated subset of datasets through a single array from the cloud.
+But the whole atlas is presently only available as `.h5ad` files, which store the individual datasets in smaller arrays.
+
+We maintain [`laminlabs/cellxgene`](https://lamin.ai/laminlabs/cellxgene), a public LaminDB instance that mirrors CELLxGENE data with curated, queryable metadata.
 
 It enables you to:
 
