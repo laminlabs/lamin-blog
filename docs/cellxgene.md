@@ -74,6 +74,17 @@ db.Artifact.filter(
 Under the hood, `cell_types__name__in` performs a join between the `Artifact` and `bionty.CellType` registries, matching on `CellType.name`.
 This is the same Django ORM-style syntax used throughout LaminDB, which means queries compose naturally across any metadata dimension.
 
+You can also filter for pre-release datasets — those added to the Census after the latest LTS release:
+
+```python
+pre_release = db.ULabel.get(name="pre-release")
+
+db.Artifact.filter(
+    suffix=".h5ad",
+    ulabels=pre_release,
+).to_dataframe()
+```
+
 ## How we curate the instance
 
 Each CELLxGENE Census LTS release (published every six months) triggers a full update of `laminlabs/cellxgene`. But CZI adds new datasets to the portal every week — and researchers often want access to those before the next LTS. So we also run a **weekly pre-release ingestion**: datasets that appear in the latest Census build but have not yet been folded into an LTS release are registered with a `pre-release` label, annotated with the same ontology-backed metadata, and made queryable immediately.
