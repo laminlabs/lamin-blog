@@ -35,7 +35,7 @@ extensions.append("ablog")
 authors = {
     "alexras": ("Alex Rasmussen", "https://github.com/alexras"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
-    "Ebad371": ("Ebad Khan", "https://github.com/Ebad371"),
+    "ebadukhan": ("Ebad Khan", "https://github.com/Ebad371"),
     "fabian-theis": (
         "Fabian Theis",
         "https://scholar.google.com/citations?user=sqWpn2AAAAAJ&hl=en",
