@@ -1,22 +1,22 @@
 ---
 title: "Introducing Lamin: An open data platform for traceable, multimodal AI"
 date: 2026-10-09
-author: sunnyosun, Koncopd, ebadukhan, sheetalgiri, chaichontat*, fredericenard*, falexwolf
+author: sunnyosun, Koncopd, ebadukhan, sheetalgiri, AllaVinner, chaichontat*, fredericenard*, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
   Koncopd: Lamin Labs, Munich
   ebadukhan: Lamin Labs, Munich
   sheetalgiri: Lamin Labs, Munich
+  AllaVinner: Lamin Labs, Munich
   chaichontat: Lamin Labs, NYC
   fredericenard: Lamin Labs, NYC
   falexwolf: Lamin Labs, Munich
 ---
 
-We're thrilled to announce that Lamin is now generally available -- with just a few clicks, anyone can create a database on [lamin.ai](https://lamin.ai).
-For years we've deployed the open-source LaminDB in life science organizations to make interactive workflows traceable and data AI-ready.
-But today, AI agents enable even individual scientists to generate and process data at a new scale,
-and hosting a LaminDB instance in the cloud had to become as easy as it gets.
-Here we present the key ideas, features, and design choices that the Lamin platform offers.
+We’re thrilled to share that Lamin is now generally available! With just a few clicks, anyone can create a database on [lamin.ai](http://lamin.ai/).
+In 2022, we set out to build an open-source data management tool that’d make it easier to scale AI workflows in the life sciences.
+Over the past few years, we’ve served research labs and enterprises of all sizes with what used to take a dozen tools or an enterprise platform.
+Now it’s just Postgres & storage wrapped up in a Python package.
 
 ## Why?
 
@@ -59,10 +59,7 @@ Users shouldn't have to worry about dealing with the idiosyncratic, rate-limited
 
 ## What?
 
-LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations.
-Like git, LaminDB is a distributed system that runs anywhere and captures all relevant context about your work.
-This includes the data flow through models and analyses, the entities and notes defining experiments, and the features & schemas of datasets.
-It takes a few seconds to install LaminDB and create an SQLite database that keeps track of your files and all context surrounding them on your laptop. This is great for purely local work. But as soon as you want to collaborate or manage data in cloud storage, you can connect the same setup to LaminHub and a cloud database.
+LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining your work, and the features & schemas of datasets. It takes about a minute to install LaminDB and create a database on your laptop or in the cloud.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
@@ -79,19 +76,34 @@ It takes a few seconds to install LaminDB and create an SQLite database that kee
   </div>
 </div>
 
-LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git.
-Its global multi-cloud deployment is available at [lamin.ai](https://lamin.ai) and with a click of a button you create a database that keeps track of files across file storage systems.
+LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git. Together, they make up for what used to take a dozen tools or an enterprise data platform:
 
-## Tracing data, code & agents
+- Data lineage
+- Format-agnostic lakehouse
+- Notes, ELN, LIMS, Ontologies, Projects
+- Versioning + branching
+- Data lake + catalog
+- Agents + workflows + notebooks
+- Feature store, MLOps
+
+Let's walk through these in more detail.
+
+## Data lineage
 
 Over the past years, we have been helping teams in life science organizations to track data, code & agents. Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11); and that means they need traceability not just for the deterministic bionformatics pipeline but also upstream metadata entry in the wetlab and downstream interactive (agentic) analyses.
 
-> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code. -- [Joe Saelens, Pfizer](https://youtu.be/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477)
+```{raw} html
+<div style="text-align: center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+```
+
+> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code.
 
 Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
 For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
 
-> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon, ENS Paris & Institut Pasteur](https://x.com/jkobject/status/2047043597820666039)
+> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon](https://x.com/jkobject/status/2047043597820666039)
 
 To exemplify how tracing information flow through steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations, consider how the following video traces the steps in a reconstructed research project, based on Schmidt _et al._, Science (2022).[^schmidt22]
 
