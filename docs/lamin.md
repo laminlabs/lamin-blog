@@ -13,10 +13,11 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-We’re thrilled to share that Lamin is now generally available! With just a few clicks, anyone can create a database on [lamin.ai](http://lamin.ai/).
+We’re thrilled to share that Lamin is generally available! With just a few clicks, anyone can now create a database on [lamin.ai](http://lamin.ai/).
+
 In 2022, we set out to build an open-source data management tool that’d make it easier to scale AI workflows in the life sciences.
-Over the past few years, we’ve served research labs and enterprises of all sizes with what used to take a dozen tools or an enterprise platform.
-Now it’s just Postgres & storage wrapped up in a Python package.
+Over the past few years, we’ve served research labs and enterprises of all sizes. Today, Lamin helps you get organized by managing your knowledge, workflows, and large-scale datasets, no matter which format.
+And this all works with the open-source LaminDB API-first, while offering features like a UI or fine-grained access management via the LaminHub web platform, mimicking the git/GitHub model to guarantee zero-lock-in of user data.
 
 ```{raw} html
 <div style="text-align: center">
