@@ -1,6 +1,6 @@
 ---
 title: "Introducing Lamin: An open data platform for traceable, multimodal AI"
-date: 2026-10-09
+date: 2026-10-21
 author: sunnyosun, Koncopd, ebadukhan, sheetalgiri, AllaVinner, chaichontat*, fredericenard*, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
@@ -17,6 +17,12 @@ We’re thrilled to share that Lamin is now generally available! With just a few
 In 2022, we set out to build an open-source data management tool that’d make it easier to scale AI workflows in the life sciences.
 Over the past few years, we’ve served research labs and enterprises of all sizes with what used to take a dozen tools or an enterprise platform.
 Now it’s just Postgres & storage wrapped up in a Python package.
+
+```{raw} html
+<div style="text-align: center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CFW80-O1YAE?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+```
 
 ## Why?
 
