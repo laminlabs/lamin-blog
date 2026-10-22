@@ -240,7 +240,7 @@ In LaminDB, you can create and switch to a new branch like you do in `git`:
 lamin switch -c my_branch
 ```
 
-You can then save new dataset versions, add new records, and write new code — all on that branch, just as you'd do in `git`. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
+You can then save new dataset versions, add new records, make a change to a notebook, and trace agents — all on that branch. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
 LaminDB complements rather than replaces `git`: you keep using `git` for code and can leverage LaminDB's integration to sync changes.
 
 ```{raw} html
