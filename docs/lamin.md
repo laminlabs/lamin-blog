@@ -28,34 +28,30 @@ This post provides some of the background story.
 
 ## Why?
 
-Agents had their breakthrough but innovation on the data systems operated by agents lags behind.
+Agents had their breakthrough but innovation on data systems lags behind.
 There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.[^treybig26]
 Still git holds code, markdown holds notes, OWL holds ontologies, and the same file systems, databases, and warehouses hold data.
 One layer up, the same high-level systems dominate: note-taking, inventory management, productivity suites with a UI-first, human-centric design are used as the primary systems of record.
 None of these systems were built for agents to manage data in a complex domain such as the life sciences at this new scale.
 
-We started working on Lamin in early 2022 concerned that comp bio operations weren't traceable and efficient enough. Today it turns out that those problems have become exacerbated by agents:
+We started working on Lamin in early 2022 concerned that comp bio operations weren't traceable and efficient enough. Today it turns out that those problems have become exacerbated:
 
 1. Untraceable results cannot be trusted, especially when non-verifiable tasks are delegated to agents.
-2. Without effective access to multimodal data, models burn tokens or fail entirely.
+2. Without effective access to multimodal data, LLMs burn tokens or fail entirely.
 3. Without governing changes to data akin to governing changes to software with git, it's hard to evaluate agents, debug their mistakes, and safely merge their contributions.
+
+Existing data lakehouses aren't a comprehensive solution. They only address the 2nd and 3rd of these problems for a single table or array format, such as `parquet` or `zarr`.
 
 Especially in life sciences, hard-to-verify tasks are abundant, data formats are heterogeneous, and teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
 
 > The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-Existing data lakehouses aren't a comprehensive solution. They only address the 2nd and 3rd of these problems for a single table or array format, such as `parquet` or `zarr`.
-
-But these problems are indeed decades old.
+While perhaps more pressing than ever, these problems are decades old.
 
 > There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
 > A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
 The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
-
-<div style="text-align: center">
-<img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
-</div>
 
 It also brought the promise of AI helping to extract real value out of this data.
 Because most companies kept building UI-first platforms that would only be able to deal with anecdotal data, we felt that an open-source API-first data management tool was missing from the landscape.
@@ -102,8 +98,7 @@ Let's walk through it in more detail.
 
 ## Data lineage
 
-Over the past years, we have been helping teams in life science organizations to track data, code & agents. Especially drug discovery teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11); that is not just for a deterministic data pipeline but also upstream metadata entry in the wetlab and downstream interactive (agentic) analyses.
-
+Over the past years, we have been helping teams in life science organizations to track data, code & agents. Especially drug discovery teams need end-to-end traceability for compliance; that is not just for a deterministic data pipeline but also upstream metadata entry in the wetlab and downstream interactive (agentic) analyses.
 To exemplify how tracing information flow through steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations, consider how the following video traces the steps in a reconstructed research project, based on Schmidt _et al._, Science (2022).[^schmidt22]
 
 ```{raw} html
@@ -111,23 +106,6 @@ To exemplify how tracing information flow through steps and across entities -- f
 <iframe width="560" height="315" src="https://www.youtube.com/embed/yK3ODFZLL1A?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 ```
-
-Here is a conference talk where a customer talks about in the context of an enterprise R&D data platform.
-
-```{raw} html
-<div style="text-align: center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
-```
-
-Some of the quotes:
-
-> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code.
-
-Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
-For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
-
-> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon](https://x.com/jkobject/status/2047043597820666039)
 
 Tracking data flow is easy and can instrument different applications. For example, in a Python script or notebook you'd just call:
 
@@ -141,10 +119,27 @@ ln.track()  # initiate a tracked notebook/script run
 ln.finish()  # mark run as finished, save execution report, source code & environment
 ```
 
-Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and creates a long-term memory of data operations ("How did we analyze datasets for frozen lung tissue before?"). It's been notoriously difficult to create big training datasets for biology outside of simple systems.
+Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and long-term memory ("How did we analyze datasets for frozen lung tissue before?").
+
+It's been notoriously difficult to create big training datasets for biology outside of simple systems.
 Just by using LaminDB, one creates FAIR training data automatically, a bit like when using git to manage the source code of a project produces a rich queryable dataset about the evolution of the project.
 This creates an unprecedented training dataset that helps both humans and AI models learn from every analysis.
 It closes the training feedback loop across different teams and models, in particular between the wetlab and the drylab.
+
+Here is an example of how Lamin is deployed in an enterprise R&D data platform:
+
+```{raw} html
+<div style="text-align: center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+```
+
+> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code.
+
+Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
+For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
+
+> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon](https://x.com/jkobject/status/2047043597820666039)
 
 ## Format-agnostic lakehouse
 
@@ -167,15 +162,19 @@ with collection.open(engine="polars") as df:
     ).collect()
 ```
 
-Such efficient data access then helps agents reduce token usage or spares humans wrangling data.[^pillai26]
+And it doesn't just work for tabular data. For years we've helped communities manage data structures with higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata] manage datasets at scale.[^spatialdata-blog][^mapped-collection][^annbatch] The central idea for this is to index features independent of how they're materialized.
+
+<div style="text-align: center">
+<img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
+</div>
+
+Efficient data access spares humans wrangling data and helps agents reduce token usage.[^pillai26]
 
 ```{raw} html
 <div style="text-align: center">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vZIoTjYvEgw?si=Eqn4dBZyFDrbcxvm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 ```
-
-And it doesn't just work for tabular data. For years we've helped communities manage data structures with higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata] manage datasets at scale.[^spatialdata-blog][^mapped-collection][^annbatch]
 
 ## Notes, LIMS, ELN, Ontologies
 
