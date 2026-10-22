@@ -174,7 +174,7 @@ for batch in loader:
     pass
 ```
 
-The central idea is to index features independent of how they're materialized, create schemas, and validate and annotate every new incoming dataset based on this structure. Whether you use lakehouse-style dataset sharding via collections or just keep working with vanilla artifacts is your choice.
+The central idea is to index features independent of how they're materialized, create schemas, and validate and annotate every new incoming dataset based on them. Whether you use lakehouse-style dataset sharding via collections or just keep working with vanilla artifacts is your choice.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
