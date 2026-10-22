@@ -136,7 +136,7 @@ For example, a researcher who started using LaminDB during his PhD on single-cel
 Unlike in traditional SQL-based data warehousing, data in AI and R&D is often kept in storage systems or data lakes.
 While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
 A recent study on the NCBI Virus Database demonstrated that agents can fail when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.[^anthropic-agents]
-This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing together 88M variants, for example, with `polars`:[^polars]
+This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing 88M variants, for example, with `polars`:[^polars]
 
 ```python
 import lamindb as ln
@@ -152,9 +152,9 @@ with collection.open(engine="polars") as df:
     ).collect()
 ```
 
-And if you manipulate such a `Collection` object, you get ACID transactions and time travel similar to the established lakehouse frameworks like Iceberg.
+And if you manipulate such a `Collection` object, you get ACID transactions and time travel, similar to established lakehouse frameworks like Iceberg.
 
-It doesn't just work for tabular data. For years we've worked with communities who use data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata].[^spatialdata-blog][^mapped-collection] Here is how you'd train a model on a collection of `AnnData` artifacts in `zarr` format using `annbatch`:[^annbatch]
+This doesn't just work for tabular data or specific array formats. For years we've worked with communities who use data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata], and different formats such as `hdf5`, `zarr`, and `tiledb`.[^spatialdata-blog][^mapped-collection] Here is how you'd train a model on a collection of `AnnData` artifacts in `zarr` format using `annbatch`:[^annbatch]
 
 ```python
 import anndata as ad
@@ -174,7 +174,7 @@ for batch in loader:
     pass
 ```
 
-The central idea is to index features independent of how they're materialized, create schemas, and validate and annotate every new incoming dataset based on them. Whether you use lakehouse-style dataset sharding via collections or just keep working with vanilla artifacts is your choice.
+The central idea is to index features independent of how they're materialized, create schemas, and validate every new incoming dataset based on them. Whether you actually validate and use lakehouse-style dataset sharding via collections or just keep working with artifacts in a data lake is your choice and depends on the data engineering task at hand.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
