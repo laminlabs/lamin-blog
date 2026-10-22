@@ -44,12 +44,10 @@ Especially in life sciences, hard-to-verify tasks are abundant, data formats are
 
 > The bottleneck for biological agents is not only reasoning but the absence of widespread deterministic execution layers for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-In addition to AI, the last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatially resolved transcriptomics.[^marx21]
+The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatially resolved transcriptomics.[^marx21]
 It also brought the promise of AI helping to extract real value out of this data.
 Because most companies kept building UI-first platforms that would only be able to deal with anecdotal data, we felt that an open-source API-first data management tool was missing from the landscape.
-We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about dealing with an idiosyncratic, rate-limited REST backend.
-
-> I don't want to learn your garbage query language. -- [Erik Bernhardsson (2018)](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
+We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about giving up the tools they love.
 
 ## What?
 
@@ -216,7 +214,7 @@ We provide free programmatic access to the world’s largest public collections 
 
 ## What's next?
 
-We will keep helping a strongly growing number of life science researchers and organizations stay in control while AI accelerates their research.
+We will keep helping a rapidly growing number of life science researchers and organizations stay in control while AI accelerates their research.
 
 > All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
 
@@ -255,7 +253,7 @@ Chaichontat is a founding full-stack engineer. He architected, implemented, and 
 
 Frederic is a founding full-stack engineer. He architected, implemented, and leads the backend of LaminHub along with infrastructure systems.
 
-Alex is a co-founder of Lamin. He implemented wide parts of LaminDB and contributed his opinion to most other parts of Lamin.
+Alex is a co-founder of Lamin and implemented much of LaminDB.
 
 ## References
 
