@@ -230,7 +230,7 @@ This way you can use your favorite local editors and agent harnesses:
 
 ## Branching & versioning
 
-There is an established tool for managing changes: `git`. It just doesn't work for large datasets and it doesn't understand entities.
+`git` is the established tool for managing changes. It just doesn't work for large datasets and it doesn't understand entities.
 While `dvc` fixes the former, it still doesn't fix the latter. While `dolt` fixes the latter, it doesn't fix the former.
 LaminDB fixes both — enabling dimensional modeling of entities with schemas and letting users keep their favorite formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
 
