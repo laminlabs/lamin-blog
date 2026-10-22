@@ -152,7 +152,7 @@ with collection.open(engine="polars") as df:
     ).collect()
 ```
 
-And if you manipulate such a `Collection` object, you get ACID transactions and time travel, similar to established lakehouse frameworks like Iceberg.
+If you manipulate such a `Collection` object, which holds multiple artifacts, you get ACID transactions and time travel, similar to established lakehouse frameworks like Iceberg.
 
 This doesn't just work for tabular data or specific array formats. For years we've worked with communities who use data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata], and different formats such as `hdf5`, `zarr`, and `tiledb`.[^spatialdata-blog][^mapped-collection] Here is how you'd train a model on a collection of `AnnData` artifacts in `zarr` format using `annbatch`:[^annbatch]
 
