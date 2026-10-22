@@ -115,7 +115,7 @@ You can also decorate Python functions, use similar syntax in R, or use `nf-lami
 
 Traceability is valuable beyond compliance. It gives you:
 
-- audibility for trust ("Was this analysis done correctly?")
+- auditability for trust ("Was this analysis done correctly?")
 - context for interpretation ("Has this confounder been corrected for?")
 - reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?")
 - long-term memory ("How did we analyze datasets for frozen lung tissue before?")
@@ -194,7 +194,7 @@ And similar for other metadata dimensions of other data formats.
 
 There is an established tool for managing changes: `git`. It just doesn't work for large datasets and it doesn't understand entities.
 While `dvc` fixes the former, it still doesn't fix the latter. While `dolt` fixes the latter, it doesn't fix the former.
-LaminDB fixes both so that dimenionsal modeling of entities with schemas becomes possible, while users can continue to use their most popular formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
+LaminDB fixes both so that dimensional modeling of entities with schemas becomes possible, while users can continue to use their most popular formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
 
 In LaminDB, you can create and switch to a new branch like you do on git:
 
@@ -232,7 +232,7 @@ Our early customers for their patience and kindness.
 
 Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment in 2022 and have supported us ever since. They previously backed companies like Recursion & Hugging Face. Surbhi Sarna & Jared Friedman from YC. Pillar VC, Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa.
 
-The previous and part-time team members and consultants who helped build Lamin, some of which have been working with us for years and building key products. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Altana Namsareava, and Ishita Jain.
+The previous and part-time team members and consultants who helped build Lamin, some of which have been working with us for years and building key products. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Altana Namsaraeva, and Ishita Jain.
 
 The people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We'd also like to mention data storage formats including parquet, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase.
 
@@ -242,13 +242,11 @@ The many people who supported us along the way, in particular, families and frie
 
 `*` These authors contributed equally.
 
-Sunny is a co-founder of Lamin and led building biology-focsed use cases and the related open-source libraries, e.g., `bionty`. She has also led customer interactions and product management for the UI.
+Sunny is a co-founder of Lamin and led building biology-focused use cases and the related open-source libraries, e.g., `bionty`. She has also led customer interactions and product management for the UI.
 
-Sergei is a founding engineer who started working with us in our first month. Over the years, he has led the deep data infrastructure work across both the open-source libraries and the web platform He has also made numerous other contributions to the open-source libraries.
+Sergei is a founding engineer who started working with us in our first month. Over the years, he has led the deep data infrastructure work across both the open-source libraries and the web platform. He has also made numerous other contributions to the open-source libraries.
 
-Ebad is a AI Backend Engineer who has implemented features like the bot accounts, the Pro subscription plan on LaminHub, and agent harness integrations.
-
-Ishita is a Research Software Engineer who has maintained the open-source libraries, the `cellxgene` mirror, and data curation projects.
+Ebad is an AI Backend Engineer who has implemented features like the bot accounts, the Pro subscription plan on LaminHub, and agent harness integrations.
 
 Sheetal is a full-stack and Research Software Engineer who has developed the UI with features such as Change Requests. She has also contributed to the open-source libraries.
 
