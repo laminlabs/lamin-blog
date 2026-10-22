@@ -52,7 +52,7 @@ LaminDB is an open-source data management tool that makes it easy to query, trac
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/jMlG8OWw2yFbuhZJ0002.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/jMlG8OWw2yFbuhZJ0004.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
     <p style="text-align: right; margin-top: 0.2rem;"><em>Init a local database like you init a git repo.</em></p>
   </div>
   <div style="flex: 1.2; min-width: 0;">
