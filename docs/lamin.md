@@ -48,7 +48,7 @@ We felt an open-source, API-first data management tool was missing from the land
 
 ## What?
 
-LaminDB is an open-source data management tool that makes it easy to query, trace, and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining the work, and the features and schemas of datasets. It takes about a minute to install LaminDB and create a database on a laptop or in the cloud.
+LaminDB is an open-source data management tool that makes it easy to query, trace, and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining the work, and the features and schemas of datasets. It takes about a minute to `uv pip install lamindb` and create a database on a laptop or in the cloud.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
@@ -136,7 +136,7 @@ For example, a researcher who started using LaminDB during his PhD on single-cel
 Unlike in traditional SQL-based data warehousing, data in AI and R&D is often kept in storage systems or data lakes.
 While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
 A recent study on the NCBI Virus Database demonstrated that agents can fail when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.[^anthropic-agents]
-This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing together 88M variants e.g. with `polars`:
+This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing together 88M variants, for example, with `polars`:[^polars]
 
 ```python
 import lamindb as ln
@@ -282,6 +282,8 @@ Alex is a co-founder of Lamin and implemented much of LaminDB.
 [^schmidt22]: Schmidt R, Steinhart Z, Layeghi M, Freimer JW, Bueno R, Nguyen VQ, Blaeschke F, Ye CJ, Marson A. CRISPR activation and interference screens decode stimulation responses in primary human T cells. Science. 2022. https://pubmed.ncbi.nlm.nih.gov/35113687/
 
 [^pillai26]: Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026). Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses. Lamin Blog. https://blog.lamin.ai/1000genomes
+
+[^polars]: Polars. Polars: Fast multi-threaded, hybrid-streaming DataFrame library. [Polars](https://pola.rs/).
 
 [^anndata]: Virshup I, Rybakov S, Theis FJ, Angerer P & Wolf FA (2021). anndata: Annotated data. bioRxiv. https://doi.org/10.1101/2021.12.16.473007
 
