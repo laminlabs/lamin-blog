@@ -251,11 +251,11 @@ LaminDB complements rather than replaces `git`: you keep using `git` for code an
 
 ## Biological atlases
 
-We provide free programmatic access to some of the world’s largest public collections of single-cell, spatial, and other biological data at [lamin.ai/explore](https://lamin.ai/explore). Rather than re-curating data for hundreds of millions of cells, we mirror resources such as CELLxGENE and the Arc Virtual Cell Atlas.
+You can access some of the world’s largest public collections of single-cell, spatial, and other biological data at [lamin.ai/explore](https://lamin.ai/explore). Rather than re-curating data for hundreds of millions of cells, these are mirrors of resources such as CELLxGENE and the Arc Virtual Cell Atlas.
 
 ## What's next?
 
-We look forward to helping a rapidly growing number of life science researchers and organizations stay in control while AI accelerates their work — addressing fundamental challenges of data-driven science that have been around for much longer than AI:
+We look forward to helping a rapidly growing number of life science researchers and organizations stay in control while AI accelerates their work. But in fact, addressing fundamental challenges of data-driven science that have been around for much longer than AI.
 
 > There are three kinds of lies: lies, damned lies, and statistics. -- [Twain/Disraeli (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
 > A huge amount of effort is spent in cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10) <br>
