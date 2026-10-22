@@ -208,10 +208,10 @@ The same holds for other metadata dimensions and data formats.
 </div>
 ```
 
-You can easily get started by syncing markdown notes into your database. Run:
+You can easily get started by syncing markdown notes into your database. In your development directory, run:
 
 ```shell
-lamin save <topic>/<my-note.md>
+lamin save my-note.md
 ```
 
 To load a markdown record back, run:
@@ -220,7 +220,7 @@ To load a markdown record back, run:
 lamin load https://lamin.ai/laminlabs/lamindata/record/mNDJgWFrkWQVW3ox
 ```
 
-This way you can use your favorite local editors and harnesses:
+This way you can use your favorite local editors and agent harnesses:
 
 <div align="center">
   <img width=300 src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/kebpWrpEOZSUhtKK0000.png" style="padding: 0;"/>
