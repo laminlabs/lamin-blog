@@ -254,7 +254,7 @@ You can then save new dataset versions, add new records, write new code all on t
 </div>
 ```
 
-## Exploring biological atlases
+## Biological atlases
 
 We provide free programmatic access to the world’s largest public collections of single-cell data at [lamin.ai/explore](https://lamin.ai/explore). We did not re-curate data for 100s of millions of cells, but mirror collections such as CELLxGENE, the Arc Virtual Cell Atlas, and HuBMAP.
 
