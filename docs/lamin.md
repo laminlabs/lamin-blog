@@ -48,7 +48,7 @@ We felt an open-source, API-first data management tool was missing from the land
 
 ## What?
 
-LaminDB is an open-source data management tool that makes it easy to query, trace, and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining the work, and the features and schemas of datasets. It takes about a minute to `uv pip install lamindb` and create a database on a laptop or in the cloud.
+LaminDB is an open-source data management tool that makes it easy to query, trace, and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining the work, and the features and schemas of datasets. It takes a few seconds to `uv pip install lamindb` and create a database on a laptop or in the cloud.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
