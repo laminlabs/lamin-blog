@@ -152,7 +152,27 @@ with collection.open(engine="polars") as df:
     ).collect()
 ```
 
-And it doesn't just work for tabular data. For years we've helped communities who work with data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata].[^spatialdata-blog][^mapped-collection][^annbatch] The central idea for this is to index features independent of how they're materialized.
+And it doesn't just work for tabular data. For years we've helped communities who work with data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata].[^spatialdata-blog][^mapped-collection][^annbatch] Here is how you'd train a model on a collection of `AnnData` artifacts in `zarr` format using `annbatch`:
+
+```python
+import anndata as ad
+import zarr
+from annbatch import Loader
+
+db = ln.DB("laminlabs/arrayloader-benchmarks")
+collection = db.Collection.get(key="Tahoe100M_zarr")
+
+paths = [artifact.cache() for artifact in collection.artifacts.all()]
+loader = Loader(shuffle=True, batch_size=4096, chunk_size=256, preload_nchunks=64)
+loader.add_datasets(
+    datasets=[ad.io.sparse_dataset(zarr.open(p)["X"]) for p in paths],
+    obs=[ad.io.read_elem(zarr.open(p)["obs"]) for p in paths],
+)
+for batch in loader:
+    pass
+```
+
+The central idea for this is to index features independent of how they're materialized, create schemas, and validate and annotate every new incoming dataset based on this structure. Whether you use lakehouse-style dataset sharding via collections or just keep working with vanilla artifacts is your choice.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
