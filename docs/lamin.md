@@ -208,6 +208,24 @@ The same holds for other metadata dimensions and data formats.
 </div>
 ```
 
+You can easily get started by syncing markdown notes into your database. Run:
+
+```shell
+lamin save <topic>/<my-note.md>
+```
+
+To load a markdown record back, run:
+
+```shell
+lamin load https://lamin.ai/laminlabs/lamindata/record/mNDJgWFrkWQVW3ox
+```
+
+This way you can use your favorite local editors and harnesses:
+
+<div align="center">
+  <img width=300 src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/kebpWrpEOZSUhtKK0000.png" style="padding: 0;"/>
+</div>
+
 ## Managing changes
 
 There is an established tool for managing changes: `git`. It just doesn't work for large datasets and it doesn't understand entities.
