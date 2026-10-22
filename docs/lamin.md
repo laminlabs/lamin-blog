@@ -17,7 +17,7 @@ We’re thrilled to share that Lamin is generally available! With just a few cli
 
 In 2022, we set out to build an open-source data management tool that’d make it easier to scale AI workflows in the life sciences.
 Over the past few years, we’ve served research labs and enterprises of all sizes.
-Today, Lamin helps even individuals manage knowledge, workflows, and datasets, no matter which format and size.
+Now, Lamin can help even individuals manage knowledge, workflows, and datasets, no matter which format and size.
 This post provides some of the background story.
 
 ```{raw} html
