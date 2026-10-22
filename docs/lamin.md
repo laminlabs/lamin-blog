@@ -287,11 +287,11 @@ Sunny is a co-founder of Lamin and led building biology-focused use cases and pr
 
 Sergei is a founding engineer who started working with us in the first month. Over the years, he has led the deep data infrastructure work across both the open-source libraries and the web platform.
 
-Ebad is an AI Backend Engineer who has implemented features like the bot accounts, the Pro subscription plan on LaminHub, and agent harness integrations.
+Ebad is an AI backend engineer who has implemented features like bot accounts, the Pro subscription plan on LaminHub, and agent harness integrations.
 
-Sheetal is a full-stack and Research Software Engineer who has developed the UI with features such as Change Requests. She has also contributed to the open-source libraries.
+Sheetal is a full-stack and research software engineer who has developed UI features such as Change Requests. She has also contributed to the open-source libraries.
 
-Joel is a full-stack and Research Software Engineer who is driving agentic use cases and contributing across the stack.
+Joel is a full-stack and research software engineer who is driving agentic use cases and contributing across the stack.
 
 Chaichontat is a founding full-stack engineer. He architected, implemented, and leads the frontend of LaminHub. He has also contributed to many other aspects of Lamin.
 
@@ -313,7 +313,7 @@ Alex is a co-founder of Lamin and implemented much of LaminDB.
 
 [^spatialdata]: Marconato, L., Palla, G., Yamauchi, K.A. et al. SpatialData: an open and universal data framework for spatial omics. Nat Methods 22, 58–62 (2025).
 
-[^spatialdata-blog]: Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L, Sunny S & Wolf A (2026). Managing spatial omics datasets with SpatialData & LaminDB. Lamin Blog. https://blog.lamin.ai/spatialdata
+[^spatialdata-blog]: Heumos L, Namsaraeva A, Treis T, Keller M, Vierdag WM, Marconato L, Zimmermann L, Sun S & Wolf A (2026). Managing spatial omics datasets with SpatialData & LaminDB. Lamin Blog. https://blog.lamin.ai/spatialdata
 
 [^mapped-collection]: Rybakov S, Fischer F, Wiatrak M, Gold I, Rosen Y, Sun S, Sriworarat C, Theis F, Kalfon J & Wolf A (2024). MappedCollection: Weighted random sampling from large collections of scRNA-seq datasets. Lamin Blog. https://blog.lamin.ai/mapped-collection
 
