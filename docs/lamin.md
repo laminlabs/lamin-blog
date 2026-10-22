@@ -174,7 +174,7 @@ for batch in loader:
     pass
 ```
 
-The central idea is to index features independent of how they're materialized, create schemas, and validate every new incoming dataset based on them. Whether you actually validate and use lakehouse-style dataset sharding via collections or just keep working with artifacts in a data lake is your choice and depends on the data engineering task at hand.
+The central idea is to index features independent of how they're materialized, create schemas, and validate incoming datasets based on those. Whether you actually validate and use lakehouse-style dataset sharding via collections or just keep working with artifacts in a data lake is your choice and depends on the data engineering goal at hand.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
@@ -188,7 +188,7 @@ Efficient data access spares humans from wrangling data and helps agents reduce 
 </div>
 ```
 
-## Notes, ELN, LIMS, Ontologies
+## Notes, ELN, LIMS, ontologies
 
 While models are trained on datasets in storage - be it a local file system or S3 - many workflows require managing data in transactional systems of record.
 Most prominently, the electronic lab notebook (ELN) and laboratory information management systems (LIMS) are used by life scientists to manage experiments along with the entities surrounding them.
