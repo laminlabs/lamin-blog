@@ -48,7 +48,7 @@ We felt an open-source, API-first data management tool was missing from the land
 
 ## What?
 
-LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining the work, and the features & schemas of datasets. It takes about a minute to install LaminDB and create a database on a laptop or in the cloud.
+LaminDB is an open-source data management tool that makes it easy to query, trace, and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining the work, and the features and schemas of datasets. It takes about a minute to install LaminDB and create a database on a laptop or in the cloud.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
@@ -65,7 +65,7 @@ LaminDB is an open-source data management tool that makes it easy to query, trac
   </div>
 </div>
 
-LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git. Instead of repos, you're looking at databases:
+LaminHub is a collaboration hub built on LaminDB, similar to how GitHub is built on git. Instead of repos, you're looking at databases:
 
 <div style="text-align: center">
 <img width="400px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/4uXxd6wZ4A4VQaKx0000.png" style="padding: 0;">
@@ -75,13 +75,13 @@ Together, Lamin covers what usually takes a dozen tools or an enterprise data pl
 
 - Data lineage
 - Format-agnostic lakehouse
-- Notes, ELN, LIMS, Ontologies, Projects
+- Notes, ELN, LIMS, ontologies, projects
 - Versioning + branching
 - Data lake + catalog
 - Agents + workflows + notebooks
 - Feature store, MLOps
 
-Let's walk through it in more detail.
+Let's walk through several of these in more detail.
 
 ## Data lineage
 
