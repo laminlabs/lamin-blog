@@ -30,7 +30,7 @@ This post provides some of the background story.
 
 Agents had their breakthrough but innovation on data systems lags behind.
 There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.[^treybig26]
-Still git holds code, markdown holds notes, OWL holds ontologies, and the same file systems, databases, and warehouses hold data.
+Still git holds code, markdown holds notes, OWL/RDF hold ontologies, and the same file systems, databases, and warehouses hold data.
 One layer up, the same high-level systems dominate: note-taking, inventory management, productivity suites with a UI-first, human-centric design are used as the primary systems of record.
 None of these systems were built for agents to manage data in a complex domain such as the life sciences at this new scale.
 
@@ -40,18 +40,11 @@ We started working on Lamin in early 2022 concerned that comp bio operations wer
 2. Without effective access to multimodal data, LLMs burn tokens or fail entirely.
 3. Without governing changes to data akin to governing changes to software with git, it's hard to evaluate agents, debug their mistakes, and safely merge their contributions.
 
-Existing data lakehouses aren't a comprehensive solution. They only address the 2nd and 3rd of these problems for a single table or array format, such as `parquet` or `zarr`.
-
 Especially in life sciences, hard-to-verify tasks are abundant, data formats are heterogeneous, and teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
 
 > The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-While perhaps more pressing than ever, these problems are decades old.
-
-> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
-> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
-
-The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
+In addition to AI, the last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
 It also brought the promise of AI helping to extract real value out of this data.
 Because most companies kept building UI-first platforms that would only be able to deal with anecdotal data, we felt that an open-source API-first data management tool was missing from the landscape.
 We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about dealing with an idiosyncratic, rate-limited REST API.
@@ -224,23 +217,26 @@ Instead of navigating fragmented dataset conventions, you can now query for gene
 
 ## What's next?
 
+We're looking forward to keep helping a strongly growing number of life science researchers and organizations stay in control while AI accelerates their research.
+
 > All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
 
-We're looking forward to helping a strongly growing number of life science researchers and organizations stay in control while AI accelerates their research.
+And we'll continue to address some of the fundamental issues of data-driven research.
+
+> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
+> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
 ## Thanks to
 
 Our early customers for their patience and kindness.
 
-Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment round in September 2022 and have actively supported us ever since. They previously backed companies like Recursion & Hugging Face. Surbhi Sarna & Jared Friedman from YC. Pillar VC, Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa.
-
-> Current myopic obsessions: 1) technoscientific collisions driven by scaling laws of ML applied to the life sciences (@envedabio, @newlimit, @laminlabs, @automata_tech) 2) data first compute stacks 3) obsessing over technological disruption of company form & investor underwriting -- [Zavain Dar, Dimension](https://x.com/zavaindar/status/1717659487312531638)
+Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment in 2022 and have supported us ever since. They previously backed companies like Recursion & Hugging Face. Surbhi Sarna & Jared Friedman from YC. Pillar VC, Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa.
 
 The previous and part-time team members and consultants who helped build Lamin, some of which have been working with us for years and building key products. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Altana Namsareava, and Ishita Jain.
 
-Those people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We should also mention big data storage formats including parquet, HDF5, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase.
+The people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We'd also like to mention data storage formats including parquet, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase.
 
-The many people who supported us along the way. Most notably, families and friends.
+The many people who supported us along the way, in particular, families and friends.
 
 ## Author contributions
 
