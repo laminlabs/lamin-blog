@@ -52,7 +52,6 @@ While perhaps more pressing than ever, these problems are decades old.
 > A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
 The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
-
 It also brought the promise of AI helping to extract real value out of this data.
 Because most companies kept building UI-first platforms that would only be able to deal with anecdotal data, we felt that an open-source API-first data management tool was missing from the landscape.
 We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about dealing with an idiosyncratic, rate-limited REST API.
@@ -78,7 +77,7 @@ LaminDB is an open-source data management tool that makes it easy to query, trac
   </div>
 </div>
 
-LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git and looks like this:
+LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git. Instead of repos, you're looking at databases:
 
 <div style="text-align: center">
 <img width="400px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/4uXxd6wZ4A4VQaKx0000.png" style="padding: 0;">
@@ -136,12 +135,12 @@ Here is an example of how Lamin is deployed in an enterprise R&D data platform:
 </div>
 ```
 
-> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code.
+> The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code. It's a way to track and trace the full lineage of your data as you're working on it. [...]
 
 Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
-For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and says:
+For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and [says](https://x.com/jkobject/status/2047043597820666039):
 
-> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field. -- [Jeremie Kalfon](https://x.com/jkobject/status/2047043597820666039)
+> When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field.
 
 ## Format-agnostic lakehouse
 
@@ -227,15 +226,7 @@ Instead of navigating fragmented dataset conventions, you can now query for gene
 
 > All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
 
-We're looking forward to helping a growing number of life science researchers and organizations stay sane through staying in control while AI transforms that world.
-
-> Folks working on comp bio or data science in biopharma would love this compbio-ops tool: LaminDB. -- [Umut Eser, Johnson & Johnson](https://www.linkedin.com/posts/umuteser_github-laminlabslamindb-a-data-framework-activity-7115709673126707201-P3r9)
-
-> You are doing amazing stuff at Lamin! I'll make sure to write up a piece on how it truly helped me with the analysis. It's great - keep it up! -- [Saber Hafezqorani, Genentech](<https://www.linkedin.com/feed/update/urn:li:ugcPost:7490370634896646144/?dashCommentUrn=urn%3Ali%3Afsd_comment%3A(7491559214700470272%2Curn%3Ali%3AugcPost%3A7490370634896646144)>)
-
-> Thank you Lamin team for helping us with PerturBench - our comprehensive evaluation framework for benchmarking Perturbation Response Models. -- [Esther Wershof, Altos Labs](https://www.linkedin.com/feed/update/urn:li:activity:7460228150048927744/)
-
-> They‘re solving the decades-old metadata problem in biology at Lamin. I always thought it was intractable. -- [Jairav Desai, RefinedScience](https://www.linkedin.com/posts/jairavxdesai_lamin-share-7496607764979326976-i-0i/)
+We're looking forward to helping a strongly growing number of life science researchers and organizations stay in control while AI accelerates their research.
 
 ## Thanks to
 
