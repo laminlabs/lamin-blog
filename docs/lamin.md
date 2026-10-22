@@ -32,20 +32,20 @@ Yet git still holds code, markdown holds notes, OWL/RDF hold ontologies, and the
 One layer up, the same high-level systems of record dominate: note-taking apps, inventory managers, and productivity suites built around a UI-first, human-centric design.
 None of these systems were built for agents managing complex life sciences data at scale.
 
-We started working on Lamin in early 2022 concerned that comp bio operations weren't traceable and efficient enough. Today it turns out that those problems have become exacerbated:
+We started working on Lamin in early 2022 concerned that comp bio operations weren't traceable and efficient enough. Today, agents have amplified those problems:
 
 1. Untraceable results cannot be trusted, especially when non-verifiable tasks are delegated to agents.
 2. Without effective access to multimodal data, LLMs burn tokens or fail entirely.
-3. Without governing changes to data akin to governing changes to software with git, it's hard to evaluate agents, debug their mistakes, and safely merge their contributions.
+3. Without git-like governance for data, it's hard to evaluate agents, debug their mistakes, and safely merge their contributions.
 
 Especially in life sciences, hard-to-verify tasks are abundant, data formats are heterogeneous, and teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
 
 > The bottleneck for biological agents is not only reasoning but the absence of widespread deterministic execution layers for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatially resolved transcriptomics.[^marx21]
-It also brought the promise of AI helping to extract real value out of this data.
-Because most companies kept building UI-first platforms that would only be able to deal with anecdotal data, we felt that an open-source API-first data management tool was missing from the landscape.
-We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about giving up the tools they love.
+In the past decade, biological data generation has exploded in both resolution and scale, for example, in spatially resolved transcriptomics.[^marx21]
+Today AI promises to extract much more value out of this data.
+Yet most vendors kept building UI-first platforms that could only handle individual datasets.
+We felt an open-source, API-first data management tool was missing from the landscape, so we built one directly into the PyData stack—letting scientists keep the tools they already love.
 
 ## What?
 
