@@ -28,8 +28,7 @@ This post provides some of the background story.
 
 ## Why?
 
-Agents had their breakthrough but innovation on data systems lags behind.
-There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.[^treybig26]
+There's a strong need for innovation on data systems: agents produce and manipulate data at a staggering pace, sometimes in unreliable and dangerous ways.[^crane26][^treybig26]
 Still, git holds code, markdown holds notes, OWL/RDF hold ontologies, and the same file systems, databases, and warehouses hold data.
 One layer up, the same high-level systems dominate: note-taking, inventory management, productivity suites with a UI-first, human-centric design are used as the primary systems of record.
 None of these systems were built for agents to manage data in a complex domain such as the life sciences at this new scale.
@@ -179,7 +178,7 @@ These processes are almost always brittle and almost never provide the detailed 
 > A feature is an individual measurable property or characteristic of a data set. [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
 
 So, we built a records framework into a transactional database that's based on the same features that index datasets in the storage of a lakehouse.
-Hence, if you export or import between database and storage, there is no mapping and no ambiguity; the columns of an interactive sheet with experimental records map onto the columns of a csv or parquet file.
+Hence, if you export or import between database and storage, there is no ambiguity; the columns of an interactive sheet with experimental records map onto the columns of a csv or parquet file.
 And similar for other metadata dimensions of other data formats.
 
 ```{raw} html
