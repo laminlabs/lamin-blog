@@ -136,7 +136,7 @@ For example, a researcher who started using LaminDB during his PhD on single-cel
 Unlike in traditional SQL-based data warehousing, data in AI and R&D is often kept in storage systems or data lakes.
 While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
 A recent study on the NCBI Virus Database demonstrated that agents can fail when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.[^anthropic-agents]
-This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing 88M variants, for example, with `polars`:[^polars]
+This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing 88M variants,[^pillai26] for example, with `polars`:[^polars]
 
 ```python
 import lamindb as ln
@@ -180,7 +180,7 @@ The central idea is to index features independent of how they're materialized, c
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
 </div>
 
-Efficient data access spares humans from wrangling data and helps agents reduce token usage.[^pillai26] Here is a video that illustrates this.
+Here is a video that illustrates the lakehouse idea for the genetic variant analysis.
 
 ```{raw} html
 <div style="text-align: center">
