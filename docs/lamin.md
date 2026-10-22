@@ -236,11 +236,11 @@ Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment r
 
 > Current myopic obsessions: 1) technoscientific collisions driven by scaling laws of ML applied to the life sciences (@envedabio, @newlimit, @laminlabs, @automata_tech) 2) data first compute stacks 3) obsessing over technological disruption of company form & investor underwriting -- [Zavain Dar, Dimension](https://x.com/zavaindar/status/1717659487312531638)
 
-The team members and consultants who helped build Lamin, some of which have been working with us for years and building key products. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, and Bernardo Penteado.
+The previous and part-time team members and consultants who helped build Lamin, some of which have been working with us for years and building key products. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Altana Namsareava, and Ishita Jain.
 
 Those people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We should also mention big data storage formats including parquet, HDF5, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase.
 
-The many people who supported us along the way. Most notably, family and friends who supported the idea.
+The many people who supported us along the way. Most notably, families and friends.
 
 ## Author contributions
 
@@ -254,7 +254,9 @@ Ebad is a AI Backend Engineer who has implemented features like the bot accounts
 
 Ishita is a Research Software Engineer who has maintained the open-source libraries, the `cellxgene` mirror, and data curation projects.
 
-Sheetal is a Full-stack and Research Software Engineer who has developed the UI with features such as Change Requests. She has also contributed to the open-source libraries.
+Sheetal is a full-stack and Research Software Engineer who has developed the UI with features such as Change Requests. She has also contributed to the open-source libraries.
+
+Joel is a full-stack and Research Software Engineer who is driving agentic use cases and contributing across the stack.
 
 Chaichontat is a founding full-stack engineer. He architected, implemented, and leads the frontend of LaminHub. He has also contributed to many other aspects of Lamin.
 
