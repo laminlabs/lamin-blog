@@ -238,15 +238,16 @@ This way you can use your favorite local editors and agent harnesses:
 
 There is an established tool for managing changes: `git`. It just doesn't work for large datasets and it doesn't understand entities.
 While `dvc` fixes the former, it still doesn't fix the latter. While `dolt` fixes the latter, it doesn't fix the former.
-LaminDB fixes both so that dimensional modeling of entities with schemas becomes possible, while users can continue to use their most popular formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
+LaminDB fixes both — enabling dimensional modeling of entities with schemas and letting users keep their favorite formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
 
-In LaminDB, you can create and switch to a new branch like you do on git:
+In LaminDB, you can create and switch to a new branch like you do in `git`:
 
 ```bash
 lamin switch -c my_branch
 ```
 
-You can then save new dataset versions, add new records, write new code all on that branch as you'd do in `git`. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
+You can then save new dataset versions, add new records, and write new code — all on that branch, just as you'd do in `git`. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
+Of note, LaminDB doesn't aim to replace `git` for managing code, just for other types of data; you'd typically keep using `git` for code and can leverage LaminDB's `git` integration to sync changes.
 
 ```{raw} html
 <div style="text-align: center">
