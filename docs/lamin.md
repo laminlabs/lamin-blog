@@ -199,7 +199,7 @@ These processes are almost always brittle and almost never provide the detailed 
 > A feature is an individual measurable property or characteristic of a data set. -- [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
 
 So, we built a records framework into a transactional database that's based on the same features that index datasets in lakehouse storage.
-Hence, if you export or import between database and storage, there is no ambiguity; the columns of an interactive sheet with experimental records map onto the columns of a csv or parquet file.
+Hence, if you export or import between database and storage, there is no ambiguity; the columns of an interactive registry of experimental records map onto the columns of a csv or parquet file.
 The same holds for other metadata dimensions and data formats.
 
 ```{raw} html
@@ -216,16 +216,10 @@ import bionty as bt
 hek293 = bt.CellLine.from_source(name="HEK293").save()
 ```
 
-You can easily get started with notes management by syncing markdown notes into your database. In your development directory, run:
+And, you can easily get started with notes management by syncing markdown notes into your database:
 
 ```shell
 lamin save my-note.md
-```
-
-To load a markdown record back, run:
-
-```shell
-lamin load https://lamin.ai/laminlabs/lamindata/record/mNDJgWFrkWQVW3ox
 ```
 
 This way you can use your favorite local editors and agent harnesses:
