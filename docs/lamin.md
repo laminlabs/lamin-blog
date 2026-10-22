@@ -44,7 +44,7 @@ Especially in life sciences, hard-to-verify tasks are abundant, data formats are
 
 In the past decade, biological data generation has exploded in both resolution and scale, for example, in spatially resolved transcriptomics.[^marx21]
 AI promises to extract much more value out of this data, but most vendors have kept building UI-first platforms that could only handle isolated, small-scale datasets.
-We felt an open-source, API-first data management tool was missing from the landscape, so we built one directly into the PyData stack—letting scientists keep the tools they already love.
+We felt an open-source, API-first data management tool was missing from the landscape, so we built one into the PyData and R stack — letting scientists keep the tools they already love.
 
 ## What?
 
