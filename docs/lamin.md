@@ -85,8 +85,9 @@ Let's walk through several of these in more detail.
 
 ## Data lineage
 
-Over the past years, we have been helping teams in life science organizations to trace data, code & agents. Especially drug discovery teams need end-to-end traceability for compliance; that is not just for a deterministic data pipeline but also upstream metadata entry in the wetlab and downstream interactive and agentic analyses.
-The following video exemplifies tracing information flow from an scRNA-seq study and a genome-wide screen that reads out IFNG expression in T cells, based on Schmidt _et al._, Science (2022).[^schmidt22]
+Over the past few years, we have been helping teams in life science organizations to trace data, code, and agents.
+Drug discovery teams, in particular, need end-to-end traceability for compliance — not just for deterministic data pipelines, but also for upstream metadata entry in the wetlab and downstream interactive and agentic analyses.
+The following video demonstrates tracing information flow from an scRNA-seq study and a genome-wide screen that reads out IFNG expression in T cells, based on Schmidt _et al._, Science (2022).[^schmidt22]
 
 ```{raw} html
 <div style="text-align: center">
@@ -126,7 +127,7 @@ Here is an example of how Lamin is deployed in an enterprise R&D data platform:
 > The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code. It's a way to track and trace the full lineage of your data as you're working on it. [...]
 
 Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
-For example, Jeremie started using LaminDB during his PhD on single-cell foundation models and [says](https://x.com/jkobject/status/2047043597820666039):
+For example, a researcher who started using LaminDB during his PhD on single-cell foundation models [says](https://x.com/jkobject/status/2047043597820666039):
 
 > When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field.
 
