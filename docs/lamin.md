@@ -208,7 +208,7 @@ The same holds for other metadata dimensions and data formats.
 </div>
 ```
 
-You can also build your custom ontologies or integrate established public ones. Here is how you'd get a public ontology record from a `lamindb` plugin that you can use for validation in your records and datasets:
+You can also build your own ontologies or integrate established public ones. Here is how you'd get a public ontology record from a `lamindb` plugin to use for validation:
 
 ```python
 import bionty as bt
