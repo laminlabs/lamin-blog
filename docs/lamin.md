@@ -13,11 +13,11 @@ affiliation:
   falexwolf: Lamin Labs, Munich
 ---
 
-We’re thrilled to share that Lamin is generally available! With just a few clicks, anyone can now create a database on [lamin.ai](http://lamin.ai/).
+We’re thrilled to share that Lamin is generally available! With just a few clicks, anyone can now create a database on [lamin.ai](https://lamin.ai/).
 
 In 2022, we set out to build an open-source data management tool that’d make it easier to scale AI workflows in the life sciences.
 Over the past few years, we’ve served research labs and enterprises of all sizes.
-Now, Lamin can help even individuals manage knowledge, workflows, and datasets, no matter which format and size.
+Now, Lamin can help even individuals manage knowledge, workflows, and datasets, whatever the format and size.
 This post provides some of the background story.
 
 ```{raw} html
@@ -30,7 +30,7 @@ This post provides some of the background story.
 
 Agents had their breakthrough but innovation on data systems lags behind.
 There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.[^treybig26]
-Still git holds code, markdown holds notes, OWL/RDF hold ontologies, and the same file systems, databases, and warehouses hold data.
+Still, git holds code, markdown holds notes, OWL/RDF hold ontologies, and the same file systems, databases, and warehouses hold data.
 One layer up, the same high-level systems dominate: note-taking, inventory management, productivity suites with a UI-first, human-centric design are used as the primary systems of record.
 None of these systems were built for agents to manage data in a complex domain such as the life sciences at this new scale.
 
@@ -42,12 +42,12 @@ We started working on Lamin in early 2022 concerned that comp bio operations wer
 
 Especially in life sciences, hard-to-verify tasks are abundant, data formats are heterogeneous, and teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
 
-> The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
+> The bottleneck for biological agents is not only reasoning but the absence of widespread deterministic execution layers for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
 
-In addition to AI, the last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
+In addition to AI, the last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatially resolved transcriptomics.[^marx21]
 It also brought the promise of AI helping to extract real value out of this data.
 Because most companies kept building UI-first platforms that would only be able to deal with anecdotal data, we felt that an open-source API-first data management tool was missing from the landscape.
-We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about dealing with an idiosyncratic, rate-limited REST API.
+We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about dealing with an idiosyncratic, rate-limited REST backend.
 
 > I don't want to learn your garbage query language. -- [Erik Bernhardsson (2018)](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
@@ -76,7 +76,7 @@ LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built 
 <img width="400px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/4uXxd6wZ4A4VQaKx0000.png" style="padding: 0;">
 </div>
 
-Together, Lamin makes up for what usually takes a dozen tools or an enterprise data platform:
+Together, Lamin covers what usually takes a dozen tools or an enterprise data platform:
 
 - Data lineage
 - Format-agnostic lakehouse
@@ -139,7 +139,7 @@ For example, Jeremie started using LaminDB during his PhD on single-cell foundat
 
 Unlike in traditional SQL-based data warehousing, in AI and R&D data is often kept in storage systems or data lakes.
 While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
-A recent study on the NCBI Virus Database demonstrated that agents can fail entirely when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.[^anthropic-agents]
+A recent study on the NCBI Virus Database demonstrated that agents can fail when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.[^anthropic-agents]
 This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing together 88M variants e.g. with polars:
 
 ```python
@@ -156,7 +156,7 @@ with collection.open(engine="polars") as df:
     ).collect()
 ```
 
-And it doesn't just work for tabular data. For years we've helped communities manage data structures with higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata] manage datasets at scale.[^spatialdata-blog][^mapped-collection][^annbatch] The central idea for this is to index features independent of how they're materialized.
+And it doesn't just work for tabular data. For years we've helped communities who work with data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`[^spatialdata].[^spatialdata-blog][^mapped-collection][^annbatch] The central idea for this is to index features independent of how they're materialized.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
@@ -170,11 +170,11 @@ Efficient data access spares humans wrangling data and helps agents reduce token
 </div>
 ```
 
-## Notes, LIMS, ELN, Ontologies
+## Notes, ELN, LIMS, Ontologies
 
 While models are trained on datasets in storage - be it a local file system or S3 - many workflows require managing data in transactional systems of record.
-Most prominently, the electronic lab notebook (ELN) and laboratory inventory management systems (LIMS) are used by life scientists to manage experiments along with the entities surrounding them.
-Mapping data in such an ELN or LIMS system on data that a machine learning scientist would use for model training has been a painful process.
+Most prominently, the electronic lab notebook (ELN) and laboratory information management systems (LIMS) are used by life scientists to manage experiments along with the entities surrounding them.
+Mapping data in such an ELN or LIMS system onto data that a machine learning scientist would use for model training has been a painful process.
 We are not aware of any system that would provide that mapping and so all organizations we know use syncing processes that export data from these systems into machine-learning ready formats in storage.
 These processes are almost always brittle and almost never provide the detailed context that the original system provided.
 
@@ -202,7 +202,7 @@ In LaminDB, you can create and switch to a new branch like you do on git:
 lamin switch -c my_branch
 ```
 
-You can then save new datasets versions, add new records, write new code all on that branch as you'd do in `git`. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
+You can then save new dataset versions, add new records, write new code all on that branch as you'd do in `git`. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
 
 ```{raw} html
 <div style="text-align: center">
@@ -212,27 +212,26 @@ You can then save new datasets versions, add new records, write new code all on 
 
 ## Exploring biological atlases
 
-We provide free programmatic access to the world’s largest public collection of single-cell data at [lamin.ai/explore](https://lamin.ai/explore). We did not re-curate data for 100s of millions of cells, but instead interface public biological data collections such as CellXGene, the Arc Virtual Cell Atlas, and HubMAP, and make their datasets and entities queryable through easy-to-use open-source Python & R libraries.
-Instead of navigating fragmented dataset conventions, you can now query for genes, cell types, or perturbations from a single interface.
+We provide free programmatic access to the world’s largest public collections of single-cell data at [lamin.ai/explore](https://lamin.ai/explore). We did not re-curate data for 100s of millions of cells, but mirror collections such as CELLxGENE, the Arc Virtual Cell Atlas, and HuBMAP.
 
 ## What's next?
 
-We're looking forward to keep helping a strongly growing number of life science researchers and organizations stay in control while AI accelerates their research.
+We will keep helping a strongly growing number of life science researchers and organizations stay in control while AI accelerates their research.
 
 > All is data. -- [Barney Glaser (1978)](https://en.wikipedia.org/wiki/Grounded_theory)
 
 And we'll continue to address some of the fundamental issues of data-driven research.
 
-> There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
-> A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
+> There are three kinds of lies: lies, damned lies, and statistics. -- [Twain/Disraeli (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
+> A huge amount of effort is spent in cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
 ## Thanks to
 
 Our early customers for their patience and kindness.
 
-Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment in 2022 and have supported us ever since. They previously backed companies like Recursion & Hugging Face. Surbhi Sarna & Jared Friedman from YC. Pillar VC, Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa.
+Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment in 2022 and have supported us ever since. YC (Surbhi Sarna & Jared Friedman), Pillar VC (Tony Kulesa), Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa.
 
-The previous and part-time team members and consultants who helped build Lamin, some of which have been working with us for years and building key products. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Altana Namsaraeva, and Ishita Jain.
+The previous and part-time team members and consultants who helped build Lamin, some of whom have been working with us for years. Among them, most notable are Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Altana Namsaraeva, and Ishita Jain.
 
 The people & organizations maintaining the open infrastructure on which Lamin is built. First and foremost, that’s Postgres, Django, and fsspec. We'd also like to mention data storage formats including parquet, zarr, tiledbsoma, and of course AnnData & SpatialData. And web technologies like FastAPI, Svelte, and Supabase.
 
@@ -244,7 +243,7 @@ The many people who supported us along the way, in particular, families and frie
 
 Sunny is a co-founder of Lamin and led building biology-focused use cases and the related open-source libraries, e.g., `bionty`. She has also led customer interactions and product management for the UI.
 
-Sergei is a founding engineer who started working with us in our first month. Over the years, he has led the deep data infrastructure work across both the open-source libraries and the web platform. He has also made numerous other contributions to the open-source libraries.
+Sergei is a founding engineer who started working with us in the first month. Over the years, he has led the deep data infrastructure work across both the open-source libraries and the web platform. He has also made numerous other contributions to the open-source libraries.
 
 Ebad is an AI Backend Engineer who has implemented features like the bot accounts, the Pro subscription plan on LaminHub, and agent harness integrations.
 
@@ -254,7 +253,7 @@ Joel is a full-stack and Research Software Engineer who is driving agentic use c
 
 Chaichontat is a founding full-stack engineer. He architected, implemented, and leads the frontend of LaminHub. He has also contributed to many other aspects of Lamin.
 
-Frederic is a founding full-stack engineer who started working with us after just a few months. He architected, implemented, and leads the backend of LaminHub along with all infrastructure systems. He also contributed to many other aspects of Lamin.
+Frederic is a founding full-stack engineer. He architected, implemented, and leads the backend of LaminHub along with infrastructure systems.
 
 Alex is a co-founder of Lamin. He implemented wide parts of LaminDB and contributed his opinion to most other parts of Lamin.
 
@@ -262,7 +261,7 @@ Alex is a co-founder of Lamin. He implemented wide parts of LaminDB and contribu
 
 [^anthropic-agents]: Luebbert L et al. (2026). Paving the way for agents in biology. [Anthropic Research](https://www.anthropic.com/research/agents-in-biology).
 
-[^schmidt22]: https://pubmed.ncbi.nlm.nih.gov/35113687/ "Schmidt R, Steinhart Z, Layeghi M, Freimer JW, Bueno R, Nguyen VQ, Blaeschke F, Ye CJ, Marson A. CRISPR activation and interference screens decode stimulation responses in primary human T cells. Science. 2022."
+[^schmidt22]: Schmidt R, Steinhart Z, Layeghi M, Freimer JW, Bueno R, Nguyen VQ, Blaeschke F, Ye CJ, Marson A. CRISPR activation and interference screens decode stimulation responses in primary human T cells. Science. 2022. https://pubmed.ncbi.nlm.nih.gov/35113687/
 
 [^pillai26]: Pillai R, Rasmussen A, Jain I, Sun S, Rybakov S & Wolf A (2026). Agentic variant analysis of the 1000 Genomes Project using Polars, DuckDB, and lakehouses. Lamin Blog. https://blog.lamin.ai/1000genomes
 
