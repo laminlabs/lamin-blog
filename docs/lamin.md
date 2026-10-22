@@ -16,8 +16,9 @@ affiliation:
 We’re thrilled to share that Lamin is generally available! With just a few clicks, anyone can now create a database on [lamin.ai](http://lamin.ai/).
 
 In 2022, we set out to build an open-source data management tool that’d make it easier to scale AI workflows in the life sciences.
-Over the past few years, we’ve served research labs and enterprises of all sizes. Today, Lamin helps you get organized by managing your knowledge, workflows, and large-scale datasets, no matter which format.
-And this all works with the open-source LaminDB API-first, while offering features like a UI or fine-grained access management via the LaminHub web platform, mimicking the git/GitHub model to guarantee zero-lock-in of user data.
+Over the past few years, we’ve served research labs and enterprises of all sizes.
+Today, Lamin helps even individuals manage knowledge, workflows, and datasets, no matter which format and size.
+This post provides some of the background story.
 
 ```{raw} html
 <div style="text-align: center">
@@ -27,46 +28,44 @@ And this all works with the open-source LaminDB API-first, while offering featur
 
 ## Why?
 
-While agents have had their breakthrough and intelligence has become abundant, innovation on the systems operated by agents is lagging behind. Agents make this gap more visible and urgent, but the underlying problem is broader: complex data systems have long lacked a convenient, programmable, and traceable layer for managing scientific data.
-There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.
-But it's still git that manages code, still markdown that holds notes, still OWL that holds ontologies, and still the same file systems, databases, and warehouses that hold data.
-Agents are using these low-level systems in similar ways to how developers have been using them for years, although at a different scale and with different characteristics.[^treybig26]
-One layer up, the world is still using the same high-level systems: note-taking, inventory management, and productivity workspaces with a UI-first, human-centric design are used as the primary systems of record.
-None of these systems were built for agents to manage data in a complex domain like biology at this new scale.
+Agents had their breakthrough but innovation on the data systems operated by agents lags behind.
+There's a strong need for it: the speed at which agents produce and manipulate data in sometimes unreliable and dangerous ways[^crane26] is staggering.[^treybig26]
+Still git holds code, markdown holds notes, OWL holds ontologies, and the same file systems, databases, and warehouses hold data.
+One layer up, the same high-level systems dominate: note-taking, inventory management, productivity suites with a UI-first, human-centric design are used as the primary systems of record.
+None of these systems were built for agents to manage data in a complex domain such as the life sciences at this new scale.
 
-We started working on Lamin in early 2022 with the idea that computational biology should become more traceable and efficient.
-Some of the underlying problems are fundamental and have persisted for decades.
+We started working on Lamin in early 2022 concerned that comp bio operations weren't traceable and efficient enough. Today it turns out that those problems have become exacerbated by agents:
+
+1. Untraceable results cannot be trusted, especially when non-verifiable tasks are delegated to agents.
+2. Without effective access to multimodal data, models burn tokens or fail entirely.
+3. Without governing changes to data akin to governing changes to software with git, it's hard to evaluate agents, debug their mistakes, and safely merge their contributions.
+
+Especially in life sciences, hard-to-verify tasks are abundant, data formats are heterogeneous, and teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
+
+> The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
+
+Existing data lakehouses aren't a comprehensive solution. They only address the 2nd and 3rd of these problems for a single table or array format, such as `parquet` or `zarr`.
+
+But these problems are indeed decades old.
 
 > There are three kinds of lies: lies, damned lies, and statistics. -- [Mark Twain (1907)](https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics) <br>
 > A huge amount of effort is spent cleaning data to get it ready for analysis. -- [Hadley Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10)
 
-But it is only since we started delegating work to agents that these issues have become painful for a high number of people and organizations.
-Agents need API-first access to operate.
-Untraceable agentic results cannot be trusted, but tracing interactive workloads doesn't fit into established workflow managers.
-Furthermore, agents burn tokens, make mistakes, or fail entirely if unable to efficiently discover and access data.
-
-> The bottleneck for biological agents is the absence of a layer for querying biological data. -- [Laura Luebbert (2026)](https://www.anthropic.com/research/agents-in-biology)
-
-Changes made by agents require strict review and frequent correction.
-These fundamental problems are particularly severe in the life sciences due to its many different data formats, complex data generation processes, and the sheer number of concepts required just to define measurements -- it's not just tokens or pixels or a few simple metrics like in other domains.
+The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
 </div>
 
-The last decade has brought much innovation in the resolution and scale of biological data generation techniques, for example, spatial RNA sequencing.[^marx21]
-The last decade also brought the promise of AI helping to extract real value out of this data.
-But the world has kept building UI-first platforms and ELN systems for biologists wrangling anecdotal data.
-So we thought an API-first data management tool for the age of AI -- capable of handling the complexity of the life sciences -- was needed.
-
-We built it open-source, directly onto the PyData stack, so that setting it up is just a `pip install`.
-Users shouldn't have to worry about dealing with the idiosyncratic, rate-limited REST API of a startup.
+It also brought the promise of AI helping to extract real value out of this data.
+Because most companies kept building UI-first platforms that would only be able to deal with anecdotal data, we felt that an open-source API-first data management tool was missing from the landscape.
+We built it directly into the pydata stack based on established tools so that users wouldn't have to worry about dealing with an idiosyncratic, rate-limited REST API.
 
 > I don't want to learn your garbage query language. -- [Erik Bernhardsson (2018)](https://erikbern.com/2018/08/30/i-dont-want-to-learn-your-garbage-query-language.html)
 
 ## What?
 
-LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining your work, and the features & schemas of datasets. It takes about a minute to install LaminDB and create a database on your laptop or in the cloud.
+LaminDB is an open-source data management tool that makes it easy to query, trace and govern datasets across diverse storage formats and locations. Like git, LaminDB runs anywhere and captures relevant context about your work. This includes the data flow through models and analyses, the entities and notes defining the work, and the features & schemas of datasets. It takes about a minute to install LaminDB and create a database on a laptop or in the cloud.
 
 <div style="display: flex; gap: 16px; align-items: flex-start; width: 85%; margin: 0 auto;">
   <div style="flex: 0.80; min-width: 0;">
@@ -78,12 +77,18 @@ LaminDB is an open-source data management tool that makes it easy to query, trac
     <p style="text-align: right; margin-top: 0.2rem;"><em>The SQLite file indexing your files.</em></p>
   </div>
   <div style="flex: 1.2; min-width: 0;">
-    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/EqsNFkUSWz0XdGFG0000.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
+    <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/EqsNFkUSWz0XdGFG0001.png" style="display: block; width: 100%; height: auto; border-radius: 12px; padding-bottom: 0;" />
     <p style="text-align: right; margin-top: 0.2rem;"><em>Create a database on the hub UI.</em></p>
   </div>
 </div>
 
-LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git. Together, they make up for what used to take a dozen tools or an enterprise data platform:
+LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git and looks like this:
+
+<div style="text-align: center">
+<img width="400px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/4uXxd6wZ4A4VQaKx0000.svg" style="padding: 0;">
+</div>
+
+Together, Lamin makes up for what usually takes a dozen tools or an enterprise data platform:
 
 - Data lineage
 - Format-agnostic lakehouse
@@ -93,7 +98,7 @@ LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built 
 - Agents + workflows + notebooks
 - Feature store, MLOps
 
-Let's walk through these in more detail.
+Let's walk through it in more detail.
 
 ## Data lineage
 
