@@ -1,6 +1,6 @@
 ---
 title: "Introducing Lamin: An open data platform for traceable, multimodal AI"
-date: 2026-10-21
+date: 2026-10-22
 author: sunnyosun, Koncopd, ebadukhan, sheetalgiri, AllaVinner, chaichontat*, fredericenard*, falexwolf
 affiliation:
   sunnyosun: Lamin Labs, Munich
@@ -170,7 +170,7 @@ And it doesn't just work for tabular data. For years we've helped communities ma
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
 </div>
 
-Efficient data access spares humans wrangling data and helps agents reduce token usage.[^pillai26]
+Efficient data access spares humans wrangling data and helps agents reduce token usage.[^pillai26] Here is a video that illustrates this.
 
 ```{raw} html
 <div style="text-align: center">
@@ -180,13 +180,13 @@ Efficient data access spares humans wrangling data and helps agents reduce token
 
 ## Notes, LIMS, ELN, Ontologies
 
-> A feature is an individual measurable property or characteristic of a data set. [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
-
 While models are trained on datasets in storage - be it a local file system or S3 - many workflows require managing data in transactional systems of record.
-Most prominently, the electronic lab notebook (ELN) and laboratory inventory management systems (LIMS) used by life scientists to manage experiments and all the entities and notes that surround them.
-Mapping data in such an ELN or LIMS system on data that a machine learning scientist would use for model training has historically been a painful process.
+Most prominently, the electronic lab notebook (ELN) and laboratory inventory management systems (LIMS) are used by life scientists to manage experiments along with the entities surrounding them.
+Mapping data in such an ELN or LIMS system on data that a machine learning scientist would use for model training has been a painful process.
 We are not aware of any system that would provide that mapping and so all organizations we know use syncing processes that export data from these systems into machine-learning ready formats in storage.
 These processes are almost always brittle and almost never provide the detailed context that the original system provided.
+
+> A feature is an individual measurable property or characteristic of a data set. [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
 
 So, we built a records framework into a transactional database that's based on the same features that index datasets in the storage of a lakehouse.
 Hence, if you export or import between database and storage, there is no mapping and no ambiguity; the columns of an interactive sheet with experimental records map onto the columns of a csv or parquet file.
@@ -200,12 +200,11 @@ And similar for other metadata dimensions of other data formats.
 
 ## Managing changes
 
-There is an established tool for managing changes: `git`. It just doesn't work for large datasets and it doesn't understand entities. While `dvc` fixes the former, it still doesn't fix the latter. While `dolt` fixes the latter, it doesn't fix the former.
+There is an established tool for managing changes: `git`. It just doesn't work for large datasets and it doesn't understand entities.
+While `dvc` fixes the former, it still doesn't fix the latter. While `dolt` fixes the latter, it doesn't fix the former.
+LaminDB fixes both so that dimenionsal modeling of entities with schemas becomes possible, while users can continue to use their most popular formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
 
-Much of data architecture across fields relies on dimenionsal modeling of entities with schemas.
-And the worlds most popular formats for datasets are storage based, e.g., parquet, csv, `hdf5`, or `.zarr`.
-
-In LaminDB, you can create and switch to new branch like you do on git:
+In LaminDB, you can create and switch to a new branch like you do on git:
 
 ```bash
 lamin switch -c my_branch
