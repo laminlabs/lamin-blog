@@ -81,7 +81,7 @@ LaminDB is an open-source data management tool that makes it easy to query, trac
 LaminHub is a collaboration hub built on LaminDB similar to how GitHub is built on git and looks like this:
 
 <div style="text-align: center">
-<img width="400px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/4uXxd6wZ4A4VQaKx0000.svg" style="padding: 0;">
+<img width="400px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/4uXxd6wZ4A4VQaKx0000.png" style="padding: 0;">
 </div>
 
 Together, Lamin makes up for what usually takes a dozen tools or an enterprise data platform:
@@ -98,8 +98,8 @@ Let's walk through it in more detail.
 
 ## Data lineage
 
-Over the past years, we have been helping teams in life science organizations to track data, code & agents. Especially drug discovery teams need end-to-end traceability for compliance; that is not just for a deterministic data pipeline but also upstream metadata entry in the wetlab and downstream interactive (agentic) analyses.
-To exemplify how tracing information flow through steps and across entities -- from a genome-wide screen that reads out IFNG expression in T cells, a marker for their inflammatory response -- to scRNA-seq and agentic insights about drug targets and perturbations, consider how the following video traces the steps in a reconstructed research project, based on Schmidt _et al._, Science (2022).[^schmidt22]
+Over the past years, we have been helping teams in life science organizations to trace data, code & agents. Especially drug discovery teams need end-to-end traceability for compliance; that is not just for a deterministic data pipeline but also upstream metadata entry in the wetlab and downstream interactive and agentic analyses.
+The following video exemplifies tracing information flow from an scRNA-seq study and a genome-wide screen that reads out IFNG expression in T cells, based on Schmidt _et al._, Science (2022).[^schmidt22]
 
 ```{raw} html
 <div style="text-align: center">
@@ -107,7 +107,7 @@ To exemplify how tracing information flow through steps and across entities -- f
 </div>
 ```
 
-Tracking data flow is easy and can instrument different applications. For example, in a Python script or notebook you'd just call:
+Tracking data flow is easy. For example, in a Python script or notebook you'd just call:
 
 ```python
 import lamindb as ln
@@ -119,18 +119,20 @@ ln.track()  # initiate a tracked notebook/script run
 ln.finish()  # mark run as finished, save execution report, source code & environment
 ```
 
-Beyond audibility for trust ("Was this analysis done correctly?"), tracebility also creates context for interpretation ("Has this confounder been corrected for?"), reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?"), and long-term memory ("How did we analyze datasets for frozen lung tissue before?").
+You can also decorate Python functions, use similar syntax in R, or use `nf-lamin` to track Nextflow pipelines.
 
-It's been notoriously difficult to create big training datasets for biology outside of simple systems.
-Just by using LaminDB, one creates FAIR training data automatically, a bit like when using git to manage the source code of a project produces a rich queryable dataset about the evolution of the project.
-This creates an unprecedented training dataset that helps both humans and AI models learn from every analysis.
-It closes the training feedback loop across different teams and models, in particular between the wetlab and the drylab.
+Traceability is valuable beyond compliance. It gives you:
+
+- audibility for trust ("Was this analysis done correctly?")
+- context for interpretation ("Has this confounder been corrected for?")
+- reproducibility ("What were the parameters, the source code, input dataset versions, and the run environment?")
+- long-term memory ("How did we analyze datasets for frozen lung tissue before?")
 
 Here is an example of how Lamin is deployed in an enterprise R&D data platform:
 
 ```{raw} html
 <div style="text-align: center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&t=477" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rpydrLFXLwE?si=VfTXVGrEr38FZ_qL&start=477" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 ```
 
