@@ -11,6 +11,8 @@ affiliation:
   chaichontat: Lamin Labs, NYC
   fredericenard: Lamin Labs, NYC
   falexwolf: Lamin Labs, Munich
+linkedin: https://www.linkedin.com/feed/update/urn:li:activity:7519061025565024256/
+tweet: https://x.com/falexwolf/status/2113296693441573326
 ---
 
 We’re thrilled to share that Lamin is generally available! With just a few clicks, anyone can now create a database on [lamin.ai](https://lamin.ai/).
