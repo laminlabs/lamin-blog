@@ -27,10 +27,10 @@ Now, anyone can use Lamin to manage knowledge, workflows, and datasets, whatever
 
 ## Why?
 
-There's a strong need for innovation on data systems: agents produce and manipulate data at a staggering pace, sometimes in unreliable and dangerous ways.[^crane26][^treybig26]
-Still, git holds code, markdown holds notes, OWL/RDF hold ontologies, and the same file systems, databases, and warehouses hold data.
-One layer up, the same high-level systems dominate: note-taking, inventory management, productivity suites with a UI-first, human-centric design are used as the primary systems of record.
-None of these systems were built for agents to manage data in a complex domain such as the life sciences at this new scale.
+There's a strong need for innovation in data systems: agents produce and manipulate data at a staggering pace, sometimes in unreliable and dangerous ways.[^crane26][^treybig26]
+Yet git still holds code, markdown holds notes, OWL/RDF hold ontologies, and the same file systems, databases, and warehouses hold data.
+One layer up, the same high-level systems of record dominate: note-taking apps, inventory managers, and productivity suites built around a UI-first, human-centric design.
+None of these systems were built for agents managing complex life sciences data at scale.
 
 We started working on Lamin in early 2022 concerned that comp bio operations weren't traceable and efficient enough. Today it turns out that those problems have become exacerbated:
 
