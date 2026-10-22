@@ -35,7 +35,7 @@ None of these systems were built for agents managing complex life sciences data 
 We started working on Lamin in early 2022, concerned that comp bio operations weren't traceable and efficient enough. Today, agents have amplified those problems:
 
 1. Untraceable results cannot be trusted, especially when non-verifiable tasks are delegated to agents.
-2. Without effective access to multimodal data, LLMs burn tokens or fail entirely.
+2. Without effective access to multimodal data, agents burn tokens or fail entirely.
 3. Without git-like governance for data, it's hard to evaluate agents, debug their mistakes, and safely merge their contributions.
 
 Especially in life sciences, hard-to-verify tasks are abundant, data formats are heterogeneous, and teams need end-to-end traceability for GxP compliance (21 CFR Part 11 and EU Annex 11).
@@ -86,7 +86,7 @@ Let's walk through several of these in more detail.
 ## Data lineage
 
 Over the past few years, we have been helping teams in life science organizations to trace data, code, and agents.
-Drug discovery teams, in particular, need end-to-end traceability for compliance — not just for deterministic data pipelines, but also for upstream metadata entry in the wetlab and downstream interactive and agentic analyses.
+Drug discovery teams, in particular, need end-to-end traceability for compliance: for deterministic data pipelines, for upstream metadata entry in the wet lab, and for downstream interactive and agentic analyses.
 The following video demonstrates tracing information flow from an scRNA-seq study and a genome-wide screen that reads out IFNG expression in T cells, based on Schmidt _et al._, Science (2022).[^schmidt22]
 
 ```{raw} html
@@ -126,17 +126,17 @@ Here is an example of how Lamin is deployed in an enterprise R&D data platform:
 
 > The Lamin data lakehouse really underlies a lot of the work we're doing. [...] The way we think about it is that Lamin is to data what GitHub is to code. It's a way to track and trace the full lineage of your data as you're working on it. [...]
 
-Today, even a project with a single human might need to keep track of many datasets, analyses, models, and entities.
+Today, even a single researcher might need to keep track of many datasets, analyses, models, and entities.
 For example, a researcher who started using LaminDB during his PhD on single-cell foundation models [says](https://x.com/jkobject/status/2047043597820666039):
 
 > When I start a computational biology project these days, I set up a git repo and a LaminDB instance. It lets me do a lot more, in a reasonable time, in a reproducible way. That's a rare combination in this field.
 
 ## Format-agnostic lakehouse
 
-Unlike in traditional SQL-based data warehousing, data in AI and R&D is often kept in storage systems or data lakes.
-While AI agents can navigate these storage systems, doing so forces them to waste tokens simply finding files and verifying their schemas.
-A recent study on the NCBI Virus Database demonstrated that agents can fail when accessing data across heterogeneous sources, but succeed when provided with a unified schema or API layer.[^anthropic-agents]
-This is also true when performing even a simple genetic variant analysis: by treating a number of parquet files as a single dataset with a joint schema, an agent can readily query a collection of 26 such files storing 88M variants,[^pillai26] for example, with `polars`:[^polars]
+In AI and R&D, most data is stored as files in object storage or data lakes. Before an agent can query such data, it has to find the relevant files and work out their schemas, and it spends tokens and makes errors doing so.
+In a recent study on the NCBI Virus database, agents retrieving viral sequences on their own were often inaccurate and gave different answers from run to run, whereas every agent exceeded 90% accuracy when given a deterministic retrieval tool.[^anthropic-agents]
+LaminDB provides such a layer for files. It indexes features independently of how datasets store them, in whatever format or location, groups features into schemas, and validates incoming datasets against those schemas.
+You group files into a collection with one schema, and you or an agent[^pillai26] can then query the collection as one dataset, for example, filtering 88M variants stored in 26 parquet files with a single `polars` query:[^polars]
 
 ```python
 import lamindb as ln
@@ -152,9 +152,9 @@ with collection.open(engine="polars") as df:
     ).collect()
 ```
 
-If you manipulate such a `Collection` object, which holds multiple artifacts, you get ACID transactions and time travel, similar to established lakehouse frameworks like Iceberg.
+Each `collection.append()` creates a new version of the collection in an ACID transaction, and earlier versions remain queryable, similar to time travel in Iceberg. When agents append data later, the version used in an earlier analysis stays unchanged.
 
-This doesn't just work for tabular data or specific array formats. For years we've worked with communities who use data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`,[^spatialdata] and different formats such as `hdf5`, `zarr`, and `tiledb`.[^spatialdata-blog][^mapped-collection] Here is how you'd train a model on a collection of `AnnData` artifacts in `zarr` format using `annbatch`:[^annbatch]
+This doesn't just work for tabular data or specific array formats. For years we've worked with communities who use data structures of higher complexity, such as `AnnData`[^anndata] or `SpatialData`,[^spatialdata] and different formats such as `hdf5`, `zarr`, and `tiledb`.[^spatialdata-blog][^mapped-collection] Here is how you'd stream training batches from on a collection of `AnnData` artifacts in `zarr` format using `annbatch`:[^annbatch]
 
 ```python
 import anndata as ad
@@ -174,7 +174,8 @@ for batch in loader:
     pass
 ```
 
-The central idea is to index features independent of how they're materialized, create schemas, and validate incoming datasets based on those. Whether you actually validate and use lakehouse-style dataset sharding via collections or just keep working with artifacts in a data lake is your choice and depends on the data engineering goal at hand.
+The central idea is to index features independent of how they're materialized, create schemas, and validate incoming datasets based on those.
+Whether you validate datasets and shard them lakehouse-style via collections, or keep working with individual artifacts in a data lake, depends on your data engineering goal.
 
 <div style="text-align: center">
 <img width="800px" src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/VFFgFdAlJnssyOdk0001.svg" style="padding: 0;">
@@ -191,10 +192,10 @@ Here is a video that illustrates the lakehouse idea for the genetic variant anal
 ## Notes, ELN, LIMS, ontologies
 
 While models are trained on datasets in storage — be it a local file system or S3 — many workflows require managing data in transactional systems of record.
-Most prominently, life scientists use electronic lab notebooks (ELN) and laboratory information management systems (LIMS) to manage experiments along with the entities surrounding them.
+Most prominently, life scientists use electronic lab notebooks (ELN) and laboratory information management systems (LIMS) to manage experiments and the samples, reagents, and cell lines they use.
 Mapping records from an ELN or LIMS onto the datasets that a machine learning scientist uses for model training has long been a painful process.
-We are not aware of any system that provides that mapping and so all organizations we know use syncing processes that export data from these systems into machine-learning-ready formats in storage.
-These processes are almost always brittle and almost never provide the detailed context that the original system captured.
+We are not aware of any system that provides that mapping. All organizations we know use syncing processes that export data from these systems into machine-learning-ready formats in storage.
+These processes are almost always brittle and rarely keep the detailed context that the original system captured, such as which sample a measurement came from.
 
 > A feature is an individual measurable property or characteristic of a data set. -- [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
 
@@ -232,7 +233,7 @@ This way you can use your favorite local editors and agent harnesses:
 
 `git` is the established tool for managing changes. It just doesn't work for large datasets and it doesn't understand entities.
 While `dvc` fixes the former, it still doesn't fix the latter. While `dolt` fixes the latter, it doesn't fix the former.
-LaminDB fixes both — enabling dimensional modeling of entities with schemas and letting users keep their favorite formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
+LaminDB fixes both — enabling dimensional modeling of entities with schemas and while letting you use your favorite formats: `parquet`, `csv`, `hdf5`, `zarr`, and others.
 
 In LaminDB, you can create and switch to a new branch like you do in `git`:
 
@@ -241,7 +242,7 @@ lamin switch -c my_branch
 ```
 
 You can then save new dataset versions, add new records, make a change to a notebook, and trace agents — all on that branch. Once you're done, you can create a "Change Request" and ask a collaborator for review, like you'd do on GitHub.
-LaminDB complements rather than replaces `git`: you keep using `git` for code and can leverage LaminDB's integration to sync changes.
+LaminDB works alongside `git`: You keep using `git` for code and can leverage LaminDB's integration to sync changes.
 
 ```{raw} html
 <div style="text-align: center">
