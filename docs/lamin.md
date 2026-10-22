@@ -283,7 +283,7 @@ The many people who supported us along the way, in particular, families and frie
 
 `*` These authors contributed equally.
 
-Sunny is a co-founder of Lamin and led building biology-focused use cases and the related open-source libraries, e.g., `bionty`. She has also led customer interactions and product management for the UI.
+Sunny is a co-founder of Lamin and led building biology-focused use cases and products.
 
 Sergei is a founding engineer who started working with us in the first month. Over the years, he has led the deep data infrastructure work across both the open-source libraries and the web platform. He has also made numerous other contributions to the open-source libraries.
 
