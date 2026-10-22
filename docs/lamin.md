@@ -76,9 +76,9 @@ Together, Lamin covers what usually takes a dozen tools or an enterprise data pl
 - Data lineage
 - Format-agnostic lakehouse
 - Notes, ELN, LIMS, ontologies, projects
-- Versioning + branching
-- Data lake + catalog
-- Agents + workflows + notebooks
+- Versioning, branching
+- Data lake, catalog
+- Agents, workflows, notebooks
 - Feature store, MLOps
 
 Let's walk through several of these in more detail.
