@@ -190,17 +190,17 @@ Efficient data access spares humans from wrangling data and helps agents reduce 
 
 ## Notes, ELN, LIMS, ontologies
 
-While models are trained on datasets in storage - be it a local file system or S3 - many workflows require managing data in transactional systems of record.
-Most prominently, the electronic lab notebook (ELN) and laboratory information management systems (LIMS) are used by life scientists to manage experiments along with the entities surrounding them.
-Mapping data in such an ELN or LIMS system onto data that a machine learning scientist would use for model training has been a painful process.
-We are not aware of any system that would provide that mapping and so all organizations we know use syncing processes that export data from these systems into machine-learning ready formats in storage.
-These processes are almost always brittle and almost never provide the detailed context that the original system provided.
+While models are trained on datasets in storage — be it a local file system or S3 — many workflows require managing data in transactional systems of record.
+Most prominently, life scientists use electronic lab notebooks (ELN) and laboratory information management systems (LIMS) to manage experiments along with the entities surrounding them.
+Mapping records from an ELN or LIMS onto the datasets that a machine learning scientist uses for model training has long been a painful process.
+We are not aware of any system that provides that mapping and so all organizations we know use syncing processes that export data from these systems into machine-learning-ready formats in storage.
+These processes are almost always brittle and almost never provide the detailed context that the original system captured.
 
-> A feature is an individual measurable property or characteristic of a data set. [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
+> A feature is an individual measurable property or characteristic of a data set. -- [Bishop (2006)](<https://en.wikipedia.org/wiki/Feature_(machine_learning)>)
 
-So, we built a records framework into a transactional database that's based on the same features that index datasets in the storage of a lakehouse.
+So, we built a records framework into a transactional database that's based on the same features that index datasets in lakehouse storage.
 Hence, if you export or import between database and storage, there is no ambiguity; the columns of an interactive sheet with experimental records map onto the columns of a csv or parquet file.
-And similar for other metadata dimensions of other data formats.
+The same holds for other metadata dimensions and data formats.
 
 ```{raw} html
 <div style="text-align: center">
