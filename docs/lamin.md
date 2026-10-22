@@ -208,7 +208,15 @@ The same holds for other metadata dimensions and data formats.
 </div>
 ```
 
-You can easily get started by syncing markdown notes into your database. In your development directory, run:
+You can also build your custom ontologies or integrate established public ones. Here is how you'd get a public ontology record from a `lamindb` plugin that you can use for validation in your records and datasets:
+
+```python
+import bionty as bt
+
+hek293 = bt.CellLine.from_source(name="HEK293").save()
+```
+
+You can easily get started with notes management by syncing markdown notes into your database. In your development directory, run:
 
 ```shell
 lamin save my-note.md
@@ -226,7 +234,7 @@ This way you can use your favorite local editors and agent harnesses:
   <img width=300 src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/kebpWrpEOZSUhtKK0000.png" style="padding: 0;"/>
 </div>
 
-## Managing changes
+## Branching & versioning
 
 There is an established tool for managing changes: `git`. It just doesn't work for large datasets and it doesn't understand entities.
 While `dvc` fixes the former, it still doesn't fix the latter. While `dolt` fixes the latter, it doesn't fix the former.
