@@ -271,7 +271,7 @@ Our early customers for their patience and kindness.
 
 Zavain Dar, Adam Goulburn & Nan Li from Dimension, who led our seed investment in 2022 and have supported us ever since. YC (Surbhi Sarna & Jared Friedman), Pillar VC (Tony Kulesa), Pioneer Fund, and our angel investors Aaron Kimball, Alec Nielsen, Jeff Hammerbacher, and Oskari Saarenmaa.
 
-Past and part-time team members and consultants who helped build Lamin, some of whom have been working with us for years — in particular, Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Altana Namsaraeva, Wahed Mangal, and Ishita Jain.
+Past and part-time team members and consultants who helped build Lamin, some of whom have been working with us for years — in particular, Robrecht Cannoodt, Luke Zappia, Lukas Heumos, Bernardo Penteado, Lawrence Lee, Altana Namsaraeva, Alex Rasmusen, Alex Kramer, Cydney Nielsen, Wahed Mangal, Ishita Jain, Malte Kuehl, and Paul Schwind.
 
 The people and organizations maintaining the open infrastructure on which Lamin is built — first and foremost Postgres, Django, and fsspec, alongside data formats and frameworks like parquet, zarr, tiledbsoma, AnnData, and SpatialData, and web technologies like FastAPI, Svelte, and Supabase.
 
