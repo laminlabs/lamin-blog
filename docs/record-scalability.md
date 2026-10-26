@@ -1,10 +1,8 @@
 ---
-title: LaminDB record scalability setup and results
+title: LaminDB record scalability
 date: '2026-10-25'
 db: https://lamin.ai/laminlabs/lamindb-benchmarks
 ---
-
-Internal report · 25 October 2026
 
 We want to understand how LaminDB behaves as an instance grows: which reads and writes stay fast, and which become slower as more records and relationships are added. To test this, we set up a synthetic intervention dataset and progressively increase its population while keeping record structure and relationships consistent. Between 100,000 and 500,000 interventions, UID lookups and sorting by creation time remain fast, while sorting by a feature, combined filtering, and batch insertion become slower.
 
@@ -45,10 +43,6 @@ Query results below are medians across all 11 repetitions unless stated otherwis
 
 ## Query latency results
 
-![query latency](_static/record-scalability/query_latency.svg)
-
-Latency distributions across all 11 repetitions at each milestone. Orange lines show medians; green triangles show means; circles mark outliers. Each panel has its own latency scale. [Original query latency graph](https://lamin.ai/laminlabs/lamindb-benchmarks/artifact/POla0vvDrA059ZTK).
-
 UID lookups, batch feature exports, and sorting by creation time remain comparatively stable as the population grows. Sorting by the treatment-time feature and combining feature filters with sorting become slower.
 
 In the examples below, `uid` and `uids` are sampled intervention identifiers. The intervention type, target gene, and timestamp feature are resolved before timing:
@@ -64,6 +58,10 @@ timestamp_feature = ln.Feature.get(name="treatment_started_at", is_type=False)
 ```
 
 ### UID lookups and feature export
+
+![lookup export](_static/record-scalability/lookup_export.svg)
+
+All 11 repetitions are included. Dark lines show medians, green triangles show means, and circles mark outliers. Each panel has its own latency scale. [Source measurements](https://lamin.ai/laminlabs/lamindb-benchmarks/record/xf6h4eu6R1THxcu5).
 
 UID lookup medians increase but stay below 40 ms at every milestone. Single-record feature export medians stay below one second. Exporting 20 records with features takes approximately 0.72–0.74 seconds, similar to exporting one record.
 
@@ -89,6 +87,10 @@ At 500,000 interventions, p95 latency is about 51 ms for UID lookup and 1.07 sec
 
 ### Sorting by field and feature
 
+![sorting](_static/record-scalability/sorting.svg)
+
+All 11 repetitions are included. Dark lines show medians, green triangles show means, and circles mark outliers. Each panel has its own latency scale. [Source measurements](https://lamin.ai/laminlabs/lamindb-benchmarks/record/xf6h4eu6R1THxcu5).
+
 Ordering by the native `created_at` field remains stable, with milestone medians below 25 ms. Ordering by the `treatment_started_at` feature rises from about 0.23 seconds to 1.32 seconds. At the final milestone its mean is 1.69 seconds and its p95 is 3.68 seconds.
 
 **Latest 100 by creation timestamp**
@@ -111,7 +113,11 @@ list(
 
 The treatment timestamp is stored as a `RecordJson` feature value; `created_at` is a column on `Record`. The queries use different database access paths. [Query latency analysis](https://lamin.ai/laminlabs/lamindb-benchmarks/record/xf6h4eu6R1THxcu5).
 
-### Gene and combined feature filters
+### Composite queries
+
+![Composite queries](_static/record-scalability/composite_queries.svg)
+
+All 11 repetitions are included. Dark lines show medians, green triangles show means, and circles mark outliers. Each panel has its own latency scale. [Source measurements](https://lamin.ai/laminlabs/lamindb-benchmarks/record/xf6h4eu6R1THxcu5).
 
 The latest-100 gene query has medians of approximately 31–33 ms at 200,000–500,000 interventions. The 100,000-intervention measurement is higher, at about 44 ms. This isolated increase does not persist at larger populations.
 
