@@ -21,6 +21,8 @@ We want to understand how LaminDB behaves as an instance grows: which reads and 
 
 Query values are medians at the stated population. Insertion values are medians per 1,000-intervention batch over the first 100,000 rows (0–100,000) and last 100,000 rows (400,000–500,000), respectively.
 
+[Explore the experiment and all runs](https://lamin.ai/laminlabs/lamindb-benchmarks/record/xZAjWqyrXlHrEwEa) · [Run behind these results](https://lamin.ai/laminlabs/lamindb-benchmarks/record/l3EcwF53KmuUeU50)
+
 ## Setup
 
 ### Dataset
