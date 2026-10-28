@@ -34,10 +34,12 @@ html_theme_options["icon_links"] = [
 extensions.append("ablog")
 extensions.append("sphinxcontrib.mermaid")
 authors = {
+    "AllaVinner": ("Joel Ottosson", "https://github.com/AllaVinner"),
     "andreassteffen": ("Andreas Steffen", "https://github.com/andreassteffen"),
     "ap-dash": ("Andreas Poehlmann", "https://github.com/ap--"),
     "alexras": ("Alex Rasmussen", "https://github.com/alexras"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
+    "ebadukhan": ("Ebad Khan", "https://github.com/ebadukhan"),
     "fabian-theis": (
         "Fabian Theis",
         "https://scholar.google.com/citations?user=sqWpn2AAAAAJ&hl=en",
@@ -60,6 +62,7 @@ authors = {
     "rcannood": ("Robrecht Cannoodt", "https://github.com/rcannood"),
     "nik-as": ("Niklas A. Schmacke", "https://github.com/nik-as"),
     "Raaghav-Pillai": ("Raaghav Pillai", "https://github.com/Raaghav-Pillai"),
+    "sheetalgiri": ("Sheetal Giri", "https://github.com/sheetalgiri"),
     "sophiamaedler": ("Sophia C. Mädler", "https://github.com/sophiamaedler"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "SZhengP": ("Shijie Zheng", "https://github.com/SZhengP"),
