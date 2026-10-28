@@ -32,8 +32,11 @@ html_theme_options["icon_links"] = [
 # Blog
 
 extensions.append("ablog")
+extensions.append("sphinxcontrib.mermaid")
 authors = {
     "AllaVinner": ("Joel Ottosson", "https://github.com/AllaVinner"),
+    "andreassteffen": ("Andreas Steffen", "https://github.com/andreassteffen"),
+    "ap-dash": ("Andreas Poehlmann", "https://github.com/ap--"),
     "alexras": ("Alex Rasmussen", "https://github.com/alexras"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "ebadukhan": ("Ebad Khan", "https://github.com/ebadukhan"),
@@ -48,17 +51,22 @@ authors = {
     "ishitajain9717": ("Ishita Jain", "https://github.com/ishitajain9717"),
     "jejomath": ("Jesse Johnson", "https://github.com/jejomath"),
     "jkobject": ("Jeremie Kalfon", "https://www.jkobject.com"),
+    "jpfeuffer": ("Julian Pfeuffer", "https://github.com/jpfeuffer"),
     "keller-mark": ("Mark Keller", "https://github.com/keller-mark"),
     "Koncopd": ("Sergei Rybakov", "https://github.com/Koncopd"),
+    "lazappi": ("Luke Zappia", "https://github.com/lazappi"),
     "LucaMarconato": ("Luca Marconato", "https://github.com/LucaMarconato"),
     "maciek-wiatrak": ("Maciek Wiatrak", "https://github.com/macwiatrak"),
     "melonora": ("Wouter-Michiel Vierdag", "https://github.com/melonora"),
     "namsaraeva": ("Altana Namsaraeva", "https://github.com/namsaraeva"),
+    "rcannood": ("Robrecht Cannoodt", "https://github.com/rcannood"),
     "nik-as": ("Niklas A. Schmacke", "https://github.com/nik-as"),
     "Raaghav-Pillai": ("Raaghav Pillai", "https://github.com/Raaghav-Pillai"),
     "sheetalgiri": ("Sheetal Giri", "https://github.com/sheetalgiri"),
     "sophiamaedler": ("Sophia C. Mädler", "https://github.com/sophiamaedler"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
+    "SZhengP": ("Shijie Zheng", "https://github.com/SZhengP"),
+    "tgelafr-pfzr": ("Tatiana Gelaf Romer", "https://github.com/tgelafr-pfzr"),
     "timtreis": ("Tim Treis", "https://github.com/timtreis"),
     "tjburns08": ("Tyler Burns", "https://github.com/tjburns08"),
     "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),
