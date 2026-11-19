@@ -96,7 +96,7 @@ The checkpoint then lands under something like `lightning_logs/<run-uid>/checkpo
 With Lamin features such as `is_last_model` and `model_rank` (described below), you can already query for the latest or best checkpoint directly, so you usually don't need Lightning's separate `save_last` filename convention.
 
 If you launch training through `LightningCLI`, pair the checkpoint callback with `ll.SaveConfigCallback`.
-Where plain Lightning's `SaveConfigCallback` only writes `config.yaml` to disk, the LaminDB version *also* uploads that config as an artifact next to the checkpoints, so the run's configuration becomes part of the same queryable lineage:
+Where plain Lightning's `SaveConfigCallback` only writes `config.yaml` to disk, the LaminDB version _also_ uploads that config as an artifact next to the checkpoints, so the run's configuration becomes part of the same queryable lineage:
 
 ```python
 from lightning.pytorch.cli import LightningCLI
@@ -298,7 +298,7 @@ All checkpoints from a single run share a common **key prefix** (the run-scoped 
 Concretely, every time a checkpoint is saved the callback:
 
 1. **Clears the old "last" flag.** It finds the artifact(s) currently marked `is_last_model=True` under this run's prefix and flips them to `False`. The checkpoint being saved right now is then annotated with `is_last_model=True`. Only one checkpoint per run is ever the latest.
-2. **Demotes the previous best, if dethroned.** If Lightning reports that the new checkpoint is the best so far, the callback finds the artifact currently marked `is_best_model=True` and flips it to `False`, then marks the new checkpoint `is_best_model=True`. If the new checkpoint is *not* the best, the existing best is left untouched.
+2. **Demotes the previous best, if dethroned.** If Lightning reports that the new checkpoint is the best so far, the callback finds the artifact currently marked `is_best_model=True` and flips it to `False`, then marks the new checkpoint `is_best_model=True`. If the new checkpoint is _not_ the best, the existing best is left untouched.
 3. **Re-ranks the whole set.** After the new artifact is saved, the callback queries all checkpoint artifacts under the run's prefix, sorts them by their `score` (respecting `mode="min"` or `mode="max"`), and rewrites `model_rank` on each one so the ranking reflects the current set (`model_rank=0` is the best). A checkpoint that was rank 1 yesterday becomes rank 2 the moment a better one arrives.
 
 Updating a flag means replacing the stored value on the existing artifact — the old value is removed and the new one added — so each artifact always carries a single, correct value rather than a history of stale flags.
@@ -349,23 +349,22 @@ This renders a DAG showing the notebook/script, the input dataset (e.g., MNIST),
 
 ## Code & data availability
 
-- Lightning integration source: [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb) (PR [#3115](https://github.com/laminlabs/lamindb/pull/3115))
-- W&B example: [docs.lamin.ai/wandb](https://docs.lamin.ai/wandb)
-- MLflow example: [docs.lamin.ai/mlflow](https://docs.lamin.ai/mlflow)
-- MLOps overview: [docs.lamin.ai/mlops](https://docs.lamin.ai/mlops)
+- Source code: [github.com/laminlabs/lamindb](https://github.com/laminlabs/lamindb/blob/main/lamindb/integrations/lightning.py)
+- Examples: [docs.lamin.ai/lightning](https://docs.lamin.ai/lightning)
 
 ## Author contributions
 
 Lukas designed & implemented the initial version of the Lightning integration.
 Alex contributed design decisions and code refactoring.
-Joren designed & implemented a production-ready version of the Lightning integration.
+Joren overhauled the initial implementation twice, creating a production-ready version of the Lightning integration.
 
 Pull requests:
 
+- 🚸 Overhaul the pytorch `lightning` integration (v3) [PR](https://github.com/laminlabs/lamindb/pull/3618) [@jorenretel](https://github.com/jorenretel)
 - 🚸 Optimize DB interactions in `lightning` integration [PR](https://github.com/laminlabs/lamindb/pull/3577) [@falexwolf](https://github.com/falexwolf)
 - 🐛 Fix feature collisions in lightning integration [PR](https://github.com/laminlabs/lamindb/pull/3576) [@falexwolf](https://github.com/falexwolf)
-- 🚸 Overhaul the pytorch `lightning` integration [PR](https://github.com/laminlabs/lamindb/pull/3425) [@Zethson](https://github.com/Zethson) [@jorenretel](https://github.com/jorenretel)
-- ✨ Add pytorch `lightning` integration with a `Callback` class [PR](https://github.com/laminlabs/lamindb/pull/3115) [PR Guide](https://github.com/laminlabs/lamin-mlops/pull/30) [@Zethson](https://github.com/Zethson)
+- 🚸 Overhaul the pytorch `lightning` integration (v2) [PR](https://github.com/laminlabs/lamindb/pull/3425) [@jorenretel](https://github.com/jorenretel)
+- ✨ Add an integration for pytorch `lightning` [PR](https://github.com/laminlabs/lamindb/pull/3115) [@Zethson](https://github.com/Zethson)
 
 ## Citation
 
