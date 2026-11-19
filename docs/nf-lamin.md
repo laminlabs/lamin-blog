@@ -214,7 +214,7 @@ ln.finish()
 ::::
 :::::
 
-The questions from the Slack thread are now queries:
+The question from Slack can now be answered by exploring data lineage: the sample sheet is part of the inputs of the pipeline run; and if our example tracked a genome artifact, it'd be part of it, too.
 
 :::::{tab-set}
 ::::{tab-item} Python
