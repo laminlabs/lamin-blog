@@ -32,7 +32,6 @@ html_theme_options["icon_links"] = [
 # Blog
 
 extensions.append("ablog")
-extensions.append("sphinxcontrib.mermaid")
 authors = {
     "AllaVinner": ("Joel Ottosson", "https://github.com/AllaVinner"),
     "andreassteffen": ("Andreas Steffen", "https://github.com/andreassteffen"),
