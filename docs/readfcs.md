@@ -33,7 +33,7 @@ We are grateful to Maren Büttner for valuable discussions.
 Sunny & Alex conceived the project.
 Sunny developed the software.
 
-## Citation
+## How to cite
 
 If you use the results of this work in an academic context, we'd be happy if you cite `readfcs` and this report as:
 

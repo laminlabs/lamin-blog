@@ -181,7 +181,7 @@ Alex conceived the project.
 Lukas provided extensive beta testing and his perspective on determinism vs. reproducibility, which he added to this report.
 Alex wrote the report with help from Sergei & Lukas.
 
-## Citation
+## How to cite
 
 If you use the results of this work in an academic context, we'd be happy if you cite `nbproject` and this report as:
 
