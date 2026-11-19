@@ -76,12 +76,12 @@ lamin get artifact --uid rF7oiknTdhpfqU5H
 ```{mermaid}
 flowchart LR
     rscript("1_samplesheet.R"):::focal
-    ref["GRCh38 reference"]:::artifact
-    sheet["samplesheet.csv"]:::artifact
+    ref("GRCh38 reference"):::artifact
+    sheet("samplesheet.csv"):::artifact
     nf("nf-core/scrnaseq"):::focal
-    h5ad["raw_data.h5ad"]:::artifact
+    h5ad("raw_data.h5ad"):::artifact
     nb("3_post_process.ipynb"):::focal
-    ann["post_processed.h5ad"]:::artifact
+    ann("post_processed.h5ad"):::artifact
 
     rscript --> sheet --> nf --> h5ad --> nb --> ann
     ref --> nf
