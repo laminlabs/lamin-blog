@@ -184,7 +184,7 @@ validation {
 :::
 
 ::::
-::::{tab-item} 3. Annotation (Python)
+::::{tab-item} 3. Post-processing (Python)
 
 ```python
 import lamindb as ln
