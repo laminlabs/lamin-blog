@@ -25,7 +25,7 @@ Here, we present the open-source Nextflow plugin `nf-lamin`, which solves this p
 Analytical workflows in Python or R often start in a setting like this:
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zy0p2pPy7SY2qvB80000.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="400" style="padding: 0;"/>
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zy0p2pPy7SY2qvB80000.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="600" style="padding: 0;"/>
 </div>
 
 On a good day, tracing it back through output paths and execution logs just costs a certain amount of LLM tokens. In practice people just rerun the workflow with the parameters they think were used, and hope the results come close enough. For Python and R workflows, `lamindb` & `laminr` already fix the problem of data lineage: one `track()` call records the code, its execution, and the data it touched, and every artifact gets a `uid` that identifies it wherever it is stored.
@@ -71,18 +71,16 @@ lamin get artifact --uid rF7oiknTdhpfqU5H
 
 ## Cross-language data lineage
 
-nf-lamin tracks lineage across languages, not just within Nextflow.
-
-To show this end to end, we ran a small showcase: build a sample sheet in an R script, quantify public 10x PBMC data with `nf-core/scrnaseq`, and annotate the resulting AnnData file with CellTypist in a Jupyter notebook.
+`nf-lamin` tracks lineage across languages, not just within Nextflow. To show this end to end, we ran a small showcase: build a sample sheet in an R script, quantify public 10x PBMC data with `nf-core/scrnaseq`, and annotate the resulting AnnData file with CellTypist in a Jupyter notebook.
 
 ```{mermaid}
 flowchart LR
-    rscript[/"1_samplesheet.R"/]:::transform
+    rscript[/"1_samplesheet.R"/]:::focal
     ref["GRCh38 reference"]:::artifact
     sheet["samplesheet.csv"]:::artifact
-    nf[/"nf-core/scrnaseq"/]:::transform
+    nf[/"nf-core/scrnaseq"/]:::focal
     h5ad["raw_data.h5ad"]:::artifact
-    nb[/"3_annotate.ipynb"/]:::transform
+    nb[/"3_annotate.ipynb"/]:::focal
     ann["annotated.h5ad"]:::artifact
 
     rscript --> sheet --> nf --> h5ad --> nb --> ann
