@@ -18,9 +18,10 @@ docs: https://docs.lamin.ai/nf-lamin
 repo: https://github.com/laminlabs/nf-lamin
 ---
 
-Bioinformatics pipelines in Nextflow are a well-established, robust, and reproducible unit of the data stack in many life science organizations.
-The data flow upstream and downstream of Nextflow, however, is often brittle. How data entry in the wetlab feeds pipelines and how analytical workflows use Nextflow's output artifacts can rarely be traced.
-Here, we present the open-source Nextflow plugin `nf-lamin`, which solves this problem with just a few config lines by hooking into Nextflow's internal artifact publishing system.
+Nextflow pipelines are a reproducible part of the data stack in many life science organizations.
+The flow around a run is often brittle: how wetlab samples and metadata enter a pipeline, and how later analyses use its outputs, can rarely be traced.
+Here we present `nf-lamin`, an open-source Nextflow plugin that records that lineage without changing the pipeline.
+It resolves inputs through Nextflow's `file()` mechanism and registers outputs through Nextflow's artifact publishing system.
 
 Analytical workflows in Python or R often start in a setting like this:
 
