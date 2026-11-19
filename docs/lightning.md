@@ -1,6 +1,6 @@
 ---
-title: "Managing artifacts, features, and ML experiments in a unified way"
-date: 2026-05-20
+title: "MLOps & LaminDB: Managing Pytorch Lightning model checkpoints with context"
+date: 2026-11-19
 author: Zethson, falexwolf, jorenretel
 affiliation:
   Zethson: Lamin Labs, Munich
