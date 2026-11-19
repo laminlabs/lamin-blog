@@ -262,7 +262,13 @@ lamin {
 }
 ```
 
-See the [`nf-lamin` docs](https://docs.lamin.ai/nf-lamin) for the full configuration reference. If you run into a bug, please file a minimal reproducible example on the [issues page](https://github.com/laminlabs/nf-lamin/issues).
+## Code & data availability
+
+See the previous section for the example of this blog post. The source code and the docs are here:
+
+- Docs: https://docs.lamin.ai/nf-lamin
+- Repo: https://github.com/laminlabs/nf-lamin
+- Java client: https://github.com/laminlabs/lamin-api-client-java
 
 ## Acknowledgements
 
@@ -270,4 +276,4 @@ We are grateful to the Nextflow team for merging several pull request into Nextf
 
 ## Author contributions
 
-Robrecht designed and implemented the `nf-lamin` plugin and made several pull requests to Nextflow itself to enabling hooking into its publishing system.
+Robrecht designed and implemented the `nf-lamin` plugin, Lamin's Java client, and made several pull requests to Nextflow itself to enable hooking into its publishing system.
