@@ -69,7 +69,7 @@ lamin get artifact --uid rF7oiknTdhpfqU5H
 ::::
 :::::
 
-## Cross-language data lineage
+## An example
 
 `nf-lamin` tracks lineage across languages, not just within Nextflow. To show this end to end, we ran a small showcase: build a sample sheet in an R script, quantify public 10x PBMC data with `nf-core/scrnaseq`, and annotate the resulting AnnData file with CellTypist in a Jupyter notebook.
 
@@ -87,7 +87,7 @@ flowchart LR
     ref --> nf
 ```
 
-Each step registers itself as a Run:
+Each step registers itself as a {class}`~lamindb.Run` object:
 
 :::::{tab-set}
 ::::{tab-item} 1. Sample sheet (R)
@@ -235,7 +235,7 @@ artifact$view_lineage()
 ::::
 :::::
 
-`view_lineage()` renders the graph inline. On LaminHub it is the same graph, but every node is a link rather than a screenshot -- each one opens onto its metadata, its run report & its environment:
+`view_lineage()` renders the graph in the Python or R session. On the LaminHub UI, one can interactively explore each node to open their metadata:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/nWCSCiNymiBmzDur0000.png" alt="The full cross-language lineage of annotated/pbmc8k.h5ad on LaminHub" width="700" style="padding: 0;"/>
@@ -247,7 +247,7 @@ Opening the annotation node lands on the run that produced the file: the exact c
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ANfVHymJKyZp8dRp0000.png" alt="The annotation run on LaminHub, with its input and output artifacts, code, report and environment" width="700" style="padding: 0;"/>
 </div>
 
-## Try it yourself
+## Trying it out
 
 The complete, runnable version of this walkthrough -- samplesheet script, `nextflow.config` & annotation notebook -- lives at [github.com/rcannood/showcase-nf-lamin](https://github.com/rcannood/showcase-nf-lamin). You'll need Nextflow and Docker, R with `laminr`, and Python with `lamindb`, `scanpy` & `celltypist`. To use your own instance, connect both R and Python to it before calling `track()`. Replace the pipeline's `--input` with `lamin://<your-lamin-instance>/artifact/<samplesheet-uid>`, using the UID printed by your R script. After the pipeline finishes, replace the UID in the annotation's `ln.Artifact.get(...)` call with the combined count matrix UID registered by your run. Point the plugin at that same instance in `nextflow.config`:
 
