@@ -264,7 +264,7 @@ Opening the annotation node lands on the run that produced the file: the exact c
 
 ## Try it yourself
 
-The complete, runnable version of this walkthrough -- samplesheet script, `nextflow.config` & annotation notebook -- lives at [github.com/rcannood/showcase-nf-lamin](https://github.com/rcannood/showcase-nf-lamin). You'll need Nextflow and Docker, R with `laminr`, and Python with `lamindb`, `scanpy` & `celltypist`. You'll also need to point the plugin at your Lamin instance in `nextflow.config`:
+The complete, runnable version of this walkthrough -- samplesheet script, `nextflow.config` & annotation notebook -- lives at [github.com/rcannood/showcase-nf-lamin](https://github.com/rcannood/showcase-nf-lamin). You'll need Nextflow and Docker, R with `laminr`, and Python with `lamindb`, `scanpy` & `celltypist`. To use your own instance, connect both R and Python to it before calling `track()`. Replace the pipeline's `--input` with `lamin://<your-lamin-instance>/artifact/<samplesheet-uid>`, using the UID printed by your R script. After the pipeline finishes, replace the UID in the annotation's `ln.Artifact.get(...)` call with the combined count matrix UID registered by your run. Point the plugin at that same instance in `nextflow.config`:
 
 ```groovy
 plugins {
