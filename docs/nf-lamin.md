@@ -249,7 +249,7 @@ Opening the annotation node lands on the run that produced the file: the exact c
 
 ## Trying it out
 
-The complete, runnable version of this walkthrough -- samplesheet script, `nextflow.config` & annotation notebook -- lives at [github.com/rcannood/showcase-nf-lamin](https://github.com/rcannood/showcase-nf-lamin). You'll need Nextflow and Docker, R with `laminr`, and Python with `lamindb`, `scanpy` & `celltypist`. To use your own instance, connect both R and Python to it before calling `track()`. Replace the pipeline's `--input` with `lamin://<your-lamin-instance>/artifact/<samplesheet-uid>`, using the UID printed by your R script. After the pipeline finishes, replace the UID in the annotation's `ln.Artifact.get(...)` call with the combined count matrix UID registered by your run. Point the plugin at that same instance in `nextflow.config`:
+The complete, runnable version of this walkthrough -- samplesheet script, `nextflow.config` & annotation notebook -- lives at [github.com/rcannood/showcase-nf-lamin](https://github.com/rcannood/showcase-nf-lamin). You'll need Nextflow and Docker, R with `laminr`, and Python with `lamindb`, `scanpy` & `celltypist`. To use your own LaminDB instance, connect both R and Python to it before calling `track()`. Replace the pipeline's `--input` with `lamin://<your-lamin-instance>/artifact/<samplesheet-uid>`, using the UID printed by your R script. After the pipeline finishes, replace the UID in the annotation's `ln.Artifact.get(...)` call with the combined count matrix UID registered by your run. Point the plugin at that same instance in `nextflow.config`:
 
 ```groovy
 plugins {
@@ -266,6 +266,8 @@ See the [`nf-lamin` docs](https://docs.lamin.ai/nf-lamin) for the full configura
 
 ## Acknowledgements
 
-We are grateful to the team at Pfizer, who thought alongside us about the functionality they needed and the behavior they expected, and who put the plugin through both nf-core and in-house workflows.
+We are grateful to the Nextflow team for merging several pull request into Nextflow. In fact, much of the plugin infrastructure `nf-lamin` builds on -- the extension points, the plugin repository & the plugin template -- took shape over the course of `nf-lamin`'s development.
 
-We are also grateful to the Nextflow team: much of the plugin infrastructure `nf-lamin` builds on -- the extension points, the plugin repository & the plugin template -- took shape over the course of its development.
+## Author contributions
+
+Robrecht designed and implemented the `nf-lamin` plugin and made several pull requests to Nextflow itself to enabling hooking into its publishing system.
