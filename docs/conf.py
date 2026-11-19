@@ -66,7 +66,7 @@ authors = {
     "sophiamaedler": ("Sophia C. Mädler", "https://github.com/sophiamaedler"),
     "sunnyosun": ("Sunny Sun", "https://github.com/sunnyosun"),
     "SZhengP": ("Shijie Zheng", "https://github.com/SZhengP"),
-    "tgelafr-pfzr": ("Tatiana Gelaf Romer", "https://github.com/tgelafr-pfzr"),
+    "tgelafr": ("Tatiana Gelaf Romer", "https://github.com/tgelafr"),
     "timtreis": ("Tim Treis", "https://github.com/timtreis"),
     "tjburns08": ("Tyler Burns", "https://github.com/tjburns08"),
     "yanay-rosen": ("Yanay Rosen", "https://twitter.com/YanayRosen"),

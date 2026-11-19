@@ -1,5 +1,5 @@
 ---
-title: nf-lamin: Tracking data lineage across Nextflow pipelines
+title: "nf-lamin: Tracking data lineage across Nextflow pipelines"
 date: 2026-11-19
 author: rcannood, jpfeuffer, SZhengP, lazappi, tgelafr, Zethson, fredericenard, sunnyosun, ap, andreassteffen, falexwolf
 affiliation:
