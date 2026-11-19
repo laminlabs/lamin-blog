@@ -80,7 +80,7 @@ flowchart LR
     sheet("samplesheet.csv"):::artifact
     nf("nf-core/scrnaseq"):::focal
     h5ad("raw_data.h5ad"):::artifact
-    nb("3_post_process.ipynb"):::focal
+    nb("3_post_process.py"):::focal
     ann("post_processed.h5ad"):::artifact
 
     rscript --> sheet --> nf --> h5ad --> nb --> ann
