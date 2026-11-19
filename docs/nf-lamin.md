@@ -1,18 +1,18 @@
 ---
 title: Tracking data lineage across Nextflow, Python, and R with nf-lamin
-date: 2026-08-01
-author: rcannood, jpfeuffer, Zethson, ap-dash, fredericenard, lazappi, tgelafr-pfzr, SZhengP, sunnyosun, andreassteffen, falexwolf
+date: 2026-11-19
+author: rcannood, jpfeuffer, SZhengP, lazappi, tgelafr, Zethson, fredericenard, sunnyosun, ap, andreassteffen, falexwolf
 affiliation:
+  rcannood: Edaro, Ghent
+  SZhengP: Pfizer, Cambridge, MA
+  tgelafr: Pfizer, Cambridge, MA
   andreassteffen: Pfizer, Berlin
-  ap-dash: Pfizer, Berlin
+  ap: Pfizer, Berlin
   falexwolf: Lamin Labs, Munich
   fredericenard: Lamin Labs, Munich
   jpfeuffer: Pfizer, Berlin
   lazappi: Data Intuitive, Lebbeke
-  rcannood: Edaro, Ghent
   sunnyosun: Lamin Labs, Munich
-  SZhengP: Pfizer, Berlin
-  tgelafr-pfzr: Pfizer, Berlin
   Zethson: Lamin Labs, Munich
 docs: https://docs.lamin.ai/nf-lamin
 repo: https://github.com/laminlabs/nf-lamin
@@ -21,7 +21,7 @@ repo: https://github.com/laminlabs/nf-lamin
 nf-lamin came out of a practical need at Pfizer: tracking complete data lineage for artifacts produced across the entire stack, from wet lab metadata through Nextflow pipelines to machine learning and data visualization, in Python, Nextflow & R. This was already possible by registering Nextflow outputs with lamindb in a [post-run script](https://docs.lamin.ai/nextflow#post-run-scripts), but it was cumbersome and captured only outputs after the fact -- the lineage of everything upstream was lost. With nf-lamin, the same artifact can be referenced from Nextflow, Python & R, and runs and artifacts are created _during_ the execution of any Nextflow workflow. It has since been used extensively at Pfizer to run both nf-core and in-house workflows.
 
 <div style="text-align: center">
-<img src="_static/nf-lamin-slack-thread.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="700" style="padding: 0;"/>
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zy0p2pPy7SY2qvB80000.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="700" style="padding: 0;"/>
 </div>
 
 On a good day, tracing it back through output paths and execution logs (if they still exist) costs an afternoon. In practice people just rerun the workflow with the parameters they think were used, and _hope_ the results come close enough.
@@ -245,13 +245,13 @@ artifact$view_lineage()
 `view_lineage()` renders the graph inline. On LaminHub it is the same graph, but every node is a link rather than a screenshot -- each one opens onto its metadata, its run report & its environment:
 
 <div style="text-align: center">
-<img src="_static/nf-lamin-annotated-pbmc8k-lineage.png" alt="The full cross-language lineage of annotated/pbmc8k.h5ad on LaminHub" width="700" style="padding: 0;"/>
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/nWCSCiNymiBmzDur0000.png" alt="The full cross-language lineage of annotated/pbmc8k.h5ad on LaminHub" width="700" style="padding: 0;"/>
 </div>
 
 Opening the annotation node lands on the run that produced the file: the exact count matrix it read, the annotated `.h5ad` it wrote, and the code, report & environment behind it.
 
 <div style="text-align: center">
-<img src="_static/nf-lamin-annotate-notebook.png" alt="The annotation run on LaminHub, with its input and output artifacts, code, report and environment" width="700" style="padding: 0;"/>
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/ANfVHymJKyZp8dRp0000.png" alt="The annotation run on LaminHub, with its input and output artifacts, code, report and environment" width="700" style="padding: 0;"/>
 </div>
 
 ## Try it yourself

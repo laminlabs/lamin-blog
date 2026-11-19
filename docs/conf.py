@@ -36,7 +36,7 @@ extensions.append("sphinxcontrib.mermaid")
 authors = {
     "AllaVinner": ("Joel Ottosson", "https://github.com/AllaVinner"),
     "andreassteffen": ("Andreas Steffen", "https://github.com/andreassteffen"),
-    "ap-dash": ("Andreas Poehlmann", "https://github.com/ap--"),
+    "ap": ("Andreas Poehlmann", "https://github.com/ap--"),
     "alexras": ("Alex Rasmussen", "https://github.com/alexras"),
     "chaichontat": ("Chaichontat Sriworarat", "https://github.com/chaichontat"),
     "ebadukhan": ("Ebad Khan", "https://github.com/ebadukhan"),
