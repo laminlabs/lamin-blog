@@ -18,10 +18,14 @@ docs: https://docs.lamin.ai/nf-lamin
 repo: https://github.com/laminlabs/nf-lamin
 ---
 
-nf-lamin came out of a practical need at Pfizer: tracking complete data lineage for artifacts produced across the entire stack, from wet lab metadata through Nextflow pipelines to machine learning and data visualization, in Python, Nextflow & R. This was already possible by registering Nextflow outputs with lamindb in a [post-run script](https://docs.lamin.ai/nextflow#post-run-scripts), but it was cumbersome and captured only outputs after the fact -- the lineage of everything upstream was lost. With nf-lamin, the same artifact can be referenced from Nextflow, Python & R, and runs and artifacts are created _during_ the execution of any Nextflow workflow. It has since been used extensively at Pfizer to run both nf-core and in-house workflows.
+Bioinformatics pipelines in Nextflow are a well-established, robust and reproducible unit of the data stack in many life science organizations.
+But what about connecting Nextflow runs to upstream and downstream data flow, that is, data entry in the wetlab and analytical workflows?
+Here, we present the open-source Nextflow plugin `nf-lamin`, which solves this problem with a single config line by hooking into Nextflow's internal artifact publishing system.
+
+We started to expand our work on data lineage more than three years ago, given analytical workflows in Python or R often started in a setting like this:
 
 <div style="text-align: center">
-<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zy0p2pPy7SY2qvB80000.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="700" style="padding: 0;"/>
+<img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zy0p2pPy7SY2qvB80000.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="400" style="padding: 0;"/>
 </div>
 
 On a good day, tracing it back through output paths and execution logs (if they still exist) costs an afternoon. In practice people just rerun the workflow with the parameters they think were used, and _hope_ the results come close enough.
