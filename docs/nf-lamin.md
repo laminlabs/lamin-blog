@@ -22,30 +22,21 @@ Bioinformatics pipelines in Nextflow are a well-established, robust and reproduc
 But what about connecting Nextflow runs to upstream and downstream data flow, that is, data entry in the wetlab and analytical workflows?
 Here, we present the open-source Nextflow plugin `nf-lamin`, which solves this problem with a single config line by hooking into Nextflow's internal artifact publishing system.
 
-We started to expand our work on data lineage more than three years ago, given analytical workflows in Python or R often started in a setting like this:
+Analytical workflows in Python or R often start in a setting like this:
 
 <div style="text-align: center">
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zy0p2pPy7SY2qvB80000.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="400" style="padding: 0;"/>
 </div>
 
-On a good day, tracing it back through output paths and execution logs (if they still exist) costs an afternoon. In practice people just rerun the workflow with the parameters they think were used, and _hope_ the results come close enough.
+On a good day, tracing it back through output paths and execution logs just costs a certain amount of LLM tokens. In practice people just rerun the workflow with the parameters they think were used, and hope the results come close enough. For Python and R workflows, `lamindb` & `laminr` already fix the problem of data lineage: one `track()` call records the code, its execution, and the data it touched, and every artifact gets a `uid` that identifies it wherever it is stored.
 
-For scripts & notebooks, `lamindb` & `laminr` already fix this: one `track()` call records the code, its execution & the data it touched, and every artifact gets a `uid` that identifies it wherever it is stored. `nf-lamin` seamlessly brings the same to Nextflow, _during_ the run rather than after it.
-
-Now imagine the same run, with `nf-lamin` loaded.
-
-## Referencing LaminDB artifacts from Nextflow
-
-Every artifact in LaminDB has a `uid`.
-With `nf-lamin` loaded, that `uid` becomes a valid Nextflow input:
+`nf-lamin` brings the same traceability to Nextflow. With `nf-lamin` loaded, an artifact `uid` becomes valid Nextflow input:
 
 ```bash
 nextflow run nf-core/scrnaseq --input lamin://laminlabs/lamindata/artifact/rF7oiknTdhpfqU5H
 ```
 
-The plugin resolves `lamin://` URIs through Nextflow's standard `file()` mechanism, so it works for pipeline parameters, sample sheet entries & channel operations alike.
-
-The same `uid` resolves everywhere else you work:
+The plugin resolves `lamin://` URIs through Nextflow's standard `file()` mechanism, so it works for pipeline parameters, sample sheet entries & channel operations alike. The same `uid` also resolves everywhere else you work:
 
 :::::{tab-set}
 ::::{tab-item} Nextflow
