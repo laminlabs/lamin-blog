@@ -28,7 +28,7 @@ Analytical workflows in Python or R often start in a setting like this:
 <img src="https://lamin-site-assets.s3.amazonaws.com/.lamindb/zy0p2pPy7SY2qvB80000.png" alt="A Slack thread: results posted as an S3 path months ago, questions arriving today." width="600" style="padding: 0;"/>
 </div>
 
-On a good day, tracing it back through output paths and execution logs just costs a certain amount of LLM tokens. In practice people just rerun the workflow with the parameters they think were used, and hope the results come close enough. For Python and R workflows, `lamindb` & `laminr` already fix the problem of data lineage: one `track()` call records the code, its execution, and the data it touched, and every artifact gets a `uid` that identifies it wherever it is stored.
+On a good day, tracing sample sheets and reference genomes back through output paths and execution logs just costs a certain amount of LLM tokens. In practice people just rerun the workflow with the parameters they think were used, and hope the results come close enough. For Python and R workflows, `lamindb` & `laminr` already fix the problem of data lineage: one `track()` call records the code, its execution, and the data it touched, and every artifact gets a `uid` that identifies it wherever it is stored.
 
 `nf-lamin` brings the same traceability to Nextflow. With `nf-lamin` loaded, an artifact `uid` becomes valid Nextflow input:
 
