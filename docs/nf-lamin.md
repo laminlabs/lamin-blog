@@ -1,5 +1,5 @@
 ---
-title: Tracking data lineage across Nextflow, Python, and R with nf-lamin
+title: nf-lamin: Tracking data lineage across Nextflow pipelines
 date: 2026-11-19
 author: rcannood, jpfeuffer, SZhengP, lazappi, tgelafr, Zethson, fredericenard, sunnyosun, ap, andreassteffen, falexwolf
 affiliation:
