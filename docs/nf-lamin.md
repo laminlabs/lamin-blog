@@ -156,10 +156,10 @@ nextflow run nf-core/scrnaseq \
   --fasta    https://ftp.ensembl.org/pub/release-110/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz \
   --gtf      https://ftp.ensembl.org/pub/release-110/gtf/homo_sapiens/Homo_sapiens.GRCh38.110.gtf.gz \
   --protocol 10XV2 \
-  --outdir   s3://my-bucket/scrnaseq_showcase
+  --outdir   'lamin://laminlabs/lamindata#prefix=showcase/scrnaseq_pbmc8k'
 ```
 
-This run mixes both ways of addressing data. The sample sheet is referenced by its `uid`, the FASTQs it lists are plain `s3://` paths, the reference is a plain Ensembl `https://` URL, and the outputs go to an `s3://` bucket. `nf-lamin` links all of the inputs to the run as input artifacts, so the FASTQs and the reference show up in the lineage even though they never lived in LaminDB.
+This run mixes both ways of addressing data. The sample sheet is referenced by its `uid`, the FASTQs it lists are plain `s3://` paths, the reference is a plain Ensembl `https://` URL, and the outputs are published into the storage of `laminlabs/lamindata`. `nf-lamin` links all of the inputs to the run as input artifacts, so the FASTQs and the reference show up in the lineage even though they never lived in LaminDB.
 
 A `scrnaseq` run writes many files, so this config excludes everything by default and opts back in to the combined count matrix and the MultiQC report:
 
@@ -213,7 +213,7 @@ from celltypist import models
 ln.track()
 
 # the combined count matrix registered by nf-lamin during the run
-adata = ln.Artifact.get("SGHdW3cN3QXHJJCz").load()
+adata = ln.Artifact.get("5usKAo9edoKsMrh5").load()
 
 # celltypist expects log1p-normalised counts and gene symbols as var_names
 adata.var_names = adata.var["gene_symbol"].astype(str)
@@ -266,7 +266,7 @@ artifact$view_lineage()
 :alt: The full cross-language lineage of showcase/pbmc8k_celltyped.h5ad on LaminHub
 :width: 700px
 :align: center
-:target: https://lamin.ai/laminlabs/lamindata/artifact/JvUll5j4iQDhTobi0000
+:target: https://lamin.ai/laminlabs/lamindata/artifact/GWxjro1eLIeJBjwX0000
 :::
 
 Every node in this graph lives in `laminlabs/lamindata`:
@@ -274,33 +274,32 @@ Every node in this graph lives in `laminlabs/lamindata`:
 | Step | Run | Output artifact |
 | --- | --- | --- |
 | 1. Sample sheet (R) | [run](https://lamin.ai/laminlabs/lamindata/run/lImad5Q6qnIPcTAE) | [`showcase/pbmc8k_samplesheet.csv`](https://lamin.ai/laminlabs/lamindata/artifact/rF7oiknTdhpfqU5H0000) |
-| 2. Pipeline (Nextflow) | [run](https://lamin.ai/laminlabs/lamindata/run/PXe4TYRvVNcRstzl) | [combined count matrix](https://lamin.ai/laminlabs/lamindata/artifact/SGHdW3cN3QXHJJCz0000) |
-| 3. Cell typing (Python) | [run](https://lamin.ai/laminlabs/lamindata/run/Nsr6zK1Tqox0EX57) | [`showcase/pbmc8k_celltyped.h5ad`](https://lamin.ai/laminlabs/lamindata/artifact/JvUll5j4iQDhTobi0000) |
+| 2. Pipeline (Nextflow) | [run](https://lamin.ai/laminlabs/lamindata/run/XQYuAkIYyecNSpcf) | [combined count matrix](https://lamin.ai/laminlabs/lamindata/artifact/5usKAo9edoKsMrh50000) |
+| 3. Cell typing (Python) | [run](https://lamin.ai/laminlabs/lamindata/run/RF4VGaUDcll78JFm) | [`showcase/pbmc8k_celltyped.h5ad`](https://lamin.ai/laminlabs/lamindata/artifact/GWxjro1eLIeJBjwX0000) |
 
-Opening the `nf-core/scrnaseq` node lands on the [pipeline run](https://lamin.ai/laminlabs/lamindata/run/PXe4TYRvVNcRstzl): the exact pipeline revision, the inputs it read, the outputs it published, and the Nextflow execution report. nf-core pipelines write that report by default, and `nf-lamin` attaches it to the run.
+Opening the `nf-core/scrnaseq` node lands on the [pipeline run](https://lamin.ai/laminlabs/lamindata/run/XQYuAkIYyecNSpcf): the exact pipeline revision, the inputs it read, the outputs it published, and the Nextflow execution report. nf-core pipelines write that report by default, and `nf-lamin` attaches it to the run.
 
 :::{figure} _static/nf-lamin/run.png
 :alt: The nf-core/scrnaseq run on LaminHub, with its inputs, outputs and Nextflow execution report
 :width: 700px
 :align: center
-:target: https://lamin.ai/laminlabs/lamindata/run/PXe4TYRvVNcRstzl
+:target: https://lamin.ai/laminlabs/lamindata/run/XQYuAkIYyecNSpcf
 :::
 
 ## Trying it out
 
-The complete, runnable version of this walkthrough -- samplesheet script, `nextflow.config` & cell typing script -- lives at [github.com/rcannood/showcase-nf-lamin](https://github.com/rcannood/showcase-nf-lamin). You'll need Nextflow and Docker, R with `laminr`, and Python with `lamindb`, `scanpy` & `celltypist`. To run it against your own LaminDB instance, set three environment variables and run the three steps:
+The complete, runnable version of this walkthrough -- samplesheet script, `nextflow.config` & cell typing script -- lives at [github.com/rcannood/showcase-nf-lamin](https://github.com/rcannood/showcase-nf-lamin). You'll need Nextflow and Docker, R with `laminr`, and Python with `lamindb`, `scanpy` & `celltypist`. To run it against your own LaminDB instance, set two environment variables and run the three steps:
 
 ```bash
 export LAMIN_API_KEY=...
 export LAMIN_CURRENT_INSTANCE=my-org/my-instance
-export OUTDIR=s3://my-bucket/showcase/scrnaseq_pbmc8k
 
 ./1_samplesheet_pbmc8k.R  # registers the sample sheet
 ./2_run.sh                # runs nf-core/scrnaseq on it
 ./3_celltyping.py         # assigns cell types to the count matrix
 ```
 
-`laminr`, `lamindb` & `nf-lamin` all read the instance and the API key from these variables, so none of the scripts needs editing.
+`laminr`, `lamindb` & `nf-lamin` all read the instance and the API key from these variables, and the pipeline outputs are published into the instance's storage, so none of the scripts needs editing.
 
 ## Code & data availability
 
