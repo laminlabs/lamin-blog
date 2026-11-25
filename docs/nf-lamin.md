@@ -92,7 +92,7 @@ lamin get artifact --uid rF7oiknTdhpfqU5H
 ::::
 :::::
 
-## An example
+## Lineage across R, Nextflow & Python
 
 `nf-lamin` tracks lineage across languages, not just within Nextflow. To show this end to end, we ran a small showcase: build a sample sheet in an R script, quantify public 10x PBMC data with `nf-core/scrnaseq`, and assign cell types to the resulting AnnData file with CellTypist in a Python script.
 
