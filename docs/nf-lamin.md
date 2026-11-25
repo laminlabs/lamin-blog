@@ -37,16 +37,27 @@ On a good day, tracing sample sheets and reference genomes back through output p
 nextflow run nf-core/scrnaseq --input s3://my-bucket/samplesheet.csv --outdir s3://my-bucket/results
 ```
 
-Every remote file a process reads (`s3://`, `gs://`, `https://`, ...) is linked to the run as an input artifact, and every file the pipeline publishes as an output artifact. An input that is already an artifact in LaminDB is matched by its path; anything else is registered on the fly.
+Every remote file a process reads is linked to the run as an input artifact, and every file the pipeline publishes as an output artifact.
+
+## Inputs & outputs
+
+Inputs and outputs can be addressed in two ways, and both can be mixed within one run:
+
+- **A remote path** (`https://`, `s3://`, `gs://`, ...). Nextflow accesses it with your own cloud credentials, configured as usual. An input that is already an artifact in LaminDB is matched by its path; anything else is registered on the fly.
+- **A `lamin://` URI**. An input artifact is referenced by its `uid`, and outputs are published into a storage location of your LaminDB instance. Lamin federates the credentials (for storages it manages), so no further configuration of credentials is needed.
 
 :::{tip}
-We recommend using `lamin://` URIs: pass an input artifact by its `uid`, and publish the outputs into your instance's storage. Lamin then manages access to the underlying S3 data for you:
+We recommend using `lamin://` URIs, as Lamin then manages access to the underlying data for you:
 
 ```bash
-nextflow run nf-core/scrnaseq --input lamin://laminlabs/lamindata/artifact/rF7oiknTdhpfqU5H --outdir lamin://laminlabs/lamindata
+nextflow run nf-core/scrnaseq \
+  --input  lamin://laminlabs/lamindata/artifact/rF7oiknTdhpfqU5H \
+  --outdir 'lamin://laminlabs/lamindata#prefix=results'
 ```
 
 :::
+
+An output location is written as `lamin://<owner>/<instance>?prefix=<key>`. Nextflow's `file()` reads `?` as a glob wildcard, which breaks the `--outdir` validation of nf-core pipelines, so since `nf-lamin` 1.0.1 a `#` can be used in its place.
 
 The plugin resolves `lamin://` URIs through Nextflow's standard `file()` mechanism, so they work for pipeline parameters, sample sheet entries & channel operations alike. The same `uid` resolves everywhere else you work:
 
@@ -148,11 +159,7 @@ nextflow run nf-core/scrnaseq \
   --outdir   s3://my-bucket/scrnaseq_showcase
 ```
 
-None of these inputs needs special treatment. The FASTQs listed in the sample sheet are plain `s3://` paths and the reference is a plain Ensembl `https://` URL, yet `nf-lamin` links all of them to the run as input artifacts, so they show up in the lineage even though they never lived in LaminDB.
-
-:::{note}
-The sample sheet is passed as a `lamin://` URI, which references the artifact by its `uid`. This is recommended but never required: a sample sheet at a plain `s3://` path is tracked in exactly the same way.
-:::
+This run mixes both ways of addressing data. The sample sheet is referenced by its `uid`, the FASTQs it lists are plain `s3://` paths, the reference is a plain Ensembl `https://` URL, and the outputs go to an `s3://` bucket. `nf-lamin` links all of the inputs to the run as input artifacts, so the FASTQs and the reference show up in the lineage even though they never lived in LaminDB.
 
 A `scrnaseq` run writes many files, so this config excludes everything by default and opts back in to the combined count matrix and the MultiQC report:
 
